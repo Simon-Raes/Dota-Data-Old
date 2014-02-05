@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/Gainsboro">
+
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:id="@+id/svMatchDetails">
+
+        <!-- Scrollview content (must be 1 layout) -->
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center">
+
+            <!-- Match info (duration, winner,...) -->
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="winner"
+                          android:id="@+id/txtDetailWinner"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="game mode"
+                          android:layout_below="@id/txtDetailWinner"
+                          android:id="@+id/txtDetailGameMode"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:id="@+id/txtDetailMatchID"
+                          android:text="match id"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_below="@id/txtDetailMatchID"
+                          android:layout_alignParentRight="true"
+                          android:id="@+id/txtDetailDuration"
+                          android:text="duration"/>
+
+            </RelativeLayout>
+
+            <!-- Scrollview containing radiant and dire player cards-->
+            <HorizontalScrollView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:scrollbars="none">
+
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+                    <!-- Radiant players card-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layDetailRadiantPlayers"
+                                  android:layout_marginLeft="20dp"
+                                  android:layout_marginRight="20dp"
+                                  android:layout_marginTop="10dp"
+                                  android:layout_marginBottom="5dp"
+                                  android:orientation="vertical"
+                                  android:background="@drawable/bg_card">
+
+                        <View style="@style/Divider"/>
+                    </LinearLayout>
+
+                    <!-- Dire players card-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layDetailDirePlayers"
+                                  android:layout_marginLeft="20dp"
+                                  android:layout_marginRight="20dp"
+                                  android:layout_marginTop="10dp"
+                                  android:layout_marginBottom="5dp"
+                                  android:orientation="vertical"
+                                  android:background="@drawable/bg_card">
+
+                        <View style="@style/Divider"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <!-- Picks and bans, only shown when needed -->
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:visibility="gone"
+                          android:id="@+id/layDetailPicksBans"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
+
+                <!-- delete this textview once code is done-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="this is a ranked game, picks and bans go here"/>
+            </LinearLayout>
+
+
+            <!-- Player skillbuilds -->
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="player 1 skillbuild"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="player 2 skillbuild"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="player 3 skillbuild"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="player 4 skillbuild"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="..."/>
+            </LinearLayout>
+
+            <!-- Map: tower and barracks status -->
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/imgDetailMinimap"
+                           android:src="@drawable/dota_minimap_sd"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

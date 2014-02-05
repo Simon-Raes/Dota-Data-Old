@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/Gainsboro">
+
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+
+        <!-- Scrollview content (must be 1 layout) -->
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center">
+
+            <!-- Match info (duration, winner,...) -->
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_card"
+                    android:gravity="center">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="team vs team"
+                          android:layout_centerHorizontal="true"
+                          android:id="@+id/txtLiveLeagueTeams"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_below="@id/txtLiveLeagueTeams"
+                          android:id="@+id/txtLiveLeagueLeague"
+                          android:layout_centerHorizontal="true"
+                          android:text="leagueID"/>
+
+            </LinearLayout>
+
+            <!-- Scrollview containing radiant and dire player cards-->
+            <HorizontalScrollView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:scrollbars="none">
+
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+                    <!-- Radiant players card-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layLiveLeagueRadiantPlayers"
+                                  android:layout_marginLeft="20dp"
+                                  android:layout_marginRight="20dp"
+                                  android:layout_marginTop="10dp"
+                                  android:layout_marginBottom="5dp"
+                                  android:orientation="vertical"
+                                  android:background="@drawable/bg_card">
+
+                        <View style="@style/Divider"/>
+                    </LinearLayout>
+
+                    <!-- Dire players card-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layLiveLeagueDirePlayers"
+                                  android:layout_marginLeft="20dp"
+                                  android:layout_marginRight="20dp"
+                                  android:layout_marginTop="10dp"
+                                  android:layout_marginBottom="5dp"
+                                  android:orientation="vertical"
+                                  android:background="@drawable/bg_card">
+
+                        <View style="@style/Divider"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <!-- Match info (duration, winner,...) -->
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_card">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="spectators names"
+                          android:id="@+id/txtLiveLeagueSpectators"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtLiveLeagueSpectatorCount"
+                          android:layout_centerHorizontal="true"
+                          android:text="### Dota TV spectators"/>
+
+            </LinearLayout>
+
+            <!-- Map: tower and barracks status -->
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/imgLiveLeagueMinimap"
+                           android:src="@drawable/dota_minimap_sd"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
