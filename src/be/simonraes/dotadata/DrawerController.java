@@ -14,16 +14,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import fragment.LiveLeagueGamesFragment;
-import fragment.LoadingFragment;
-import fragment.OtherFragment;
-import fragment.RecentGamesFragment;
-import historymatch.HistoryContainer;
-import interfaces.ASyncResponseHistory;
-import interfaces.ASyncResponseLiveLeague;
-import liveleaguegame.LiveLeagueContainer;
-import parser.HistoryMatchParser;
-import parser.LiveLeagueMatchParser;
+import be.simonraes.dotadata.fragment.LiveLeagueGamesFragment;
+import be.simonraes.dotadata.fragment.LoadingFragment;
+import be.simonraes.dotadata.fragment.OtherFragment;
+import be.simonraes.dotadata.fragment.RecentGamesFragment;
+import be.simonraes.dotadata.historymatch.HistoryContainer;
+import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
+import be.simonraes.dotadata.interfaces.ASyncResponseLiveLeague;
+import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
+import be.simonraes.dotadata.parser.HistoryMatchParser;
+import be.simonraes.dotadata.parser.LiveLeagueMatchParser;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseHistory, ASyncResponseLiveLeague {
 
@@ -73,7 +73,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //new fragment settings
+        //new be.simonraes.dotadata.fragment settings
         Fragment fragment;
         FragmentManager fm = getFragmentManager();
 
@@ -108,13 +108,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             drawerList.setItemChecked(position, true);
             drawerLayout.closeDrawer(drawerList);
 
-            //change fragment
+            //change be.simonraes.dotadata.fragment
             transaction.addToBackStack(null).commit();
         }
 
     }
 
-    //history parser finished
+    //history be.simonraes.dotadata.parser finished
     @Override
     public void processFinish(HistoryContainer result) {
         Fragment fragment = new RecentGamesFragment();
@@ -123,7 +123,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
 
-        //send object to fragment
+        //send object to be.simonraes.dotadata.fragment
         Bundle bundle=new Bundle();
         bundle.putSerializable("container", result);
         fragment.setArguments(bundle);
@@ -131,7 +131,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         transaction.addToBackStack(null).commit();
     }
 
-    //live league games parser finished
+    //live league games be.simonraes.dotadata.parser finished
     @Override
     public void processFinish(LiveLeagueContainer result) {
         FragmentManager fm = getFragmentManager();
@@ -140,7 +140,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, leagueFragment);
 
-        //send object to fragment
+        //send object to be.simonraes.dotadata.fragment
         Bundle bundle=new Bundle();
         bundle.putSerializable("container", result);
         leagueFragment.setArguments(bundle);
