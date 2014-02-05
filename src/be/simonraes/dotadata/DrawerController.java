@@ -117,35 +117,35 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     //history be.simonraes.dotadata.parser finished
     @Override
     public void processFinish(HistoryContainer result) {
-        Fragment fragment = new RecentGamesFragment();
+        Fragment recentGamesFragment = new RecentGamesFragment();
         FragmentManager fm = getFragmentManager();
 
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
+        transaction.replace(R.id.content_frame, recentGamesFragment);
 
-        //send object to be.simonraes.dotadata.fragment
+        //send object to fragment
         Bundle bundle=new Bundle();
         bundle.putSerializable("container", result);
-        fragment.setArguments(bundle);
+        recentGamesFragment.setArguments(bundle);
 
         transaction.addToBackStack(null).commit();
     }
 
-    //live league games be.simonraes.dotadata.parser finished
+    //live league games parser finished
     @Override
     public void processFinish(LiveLeagueContainer result) {
         FragmentManager fm = getFragmentManager();
-        Fragment leagueFragment = new LiveLeagueGamesFragment();
+        Fragment leagueGamesFragment = new LiveLeagueGamesFragment();
 
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, leagueFragment);
+        transaction.replace(R.id.content_frame, leagueGamesFragment);
 
-        //send object to be.simonraes.dotadata.fragment
+        //send object to fragment
         Bundle bundle=new Bundle();
         bundle.putSerializable("container", result);
-        leagueFragment.setArguments(bundle);
+        leagueGamesFragment.setArguments(bundle);
 
-        transaction.commit();
+        transaction.addToBackStack(null).commit();
     }
 
     @Override

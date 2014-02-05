@@ -15,27 +15,41 @@
                       android:gravity="center">
 
             <!-- Match info (duration, winner,...) -->
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
                             android:orientation="vertical"
                             android:background="@drawable/bg_card"
-                    android:gravity="center">
+                            android:gravity="center">
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                           android:id="@+id/imgLiveLeagueDetailsRadiantLogo"
+                           android:src="@drawable/item_lg_loading"
+                           android:padding="10dp"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="team vs team"
-                          android:layout_centerHorizontal="true"
-                          android:id="@+id/txtLiveLeagueTeams"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_centerHorizontal="true"
+                              android:layout_centerVertical="true"
+                              android:gravity="center"
+                              android:orientation="vertical">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:layout_below="@id/txtLiveLeagueTeams"
-                          android:id="@+id/txtLiveLeagueLeague"
-                          android:layout_centerHorizontal="true"
-                          android:text="leagueID"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:text="team vs team"
+                              android:id="@+id/txtLiveLeagueTeams"/>
 
-            </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtLiveLeagueLeague"
+                              android:text="leagueID"/>
+                </LinearLayout>
+
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                           android:id="@+id/imgLiveLeagueDetailsDireLogo"
+                           android:layout_alignParentRight="true"
+                           android:src="@drawable/item_lg_loading"
+                           android:padding="10dp"/>
+
+            </RelativeLayout>
 
             <!-- Scrollview containing radiant and dire player cards-->
             <HorizontalScrollView android:layout_width="wrap_content"
@@ -74,18 +88,25 @@
 
             </HorizontalScrollView>
 
-            <!-- Match info (duration, winner,...) -->
+            <!-- Spectators info -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="vertical"
-                            android:background="@drawable/bg_card">
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="spectators names"
-                          android:id="@+id/txtLiveLeagueSpectators"/>
+                          android:text="Spectators"/>
+
+                <View style="@style/Divider"/>
+
+                <!-- spectators/casters added to this layout -->
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/layLiveLeagueSpectators"
+                              android:orientation="vertical"/>
+
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:id="@+id/txtLiveLeagueSpectatorCount"

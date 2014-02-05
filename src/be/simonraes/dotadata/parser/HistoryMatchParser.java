@@ -14,20 +14,17 @@ import java.net.URL;
 /**
  * Created by Simon on 30/01/14.
  */
-public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer>{
+public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer> {
 
     private ASyncResponseHistory delegate;
 
-    public HistoryMatchParser(ASyncResponseHistory delegate){
+    public HistoryMatchParser(ASyncResponseHistory delegate) {
         this.delegate = delegate;
     }
 
     @Override
     protected HistoryContainer doInBackground(String... params) {
         ObjectMapper mapper = new ObjectMapper();
-
-        //probeer hiermee nog die gameslistinfo weg te krijgen
-        //mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
 
         HistoryContainer container = new HistoryContainer();
 
