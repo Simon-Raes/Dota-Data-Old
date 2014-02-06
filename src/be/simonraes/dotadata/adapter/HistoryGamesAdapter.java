@@ -33,6 +33,7 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
 
     private Context context;
     private ArrayList<HistoryMatch> matches;
+
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private ImageLoadingListener animateFirstListener;
@@ -45,6 +46,7 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
         animateFirstListener = new AnimateFirstDisplayListener();
     }
 
+    //can probably be deleted
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
@@ -55,9 +57,9 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
         View view = convertView;
         final ViewHolder viewholder;
 
-        if(convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.historygames_row,parent,false);
+            view = inflater.inflate(R.layout.historygames_row, parent, false);
             viewholder = new ViewHolder();
             viewholder.txtGameMode = (TextView) view.findViewById(R.id.txtLobbyType);
             viewholder.txtDate = (TextView) view.findViewById(R.id.txtDate);
@@ -71,9 +73,9 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
         viewholder.txtDate.setText(Conversions.millisToDate(matches.get(position).getStart_time()));
         imageLoader = ImageLoader.getInstance();
 
-        String playerHeroID="1";
-        for(HistoryPlayer hp : matches.get(position).getPlayers()){
-            if(hp.getAccount_id().equals("6133547")){
+        String playerHeroID = "1";
+        for (HistoryPlayer hp : matches.get(position).getPlayers()) {
+            if (hp.getAccount_id().equals("6133547")) {
                 playerHeroID = hp.getHero_id();
             }
         }
@@ -85,7 +87,7 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
 
-        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/"+ HeroList.getHeroImageName(playerHeroID)+"_hphover.png", viewholder.imgHero, options, animateFirstListener);
+        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
         return view;
     }
 
@@ -106,7 +108,7 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
         }
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         public TextView txtGameMode;
         public TextView txtDate;
         public ImageView imgHero;

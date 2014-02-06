@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp"
+              android:paddingTop="20dp">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/txtDividerTitle"/>
+    <View style="@style/DrawerDivider"
+          android:layout_width="fill_parent"/>
+
+</LinearLayout>
