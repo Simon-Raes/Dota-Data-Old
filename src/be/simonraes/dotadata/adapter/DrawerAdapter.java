@@ -47,9 +47,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             view = inflater.inflate(R.layout.drawer_list_item, parent, false);
             viewholder = new ViewHolder();
-
             viewholder.txtTitle = (TextView) view.findViewById(R.id.txtDrawerItem);
-
             view.setTag(viewholder);
         } else {
             viewholder = (ViewHolder) view.getTag();
@@ -60,7 +58,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
             dividerView = inflater.inflate(R.layout.drawer_list_divider, parent, false);
             dividerTitle = (TextView) dividerView.findViewById(R.id.txtDividerTitle);
             dividerTitle.setText(titles[position].replace("divider ", ""));
-            dividerTitle.setTypeface(Typeface.DEFAULT_BOLD);
+            //dividerTitle.setTypeface(Typeface.DEFAULT_BOLD);
             return dividerView;
         } else {
             viewholder.txtTitle.setText(titles[position]);

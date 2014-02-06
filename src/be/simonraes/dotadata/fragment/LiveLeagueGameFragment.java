@@ -3,6 +3,7 @@ package be.simonraes.dotadata.fragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import be.simonraes.dotadata.leaguelisting.LeagueListingContainer;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueMatch;
 import be.simonraes.dotadata.liveleaguegame.LiveLeaguePlayer;
 import be.simonraes.dotadata.parser.LeagueListingParser;
+import be.simonraes.dotadata.parser.SteamRemoteStorageParser;
 import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.HeroList;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -35,6 +38,8 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
     private LinearLayout layPlayersRadiant, layPlayersDire, laySpectators;
 
     private TextView txtTeams, txtLeague, txtSpectatorCount;
+    private ImageView imgRadiantLogo, imgDireLogo;
+
     private TextView txtPlayerName;
     private ImageView imgHero;
 
@@ -51,13 +56,20 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         LiveLeagueMatch match = (LiveLeagueMatch) getArguments().getSerializable("liveLeagueMatch");
 
         txtTeams = (TextView) view.findViewById(R.id.txtLiveLeagueTeams);
-        txtTeams.setText(match.getRadiantTeam().getTeam_name() + " vs " + match.getDireTeam().getTeam_name());
+        txtTeams.setText(Html.fromHtml("<b>" + match.getRadiantTeam().getTeam_name() + "</b>" + " vs " + "<b>" + match.getDireTeam().getTeam_name() + "</b>"));
 
-        //todo: get league name from https://api.steampowered.com/IDOTA2Match_570/GetLeagueListing/v0001/?key=EB5773FAAF039592D9383FA104EEA55D
-        //todo: get team image from http://dev.dota2.com/archive/index.php/t-71363.html
         txtLeague = (TextView) view.findViewById(R.id.txtLiveLeagueLeague);
         if (!leagueName.equals("")) {
-            txtLeague.setText(leagueName);
+            txtLeague.setText(Conversions.leagueTitleToString(leagueName));
+
+            imgRadiantLogo = (ImageView) view.findViewById(R.id.imgLiveLeagueDetailsRadiantLogo);
+            SteamRemoteStorageParser logoParser = new SteamRemoteStorageParser(imgRadiantLogo);
+            logoParser.execute(match.getRadiantTeam().getTeam_logo());
+
+            imgDireLogo = (ImageView) view.findViewById(R.id.imgLiveLeagueDetailsDireLogo);
+            logoParser = new SteamRemoteStorageParser(imgDireLogo);
+            logoParser.execute(match.getDireTeam().getTeam_logo());
+
         } else {
             //get league name
             //todo: store leagues in DB, only parse if leagueID is unknown
@@ -82,8 +94,9 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
             txtPlayerName.setText(d.getName());
 
             //no hero image for spectators
+            //todo: only show casters (team: 4) names, only show title when there is at lest 1
             if (!d.getHero_id().equals("0")) {
-                //images
+
                 imageLoader = ImageLoader.getInstance();
 
                 //heroloading options
@@ -117,6 +130,8 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         for (League l : result.getLeagues().getLeagues()) {
             if (l.getLeagueid().equals(leagueID)) {
                 leagueName = l.getName();
+
+                //reload current fragment to display league name
                 Fragment currentFragment = this;
                 FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
                 fragTransaction.detach(currentFragment);

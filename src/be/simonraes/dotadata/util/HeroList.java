@@ -134,8 +134,8 @@ public class HeroList
 		heroimages.put("8", "juggernaut");
 		heroimages.put("9", "mirana");
 		heroimages.put("10", "morphling");
-		heroimages.put("11", "shadow_fiend");
-		heroimages.put("12", "phantom_lancer");
+        heroimages.put("11", "nevermore");
+        heroimages.put("12", "phantom_lancer");
 		heroimages.put("13", "puck");
 		heroimages.put("14", "pudge");
 		heroimages.put("15", "razor");
@@ -176,8 +176,8 @@ public class HeroList
 		heroimages.put("50", "dazzle");
 		heroimages.put("51", "rattletrap");
 		heroimages.put("52", "leshrac");
-		heroimages.put("53", "natures_prophet");
-		heroimages.put("54", "lifestealer");
+        heroimages.put("53", "furion");
+        heroimages.put("54", "lifestealer");
 		heroimages.put("55", "dark_seer");
 		heroimages.put("56", "clinkz");
 		heroimages.put("57", "omniknight");
@@ -206,8 +206,8 @@ public class HeroList
 		heroimages.put("80", "lone_druid");
 		heroimages.put("81", "chaos_knight");
 		heroimages.put("82", "meepo");
-		heroimages.put("83", "treant_protector");
-		heroimages.put("84", "ogre_magi");
+        heroimages.put("83", "treant");
+        heroimages.put("84", "ogre_magi");
 		heroimages.put("85", "undying");
 		heroimages.put("86", "rubick");
 		heroimages.put("87", "disruptor");
@@ -221,8 +221,8 @@ public class HeroList
 		heroimages.put("95", "troll_warlord");
 		heroimages.put("96", "centaur");
 		heroimages.put("97", "magnus");
-		heroimages.put("98", "timbersaw");
-		heroimages.put("99", "bristleback");
+        heroimages.put("98", "shredder");
+        heroimages.put("99", "bristleback");
 		heroimages.put("100", "tusk");
 		heroimages.put("101", "skywrath_mage");
 		heroimages.put("102", "abaddon");

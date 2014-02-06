@@ -1,6 +1,8 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueMatch;
+import be.simonraes.dotadata.parser.SteamRemoteStorageParser;
+import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 
@@ -19,6 +27,10 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
 
     private Context context;
     private ArrayList<LiveLeagueMatch> matches;
+
+    private DisplayImageOptions options;
+    private ImageLoader imageLoader;
+    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListenerToo();
 
     public LiveLeagueGamesAdapter(Context context, ArrayList<LiveLeagueMatch> objects) {
         super(context, R.layout.liveleaguegames_row, objects);
@@ -45,7 +57,21 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
             viewholder = (ViewHolder) view.getTag();
         }
 
-        viewholder.txtMatchID.setText(matches.get(position).getRadiantTeam().getTeam_name() + " vs " + matches.get(position).getDireTeam().getTeam_name());
+
+        options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
+        viewholder.txtMatchID.setText(Html.fromHtml("<b>" + matches.get(position).getRadiantTeam().getTeam_name() + "</b>" + " vs " + "<b>" + matches.get(position).getDireTeam().getTeam_name() + "</b>"));
+
+        //creating parser twice here!
+        SteamRemoteStorageParser logoParser = new SteamRemoteStorageParser(viewholder.imgLogoRadiant);
+        logoParser.execute(matches.get(position).getRadiantTeam().getTeam_logo());
+        logoParser = new SteamRemoteStorageParser(viewholder.imgLogoDire);
+        logoParser.execute(matches.get(position).getDireTeam().getTeam_logo());
 
         return view;
     }

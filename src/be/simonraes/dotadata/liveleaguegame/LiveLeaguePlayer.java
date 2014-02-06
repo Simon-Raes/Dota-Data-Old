@@ -8,14 +8,14 @@ import java.io.Serializable;
  * Created by Simon on 4/02/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LiveLeaguePlayer implements Serializable{
+public class LiveLeaguePlayer implements Serializable {
 
     public String account_id;
     public String name;
     public String hero_id;
-    public String team; //radiant (0), dire (1) or spectator (2)
+    public String team; //radiant (0), dire (1), spectator (2)? or caster (4)?
 
-    public LiveLeaguePlayer(){
+    public LiveLeaguePlayer() {
 
     }
 
