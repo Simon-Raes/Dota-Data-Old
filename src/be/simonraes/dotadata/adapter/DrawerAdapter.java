@@ -58,7 +58,6 @@ public class DrawerAdapter extends ArrayAdapter<String> {
             dividerView = inflater.inflate(R.layout.drawer_list_divider, parent, false);
             dividerTitle = (TextView) dividerView.findViewById(R.id.txtDividerTitle);
             dividerTitle.setText(titles[position].replace("divider ", ""));
-            //dividerTitle.setTypeface(Typeface.DEFAULT_BOLD);
             return dividerView;
         } else {
             viewholder.txtTitle.setText(titles[position]);
@@ -69,7 +68,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
     //make headers non-clickable
     @Override
     public boolean isEnabled(int position) {
-        if (position == 0 || position == 3 || position == 6) {
+        if (titles[position].startsWith("divider")) {
             return false;
         } else {
             return true;

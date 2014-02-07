@@ -26,10 +26,12 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
     protected HistoryContainer doInBackground(String... params) {
         ObjectMapper mapper = new ObjectMapper();
 
+        String accountID = params[0];
+
         HistoryContainer container = new HistoryContainer();
 
         try {
-            container = mapper.readValue(new URL("https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=EB5773FAAF039592D9383FA104EEA55D&account_id=6133547"), HistoryContainer.class);
+            container = mapper.readValue(new URL("https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=EB5773FAAF039592D9383FA104EEA55D&account_id=" + accountID), HistoryContainer.class);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {

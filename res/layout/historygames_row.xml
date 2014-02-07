@@ -7,7 +7,7 @@
     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                android:padding="10dp"
                android:id="@+id/imgHero"
-               android:src="@drawable/ic_launcher"/>
+               android:src="@drawable/item_lg_loading"/>
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:layout_toRightOf="@id/imgHero"
               android:id="@+id/txtLobbyType"

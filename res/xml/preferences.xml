@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- This file contains all options under the settings menu. -->
+    <PreferenceCategory
+            android:key="pref_key_account_settings"
+            android:title="Account">
+
+        <EditTextPreference
+                android:defaultValue="0"
+                android:key="be.simonraes.dotadata.accountid"
+                android:summary="accountID here"
+                android:title="Dota account ID"/>
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

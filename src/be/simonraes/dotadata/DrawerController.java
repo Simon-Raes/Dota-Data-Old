@@ -4,21 +4,20 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
-import be.simonraes.dotadata.fragment.LiveLeagueGamesFragment;
-import be.simonraes.dotadata.fragment.LoadingFragment;
-import be.simonraes.dotadata.fragment.OtherFragment;
-import be.simonraes.dotadata.fragment.RecentGamesFragment;
+import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
 import be.simonraes.dotadata.interfaces.ASyncResponseLiveLeague;
@@ -36,13 +35,15 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.drawer_layout);
 
-        listContent = new String[]{"divider MY GAMES", "Recent Games", "Hero stats", "divider LEAGUE GAMES", "Live league games", "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
+        listContent = new String[]{"divider MY GAMES", "Recent Games", "Hero stats", "divider LEAGUE GAMES", "Live league games",
+                "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League", "divider APPLICATION", "Settings", "About"};
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.drawable.ic_drawer,R.string.drawer_open,R.string.drawer_close){
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -62,7 +63,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-
         drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerList.setAdapter(new DrawerAdapter(this, listContent));
         drawerList.setOnItemClickListener(this);
@@ -74,29 +74,44 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //new be.simonraes.dotadata.fragment settings
         Fragment fragment;
         FragmentManager fm = getFragmentManager();
 
-        //recent games
         if (position == 1) {
-            //loadingfragment doesn't set title so it can be re-used
+            //set loadingfragment title here so it can be reused
             setActionBarTitle("Recent games");
+
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
+
+            drawerLayout.closeDrawer(drawerList);
+            HistoryMatchParser parser = new HistoryMatchParser(this);
+            parser.execute(prefAccountID);
 
             FragmentTransaction transaction = fm.beginTransaction();
             Fragment loadingFragment = new LoadingFragment();
             transaction.replace(R.id.content_frame, loadingFragment);
-            transaction.addToBackStack("null").commit();
 
-            drawerLayout.closeDrawer(drawerList);
-            HistoryMatchParser parser = new HistoryMatchParser(this);
-            parser.execute();
+            transaction.commit();
 
-        //live league games
         } else if (position == 4) {
+            drawerList.setItemChecked(position, true);
             drawerLayout.closeDrawer(drawerList);
+
             LiveLeagueMatchParser parser = new LiveLeagueMatchParser(this);
             parser.execute();
+
+        } else if (position == 9) {
+            fragment = new SettingsFragment();
+
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+
+            drawerList.setItemChecked(position, true);
+            drawerLayout.closeDrawer(drawerList);
+
+            transaction.commit();
+
         } else {
             fragment = new OtherFragment();
 
@@ -108,10 +123,8 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             drawerList.setItemChecked(position, true);
             drawerLayout.closeDrawer(drawerList);
 
-            //change be.simonraes.dotadata.fragment
             transaction.addToBackStack(null).commit();
         }
-
     }
 
     //history parser finished
@@ -124,7 +137,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         transaction.replace(R.id.content_frame, recentGamesFragment);
 
         //send object to fragment
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putSerializable("container", result);
         recentGamesFragment.setArguments(bundle);
 
@@ -141,7 +154,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         transaction.replace(R.id.content_frame, leagueGamesFragment);
 
         //send object to fragment
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putSerializable("container", result);
         leagueGamesFragment.setArguments(bundle);
 
@@ -161,8 +174,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     }
 
 
-
-    private void setActionBarTitle(String title){
+    private void setActionBarTitle(String title) {
         getActionBar().setTitle(title);
     }
 
@@ -188,7 +200,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
 
 
 }

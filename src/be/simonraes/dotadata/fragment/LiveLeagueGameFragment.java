@@ -62,13 +62,19 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         if (!leagueName.equals("")) {
             txtLeague.setText(Conversions.leagueTitleToString(leagueName));
 
-            imgRadiantLogo = (ImageView) view.findViewById(R.id.imgLiveLeagueDetailsRadiantLogo);
-            SteamRemoteStorageParser logoParser = new SteamRemoteStorageParser(imgRadiantLogo);
-            logoParser.execute(match.getRadiantTeam().getTeam_logo());
+            SteamRemoteStorageParser logoParser;
 
-            imgDireLogo = (ImageView) view.findViewById(R.id.imgLiveLeagueDetailsDireLogo);
-            logoParser = new SteamRemoteStorageParser(imgDireLogo);
-            logoParser.execute(match.getDireTeam().getTeam_logo());
+            if (!match.getRadiantTeam().getTeam_logo().equals("0")) {
+                imgRadiantLogo = (ImageView) view.findViewById(R.id.imgLiveLeagueDetailsRadiantLogo);
+                logoParser = new SteamRemoteStorageParser(imgRadiantLogo);
+                logoParser.execute(match.getRadiantTeam().getTeam_logo());
+            }
+            if (!match.getDireTeam().getTeam_logo().equals("0")) {
+                imgDireLogo = (ImageView) view.findViewById(R.id.imgLiveLeagueDetailsDireLogo);
+                logoParser = new SteamRemoteStorageParser(imgDireLogo);
+                logoParser.execute(match.getDireTeam().getTeam_logo());
+            }
+
 
         } else {
             //get league name

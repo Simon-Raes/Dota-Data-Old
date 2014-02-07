@@ -67,11 +67,17 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
 
         viewholder.txtMatchID.setText(Html.fromHtml("<b>" + matches.get(position).getRadiantTeam().getTeam_name() + "</b>" + " vs " + "<b>" + matches.get(position).getDireTeam().getTeam_name() + "</b>"));
 
-        //creating parser twice here!
-        SteamRemoteStorageParser logoParser = new SteamRemoteStorageParser(viewholder.imgLogoRadiant);
-        logoParser.execute(matches.get(position).getRadiantTeam().getTeam_logo());
-        logoParser = new SteamRemoteStorageParser(viewholder.imgLogoDire);
-        logoParser.execute(matches.get(position).getDireTeam().getTeam_logo());
+        SteamRemoteStorageParser logoParser;
+
+        if (!matches.get(position).getRadiantTeam().getTeam_logo().equals("0")) {
+            logoParser = new SteamRemoteStorageParser(viewholder.imgLogoRadiant);
+            logoParser.execute(matches.get(position).getRadiantTeam().getTeam_logo());
+        }
+        if (!matches.get(position).getDireTeam().getTeam_logo().equals("0")) {
+            logoParser = new SteamRemoteStorageParser(viewholder.imgLogoDire);
+            logoParser.execute(matches.get(position).getDireTeam().getTeam_logo());
+        }
+
 
         return view;
     }

@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.fragment;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -58,6 +60,8 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
 
+        getActivity().setProgressBarIndeterminateVisibility(false);
+
         //send object to be.simonraes.dotadata.fragment
         Bundle bundle=new Bundle();
         bundle.putSerializable("be/simonraes/dotadata/detailmatch", result.getDetailMatch());
@@ -66,13 +70,36 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
         transaction.addToBackStack(null).commit();
     }
 
+
+    //Detect click on match in list
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        DetailMatchParser parser = new DetailMatchParser(this);
+        HistoryMatch match = (HistoryMatch) listview.getAdapter().getItem(position);
+        parser.execute(match.getMatch_id());
+
+        getActivity().setProgressBarIndeterminateVisibility(true);
+
+        //met internet/webapi-status check, maar mag niet op UI thread
+//        if(InternetCheck.serviceAvailable()){
+//            be.simonraes.dotadata.parser.execute(match.getMatch_id());
+//        } else {
+//            Toast.makeText(getActivity(),InternetCheck.getErrorCode(),Toast.LENGTH_LONG).show();
+//        }
+    }
+
+
     //ActionBar button clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.btnRefresh:
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
+
                 HistoryMatchParser parser = new HistoryMatchParser(this);
-                parser.execute();
+                parser.execute(prefAccountID);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -84,21 +111,5 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.recent_games_menu,menu);
-    }
-
-    //Detect click on match in list
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        DetailMatchParser parser = new DetailMatchParser(this);
-        HistoryMatch match = (HistoryMatch)listview.getAdapter().getItem(position);
-        parser.execute(match.getMatch_id());
-
-        //met internet/webapi-status check, maar mag niet op UI thread
-//        if(InternetCheck.serviceAvailable()){
-//            be.simonraes.dotadata.parser.execute(match.getMatch_id());
-//        } else {
-//            Toast.makeText(getActivity(),InternetCheck.getErrorCode(),Toast.LENGTH_LONG).show();
-//        }
     }
 }

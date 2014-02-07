@@ -1,7 +1,9 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +40,23 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
     private ImageLoader imageLoader;
     private ImageLoadingListener animateFirstListener;
 
+    String prefAccountID;
+
     public HistoryGamesAdapter(Context context, ArrayList<HistoryMatch> objects) {
         super(context, R.layout.historygames_row, objects);
         this.context = context;
         this.matches = objects;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
+
+        options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .showImageOnLoading(R.drawable.item_lg_loading)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
 
         animateFirstListener = new AnimateFirstDisplayListener();
     }
@@ -75,17 +90,11 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
 
         String playerHeroID = "1";
         for (HistoryPlayer hp : matches.get(position).getPlayers()) {
-            if (hp.getAccount_id().equals("6133547")) {
+            if (hp.getAccount_id().equals(prefAccountID)) {
                 playerHeroID = hp.getHero_id();
             }
         }
 
-        options = new DisplayImageOptions.Builder()
-                .resetViewBeforeLoading(true)
-                .cacheInMemory(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .build();
 
         imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
         return view;
