@@ -47,14 +47,12 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                //getActionBar().setTitle("Appname");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle("check it out");
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };

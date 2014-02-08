@@ -1,7 +1,5 @@
 package be.simonraes.dotadata.util;
 
-import android.support.v4.widget.DrawerLayout;
-
 /**
  * Created by Simon on 2/02/14.
  */
@@ -49,5 +47,62 @@ public class Conversions {
         }
         rawLeague = rawLeague.replace("_", " ");
         return rawLeague;
+    }
+
+    /**
+     * Convert tower_status_radiant/dire to a TowerStatus object that contains the status of all towers for that team.
+     */
+    public static TowerStatus towerStatusFromString(String status) {
+        int iStatus = Integer.parseInt(status);
+        TowerStatus ts = new TowerStatus();
+
+        String bin = Integer.toBinaryString(iStatus);
+
+        if (bin.length() < 16) {
+            StringBuilder builder;
+            while (bin.length() < 16) {
+                builder = new StringBuilder(bin);
+                bin = builder.insert(0, "0").toString();
+            }
+        }
+
+        if (Character.toString(bin.charAt(5)).equals("1")) {
+            ts.setTopT4(true);
+        }
+        if (Character.toString(bin.charAt(6)).equals("1")) {
+            ts.setBotT4(true);
+        }
+
+        if (Character.toString(bin.charAt(7)).equals("1")) {
+            ts.setBotT3(true);
+        }
+        if (Character.toString(bin.charAt(8)).equals("1")) {
+            ts.setBotT2(true);
+        }
+        if (Character.toString(bin.charAt(9)).equals("1")) {
+            ts.setBotT1(true);
+        }
+
+        if (Character.toString(bin.charAt(10)).equals("1")) {
+            ts.setMidT3(true);
+        }
+        if (Character.toString(bin.charAt(11)).equals("1")) {
+            ts.setMidT2(true);
+        }
+        if (Character.toString(bin.charAt(12)).equals("1")) {
+            ts.setMidT1(true);
+        }
+
+        if (Character.toString(bin.charAt(13)).equals("1")) {
+            ts.setTopT3(true);
+        }
+        if (Character.toString(bin.charAt(14)).equals("1")) {
+            ts.setTopT2(true);
+        }
+        if (Character.toString(bin.charAt(15)).equals("1")) {
+            ts.setTopT1(true);
+        }
+
+        return ts;
     }
 }

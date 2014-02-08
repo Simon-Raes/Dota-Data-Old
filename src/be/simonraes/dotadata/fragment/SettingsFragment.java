@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 import be.simonraes.dotadata.R;
 
@@ -18,6 +19,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getActivity().getActionBar().setTitle("Settings");
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+
+//        Preference prefAccountID = findPreference("be.simonraes.dotadata.accountid");
+//        prefAccountID.setSummary(sharedPref.getString("be.simonraes.dotadata.accountid", "AccountID"));
 
         addPreferencesFromResource(R.xml.preferences);
 

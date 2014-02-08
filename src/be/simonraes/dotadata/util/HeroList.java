@@ -162,8 +162,8 @@ public class HeroList
 		heroimages.put("36", "necrolyte");
 		heroimages.put("37", "warlock");
 		heroimages.put("38", "beastmaster");
-		heroimages.put("39", "queen_of_pain");
-		heroimages.put("40", "venomancer");
+        heroimages.put("39", "queenofpain");
+        heroimages.put("40", "venomancer");
 		heroimages.put("41", "faceless_void");
 		heroimages.put("42", "skeleton_king");
 		heroimages.put("43", "death_prophet");
@@ -220,7 +220,7 @@ public class HeroList
 		heroimages.put("94", "medusa");
 		heroimages.put("95", "troll_warlord");
 		heroimages.put("96", "centaur");
-		heroimages.put("97", "magnus");
+        heroimages.put("97", "magnataur");
         heroimages.put("98", "shredder");
         heroimages.put("99", "bristleback");
 		heroimages.put("100", "tusk");

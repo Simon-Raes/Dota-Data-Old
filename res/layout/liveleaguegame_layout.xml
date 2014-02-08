@@ -100,7 +100,8 @@
                           android:background="@drawable/bg_card">
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="Spectators"/>
+                          android:id="@+id/txtLiveLeagueCasters"
+                          android:text="Casters:"/>
 
                 <View style="@style/Divider"/>
 
@@ -124,10 +125,16 @@
                           android:layout_marginTop="10dp"
                           android:layout_marginBottom="5dp"
                           android:orientation="vertical"
+                          android:paddingTop="20dp"
+                          android:paddingBottom="20dp"
                           android:background="@drawable/bg_card">
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/imgLiveLeagueMinimap"
-                           android:src="@drawable/dota_minimap_sd"/>
+                <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                             android:id="@+id/layLiveLeagueMinimap">
+                    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                               android:id="@+id/imgLiveLeagueMinimap"
+                               android:adjustViewBounds="true"
+                               android:src="@drawable/dota_minimap_sd"/>
+                </FrameLayout>
             </LinearLayout>
 
         </LinearLayout>

@@ -16,13 +16,13 @@
 
             <!-- Match info (duration, winner,...) -->
             <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
-                          android:orientation="vertical"
-                          android:background="@drawable/bg_card">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_card">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="winner"
                           android:id="@+id/txtDetailWinner"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -122,11 +122,17 @@
                           android:layout_marginRight="20dp"
                           android:layout_marginTop="10dp"
                           android:layout_marginBottom="5dp"
-                          android:orientation="vertical"
-                          android:background="@drawable/bg_card">
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/imgDetailMinimap"
-                           android:src="@drawable/dota_minimap_sd"/>
+                          android:background="@drawable/bg_card"
+                          android:paddingTop="20dp"
+                          android:gravity="center"
+                          android:paddingBottom="20dp">
+                <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                             android:id="@+id/layDetailsMinimap">
+                    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                               android:id="@+id/imgDetailMinimap"
+                               android:adjustViewBounds="true"
+                               android:src="@drawable/dota_minimap_sd"/>
+                </FrameLayout>
             </LinearLayout>
 
         </LinearLayout>

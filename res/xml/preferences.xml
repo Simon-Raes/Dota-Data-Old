@@ -9,6 +9,7 @@
 
         <EditTextPreference
                 android:defaultValue="0"
+                android:inputType="number"
                 android:key="be.simonraes.dotadata.accountid"
                 android:summary="accountID here"
                 android:title="Dota account ID"/>

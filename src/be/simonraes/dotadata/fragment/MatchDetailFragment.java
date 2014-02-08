@@ -1,79 +1,69 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
-import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
-import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.GameModes;
-import be.simonraes.dotadata.util.HeroList;
-import be.simonraes.dotadata.util.ItemList;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Simon on 30/01/14.
+ * Sets layout to show details of a match
  */
-public class MatchDetailFragment extends Fragment {
+public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
 
-    private ImageLoader imageLoader;
-    private DisplayImageOptions options;
-    private ImageLoadingListener animateFirstListener;
+    private View viewB;
+    private LayoutInflater inflaterB;
 
     private DetailMatch match;
-
-    private TextView txtMatchID,txtWinner, txtGameMode, txtDuration;
-
-    private LinearLayout layPlayersRadiant, layPlayersDire;
-    private TextView txtPlayerName, txtPlayerKDA, txtPlayerLHDenies, txtPlayerGPMXPM;
-    private ImageView imgHero, imgItem1, imgItem2, imgItem3, imgItem4, imgItem5, imgItem6;
-
-    private boolean isRanked=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matchdetails_layout, container, false);
-
-        match = (DetailMatch) getArguments().getSerializable("be/simonraes/dotadata/detailmatch");
-
-        if(match.getLobby_type().equals("7")){
-            isRanked = true;
-        }
+        inflaterB = inflater;
+        viewB = view;
 
         getActivity().getActionBar().setTitle("Match Details");
 
-        //GEBRUIK EEN HOLDER
+        match = (DetailMatch) getArguments().getSerializable("be/simonraes/dotadata/detailmatch");
 
-        //Match info
-        txtMatchID = (TextView) view.findViewById(R.id.txtDetailMatchID);
-        txtMatchID.setText("Match ID: "+match.getMatch_id());
-
-        txtGameMode = (TextView) view.findViewById(R.id.txtDetailGameMode);
-        txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
-        if(isRanked){
-            txtGameMode.setText(GameModes.getGameMode(match.getGame_mode())+" (Ranked)");
+        boolean isRanked = false;
+        if (match != null) {
+            if (match.getLobby_type().equals("7")) {
+                isRanked = true;
+            }
         }
 
-        txtDuration = (TextView) view.findViewById(R.id.txtDetailDuration);
-        txtDuration.setText("Duration: "+ Conversions.secondsToTime(match.getDuration()));
+        //holder?
 
-        txtWinner = (TextView) view.findViewById(R.id.txtDetailWinner);
+        //Match info
+        TextView txtMatchID = (TextView) view.findViewById(R.id.txtDetailMatchID);
+        txtMatchID.setText("Match ID: " + match.getMatch_id());
+
+        TextView txtGameMode = (TextView) view.findViewById(R.id.txtDetailGameMode);
+        txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
+        if (isRanked) {
+            txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()) + " (Ranked)");
+        }
+
+        TextView txtDuration = (TextView) view.findViewById(R.id.txtDetailDuration);
+        txtDuration.setText("Duration: " + Conversions.secondsToTime(match.getDuration()));
+
+        TextView txtWinner = (TextView) view.findViewById(R.id.txtDetailWinner);
         if (match.getRadiant_win()) {
             txtWinner.setText("Radiant Victory");
         } else {
@@ -81,67 +71,66 @@ public class MatchDetailFragment extends Fragment {
         }
 
         //Players info
-        layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
-        layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
+        LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
+        LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
 
-        LayoutInflater inflate = getActivity().getLayoutInflater();
         View playerRow;
 
         for (DetailPlayer d : match.getPlayers()) {
-            playerRow = inflate.inflate(R.layout.matchdetails_player_row, null);
+            playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
 
-            txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
+            TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
             txtPlayerName.setText(d.getAccount_id());
 
-            txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
-            txtPlayerKDA.setText(d.getKills()+"/"+d.getDeaths()+"/"+d.getAssists());
+            TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
+            txtPlayerKDA.setText(d.getKills() + "/" + d.getDeaths() + "/" + d.getAssists());
 
-            txtPlayerLHDenies = (TextView) playerRow.findViewById(R.id.txtDetailLHDenies);
-            txtPlayerLHDenies.setText(d.getLast_hits()+"/"+d.getDenies());
+            TextView txtPlayerLHDenies = (TextView) playerRow.findViewById(R.id.txtDetailLHDenies);
+            txtPlayerLHDenies.setText(d.getLast_hits() + "/" + d.getDenies());
 
-            txtPlayerGPMXPM = (TextView) playerRow.findViewById(R.id.txtDetailGPMXPM);
-            txtPlayerGPMXPM.setText(d.getGold_per_min()+"/"+d.getXp_per_min());
+            TextView txtPlayerGPMXPM = (TextView) playerRow.findViewById(R.id.txtDetailGPMXPM);
+            txtPlayerGPMXPM.setText(d.getGold_per_min() + "/" + d.getXp_per_min());
 
             //images
-            imageLoader = ImageLoader.getInstance();
+            ImageLoader imageLoader = ImageLoader.getInstance();
 
-            //heroloading options
-            options = new DisplayImageOptions.Builder()
+            //hero image loading options
+            DisplayImageOptions options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
-
                     .showImageOnLoading(R.drawable.hero_sb_loading)
                     .imageScaleType(ImageScaleType.EXACTLY)
                     .build();
-            animateFirstListener = new AnimateFirstDisplayListener();
+            ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListenerToo();
 
-            imgHero = (ImageView) playerRow.findViewById(R.id.imgDetailHero);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/"+ HeroList.getHeroImageName(d.getHero_id())+"_sb.png", imgHero, options, animateFirstListener);
+            ImageView imgHero = (ImageView) playerRow.findViewById(R.id.imgDetailHero);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(d.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
 
-            //itemloading options
+            //item image loading options
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
                     .showImageOnLoading(R.drawable.item_lg_loading)
                     .build();
 
-            imgItem1 = (ImageView) playerRow.findViewById(R.id.imgItem1);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_0()) + "_lg.png", imgItem1, options, animateFirstListener);
+            ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_0()) + "_lg.png", imgItem, options, animateFirstListener);
 
-            imgItem2 = (ImageView) playerRow.findViewById(R.id.imgItem2);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_1()) + "_lg.png", imgItem2, options, animateFirstListener);
+            imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_1()) + "_lg.png", imgItem, options, animateFirstListener);
 
-            imgItem3 = (ImageView) playerRow.findViewById(R.id.imgItem3);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_2()) + "_lg.png", imgItem3, options, animateFirstListener);
+            imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_2()) + "_lg.png", imgItem, options, animateFirstListener);
 
-            imgItem4 = (ImageView) playerRow.findViewById(R.id.imgItem4);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_3()) + "_lg.png", imgItem4, options, animateFirstListener);
+            imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_3()) + "_lg.png", imgItem, options, animateFirstListener);
 
-            imgItem5 = (ImageView) playerRow.findViewById(R.id.imgItem5);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_4()) + "_lg.png", imgItem5, options, animateFirstListener);
+            imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_4()) + "_lg.png", imgItem, options, animateFirstListener);
 
-            imgItem6 = (ImageView) playerRow.findViewById(R.id.imgItem6);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_5()) + "_lg.png", imgItem6, options, animateFirstListener);
+            imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_5()) + "_lg.png", imgItem, options, animateFirstListener);
+
 
             if (Integer.parseInt(d.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
@@ -151,33 +140,186 @@ public class MatchDetailFragment extends Fragment {
         }
 
         //Picks & bans - only shown if match has picks/bans
-        if(isRanked){
+        if (isRanked) {
             LinearLayout layPicksBans = (LinearLayout) view.findViewById(R.id.layDetailPicksBans);
             layPicksBans.setVisibility(View.VISIBLE);
         }
 
-        //Minimap info
-        //tower and barrack status
+        //add listener to retrieve height and width of minimap layout
+        FrameLayout layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
+        layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         return view;
     }
 
 
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+    //Add towers and barracks to minimap
 
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+    @Override
+    public void onGlobalLayout() {
+        FrameLayout layDetailsMinimap = (FrameLayout) viewB.findViewById(R.id.layDetailsMinimap);
 
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
+        //remove listener so this method only gets called once
+        //different versions depending on android version (before or after API 16)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            //noinspection deprecation
+            layDetailsMinimap.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        } else {
+            layDetailsMinimap.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        }
+
+        //get minimap size
+        int x = layDetailsMinimap.getWidth();
+        int y = layDetailsMinimap.getHeight();
+
+        //add towers to minimap
+        //todo: T4 and barracks
+
+
+        TowerStatus twrRadiant = Conversions.towerStatusFromString(match.getTower_status_radiant());
+        TowerStatus twrDire = Conversions.towerStatusFromString(match.getTower_status_dire());
+
+        if (twrRadiant.isTopT1()) {
+            View towerRadiantTopT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantTopT1.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.38), 0, 0);
+            layDetailsMinimap.addView(towerRadiantTopT1);
+        }
+
+        if (twrRadiant.isTopT2()) {
+            View towerRadiantTopT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantTopT2.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.55), 0, 0);
+            layDetailsMinimap.addView(towerRadiantTopT2);
+        }
+
+        if (twrRadiant.isTopT3()) {
+            View towerRadiantTopT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantTopT3.setPadding((int) Math.round(x * 0.075), (int) Math.round(y * 0.7), 0, 0);
+            layDetailsMinimap.addView(towerRadiantTopT3);
+        }
+
+        if (twrRadiant.isMidT1()) {
+            View towerRadiantMidT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantMidT1.setPadding((int) Math.round(x * 0.40), (int) Math.round(y * 0.58), 0, 0);
+            layDetailsMinimap.addView(towerRadiantMidT1);
+        }
+
+        if (twrRadiant.isMidT2()) {
+            View towerRadiantMidT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantMidT2.setPadding((int) Math.round(x * 0.28), (int) Math.round(y * 0.66), 0, 0);
+            layDetailsMinimap.addView(towerRadiantMidT2);
+        }
+
+        if (twrRadiant.isMidT3()) {
+            View towerRadiantMidT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantMidT3.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.75), 0, 0);
+            layDetailsMinimap.addView(towerRadiantMidT3);
+        }
+
+        if (twrRadiant.isBotT1()) {
+            View towerRadiantBotT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantBotT1.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.87), 0, 0);
+            layDetailsMinimap.addView(towerRadiantBotT1);
+        }
+        if (twrRadiant.isBotT2()) {
+            View towerRadiantBotT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantBotT2.setPadding((int) Math.round(x * 0.47), (int) Math.round(y * 0.88), 0, 0);
+            layDetailsMinimap.addView(towerRadiantBotT2);
+        }
+        if (twrRadiant.isBotT3()) {
+            View towerRadiantBotT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantBotT3.setPadding((int) Math.round(x * 0.25), (int) Math.round(y * 0.88), 0, 0);
+            layDetailsMinimap.addView(towerRadiantBotT3);
+        }
+        if (twrRadiant.isTopT4()) {
+            View towerRadiantTopT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantTopT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
+            layDetailsMinimap.addView(towerRadiantTopT4);
+        }
+        if (twrRadiant.isBotT4()) {
+            View towerRadiantBotT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+
+            towerRadiantBotT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
+            layDetailsMinimap.addView(towerRadiantBotT4);
+        }
+
+
+        if (twrDire.isTopT1()) {
+            View towerDireTopT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireTopT1.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.12), 0, 0);
+            layDetailsMinimap.addView(towerDireTopT1);
+        }
+        if (twrDire.isTopT2()) {
+            View towerDireTopT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireTopT2.setPadding((int) Math.round(x * 0.48), (int) Math.round(y * 0.12), 0, 0);
+            layDetailsMinimap.addView(towerDireTopT2);
+        }
+        if (twrDire.isTopT3()) {
+            View towerDireTopT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireTopT3.setPadding((int) Math.round(x * 0.70), (int) Math.round(y * 0.13), 0, 0);
+            layDetailsMinimap.addView(towerDireTopT3);
+        }
+
+        if (twrDire.isMidT1()) {
+            View towerDireMidT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireMidT1.setPadding((int) Math.round(x * 0.54), (int) Math.round(y * 0.48), 0, 0);
+            layDetailsMinimap.addView(towerDireMidT1);
+        }
+        if (twrDire.isMidT2()) {
+            View towerDireMidT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireMidT2.setPadding((int) Math.round(x * 0.63), (int) Math.round(y * 0.35), 0, 0);
+            layDetailsMinimap.addView(towerDireMidT2);
+        }
+        if (twrDire.isMidT3()) {
+            View towerDireMidT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireMidT3.setPadding((int) Math.round(x * 0.74), (int) Math.round(y * 0.26), 0, 0);
+            layDetailsMinimap.addView(towerDireMidT3);
+        }
+
+        if (twrDire.isBotT1()) {
+            View towerDireBotT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireBotT1.setPadding((int) Math.round(x * 0.85), (int) Math.round(y * 0.62), 0, 0);
+            layDetailsMinimap.addView(towerDireBotT1);
+        }
+        if (twrDire.isBotT2()) {
+            View towerDireBotT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireBotT2.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.49), 0, 0);
+            layDetailsMinimap.addView(towerDireBotT2);
+        }
+        if (twrDire.isBotT3()) {
+            View towerDireBotT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireBotT3.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.31), 0, 0);
+            layDetailsMinimap.addView(towerDireBotT3);
+        }
+        if (twrDire.isTopT4()) {
+            View towerDireTopT4 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireTopT4.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.18), 0, 0);
+            layDetailsMinimap.addView(towerDireTopT4);
+        }
+        if (twrDire.isBotT4()) {
+            View towerDireBotT4 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+
+            towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
+            layDetailsMinimap.addView(towerDireBotT4);
         }
     }
-
 }

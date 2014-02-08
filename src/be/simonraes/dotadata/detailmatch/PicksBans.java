@@ -2,18 +2,20 @@ package be.simonraes.dotadata.detailmatch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 /**
  * Created by Simon on 3/02/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PicksBans {
+public class PicksBans implements Serializable {
 
     private boolean is_pick;
     private String hero_id;
     private String team;
     private String order;
 
-    public PicksBans(){
+    public PicksBans() {
 
     }
 
