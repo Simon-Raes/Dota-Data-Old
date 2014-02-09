@@ -6,11 +6,11 @@
     <uses-sdk android:minSdkVersion="14"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application android:label="@string/app_name"
-                 android:icon="@drawable/ic_launcher"
-                 android:name="be.simonraes.dotadata.UILApplication"
+                 android:icon="@drawable/dd_sm"
+                 android:name=".DotaDataApplication"
                  android:theme="@android:style/Theme.Holo.Light">
 
         <activity android:name="be.simonraes.dotadata.DrawerController"

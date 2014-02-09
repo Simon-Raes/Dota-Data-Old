@@ -53,8 +53,59 @@ public class Conversions {
      * Convert tower_status_radiant/dire to a TowerStatus object that contains the status of all towers for that team.
      */
     public static TowerStatus towerStatusFromString(String status) {
+        String bin = binaryTo16String(status);
+        return generateTowerStatus(bin);
+    }
+
+    //todo: remove duplicate stringbuilder code
+    public static TowerStatus radiantTowerStatusFromTeamString(String status) {
+        String radiantCode = binaryTo32String(status).substring(21, 31);
+
+        if (radiantCode.length() < 16) {
+            StringBuilder builder;
+            while (radiantCode.length() < 16) {
+                builder = new StringBuilder(radiantCode);
+                radiantCode = builder.insert(0, "0").toString();
+            }
+        }
+
+        return generateTowerStatus(radiantCode);
+    }
+
+    public static TowerStatus direTowerStatusFromTeamString(String status) {
+        String direCode = binaryTo32String(status).substring(10, 20);
+
+        if (direCode.length() < 16) {
+            StringBuilder builder;
+            while (direCode.length() < 16) {
+                builder = new StringBuilder(direCode);
+                direCode = builder.insert(0, "0").toString();
+            }
+        }
+
+        return generateTowerStatus(direCode);
+    }
+
+
+    private static String binaryTo32String(String status) {
         int iStatus = Integer.parseInt(status);
-        TowerStatus ts = new TowerStatus();
+
+        String bin = Integer.toBinaryString(iStatus);
+
+        if (bin.length() < 32) {
+            StringBuilder builder;
+            while (bin.length() < 32) {
+                builder = new StringBuilder(bin);
+                bin = builder.insert(0, "0").toString();
+            }
+        }
+        return bin;
+    }
+
+
+    private static String binaryTo16String(String status) {
+
+        int iStatus = Integer.parseInt(status);
 
         String bin = Integer.toBinaryString(iStatus);
 
@@ -65,6 +116,12 @@ public class Conversions {
                 bin = builder.insert(0, "0").toString();
             }
         }
+
+        return bin;
+    }
+
+    private static TowerStatus generateTowerStatus(String bin) {
+        TowerStatus ts = new TowerStatus();
 
         if (Character.toString(bin.charAt(5)).equals("1")) {
             ts.setTopT4(true);

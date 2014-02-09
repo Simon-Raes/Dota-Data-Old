@@ -10,10 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
@@ -42,6 +39,8 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
                 "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League", "divider APPLICATION", "Settings", "About"};
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */

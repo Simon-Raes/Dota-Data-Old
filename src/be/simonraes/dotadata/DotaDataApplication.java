@@ -10,7 +10,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 /**
  * Created by Simon on 3/02/14.
  */
-public class UILApplication extends Application {
+public class DotaDataApplication extends Application {
 
     @Override
     public void onCreate() {

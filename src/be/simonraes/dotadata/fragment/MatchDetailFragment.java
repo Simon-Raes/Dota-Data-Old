@@ -31,6 +31,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     private DetailMatch match;
 
+    private FrameLayout layDetailsMinimap;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matchdetails_layout, container, false);
@@ -146,7 +148,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         //add listener to retrieve height and width of minimap layout
-        FrameLayout layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
+        layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
         layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         return view;
@@ -157,7 +159,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public void onGlobalLayout() {
-        FrameLayout layDetailsMinimap = (FrameLayout) viewB.findViewById(R.id.layDetailsMinimap);
 
         //remove listener so this method only gets called once
         //different versions depending on android version (before or after API 16)
