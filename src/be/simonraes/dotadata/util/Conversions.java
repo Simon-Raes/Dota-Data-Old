@@ -71,11 +71,6 @@ public class Conversions {
         }
 
 
-        System.out.println("status from json: " + status);
-        System.out.println("binary 32: " + binaryTo32String(status));
-        System.out.println("radiant code: " + radiantCode);
-
-
         return generateTowerStatus(radiantCode);
     }
 
@@ -90,10 +85,6 @@ public class Conversions {
             }
         }
 
-
-        System.out.println("status from json: " + status);
-        System.out.println("binary 32: " + binaryTo32String(status));
-        System.out.println("direCode code: " + direCode);
 
         return generateTowerStatus(direCode);
     }

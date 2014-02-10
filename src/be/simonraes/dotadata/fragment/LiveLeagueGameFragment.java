@@ -98,25 +98,24 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
             txtPlayerName = (TextView) playerRow.findViewById(R.id.txtLiveLeaguePlayerName);
             txtPlayerName.setText(d.getName());
 
-            //no hero image for spectators
-            if (!d.getHero_id().equals("0")) {
-
-                imageLoader = ImageLoader.getInstance();
-
-                //heroloading options
-                options = new DisplayImageOptions.Builder()
-                        .resetViewBeforeLoading(true)
-                        .cacheInMemory(true)
-                        .cacheOnDisc(true)
-                        .showImageOnLoading(R.drawable.hero_sb_loading)
-                        .build();
-                animateFirstListener = new AnimateFirstDisplayListenerToo();
-
-                imgHero = (ImageView) playerRow.findViewById(R.id.imgLiveLeagueDetailHero);
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(d.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
-            }
-
             if (Integer.parseInt(d.getTeam()) == 0) {
+
+                if (!d.getHero_id().equals("0")) {
+                    imageLoader = ImageLoader.getInstance();
+
+                    //heroloading options
+                    options = new DisplayImageOptions.Builder()
+                            .resetViewBeforeLoading(true)
+                            .cacheInMemory(true)
+                            .cacheOnDisc(true)
+                            .showImageOnLoading(R.drawable.hero_sb_loading)
+                            .build();
+                    animateFirstListener = new AnimateFirstDisplayListenerToo();
+
+                    imgHero = (ImageView) playerRow.findViewById(R.id.imgLiveLeagueDetailHero);
+                    imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(d.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
+                }
+
                 layPlayersRadiant.addView(playerRow);
             } else if (Integer.parseInt(d.getTeam()) == 1) {
                 layPlayersDire.addView(playerRow);
@@ -124,10 +123,11 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
                 numberOfCasters++;
                 laySpectators.addView(playerRow);
             }
-            if (numberOfCasters <= 0) {
-                TextView txtCasters = (TextView) view.findViewById(R.id.txtLiveLeagueCasters);
-                txtCasters.setText("No casters");
-            }
+        }
+
+        if (numberOfCasters > 0) {
+            TextView txtCasters = (TextView) view.findViewById(R.id.txtLiveLeagueCasters);
+            txtCasters.setText("Casters:");
         }
 
         layLiveLeagueMinimap = (FrameLayout) view.findViewById(R.id.layLiveLeagueMinimap);
