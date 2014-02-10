@@ -22,7 +22,7 @@ import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
 import be.simonraes.dotadata.parser.LiveLeagueMatchParser;
 
-public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseHistory, ASyncResponseLiveLeague {
+public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseLiveLeague {
 
     private String listContent[];
     private DrawerLayout drawerLayout;
@@ -75,19 +75,12 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         FragmentManager fm = getFragmentManager();
 
         if (position == 1) {
-            //set loadingfragment title here so it can be reused
-            setActionBarTitle("Recent games");
-
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
-
             drawerLayout.closeDrawer(drawerList);
-            HistoryMatchParser parser = new HistoryMatchParser(this);
-            parser.execute(prefAccountID);
+
+            Fragment recentGamesFragment = new RecentGamesFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
-            Fragment loadingFragment = new LoadingFragment();
-            transaction.replace(R.id.content_frame, loadingFragment);
+            transaction.replace(R.id.content_frame, recentGamesFragment);
 
             transaction.commit();
 
@@ -124,22 +117,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         }
     }
 
-    //history parser finished
-    @Override
-    public void processFinish(HistoryContainer result) {
-        Fragment recentGamesFragment = new RecentGamesFragment();
-        FragmentManager fm = getFragmentManager();
-
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, recentGamesFragment);
-
-        //send object to fragment
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("container", result);
-        recentGamesFragment.setArguments(bundle);
-
-        transaction.commit();
-    }
 
     //live league games parser finished
     @Override

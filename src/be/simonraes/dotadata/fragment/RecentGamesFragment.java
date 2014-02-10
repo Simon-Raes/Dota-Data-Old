@@ -2,6 +2,7 @@ package be.simonraes.dotadata.fragment;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.ProgressBar;
 import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -19,27 +20,38 @@ import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
 import be.simonraes.dotadata.parser.DetailMatchParser;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
 
+import java.util.ArrayList;
+
 /**
  * Created by Simon on 29/01/14.
  */
 public class RecentGamesFragment extends Fragment implements ASyncResponseHistory, ASyncResponseDetail, AdapterView.OnItemClickListener {
 
-    private ListView listview;
+    private ListView lvRecentGames;
+    private ArrayList<HistoryMatch> matches = new ArrayList<HistoryMatch>();
+    private ProgressBar pbRecentGames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recentgames_layout, container, false);
 
-        HistoryContainer resultContainer = (HistoryContainer) getArguments().getSerializable("container");
+        pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
+        lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
+
+        //HistoryContainer resultContainer = (HistoryContainer) getArguments().getSerializable("container");
 
         getActivity().getActionBar().setTitle("Recent games");
 
         //force onCreateOptionsMenu to be called
         setHasOptionsMenu(true);
 
-        listview = (ListView) view.findViewById(R.id.lvRecentGames);
-        listview.setAdapter(new HistoryGamesAdapter(getActivity(),resultContainer.getRecentGames().getMatches()));
-        listview.setOnItemClickListener(this);
+        if (matches.size() == 0) {
+            loadMatches();
+        }
+
+        //lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(),resultContainer.getRecentGames().getMatches()));
+        lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(), matches));
+        lvRecentGames.setOnItemClickListener(this);
 
         return view;
     }
@@ -47,8 +59,13 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     //finished getting 100 recent games
     @Override
     public void processFinish(HistoryContainer result) {
-        listview.setAdapter(new HistoryGamesAdapter(getActivity(), result.getRecentGames().getMatches()));
-        ((HistoryGamesAdapter)listview.getAdapter()).notifyDataSetChanged();
+        pbRecentGames.setVisibility(View.GONE);
+        lvRecentGames.setVisibility(View.VISIBLE);
+        getActivity().getActionBar().setTitle("Recent games");
+
+        matches = result.getRecentGames().getMatches();
+        lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(), matches));
+        ((HistoryGamesAdapter) lvRecentGames.getAdapter()).notifyDataSetChanged();
     }
 
     //finished getting details of 1 selected match
@@ -76,7 +93,7 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         DetailMatchParser parser = new DetailMatchParser(this);
-        HistoryMatch match = (HistoryMatch) listview.getAdapter().getItem(position);
+        HistoryMatch match = (HistoryMatch) lvRecentGames.getAdapter().getItem(position);
         parser.execute(match.getMatch_id());
 
         getActivity().setProgressBarIndeterminateVisibility(true);
@@ -95,15 +112,23 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.btnRefresh:
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
-
-                HistoryMatchParser parser = new HistoryMatchParser(this);
-                parser.execute(prefAccountID);
+                loadMatches();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void loadMatches() {
+        pbRecentGames.setVisibility(View.VISIBLE);
+        lvRecentGames.setVisibility(View.GONE);
+
+        getActivity().getActionBar().setTitle("temp: LOADING");
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
+
+        HistoryMatchParser parser = new HistoryMatchParser(this);
+        parser.execute(prefAccountID);
     }
 
     //Set action bar buttons
