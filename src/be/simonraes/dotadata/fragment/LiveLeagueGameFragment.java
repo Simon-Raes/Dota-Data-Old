@@ -169,9 +169,6 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         int y = layLiveLeagueMinimap.getHeight();
 
         //add towers to minimap
-        //todo: barracks
-
-
         TowerStatus twrRadiant = Conversions.radiantTowerStatusFromTeamString(match.getTower_state());
         TowerStatus twrDire = Conversions.direTowerStatusFromTeamString(match.getTower_state());
 

@@ -21,12 +21,16 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Added (bugged) tower status to minimap of league game screen.">
-      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\layout\loadingfragment_layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\fragment\LoadingFragment.java" afterPath="" />
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Removed loadingfragment, loading indicator is now part of recentgames layout.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/interfaces/ASyncResponseTeamLogo.java" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\layout\recentgames_layout.xml" afterPath="$PROJECT_DIR$/res/layout/matches_list_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/recentgames_layout.xml" afterPath="$PROJECT_DIR$/res/layout/recentgames_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -91,25 +95,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RecentGamesFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+      <file leaf-file-name="LiveLeagueGamesFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="0" selection-start="1926" selection-end="1926" vertical-scroll-proportion="0.0" vertical-offset="164" max-vertical-offset="2125">
+            <state line="105" column="5" selection-start="3793" selection-end="3793" vertical-scroll-proportion="0.9462875" vertical-offset="863" max-vertical-offset="1598">
               <folding>
-                <element signature="e#1187#1201#0" expanded="true" />
+                <element signature="e#1173#1190#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recentgames_layout.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/recentgames_layout.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
+      <file leaf-file-name="RecentGamesFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="36" selection-start="495" selection-end="495" vertical-scroll-proportion="0.3420523" vertical-offset="0" max-vertical-offset="497">
-              <folding />
+            <state line="104" column="4" selection-start="3872" selection-end="4193" vertical-scroll-proportion="0.0" vertical-offset="1097" max-vertical-offset="2023">
+              <folding>
+                <element signature="e#1187#1201#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,7 +135,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/liveleaguegame/LiveLeagueMatches.java" />
         <option value="$PROJECT_DIR$/src/liveleaguegame/LiveLeaguePlayer.java" />
         <option value="$PROJECT_DIR$/src/liveleaguegame/LiveLeagueTeam.java" />
         <option value="$PROJECT_DIR$/src/fragment/LiveLeagueGamesFragment.java" />
@@ -152,12 +154,10 @@
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/teamlogo/TeamLogo.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/teamlogo/TeamLogoContainer.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/interfaces/ASyncResponseTeamLogo.java" />
         <option value="$PROJECT_DIR$/res/layout/liveleaguegames_row.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeagueTeam.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeaguePlayer.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DotaSettingsFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/LiveLeagueGamesAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DrawerAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/HistoryMatchParser.java" />
         <option value="$PROJECT_DIR$/res/layout/historygames_row.xml" />
@@ -171,18 +171,21 @@
         <option value="$PROJECT_DIR$/res/layout/otherfragment_layout.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/TowerStatus.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/PicksBans.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/UILApplication.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/HeroList.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
         <option value="$PROJECT_DIR$/res/layout/liveleaguegame_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/recentgames_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/interfaces/ASyncResponseTeamLogo.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/LiveLeagueGamesAdapter.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java" />
       </list>
     </option>
   </component>
@@ -1003,7 +1006,11 @@
       <created>1391981049048</created>
       <updated>1391981049048</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Removed loadingfragment, loading indicator is now part of recentgames layout.">
+      <created>1392039894858</created>
+      <updated>1392039894858</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1036,7 +1043,7 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39713973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39713973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30473047" sideWeight="0.33943835" order="8" side_tool="true" content_ui="tabs" />
@@ -1044,13 +1051,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22941822" sideWeight="0.519536" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17381738" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29152915" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2750275" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38063806" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22799511" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22771673" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28932893" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1084,7 +1091,8 @@
     <MESSAGE value="Added tower status to minimap of matchdetails screen (not yet implemented on live league game screen)." />
     <MESSAGE value="Added (bugged) tower status to minimap of league game screen." />
     <MESSAGE value="Missing TowerStatus file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Missing TowerStatus file." />
+    <MESSAGE value="Removed loadingfragment, loading indicator is now part of recentgames layout." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed loadingfragment, loading indicator is now part of recentgames layout." />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1142,11 +1150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeagueContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="234" selection-end="277" vertical-scroll-proportion="0.16081081" vertical-offset="0" max-vertical-offset="740" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/interfaces/ASyncResponseLiveLeague.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="22" selection-start="201" selection-end="214" vertical-scroll-proportion="0.18378378" vertical-offset="0" max-vertical-offset="740" />
@@ -1155,16 +1158,6 @@
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/LiveLeagueMatchParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="8" selection-start="832" selection-end="1476" vertical-scroll-proportion="0.39752406" vertical-offset="0" max-vertical-offset="816" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/teamlogo/TeamLogoContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="299" selection-end="299" vertical-scroll-proportion="0.2527027" vertical-offset="0" max-vertical-offset="740" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/teamlogo/TeamLogo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="33" selection-start="353" selection-end="353" vertical-scroll-proportion="0.39054054" vertical-offset="0" max-vertical-offset="799" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/liveleaguegames_row.xml">
@@ -1194,13 +1187,6 @@
         <state line="55" column="31" selection-start="1773" selection-end="1773" vertical-scroll-proportion="0.3482309" vertical-offset="0" max-vertical-offset="12835" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/LiveLeagueGamesAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="2845" selection-end="2845" vertical-scroll-proportion="0.0" vertical-offset="475" max-vertical-offset="1326">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DrawerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="74" column="9" selection-start="2567" selection-end="2567" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275" />
@@ -1225,7 +1211,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/HistoryMatchParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="178" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.4775281" vertical-offset="68" max-vertical-offset="850" />
+        <state line="33" column="178" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.4775281" vertical-offset="68" max-vertical-offset="850">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/xml/preferences.xml">
@@ -1306,13 +1294,6 @@
         <state line="533" column="53" selection-start="21509" selection-end="21509" vertical-scroll-proportion="0.33230293" vertical-offset="8251" max-vertical-offset="10863" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="121" selection-start="2558" selection-end="2558" vertical-scroll-proportion="0.0" vertical-offset="403" max-vertical-offset="1071">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DotaDataApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="62" selection-start="1263" selection-end="1263" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646" />
@@ -1371,37 +1352,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/matches_list_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="49" selection-start="2588" selection-end="2588" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5117">
+        <state line="17" column="17" selection-start="769" selection-end="769" vertical-scroll-proportion="-11.56" vertical-offset="0" max-vertical-offset="391">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/teamlogo/TeamLogo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="47" selection-start="2027" selection-end="2027" vertical-scroll-proportion="0.3783784" vertical-offset="723" max-vertical-offset="2907">
+        <state line="8" column="13" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java">
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/teamlogo/TeamLogoContainer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="52" selection-start="2106" selection-end="2106" vertical-scroll-proportion="0.72432435" vertical-offset="399" max-vertical-offset="1139">
+        <state line="14" column="16" selection-start="349" selection-end="349" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="294" column="32" selection-start="13105" selection-end="13105" vertical-scroll-proportion="0.11141678" vertical-offset="4611" max-vertical-offset="5338">
+        <state line="294" column="32" selection-start="13105" selection-end="13105" vertical-scroll-proportion="1.0016025" vertical-offset="4067" max-vertical-offset="5338">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="88" selection-start="1060" selection-end="1060" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2822">
+        <state line="80" column="0" selection-start="3405" selection-end="3405" vertical-scroll-proportion="0.0" vertical-offset="799" max-vertical-offset="2499">
           <folding>
             <element signature="e#1977#1997#0" expanded="true" />
             <element signature="e#1999#2020#0" expanded="true" />
@@ -1409,29 +1393,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeagueMatches.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="13" selection-start="319" selection-end="319" vertical-scroll-proportion="0.21350078" vertical-offset="0" max-vertical-offset="637">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeagueContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="35" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="637">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1761" selection-end="1761" vertical-scroll-proportion="0.0" vertical-offset="65" max-vertical-offset="1785">
+        <state line="96" column="0" selection-start="3763" selection-end="3763" vertical-scroll-proportion="0.0" vertical-offset="677" max-vertical-offset="1768">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/interfaces/ASyncResponseTeamLogo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="38" selection-start="159" selection-end="180" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="43" selection-start="2447" selection-end="2447" vertical-scroll-proportion="0.73745173" vertical-offset="294" max-vertical-offset="1071">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/LiveLeagueGamesAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="77" selection-start="2714" selection-end="2716" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1326">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="52" selection-start="7378" selection-end="7378" vertical-scroll-proportion="0.0" vertical-offset="2007" max-vertical-offset="5066">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="67" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.7109005" vertical-offset="961" max-vertical-offset="3128">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="0" selection-start="1926" selection-end="1926" vertical-scroll-proportion="0.0" vertical-offset="164" max-vertical-offset="2125">
+        <state line="104" column="4" selection-start="3872" selection-end="4193" vertical-scroll-proportion="0.0" vertical-offset="1097" max-vertical-offset="2023">
           <folding>
             <element signature="e#1187#1201#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/recentgames_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="36" selection-start="495" selection-end="495" vertical-scroll-proportion="0.3420523" vertical-offset="0" max-vertical-offset="497">
-          <folding />
+        <state line="105" column="5" selection-start="3793" selection-end="3793" vertical-scroll-proportion="0.9462875" vertical-offset="863" max-vertical-offset="1598">
+          <folding>
+            <element signature="e#1173#1190#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

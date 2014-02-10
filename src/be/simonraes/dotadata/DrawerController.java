@@ -73,23 +73,24 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         Fragment fragment;
         FragmentManager fm = getFragmentManager();
+        drawerLayout.closeDrawer(drawerList);
+        drawerList.setItemChecked(position, true);
 
         if (position == 1) {
-            drawerLayout.closeDrawer(drawerList);
-
-            Fragment recentGamesFragment = new RecentGamesFragment();
+            fragment = new RecentGamesFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, recentGamesFragment);
+            transaction.replace(R.id.content_frame, fragment);
 
-            transaction.commit();
+            transaction.addToBackStack(null).commit();
 
         } else if (position == 4) {
-            drawerList.setItemChecked(position, true);
-            drawerLayout.closeDrawer(drawerList);
+            fragment = new LiveLeagueGamesFragment();
 
-            LiveLeagueMatchParser parser = new LiveLeagueMatchParser(this);
-            parser.execute();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+
+            transaction.addToBackStack(null).commit();
 
         } else if (position == 9) {
             fragment = new SettingsFragment();
@@ -97,21 +98,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
 
-            drawerList.setItemChecked(position, true);
-            drawerLayout.closeDrawer(drawerList);
-
-            transaction.commit();
+            transaction.addToBackStack(null).commit();
 
         } else {
             fragment = new OtherFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
-
-            //change drawerLayout and actionbar
-            setActionBarTitle(listContent[position]);
-            drawerList.setItemChecked(position, true);
-            drawerLayout.closeDrawer(drawerList);
 
             transaction.addToBackStack(null).commit();
         }
@@ -121,18 +114,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     //live league games parser finished
     @Override
     public void processFinish(LiveLeagueContainer result) {
-        FragmentManager fm = getFragmentManager();
-        Fragment leagueGamesFragment = new LiveLeagueGamesFragment();
 
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, leagueGamesFragment);
-
-        //send object to fragment
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("container", result);
-        leagueGamesFragment.setArguments(bundle);
-
-        transaction.addToBackStack(null).commit();
     }
 
     @Override

@@ -1,44 +1,62 @@
 package be.simonraes.dotadata.fragment;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.view.*;
+import android.widget.ProgressBar;
+import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import be.simonraes.dotadata.adapter.LiveLeagueGamesAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.interfaces.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueMatch;
+import be.simonraes.dotadata.parser.HistoryMatchParser;
+import be.simonraes.dotadata.parser.LiveLeagueMatchParser;
+
+import java.util.ArrayList;
 
 /**
  * Created by Simon on 4/02/14.
  */
-public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnItemClickListener, ASyncResponseLiveLeague {
 
-    private ListView listview;
+    private ListView lvRecentGames;
+    private ProgressBar pbRecentGames;
+    private ArrayList<LiveLeagueMatch> matches = new ArrayList<LiveLeagueMatch>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //re-use listview be.simonraes.dotadata.fragment
-        View view = inflater.inflate(R.layout.recentgames_layout, container, false);
-
-        LiveLeagueContainer resultContainer = (LiveLeagueContainer) getArguments().getSerializable("container");
+        View view = inflater.inflate(R.layout.matches_list_layout, container, false);
+        pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
+        lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
         getActivity().getActionBar().setTitle("Live league games");
 
         //force onCreateOptionsMenu to be called
         setHasOptionsMenu(true);
 
-        listview = (ListView) view.findViewById(R.id.lvRecentGames);
-        listview.setAdapter(new LiveLeagueGamesAdapter(getActivity(), resultContainer.getLiveLeagueMatches().getLiveLeagueMatches()));
-        listview.setOnItemClickListener(this);
+        if (matches.size() == 0) {
+            loadMatches();
+        }
+
+        lvRecentGames.setAdapter(new LiveLeagueGamesAdapter(getActivity(), matches));
+        lvRecentGames.setOnItemClickListener(this);
 
         return view;
+    }
+
+    private void loadMatches() {
+        pbRecentGames.setVisibility(View.VISIBLE);
+        lvRecentGames.setVisibility(View.GONE);
+
+        LiveLeagueMatchParser parser = new LiveLeagueMatchParser(this);
+        parser.execute();
     }
 
     @Override
@@ -49,13 +67,41 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
 
-        LiveLeagueMatch match = (LiveLeagueMatch) listview.getAdapter().getItem(position);
+        LiveLeagueMatch match = (LiveLeagueMatch) lvRecentGames.getAdapter().getItem(position);
 
-        //send object to be.simonraes.dotadata.fragment
+        //send object to fragment
         Bundle bundle = new Bundle();
         bundle.putSerializable("liveLeagueMatch", match);
         fragment.setArguments(bundle);
 
         transaction.addToBackStack(null).commit();
+    }
+
+    @Override
+    public void processFinish(LiveLeagueContainer result) {
+        pbRecentGames.setVisibility(View.GONE);
+        lvRecentGames.setVisibility(View.VISIBLE);
+
+        matches = result.getLiveLeagueMatches().getLiveLeagueMatches();
+        lvRecentGames.setAdapter(new LiveLeagueGamesAdapter(getActivity(), matches));
+        ((LiveLeagueGamesAdapter) lvRecentGames.getAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.recent_games_menu, menu);
+    }
+
+    //ActionBar button clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btnRefresh:
+                loadMatches();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

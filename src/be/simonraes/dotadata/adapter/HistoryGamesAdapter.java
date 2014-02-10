@@ -95,7 +95,6 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
             }
         }
 
-
         imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
         return view;
     }

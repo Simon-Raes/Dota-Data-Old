@@ -33,12 +33,9 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recentgames_layout, container, false);
-
+        View view = inflater.inflate(R.layout.matches_list_layout, container, false);
         pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
-
-        //HistoryContainer resultContainer = (HistoryContainer) getArguments().getSerializable("container");
 
         getActivity().getActionBar().setTitle("Recent games");
 
@@ -49,7 +46,6 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
             loadMatches();
         }
 
-        //lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(),resultContainer.getRecentGames().getMatches()));
         lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(), matches));
         lvRecentGames.setOnItemClickListener(this);
 
@@ -61,7 +57,6 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     public void processFinish(HistoryContainer result) {
         pbRecentGames.setVisibility(View.GONE);
         lvRecentGames.setVisibility(View.VISIBLE);
-        getActivity().getActionBar().setTitle("Recent games");
 
         matches = result.getRecentGames().getMatches();
         lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(), matches));
@@ -123,7 +118,6 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
         pbRecentGames.setVisibility(View.VISIBLE);
         lvRecentGames.setVisibility(View.GONE);
 
-        getActivity().getActionBar().setTitle("temp: LOADING");
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
 

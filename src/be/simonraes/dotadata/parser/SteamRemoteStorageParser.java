@@ -63,7 +63,7 @@ public class SteamRemoteStorageParser extends AsyncTask<String, Void, TeamLogoCo
                 .build();
         AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
 
-        if (imageView.isShown()) {
+        if (teamLogoContainer.getTeamlogo() != null) {
             imageLoader.displayImage(teamLogoContainer.getTeamlogo().getUrl(), imageView, options, animateFirstListener);
         }
         //delegate.processFinish(teamLogoContainer);

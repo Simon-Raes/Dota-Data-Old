@@ -59,7 +59,8 @@ public class Conversions {
 
     //todo: remove duplicate stringbuilder code
     public static TowerStatus radiantTowerStatusFromTeamString(String status) {
-        String radiantCode = binaryTo32String(status).substring(21, 31);
+
+        String radiantCode = binaryTo32String(status).substring(21, 32);
 
         if (radiantCode.length() < 16) {
             StringBuilder builder;
@@ -69,11 +70,17 @@ public class Conversions {
             }
         }
 
+
+        System.out.println("status from json: " + status);
+        System.out.println("binary 32: " + binaryTo32String(status));
+        System.out.println("radiant code: " + radiantCode);
+
+
         return generateTowerStatus(radiantCode);
     }
 
     public static TowerStatus direTowerStatusFromTeamString(String status) {
-        String direCode = binaryTo32String(status).substring(10, 20);
+        String direCode = binaryTo32String(status).substring(10, 21);
 
         if (direCode.length() < 16) {
             StringBuilder builder;
@@ -82,6 +89,11 @@ public class Conversions {
                 direCode = builder.insert(0, "0").toString();
             }
         }
+
+
+        System.out.println("status from json: " + status);
+        System.out.println("binary 32: " + binaryTo32String(status));
+        System.out.println("direCode code: " + direCode);
 
         return generateTowerStatus(direCode);
     }
