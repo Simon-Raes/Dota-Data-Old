@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.detailmatch.PicksBans;
 import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -76,7 +74,19 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
 
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        DisplayImageOptions options;
         View playerRow;
+        ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListenerToo();
+
+        options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .showImageOnLoading(R.drawable.hero_sb_loading)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
 
         for (DetailPlayer d : match.getPlayers()) {
             playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
@@ -93,17 +103,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             TextView txtPlayerGPMXPM = (TextView) playerRow.findViewById(R.id.txtDetailGPMXPM);
             txtPlayerGPMXPM.setText(d.getGold_per_min() + "/" + d.getXp_per_min());
 
-            //images
-            ImageLoader imageLoader = ImageLoader.getInstance();
-
-            //hero image loading options
-            DisplayImageOptions options = new DisplayImageOptions.Builder()
+            options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
                     .showImageOnLoading(R.drawable.hero_sb_loading)
                     .imageScaleType(ImageScaleType.EXACTLY)
                     .build();
-            ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListenerToo();
 
             ImageView imgHero = (ImageView) playerRow.findViewById(R.id.imgDetailHero);
             imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(d.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
@@ -145,6 +150,43 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (isRanked) {
             LinearLayout layPicksBans = (LinearLayout) view.findViewById(R.id.layDetailPicksBans);
             layPicksBans.setVisibility(View.VISIBLE);
+
+
+            for (PicksBans pb : match.getPicks_bans()) {
+
+                options = new DisplayImageOptions.Builder()
+                        .resetViewBeforeLoading(true)
+                        .cacheInMemory(true)
+                        .showImageOnLoading(R.drawable.hero_sb_loading)
+                        .imageScaleType(ImageScaleType.EXACTLY)
+                        .build();
+
+                RelativeLayout layPBLeft = (RelativeLayout) inflaterB.inflate(R.layout.pickban_left, null);
+                RelativeLayout layPBRight = (RelativeLayout) inflaterB.inflate(R.layout.pickban_right, null);
+                ImageView imgPBHeroLeft = (ImageView) layPBLeft.findViewById(R.id.imgPickBanLeft);
+                TextView txtPBLeft = (TextView) layPBLeft.findViewById(R.id.txtPickBanLeft);
+                ImageView imgPBHeroRight = (ImageView) layPBRight.findViewById(R.id.imgPickBanRight);
+                TextView txtPBRight = (TextView) layPBRight.findViewById(R.id.txtPickBanRight);
+
+                if (pb.getTeam().equals("0")) {
+                    if (pb.isIs_pick()) {
+                        txtPBLeft.setText("PICK");
+                    } else {
+                        txtPBLeft.setText("BAN");
+                    }
+                    imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroLeft, options, animateFirstListener);
+                    layPicksBans.addView(layPBLeft);
+                } else {
+                    if (pb.isIs_pick()) {
+                        txtPBRight.setText("PICK");
+                    } else {
+                        txtPBRight.setText("BAN");
+                    }
+                    imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroRight, options, animateFirstListener);
+                    layPicksBans.addView(layPBRight);
+                }
+            }
+
         }
 
         //add listener to retrieve height and width of minimap layout

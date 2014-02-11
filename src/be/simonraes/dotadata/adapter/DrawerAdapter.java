@@ -68,11 +68,7 @@ public class DrawerAdapter extends ArrayAdapter<String> {
     //make headers non-clickable
     @Override
     public boolean isEnabled(int position) {
-        if (titles[position].startsWith("divider")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !titles[position].startsWith("divider");
     }
 
     @Override

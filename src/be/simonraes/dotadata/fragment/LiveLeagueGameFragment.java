@@ -62,7 +62,7 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         txtLeague = (TextView) view.findViewById(R.id.txtLiveLeagueLeague);
         //set leagueID for use in processFinish()
         leagueID = match.getLeague_id();
-        txtLeague.setText("League: " + leagueID);
+        txtLeague.setText("Loading league info...");
         SteamRemoteStorageParser logoParser;
 
         //set team logos
@@ -98,8 +98,9 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
             txtPlayerName = (TextView) playerRow.findViewById(R.id.txtLiveLeaguePlayerName);
             txtPlayerName.setText(d.getName());
 
-            if (Integer.parseInt(d.getTeam()) == 0) {
 
+            //only load hero images for players
+            if (Integer.parseInt(d.getTeam()) == 0 || Integer.parseInt(d.getTeam()) == 1) {
                 if (!d.getHero_id().equals("0")) {
                     imageLoader = ImageLoader.getInstance();
 
@@ -115,7 +116,9 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
                     imgHero = (ImageView) playerRow.findViewById(R.id.imgLiveLeagueDetailHero);
                     imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(d.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
                 }
+            }
 
+            if (Integer.parseInt(d.getTeam()) == 0) {
                 layPlayersRadiant.addView(playerRow);
             } else if (Integer.parseInt(d.getTeam()) == 1) {
                 layPlayersDire.addView(playerRow);

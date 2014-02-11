@@ -138,7 +138,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+        //boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }

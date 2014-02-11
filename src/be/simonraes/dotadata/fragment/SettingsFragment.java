@@ -22,10 +22,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         getActivity().getActionBar().setTitle("Settings");
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
-//        Preference prefAccountID = findPreference("be.simonraes.dotadata.accountid");
-//        prefAccountID.setSummary(sharedPref.getString("be.simonraes.dotadata.accountid", "AccountID"));
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -34,7 +31,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onResume() {
         super.onResume();
-
+        updateSummaries();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -48,9 +45,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         if (key.equals("be.simonraes.dotadata.accountid")) {
-            Preference prefAccountID = findPreference("be.simonraes.dotadata.accountid");
-            prefAccountID.setSummary(sharedPreferences.getString("be.simonraes.dotadata.accountid", "No AccountID set"));
+            updateSummaries();
         }
+    }
+
+    private void updateSummaries() {
+        Preference prefAccountID = findPreference("be.simonraes.dotadata.accountid");
+        prefAccountID.setSummary(getPreferenceScreen().getSharedPreferences().getString("be.simonraes.dotadata.accountid", "AccountID"));
     }
 
 }
