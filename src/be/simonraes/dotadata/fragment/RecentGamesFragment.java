@@ -1,16 +1,17 @@
 package be.simonraes.dotadata.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.widget.ProgressBar;
+import android.widget.*;
 import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
@@ -19,6 +20,7 @@ import be.simonraes.dotadata.interfaces.ASyncResponseDetail;
 import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
 import be.simonraes.dotadata.parser.DetailMatchParser;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
+import be.simonraes.dotadata.util.Preferencess;
 
 import java.util.ArrayList;
 
@@ -39,15 +41,53 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
 
         getActivity().getActionBar().setTitle("Recent games");
 
-        //force onCreateOptionsMenu to be called
-        setHasOptionsMenu(true);
+        if (Preferencess.getAccountID(getActivity()).equals("")) {
 
-        if (matches.size() == 0) {
-            loadMatches();
+            final LinearLayout layDialogContent = (LinearLayout) inflater.inflate(R.layout.dialog_accountid_content, null);
+            final EditText txtDialogAccountID = (EditText) layDialogContent.findViewById(R.id.txtDialogAccountID);
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("AccountID needed")
+                    .setView(layDialogContent)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //check if account id is integer, set it as accountid preference
+                            try {
+                                Integer.parseInt(txtDialogAccountID.getText().toString());
+                                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putString("be.simonraes.dotadata.accountid", txtDialogAccountID.getText().toString());
+                                editor.commit();
+                                loadMatches();
+
+                            } catch (Exception e) {
+                                //not int - todo:show message or reopen dialog
+                            }
+
+                        }
+                    })
+                    .setNeutralButton("Help", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //todo: open screen with info on how to find account id
+                        }
+                    })
+                    .setNegativeButton("Not now", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .show();
+        } else {
+            //force onCreateOptionsMenu to be called
+            setHasOptionsMenu(true);
+
+            if (matches.size() == 0) {
+                loadMatches();
+            }
+
+            lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(), matches));
+            lvRecentGames.setOnItemClickListener(this);
         }
 
-        lvRecentGames.setAdapter(new HistoryGamesAdapter(getActivity(), matches));
-        lvRecentGames.setOnItemClickListener(this);
 
         return view;
     }
@@ -118,8 +158,7 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
         pbRecentGames.setVisibility(View.VISIBLE);
         lvRecentGames.setVisibility(View.GONE);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        String prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
+        String prefAccountID = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", "");
 
         HistoryMatchParser parser = new HistoryMatchParser(this);
         parser.execute(prefAccountID);
