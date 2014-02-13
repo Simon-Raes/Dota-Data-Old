@@ -87,6 +87,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
 
+        int numRadiantPlayers = 0;
+        int numDirePlayers = 0;
 
         for (DetailPlayer d : match.getPlayers()) {
             playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
@@ -141,9 +143,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             if (Integer.parseInt(d.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
+                numRadiantPlayers++;
             } else {
                 layPlayersDire.addView(playerRow);
+                numDirePlayers++;
             }
+        }
+        if (numRadiantPlayers == 0) {
+            layPlayersRadiant.setVisibility(View.GONE);
+        }
+
+        if (numDirePlayers == 0) {
+            layPlayersDire.setVisibility(View.GONE);
         }
 
         //Picks & bans - only shown if match has picks/bans

@@ -1,8 +1,7 @@
 package be.simonraes.dotadata.parser;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.historymatch.HistoryContainer;
-import be.simonraes.dotadata.interfaces.ASyncResponseLeagueListing;
+import be.simonraes.dotadata.delegates.ASyncResponseLeagueListing;
 import be.simonraes.dotadata.leaguelisting.LeagueListingContainer;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;

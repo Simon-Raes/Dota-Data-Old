@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
-import be.simonraes.dotadata.interfaces.ASyncResponseDetail;
+import be.simonraes.dotadata.delegates.ASyncResponseDetail;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -18,7 +18,7 @@ public class DetailMatchParser extends AsyncTask<String, Void, DetailContainer> 
 
     private ASyncResponseDetail delegate;
 
-    public DetailMatchParser(ASyncResponseDetail delegate){
+    public DetailMatchParser(ASyncResponseDetail delegate) {
         this.delegate = delegate;
     }
 
@@ -28,13 +28,13 @@ public class DetailMatchParser extends AsyncTask<String, Void, DetailContainer> 
         ObjectMapper mapper = new ObjectMapper();
         String matchid = params[0];
 
-        //probeer hiermee nog die gameslistinfo weg te krijgen
+        //possible useful to remove response tag/object
         //mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
 
         DetailContainer container = new DetailContainer();
 
         try {
-            container = mapper.readValue(new URL("https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=EB5773FAAF039592D9383FA104EEA55D&match_id="+matchid), DetailContainer.class);
+            container = mapper.readValue(new URL("https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=EB5773FAAF039592D9383FA104EEA55D&match_id=" + matchid), DetailContainer.class);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {

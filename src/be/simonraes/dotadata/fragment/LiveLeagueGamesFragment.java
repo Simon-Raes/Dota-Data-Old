@@ -1,10 +1,7 @@
 package be.simonraes.dotadata.fragment;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.ProgressBar;
-import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import be.simonraes.dotadata.adapter.LiveLeagueGamesAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,10 +10,9 @@ import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.interfaces.ASyncResponseLiveLeague;
+import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueMatch;
-import be.simonraes.dotadata.parser.HistoryMatchParser;
 import be.simonraes.dotadata.parser.LiveLeagueMatchParser;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import be.simonraes.dotadata.interfaces.ASyncResponseLiveLeague;
+import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class LiveLeagueMatchParser extends AsyncTask<String, Void, LiveLeagueCon
 
     private ASyncResponseLiveLeague delegate;
 
-    public LiveLeagueMatchParser(ASyncResponseLiveLeague delegate){
+    public LiveLeagueMatchParser(ASyncResponseLiveLeague delegate) {
         this.delegate = delegate;
     }
 

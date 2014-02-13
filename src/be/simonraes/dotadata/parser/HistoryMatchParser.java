@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
-import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
+import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

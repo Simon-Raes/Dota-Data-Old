@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.interfaces.ASyncResponseLeagueListing;
+import be.simonraes.dotadata.delegates.ASyncResponseLeagueListing;
 import be.simonraes.dotadata.leaguelisting.League;
 import be.simonraes.dotadata.leaguelisting.LeagueListingContainer;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueMatch;

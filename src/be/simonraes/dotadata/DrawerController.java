@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
@@ -15,12 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.fragment.*;
-import be.simonraes.dotadata.historymatch.HistoryContainer;
-import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
-import be.simonraes.dotadata.interfaces.ASyncResponseLiveLeague;
+import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
-import be.simonraes.dotadata.parser.HistoryMatchParser;
-import be.simonraes.dotadata.parser.LiveLeagueMatchParser;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseLiveLeague {
 
@@ -101,7 +95,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             transaction.addToBackStack(null).commit();
 
         } else {
-            fragment = new OtherFragment();
+            fragment = new NYIFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
@@ -138,8 +132,11 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        //boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
-        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+        if (btnRefresh != null) {
+            btnRefresh.setVisible(!drawerOpen);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 

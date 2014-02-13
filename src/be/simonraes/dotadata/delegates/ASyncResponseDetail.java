@@ -1,4 +1,4 @@
-package be.simonraes.dotadata.interfaces;
+package be.simonraes.dotadata.delegates;
 
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 

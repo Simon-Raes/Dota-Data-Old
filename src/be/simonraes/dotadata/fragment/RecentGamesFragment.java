@@ -1,23 +1,22 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.widget.*;
-import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.*;
+import android.widget.*;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
+import be.simonraes.dotadata.delegates.ASyncResponseDetail;
+import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
-import be.simonraes.dotadata.interfaces.ASyncResponseDetail;
-import be.simonraes.dotadata.interfaces.ASyncResponseHistory;
 import be.simonraes.dotadata.parser.DetailMatchParser;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
 import be.simonraes.dotadata.util.Preferencess;
@@ -67,7 +66,13 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
                     })
                     .setNeutralButton("Help", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            //todo: open screen with info on how to find account id
+
+                            //open screen with info on how to find account id
+                            FragmentManager fm = getFragmentManager();
+                            Fragment fragment = new AccountIDHelpFragment();
+                            FragmentTransaction transaction = fm.beginTransaction();
+                            transaction.replace(R.id.content_frame, fragment);
+                            transaction.addToBackStack(null).commit();
                         }
                     })
                     .setNegativeButton("Not now", new DialogInterface.OnClickListener() {
@@ -115,7 +120,7 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
         getActivity().setProgressBarIndeterminateVisibility(false);
 
         //send object to be.simonraes.dotadata.fragment
-        Bundle bundle=new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putSerializable("be/simonraes/dotadata/detailmatch", result.getDetailMatch());
         fragment.setArguments(bundle);
 
@@ -145,7 +150,7 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     //ActionBar button clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.btnRefresh:
                 loadMatches();
                 return true;
@@ -168,6 +173,6 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.recent_games_menu,menu);
+        inflater.inflate(R.menu.recent_games_menu, menu);
     }
 }
