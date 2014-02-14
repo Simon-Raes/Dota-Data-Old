@@ -39,7 +39,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         getActivity().getActionBar().setTitle("Match Details");
 
-        match = (DetailMatch) getArguments().getSerializable("be/simonraes/dotadata/detailmatch");
+        match = (DetailMatch) getArguments().getSerializable("be.simonraes.dotadata.detailmatch");
 
         boolean isRanked = false;
         if (match != null) {

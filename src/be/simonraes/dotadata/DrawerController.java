@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
+import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseLiveLeague {
@@ -62,6 +64,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -72,6 +75,14 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         if (position == 1) {
             fragment = new RecentGamesFragment();
+
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+
+            transaction.addToBackStack(null).commit();
+
+        } else if (position == 2) {
+            fragment = new StatsFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);

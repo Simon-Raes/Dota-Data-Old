@@ -119,9 +119,9 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
 
         getActivity().setProgressBarIndeterminateVisibility(false);
 
-        //send object to be.simonraes.dotadata.fragment
+        //send object to fragment
         Bundle bundle = new Bundle();
-        bundle.putSerializable("be/simonraes/dotadata/detailmatch", result.getDetailMatch());
+        bundle.putSerializable("be.simonraes.dotadata.detailmatch", result.getDetailMatch());
         fragment.setArguments(bundle);
 
         transaction.addToBackStack(null).commit();
