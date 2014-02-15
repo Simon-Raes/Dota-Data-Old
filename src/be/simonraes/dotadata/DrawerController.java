@@ -1,21 +1,16 @@
 package be.simonraes.dotadata;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
-import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
-import be.simonraes.dotadata.historyloading.HistoryLoader;
+import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseLiveLeague {
@@ -165,5 +160,12 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        //remove history notification (in case app was terminated during downloading)
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(1010);
+    }
 }

@@ -46,7 +46,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setContentTitle("Downloading Dota 2 history")
-                .setContentText("Calculating number of games...")
+                .setContentText("Starting download...")
                 .setSmallIcon(R.drawable.dd_sm);
 
         mNotifyManager.notify(1010, mBuilder.build());
@@ -91,7 +91,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         mBuilder.setContentText(progress[0] + " of " + matches.size() + " matches downloaded.");
         mBuilder.setProgress(matches.size(), progress[0], false);
         Notification progressNotification = mBuilder.build();
-        //set notification as fixed ongoing event (can't be removed from notifications)
+        //set notification as ongoing event (can't be removed from notifications)
         progressNotification.flags |= Notification.FLAG_ONGOING_EVENT;
         mNotifyManager.notify(1010, progressNotification);
 

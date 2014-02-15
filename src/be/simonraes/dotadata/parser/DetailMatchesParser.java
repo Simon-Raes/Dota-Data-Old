@@ -55,7 +55,7 @@ public class DetailMatchesParser extends AsyncTask<String, Integer, ArrayList<De
     }
 
     @Override
-    protected void onPostExecute(ArrayList container) {
+    protected void onPostExecute(ArrayList<DetailMatch> container) {
         super.onPostExecute(container);
         delegate.processFinish(container);
     }
