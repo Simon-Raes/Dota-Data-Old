@@ -170,9 +170,9 @@ public class RecentGamesFragment extends Fragment implements ASyncResponseHistor
     }
 
     //Set action bar buttons
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.recent_games_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.refresh_menu, menu);
+//    }
 }

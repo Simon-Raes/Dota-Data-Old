@@ -90,9 +90,12 @@ public class HistoryGamesAdapter extends ArrayAdapter<HistoryMatch> {
 
         String playerHeroID = "1";
         for (HistoryPlayer hp : matches.get(position).getPlayers()) {
-            if (hp.getAccount_id().equals(prefAccountID)) {
-                playerHeroID = hp.getHero_id();
+            if (hp.getAccount_id() != null) {
+                if (hp.getAccount_id().equals(prefAccountID)) {
+                    playerHeroID = hp.getHero_id();
+                }
             }
+
         }
 
         imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);

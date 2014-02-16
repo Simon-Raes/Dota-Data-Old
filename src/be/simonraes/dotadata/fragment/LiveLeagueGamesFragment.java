@@ -83,11 +83,11 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
         ((LiveLeagueGamesAdapter) lvRecentGames.getAdapter()).notifyDataSetChanged();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.recent_games_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.refresh_menu, menu);
+//    }
 
     //ActionBar button clicked
     @Override

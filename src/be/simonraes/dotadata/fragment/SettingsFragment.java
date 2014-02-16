@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 import be.simonraes.dotadata.R;
 
@@ -19,14 +22,23 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         getActivity().getActionBar().setTitle("Settings");
-
 
 
         addPreferencesFromResource(R.xml.preferences);
 
     }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+        if (btnRefresh != null) {
+            btnRefresh.setVisible(false);
+        }
+    }
+
 
     @Override
     public void onResume() {

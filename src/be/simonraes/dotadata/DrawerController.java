@@ -27,7 +27,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         setContentView(R.layout.drawer_layout);
 
         listContent = new String[]{"divider MY GAMES", "Recent Games", "Hero stats", "divider LEAGUE GAMES", "Live league games",
-                "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League", "divider APPLICATION", "Settings", "About"};
+                "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -92,14 +92,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
             transaction.addToBackStack(null).commit();
 
-        } else if (position == 9) {
-            fragment = new SettingsFragment();
-
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, fragment);
-
-            transaction.addToBackStack(null).commit();
-
         } else {
             fragment = new NYIFragment();
 
@@ -117,18 +109,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle your other action bar items...
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void setActionBarTitle(String title) {
         getActionBar().setTitle(title);
@@ -144,6 +124,49 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             btnRefresh.setVisible(!drawerOpen);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.refresh_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        // Handle your other action bar items...
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        switch (item.getItemId()) {
+            case R.id.btnSettings:
+                Fragment settingsFragment = new SettingsFragment();
+
+                transaction.replace(R.id.content_frame, settingsFragment);
+
+                transaction.addToBackStack(null).commit();
+                break;
+
+            case R.id.btnAbout:
+                Fragment aboutFragment = new NYIFragment();
+
+                transaction.replace(R.id.content_frame, aboutFragment);
+
+                transaction.addToBackStack(null).commit();
+                break;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+
     }
 
     //used for setting drawer icon in actionbar

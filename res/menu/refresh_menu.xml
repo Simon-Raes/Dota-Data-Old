@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/btnRefresh"
+          android:icon="@drawable/ic_action_refresh"
+          android:title="Refresh"
+          android:showAsAction="always"/>
+
+    <item android:id="@+id/btnSettings"
+          android:icon="@drawable/ic_action_settings"
+          android:title="Settings"
+          android:showAsAction="never"/>
+
+    <item android:id="@+id/btnAbout"
+          android:icon="@drawable/ic_action_about"
+          android:title="About"
+          android:showAsAction="never"/>
+
+
+</menu>

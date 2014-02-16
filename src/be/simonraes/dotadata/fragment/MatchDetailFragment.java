@@ -3,10 +3,7 @@ package be.simonraes.dotadata.fragment;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
@@ -33,6 +30,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         View view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         inflaterB = inflater;
         viewB = view;
@@ -41,10 +40,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         match = (DetailMatch) getArguments().getSerializable("be.simonraes.dotadata.detailmatch");
 
-        boolean isRanked = false;
+        boolean hasPicksBans = false;
         if (match != null) {
-            if (match.getLobby_type().equals("7")) {
-                isRanked = true;
+            if (match.getPicks_bans().size() > 0) {
+                hasPicksBans = true;
             }
         }
 
@@ -56,7 +55,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         TextView txtGameMode = (TextView) view.findViewById(R.id.txtDetailGameMode);
         txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
-        if (isRanked) {
+        if (hasPicksBans) {
             txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()) + " (Ranked)");
         }
 
@@ -158,7 +157,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         //Picks & bans - only shown if match has picks/bans
-        if (isRanked) {
+        if (hasPicksBans) {
             LinearLayout layPicksBans = (LinearLayout) view.findViewById(R.id.layDetailPicksBans);
             layPicksBans.setVisibility(View.VISIBLE);
 
@@ -374,6 +373,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
             layDetailsMinimap.addView(towerDireBotT4);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+        if (btnRefresh != null) {
+            btnRefresh.setVisible(false);
         }
     }
 }

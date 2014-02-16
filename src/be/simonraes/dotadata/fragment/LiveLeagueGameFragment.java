@@ -4,10 +4,7 @@ import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +42,8 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+
         view = inflater.inflate(R.layout.liveleaguegame_layout, container, false);
         inflaterB = inflater;
 
@@ -316,6 +315,14 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
 
             towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
             layLiveLeagueMinimap.addView(towerDireBotT4);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+        if (btnRefresh != null) {
+            btnRefresh.setVisible(false);
         }
     }
 }

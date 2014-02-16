@@ -1,16 +1,14 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
@@ -22,7 +20,7 @@ import java.util.ArrayList;
  */
 public class StatsFragment extends Fragment implements View.OnClickListener, ASyncResponseHistoryLoader {
 
-    private Button btnUpdateMatches;
+    private Button btnUpdateMatches, btnClearDatabase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +28,9 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
 
         btnUpdateMatches = (Button) view.findViewById(R.id.btnUpdateMatches);
         btnUpdateMatches.setOnClickListener(this);
+
+        btnClearDatabase = (Button) view.findViewById(R.id.btnClearDatabase);
+        btnClearDatabase.setOnClickListener(this);
 
         return view;
     }
@@ -39,12 +40,10 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
         switch (v.getId()) {
             case R.id.btnUpdateMatches:
                 HistoryLoader loader = new HistoryLoader(this, getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-
-                //todo: start notification that will be updated during historydownloading
-
-
-                loader.getAllMatches();
+                loader.updateHistory();
                 break;
+            case R.id.btnClearDatabase:
+                getActivity().deleteDatabase("be.simonraes.dotadata.db");
             default:
                 break;
         }
