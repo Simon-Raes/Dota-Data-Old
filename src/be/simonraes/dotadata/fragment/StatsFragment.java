@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
@@ -21,16 +22,25 @@ import java.util.ArrayList;
 public class StatsFragment extends Fragment implements View.OnClickListener, ASyncResponseHistoryLoader {
 
     private Button btnUpdateMatches, btnClearDatabase;
+    private Button btnNumberOfRecords, btnDeleteLatestMatch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stats_layout, null);
+
+        getActivity().getActionBar().setTitle("Statistics");
 
         btnUpdateMatches = (Button) view.findViewById(R.id.btnUpdateMatches);
         btnUpdateMatches.setOnClickListener(this);
 
         btnClearDatabase = (Button) view.findViewById(R.id.btnClearDatabase);
         btnClearDatabase.setOnClickListener(this);
+
+        btnNumberOfRecords = (Button) view.findViewById(R.id.btnNumberOfRecords);
+        btnNumberOfRecords.setOnClickListener(this);
+
+        btnDeleteLatestMatch = (Button) view.findViewById(R.id.btnDeleteLatestMatch);
+        btnDeleteLatestMatch.setOnClickListener(this);
 
         return view;
     }
@@ -44,6 +54,15 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
                 break;
             case R.id.btnClearDatabase:
                 getActivity().deleteDatabase("be.simonraes.dotadata.db");
+                break;
+            case R.id.btnNumberOfRecords:
+                MatchesDataSource mds = new MatchesDataSource(getActivity());
+                Toast.makeText(getActivity(), Integer.toString(mds.getNumberOfRecords()), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnDeleteLatestMatch:
+                MatchesDataSource mds2 = new MatchesDataSource(getActivity());
+                mds2.deleteLatestMatch();
+                break;
             default:
                 break;
         }

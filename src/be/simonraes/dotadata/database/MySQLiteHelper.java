@@ -73,7 +73,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     private static final String CREATE_TABLE_PLAYERS_IN_MATCHES = "create table IF NOT EXISTS players_in_matches (pim_id text primary key, account_id text, " +
-            "match_id text, player_slot text, hero_id text, item0 text, item1 text, item2 text, item3 text, item4 text, item5 text, kills text, deaths text, assists text, " +
+            "match_id text, player_slot text, hero_id text, item_0 text, item_1 text, item_2 text, item_3 text, item_4 text, item_5 text, kills text, deaths text, assists text, " +
             "leaver_status text, gold text, last_hits text, denies text, gold_per_min text, xp_per_min text, gold_spent text, hero_damage text, tower_damage text, " +
             "hero_healing text, level text);";
 

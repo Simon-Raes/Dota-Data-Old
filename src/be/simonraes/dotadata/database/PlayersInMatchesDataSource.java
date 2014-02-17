@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 
 import java.util.ArrayList;
@@ -30,11 +31,11 @@ public class PlayersInMatchesDataSource {
         dbHelper.close();
     }
 
-    public void createPlayer(DetailPlayer player, String matchID) {
+    public void savePlayer(DetailPlayer player) {
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID, player.getAccount_id() + matchID + player.getPlayer_slot());
+        values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID, player.getAccount_id() + player.getMatchID() + player.getPlayer_slot());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ACCOUNTID, player.getAccount_id());
-        values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_MATCHID, matchID);
+        values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_MATCHID, player.getMatchID());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PLAYER_SLOT, player.getPlayer_slot());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_ID, player.getHero_id());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM0, player.getItem_0());
@@ -58,7 +59,24 @@ public class PlayersInMatchesDataSource {
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_HEALING, player.getHero_healing());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_LEVEL, player.getLevel());
 
+        System.out.println("saving player record: " + player.getAccount_id() + player.getMatchID() + player.getPlayer_slot());
         database.insertWithOnConflict(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    public void savePlayers(ArrayList<DetailPlayer> players) {
+        open();
+
+        database.beginTransaction();
+        try {
+            for (DetailPlayer player : players) {
+                savePlayer(player);
+            }
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
+
+        close();
     }
 
     public ArrayList<DetailPlayer> getAllHeroesInMatch(String matchID) {
@@ -89,6 +107,8 @@ public class PlayersInMatchesDataSource {
         DetailPlayer player = new DetailPlayer();
 
         player.setAccount_id(cursor.getString(1));
+        //pim?
+        //matchID
         player.setPlayer_slot(cursor.getString(3));
         player.setHero_id(cursor.getString(4));
         player.setItem_0(cursor.getString(5));
@@ -114,4 +134,6 @@ public class PlayersInMatchesDataSource {
 
         return player;
     }
+
+
 }

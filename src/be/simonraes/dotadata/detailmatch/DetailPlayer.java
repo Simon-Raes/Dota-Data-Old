@@ -10,7 +10,9 @@ import java.util.ArrayList;
  * Created by Simon on 30/01/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DetailPlayer implements Serializable{
+public class DetailPlayer implements Serializable {
+
+    private String matchID; //for use in database
 
     private String account_id;
     private String player_slot;
@@ -40,8 +42,16 @@ public class DetailPlayer implements Serializable{
     private ArrayList<AbilityUpgrades> abilityupgrades = new ArrayList<AbilityUpgrades>();
 
 
-    public DetailPlayer(){
+    public DetailPlayer() {
 
+    }
+
+    public String getMatchID() {
+        return matchID;
+    }
+
+    public void setMatchID(String matchID) {
+        this.matchID = matchID;
     }
 
     public String getAccount_id() {

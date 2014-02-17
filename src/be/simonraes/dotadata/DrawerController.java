@@ -186,8 +186,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        System.out.println("app being destroyed");
         //remove history notification (in case app was terminated during downloading)
+        //todo: cancelling the notification has no effect
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(1010);
     }

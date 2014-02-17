@@ -6,10 +6,12 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
+import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchesParser;
@@ -33,12 +35,14 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private NotificationCompat.Builder mBuilder;
 
     private String latestSavedMatchID;
-    private boolean stopDownloading;
+    private boolean goToDetailParser;
 
     public HistoryLoader(ASyncResponseHistoryLoader delegate, Context context, String accountID) {
         this.accountID = accountID;
         this.delegate = delegate;
         this.context = context;
+
+        goToDetailParser = false;
 
         matches = new ArrayList<HistoryMatch>();
     }
@@ -51,7 +55,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (latestSavedMatchID == null) {
             latestSavedMatchID = "0";
         }
-        stopDownloading = false;
 
         //todo: use last match ID to check if a match should be downloaded+saved or not, only download new matches
 
@@ -77,13 +80,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         System.out.println("got next set, size is now " + matches.size());
 
-        if (result.getRecentGames().getMatches().size() > 0 && !stopDownloading) {
+        if (result.getRecentGames().getMatches().size() > 0) {
             if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
-                //last match id in received results is older than latest saved match, saved matchID is in this set of results
+                //last match id of received results is older than latest saved match, saved matchID is in this set of results, this is the last needed set
 
-                System.out.println("last stored match is in this set, stop parsing");
+                goToDetailParser = true;
 
-                stopDownloading = true; //this will be the last set of downloaded historymatches
+                System.out.println("last stored match is in this set, stop parsing history");
 
                 ArrayList<HistoryMatch> recentMatches = new ArrayList<HistoryMatch>();
                 //only keep the newer matches, discard the rest
@@ -95,16 +98,20 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                         recentMatches.add(match);
                     }
                 }
-                if (recentMatches.size() == 0) {
-                    updateNotification("No new games found.", 0, 0, false);
 
+                if (recentMatches.size() == 0) {
+                    //latest downloaded match was the same as the latest saved match, no games were played since last download
+                    updateNotification("No new games found.", 0, 0, false);
+                    goToDetailParser = false;
                 }
+
                 matches.addAll(recentMatches);
 
             } else {
                 //stored matchID is not in this set, download the next one
+                goToDetailParser = false;
 
-                System.out.println("need next set of history results, starting parser");
+                System.out.println("need next set of history results, starting history parser");
 
                 matches.addAll(result.getRecentGames().getMatches());
                 //start parser for next page of results
@@ -117,7 +124,16 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             }
 
         } else {
+            //latest set contained no matches, end of history reached, send matches to detailparser
+            goToDetailParser = true;
+        }
+
+
+        if (goToDetailParser) {
             //got all historymatches
+
+            System.out.println("got all historymatches, sending them to detailparser");
+
             String[] matchIDs = new String[matches.size()];
 
             for (int i = 0; i < matches.size(); i++) {
@@ -126,8 +142,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             DetailMatchesParser parser = new DetailMatchesParser(this);
             parser.execute(matchIDs);
         }
-
-
     }
 
 
@@ -151,6 +165,17 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //save matches to database
         MatchesDataSource mds = new MatchesDataSource(context);
         mds.saveDetailMatches(result);
+
+        //save players to database
+        ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+        for (DetailMatch match : result) {
+            for (DetailPlayer player : match.getPlayers()) {
+                player.setMatchID(match.getMatch_id());
+                players.add(player);
+            }
+        }
+        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
+        pimds.savePlayers(players);
 
         updateNotification("Download complete.", 0, 0, false);
 

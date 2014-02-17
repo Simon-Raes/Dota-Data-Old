@@ -96,17 +96,21 @@ public class MatchesDataSource {
 
     public void saveDetailMatches(ArrayList<DetailMatch> matches) {
         open();
+        database.beginTransaction();
         for (DetailMatch match : matches) {
             saveDetailMatch(match);
         }
+        database.setTransactionSuccessful();
+        database.endTransaction();
         close();
     }
 
     public ArrayList<DetailMatch> getAllMatches() {
+
         ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
-
+        open();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchcolumns, null, null, null, null, null);
-
+        close();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             DetailMatch dmb = cursorToDetailMatchBag(cursor);
@@ -115,6 +119,7 @@ public class MatchesDataSource {
         }
         // Make sure to close the cursor
         cursor.close();
+
         return matches;
     }
 
@@ -140,9 +145,8 @@ public class MatchesDataSource {
 
     public DetailMatch getLatestMatch() {
         open();
-        System.out.println("getting latest match");
         DetailMatch dmb = new DetailMatch();
-        Cursor cursor = database.rawQuery("SELECT * FROM matches ORDER BY match_id DESC LIMIT 1;", new String[]{});
+        Cursor cursor = database.rawQuery("SELECT * FROM matches ORDER BY match_id DESC LIMIT 1;", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             dmb = cursorToDetailMatchBag(cursor);
@@ -177,5 +181,25 @@ public class MatchesDataSource {
         dmb.setGame_mode(cursor.getString(16));
 
         return dmb;
+    }
+
+    public int getNumberOfRecords() {
+        open();
+        Cursor cursor = database.rawQuery("select count(*) from matches", null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        close();
+        return count;
+
+    }
+
+    public void deleteLatestMatch() {
+        String matchID = getLatestMatch().getMatch_id();
+        System.out.println("got match id to delete: " + matchID);
+        open();
+        database.delete(MySQLiteHelper.TABLE_MATCHES, "match_id" + "=?", new String[]{matchID});
+        close();
+
     }
 }
