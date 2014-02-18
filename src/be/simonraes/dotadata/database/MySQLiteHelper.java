@@ -66,8 +66,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_PLAYERS_COLUMN_PERSONANAME = "personaname";
     public static final String TABLE_PLAYERS_COLUMN_AVATAR = "avatar";
 
-    private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(match_id integer primary key, radiant_win text, " +
-            "duration text, start_time text, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
+    private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(radiant_win text, " +
+            "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
             "barracks_status_dire text, cluster text, first_blood_time text, lobby_type text, human_players text, leagueid text, " +
             "positive_votes text, negative_votes text, game_mode text);";
 

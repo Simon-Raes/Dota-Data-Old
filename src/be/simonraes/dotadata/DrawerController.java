@@ -26,7 +26,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.drawer_layout);
 
-        listContent = new String[]{"divider MY GAMES", "Recent Games", "Hero stats", "divider LEAGUE GAMES", "Live league games",
+        listContent = new String[]{"divider MY GAMES", "Recent Games", "Database Games", "Statistics", "divider LEAGUE GAMES", "Live league games",
                 "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -77,6 +77,14 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             transaction.addToBackStack(null).commit();
 
         } else if (position == 2) {
+            fragment = new DatabaseGamesFragment();
+
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+
+            transaction.addToBackStack(null).commit();
+
+        } else if (position == 3) {
             fragment = new StatsFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
@@ -84,7 +92,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
             transaction.addToBackStack(null).commit();
 
-        } else if (position == 4) {
+        } else if (position == 5) {
             fragment = new LiveLeagueGamesFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();

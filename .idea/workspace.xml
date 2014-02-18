@@ -36,16 +36,14 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="HistoryLoader now saves games to database.&#10;&#10;Picks/bans card is now only displayed when needed.&#10;Moved Settings and About buttons from Drawer to overflow actionbar menu.">
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Fixed bug with updating history. Now also saves players_in_matches. Added some in-app buttons to test the database. Increased speed of inserting new records.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/stats_layout.xml" afterPath="$PROJECT_DIR$/res/layout/stats_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -113,17 +111,34 @@
       <file leaf-file-name="MySQLiteHelper.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="130" selection-start="5331" selection-end="5331" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="1785">
+            <state line="73" column="0" selection-start="5040" selection-end="5040" vertical-scroll-proportion="0.0" vertical-offset="884" max-vertical-offset="1785">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MatchesDataSource.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MatchesDataSource.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="34" selection-start="5261" selection-end="5261" vertical-scroll-proportion="0.0" vertical-offset="2461" max-vertical-offset="3468">
-              <folding />
+            <state line="161" column="79" selection-start="8323" selection-end="8323" vertical-scroll-proportion="0.88540244" vertical-offset="1952" max-vertical-offset="4964">
+              <folding>
+                <element signature="e#8134#8148#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DetailPlayer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="28" selection-start="1468" selection-end="1468" vertical-scroll-proportion="0.0" vertical-offset="616" max-vertical-offset="2737">
+              <folding>
+                <element signature="e#1323#1324#0" expanded="true" />
+                <element signature="e#1353#1354#0" expanded="true" />
+                <element signature="e#1493#1494#0" expanded="true" />
+                <element signature="e#1531#1532#0" expanded="true" />
+                <element signature="e#1561#1562#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -131,38 +146,22 @@
       <file leaf-file-name="PlayersInMatchesDataSource.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="35" selection-start="4021" selection-end="4021" vertical-scroll-proportion="0.0" vertical-offset="787" max-vertical-offset="2329">
+            <state line="83" column="92" selection-start="5123" selection-end="5123" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="2805">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DrawerController.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java">
+      <file leaf-file-name="DatabaseGamesFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="190" column="57" selection-start="6736" selection-end="6736" vertical-scroll-proportion="0.8692053" vertical-offset="2518" max-vertical-offset="3230">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HistoryLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="187" column="5" selection-start="7588" selection-end="7588" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="3026">
+            <state line="153" column="5" selection-start="6371" selection-end="6371" vertical-scroll-proportion="0.0" vertical-offset="1779" max-vertical-offset="2788">
               <folding>
-                <element signature="e#3695#3709#0" expanded="true" />
-                <element signature="e#6902#6916#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1454#1467#0" expanded="true" />
+                <element signature="e#4138#4348#0" expanded="true" />
+                <element signature="e#4325#4326#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StatsFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="57" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -185,8 +184,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/liveleaguegames_row.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeagueTeam.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/liveleaguegame/LiveLeaguePlayer.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DotaSettingsFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/historygames_row.xml" />
@@ -229,13 +226,15 @@
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
       </list>
     </option>
   </component>
@@ -874,12 +873,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Android Application.Dota Data">
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <method />
-    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -887,6 +880,12 @@
       <setting name="params" value="" />
       <setting name="workDir" value="file://$PROJECT_DIR$" />
       <setting name="debug" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -932,6 +931,19 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -957,19 +969,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1174,7 +1173,11 @@
       <created>1392580248322</created>
       <updated>1392580248322</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fixed bug with updating history. Now also saves players_in_matches. Added some in-app buttons to test the database. Increased speed of inserting new records.">
+      <created>1392665586173</created>
+      <updated>1392665586173</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1204,7 +1207,6 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21232124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1213,8 +1215,8 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30473047" sideWeight="0.33943835" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22941822" sideWeight="0.519536" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16941693" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3069307" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16831683" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15071507" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38063806" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1227,6 +1229,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39713973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28540066" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1267,7 +1270,8 @@
     <MESSAGE value="Added some database classes." />
     <MESSAGE value="Added players_in_matches database class + fixes to matches db class." />
     <MESSAGE value="HistoryLoader now saves games to database.&#10;&#10;Picks/bans card is now only displayed when needed.&#10;Moved Settings and About buttons from Drawer to overflow actionbar menu." />
-    <option name="LAST_COMMIT_MESSAGE" value="HistoryLoader now saves games to database.&#10;&#10;Picks/bans card is now only displayed when needed.&#10;Moved Settings and About buttons from Drawer to overflow actionbar menu." />
+    <MESSAGE value="Fixed bug with updating history. Now also saves players_in_matches. Added some in-app buttons to test the database. Increased speed of inserting new records." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug with updating history. Now also saves players_in_matches. Added some in-app buttons to test the database. Increased speed of inserting new records." />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1278,16 +1282,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="18" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/HeroList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="38" selection-start="4794" selection-end="4794" vertical-scroll-proportion="0.2589928" vertical-offset="2321" max-vertical-offset="4777" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/leaguelisting/League.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="4" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0" vertical-offset="14" max-vertical-offset="799" />
@@ -1468,30 +1462,14 @@
         <state line="8" column="32" selection-start="220" selection-end="220" vertical-scroll-proportion="0.19653179" vertical-offset="0" max-vertical-offset="692" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="17" selection-start="3806" selection-end="3806" vertical-scroll-proportion="0.0" vertical-offset="965" max-vertical-offset="1819">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DotaDataApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="62" selection-start="1268" selection-end="1268" vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="646">
-          <folding />
-        </state>
+        <state line="31" column="62" selection-start="1268" selection-end="1268" vertical-scroll-proportion="0.0" vertical-offset="22" max-vertical-offset="646" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/refresh_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="7" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="31" selection-start="7095" selection-end="7095" vertical-scroll-proportion="0.0" vertical-offset="1994" max-vertical-offset="2618">
           <folding />
         </state>
       </provider>
@@ -1519,9 +1497,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="4" selection-start="923" selection-end="1132" vertical-scroll-proportion="0.45671642" vertical-offset="68" max-vertical-offset="1088">
-          <folding />
-        </state>
+        <state line="34" column="4" selection-start="923" selection-end="1132" vertical-scroll-proportion="0.45671642" vertical-offset="68" max-vertical-offset="1088" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchesParser.java">
@@ -1541,17 +1517,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="32" selection-start="1279" selection-end="1279" vertical-scroll-proportion="0.4878049" vertical-offset="408" max-vertical-offset="2618">
-          <folding>
-            <element signature="e#1304#1305#0" expanded="true" />
-            <element signature="e#1350#1351#0" expanded="true" />
-            <element signature="e#1388#1389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="57" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
@@ -1559,41 +1524,88 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="187" column="5" selection-start="7592" selection-end="7592" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="3026">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="126" column="1" selection-start="1280" selection-end="4881" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1819">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="50" selection-start="3218" selection-end="3218" vertical-scroll-proportion="0.0" vertical-offset="816" max-vertical-offset="3366">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="35" selection-start="3300" selection-end="3300" vertical-scroll-proportion="0.0" vertical-offset="1149" max-vertical-offset="2244">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="8" selection-start="4649" selection-end="4739" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="2618">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="5" selection-start="6371" selection-end="6371" vertical-scroll-proportion="0.0" vertical-offset="1779" max-vertical-offset="2788">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1454#1467#0" expanded="true" />
+            <element signature="e#4138#4348#0" expanded="true" />
+            <element signature="e#4325#4326#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="35" selection-start="4021" selection-end="4021" vertical-scroll-proportion="0.0" vertical-offset="787" max-vertical-offset="2329">
+        <state line="83" column="92" selection-start="5123" selection-end="5123" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="2805">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="130" selection-start="5331" selection-end="5331" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="1785">
+        <state line="73" column="0" selection-start="5040" selection-end="5040" vertical-scroll-proportion="0.0" vertical-offset="884" max-vertical-offset="1785">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="28" selection-start="1468" selection-end="1468" vertical-scroll-proportion="0.0" vertical-offset="616" max-vertical-offset="2737">
+          <folding>
+            <element signature="e#1323#1324#0" expanded="true" />
+            <element signature="e#1353#1354#0" expanded="true" />
+            <element signature="e#1493#1494#0" expanded="true" />
+            <element signature="e#1531#1532#0" expanded="true" />
+            <element signature="e#1561#1562#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="34" selection-start="5261" selection-end="5261" vertical-scroll-proportion="0.0" vertical-offset="1237" max-vertical-offset="3468">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="187" column="5" selection-start="7588" selection-end="7588" vertical-scroll-proportion="0.0" vertical-offset="2290" max-vertical-offset="3026">
+        <state line="161" column="79" selection-start="8323" selection-end="8323" vertical-scroll-proportion="0.88540244" vertical-offset="1952" max-vertical-offset="4964">
           <folding>
-            <element signature="e#3695#3709#0" expanded="true" />
-            <element signature="e#6902#6916#0" expanded="true" />
+            <element signature="e#8134#8148#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="190" column="57" selection-start="6736" selection-end="6736" vertical-scroll-proportion="0.8692053" vertical-offset="2518" max-vertical-offset="3230">
-          <folding />
         </state>
       </provider>
     </entry>

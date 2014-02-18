@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class DetailPlayer implements Serializable {
 
     private String matchID; //for use in database
+    private String pim; //for databaae records
 
     private String account_id;
     private String player_slot;
@@ -52,6 +53,14 @@ public class DetailPlayer implements Serializable {
 
     public void setMatchID(String matchID) {
         this.matchID = matchID;
+    }
+
+    public String getPim() {
+        return pim;
+    }
+
+    public void setPim(String pim) {
+        this.pim = pim;
     }
 
     public String getAccount_id() {

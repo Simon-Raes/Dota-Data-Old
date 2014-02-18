@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 
 import java.util.ArrayList;
@@ -17,7 +16,32 @@ public class PlayersInMatchesDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] matchColumns = {MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION};
+    private String[] playersColumns = {
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ACCOUNTID,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_MATCHID,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PLAYER_SLOT,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_ID,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM0,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM1,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM2,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM3,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM4,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ITEM5,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_KILLS,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_DEATHS,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ASSISTS,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_LEAVER_STATUS,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_GOLD,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_LAST_HITS,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_DENIES,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_GOLD_PER_MIN,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_XP_PER_MIN,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_GOLD_SPENT,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_DAMAGE,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_TOWER_DAMAGE,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_HEALING,
+            MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_LEVEL};
 
     public PlayersInMatchesDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -79,11 +103,14 @@ public class PlayersInMatchesDataSource {
         close();
     }
 
-    public ArrayList<DetailPlayer> getAllHeroesInMatch(String matchID) {
+    public ArrayList<DetailPlayer> getAllPlayersInMatch(String matchID) {
+
+        System.out.println("match id for players is " + matchID);
+        //Cursor cursor = database.rawQuery("select * from players_in_matches where match_id = ?", new String[]{matchID});
+        //todo: not with open close for every player!!!
+        open();
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ? AND account_id = ?", new String[]{matchID, "6133547"}, null, null, null, null);
         ArrayList<DetailPlayer> players = new ArrayList();
-
-        Cursor cursor = database.rawQuery("select * from player_in_match where match_id = ?", new String[]{matchID});
-
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             DetailPlayer dhb = cursorToDetailHeroBag(cursor);
@@ -91,7 +118,7 @@ public class PlayersInMatchesDataSource {
             cursor.moveToNext();
         }
         cursor.close();
-
+        close();
         return players;
     }
 
