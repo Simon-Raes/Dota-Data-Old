@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.historymatch.HistoryPlayer;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
@@ -88,17 +89,17 @@ public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
         viewholder.txtDate.setText(Conversions.millisToDate(matches.get(position).getStart_time()));
         imageLoader = ImageLoader.getInstance();
 
-//        String playerHeroID = "1";
-//        for (HistoryPlayer hp : matches.get(position).getPlayers()) {
-//            if (hp.getAccount_id() != null) {
-//                if (hp.getAccount_id().equals(prefAccountID)) {
-//                    playerHeroID = hp.getHero_id();
-//                }
-//            }
-//
-//        }
-//
-//        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
+        String playerHeroID = "1";
+        for (DetailPlayer player : matches.get(position).getPlayers()) {
+            if (player.getAccount_id() != null) {
+                if (player.getAccount_id().equals(prefAccountID)) {
+                    playerHeroID = player.getHero_id();
+                }
+            }
+
+        }
+
+        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
         return view;
     }
 

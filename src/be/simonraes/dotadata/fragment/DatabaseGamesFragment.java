@@ -44,7 +44,7 @@ public class DatabaseGamesFragment extends Fragment implements AdapterView.OnIte
         pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
-        getActivity().getActionBar().setTitle("Recent games");
+        getActivity().getActionBar().setTitle("Recent (database) games");
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
 
@@ -138,6 +138,7 @@ public class DatabaseGamesFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
+    //todo: needs to be done in a background thread so it doesn't lock up the UI thread (progressbar isn't even shown now)
     private void loadMatches() {
         pbRecentGames.setVisibility(View.VISIBLE);
         lvRecentGames.setVisibility(View.GONE);
