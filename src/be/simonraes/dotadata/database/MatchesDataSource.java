@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.detailmatch.PicksBans;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_MATCHES_COLUMN_RADIANT_WIN,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCHID,
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCH_ID,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCH_SEQ_NUM,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_TOWER_STATUS_RADIANT,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_TOWER_STATUS_DIRE,
@@ -41,7 +42,7 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE};
 
 
-    //test for getAllMatches
+    //todo: need middle layer/class so this can be removed
     private String[] playersColumns = {
             MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID,
             MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ACCOUNTID,
@@ -68,6 +69,15 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_TOWER_DAMAGE,
             MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_HEALING,
             MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_LEVEL};
+
+    //todo: needs same
+    private String[] picksBansColumns = {
+            MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_MATCH_ID,
+            MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_IS_PICK,
+            MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_HERO_ID,
+            MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_TEAM,
+            MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_ORDER
+    };
 
     public MatchesDataSource(Context context) {
         this.context = context;
@@ -96,7 +106,7 @@ public class MatchesDataSource {
         //System.out.println("put " + match.getDuration());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME, match.getStart_time());
         // System.out.println("put " + match.getStart_time());
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCHID, matchIDForTable);
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCH_ID, matchIDForTable);
         //System.out.println("put " + matchIDForTable);
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCH_SEQ_NUM, match.getMatch_seq_num());
         //       System.out.println("put " + match.getMatch_seq_num());
@@ -140,6 +150,8 @@ public class MatchesDataSource {
         close();
     }
 
+    //todo: add extra class/layer that gets extra match records so classes can stay separate
+
     public ArrayList<DetailMatch> getAllMatches() {
 
         ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
@@ -174,6 +186,62 @@ public class MatchesDataSource {
         close();
         return matches;
     }
+
+    //todo: add extra class/layer that gets extra match records so classes can stay separate
+
+
+    public ArrayList<DetailMatch> get50MatchesStartingAtMatchID(String matchID) {
+
+        ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
+        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
+        open();
+        Cursor cursor;
+        if (matchID != null && !matchID.equals("")) {
+            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id < ?", new String[]{matchID}, null, null, "match_id DESC", "50");
+        } else {
+            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, null, null, null, null, "match_id DESC", "50");
+        }
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            DetailMatch detailMatch = cursorToDetailMatchBag(cursor);
+
+            //get players for all matches
+            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
+            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+            cursorPlayers.moveToFirst();
+            while (!cursorPlayers.isAfterLast()) {
+                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+                players.add(detailPlayer);
+                cursorPlayers.moveToNext();
+            }
+            cursorPlayers.close();
+            detailMatch.setPlayers(players);
+
+
+            //get players for all matches
+            Cursor cursorPicksBans = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
+            ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
+            PicksBansDataSource pbds = new PicksBansDataSource(context);
+            cursorPicksBans.moveToFirst();
+            while (!cursorPicksBans.isAfterLast()) {
+                PicksBans picksBans = pbds.cursorToPicksBans(cursorPicksBans);
+                picksBansList.add(picksBans);
+                cursorPicksBans.moveToNext();
+            }
+            cursorPicksBans.close();
+            detailMatch.setPicks_bans(picksBansList);
+
+
+            matches.add(detailMatch);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        close();
+        return matches;
+    }
+
 
 //    public boolean recordExists(DetailMatch match) {
 //        String matchID = match.getMatch_id();

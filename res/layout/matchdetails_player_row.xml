@@ -57,5 +57,5 @@
                    android:id="@+id/imgItem6"
                    android:src="@drawable/ic_launcher"/>
     </LinearLayout>
-    <View style="@style/Divider"/>
+    <!--<View style="@style/Divider"/>-->
 </LinearLayout>

@@ -10,6 +10,8 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PicksBans implements Serializable {
 
+    private String match_id; //extra field for database
+
     private boolean is_pick;
     private String hero_id;
     private String team;
@@ -17,6 +19,14 @@ public class PicksBans implements Serializable {
 
     public PicksBans() {
 
+    }
+
+    public String getMatch_id() {
+        return match_id;
+    }
+
+    public void setMatch_id(String match_id) {
+        this.match_id = match_id;
     }
 
     public boolean isIs_pick() {

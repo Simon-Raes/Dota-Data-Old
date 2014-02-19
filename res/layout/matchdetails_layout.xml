@@ -57,6 +57,7 @@
                               android:background="@drawable/bg_card">
 
                     <View style="@style/Divider"/>
+
                 </LinearLayout>
 
                 <!-- Dire players card-->
@@ -70,6 +71,7 @@
                               android:background="@drawable/bg_card">
 
                     <View style="@style/Divider"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -98,15 +100,7 @@
                       android:orientation="vertical"
                       android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="player 1 skillbuild"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="player 2 skillbuild"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="player 3 skillbuild"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="player 4 skillbuild"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="..."/>
+                      android:text="Skill builds (NYI)"/>
         </LinearLayout>
 
         <!-- Map: tower and barracks status -->

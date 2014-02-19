@@ -8,19 +8,17 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DetailGamesAdapter;
-import be.simonraes.dotadata.adapter.HistoryGamesAdapter;
 import be.simonraes.dotadata.database.MatchesDataSource;
+import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.delegates.ASyncResponseDetail;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchParser;
@@ -32,11 +30,13 @@ import java.util.ArrayList;
 /**
  * Created by Simon on 18/02/14.
  */
-public class DatabaseGamesFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class DatabaseGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, ASyncResponseDatabase {
 
     private ListView lvRecentGames;
+    private DetailGamesAdapter listAdapter;
     private ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
     private ProgressBar pbRecentGames;
+    private View footerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class DatabaseGamesFragment extends Fragment implements AdapterView.OnIte
         pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
-        getActivity().getActionBar().setTitle("Recent (database) games");
+        getActivity().getActionBar().setTitle("Recent games");
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
 
@@ -95,8 +95,12 @@ public class DatabaseGamesFragment extends Fragment implements AdapterView.OnIte
                 loadMatches();
             }
 
-            lvRecentGames.setAdapter(new DetailGamesAdapter(getActivity(), matches));
+            listAdapter = new DetailGamesAdapter(getActivity(), matches);
+            lvRecentGames.setAdapter(listAdapter);
+            footerView = inflater.inflate(R.layout.historygames_footer, null);
+            lvRecentGames.addFooterView(footerView);
             lvRecentGames.setOnItemClickListener(this);
+            lvRecentGames.setOnScrollListener(this);
         }
 
 
@@ -138,26 +142,56 @@ public class DatabaseGamesFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
-    //todo: needs to be done in a background thread so it doesn't lock up the UI thread (progressbar isn't even shown now)
     private void loadMatches() {
-        pbRecentGames.setVisibility(View.VISIBLE);
-        lvRecentGames.setVisibility(View.GONE);
+        DatabaseMatchLoader loader = new DatabaseMatchLoader(this, getActivity());
 
-        MatchesDataSource mds = new MatchesDataSource(getActivity());
-        matches = mds.getAllMatches();
+        if (matches.size() < 1) {
+            //list doesn't contain any matches yet, get 50 most recent
+            pbRecentGames.setVisibility(View.VISIBLE);
+            lvRecentGames.setVisibility(View.GONE);
+            loader.execute();
+        } else {
+            //list already contains matches, get the next 50
+            loader.execute(matches.get(matches.size() - 1).getMatch_id());
+        }
+    }
 
-        lvRecentGames.setAdapter(new DetailGamesAdapter(getActivity(), matches));
-        ((DetailGamesAdapter) lvRecentGames.getAdapter()).notifyDataSetChanged();
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == SCROLL_STATE_IDLE) {
+            if (lvRecentGames.getLastVisiblePosition() >= lvRecentGames.getCount() - 5) { //getal duidt aan hoe ver van het einde de loading al zal starten
+                //load more list items:
+                loadMatches();
+            }
+        }
+    }
 
-        pbRecentGames.setVisibility(View.GONE);
-        lvRecentGames.setVisibility(View.VISIBLE);
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
     }
 
-    //Set action bar buttons
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.refresh_menu, menu);
-//    }
+    //received matches from database
+    @Override
+    public void processFinish(ArrayList<DetailMatch> detailMatches) {
+
+        if (detailMatches.size() == 0) {
+            //reached last game, remove loading footer
+            lvRecentGames.removeFooterView(footerView);
+        }
+
+        matches.addAll(detailMatches);
+        listAdapter.notifyDataSetChanged();
+
+        pbRecentGames.setVisibility(View.GONE);
+        lvRecentGames.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+        if (btnRefresh != null) {
+            btnRefresh.setVisible(false);
+        }
+    }
 }

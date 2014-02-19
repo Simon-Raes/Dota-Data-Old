@@ -11,11 +11,11 @@ import java.util.List;
  * Created by Simon on 30/01/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DetailMatch implements Serializable{
+public class DetailMatch implements Serializable {
 
     //all games
     @JsonProperty("players")
-    private List<DetailPlayer> players = new ArrayList<DetailPlayer>();
+    private ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
     private boolean radiant_win;
     private String duration;
     private String start_time;
@@ -52,7 +52,7 @@ public class DetailMatch implements Serializable{
     private String dire_logo;
     private String dire_team_complete;
 
-    public DetailMatch(){
+    public DetailMatch() {
 
     }
 
@@ -192,11 +192,11 @@ public class DetailMatch implements Serializable{
         this.game_mode = game_mode;
     }
 
-    public List<DetailPlayer> getPlayers() {
+    public ArrayList<DetailPlayer> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<DetailPlayer> players) {
+    public void setPlayers(ArrayList<DetailPlayer> players) {
         this.players = players;
     }
 

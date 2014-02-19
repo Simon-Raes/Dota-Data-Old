@@ -13,7 +13,6 @@ import android.widget.TextView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
-import be.simonraes.dotadata.historymatch.HistoryPlayer;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
@@ -70,6 +69,7 @@ public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        DetailMatch match = matches.get(position);
         View view = convertView;
         final ViewHolder viewholder;
 
@@ -77,23 +77,41 @@ public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.historygames_row, parent, false);
             viewholder = new ViewHolder();
-            viewholder.txtGameMode = (TextView) view.findViewById(R.id.txtLobbyType);
-            viewholder.txtDate = (TextView) view.findViewById(R.id.txtDate);
-            viewholder.imgHero = (ImageView) view.findViewById(R.id.imgHero);
+            viewholder.imgHero = (ImageView) view.findViewById(R.id.imgRowHero);
+            viewholder.txtGameMode = (TextView) view.findViewById(R.id.txtRowGameMode);
+            viewholder.txtDate = (TextView) view.findViewById(R.id.txtRowDate);
+            viewholder.txtVictoryLoss = (TextView) view.findViewById(R.id.txtRowVictoryLoss);
             view.setTag(viewholder);
         } else {
             viewholder = (ViewHolder) view.getTag();
         }
 
-        viewholder.txtGameMode.setText(GameModes.getLobbyType(matches.get(position).getLobby_type()));
-        viewholder.txtDate.setText(Conversions.millisToDate(matches.get(position).getStart_time()));
-        imageLoader = ImageLoader.getInstance();
+        if (match.getLobby_type().equals("7")) {
+            //is ranked match
+            viewholder.txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()) + " (Ranked)");
+        } else {
+            viewholder.txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
+        }
 
+        viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
+
+
+        imageLoader = ImageLoader.getInstance();
         String playerHeroID = "1";
-        for (DetailPlayer player : matches.get(position).getPlayers()) {
+        for (DetailPlayer player : match.getPlayers()) {
             if (player.getAccount_id() != null) {
                 if (player.getAccount_id().equals(prefAccountID)) {
                     playerHeroID = player.getHero_id();
+
+                    //set victory/loss here while we have the user's player info
+                    if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
+                        viewholder.txtVictoryLoss.setText("Victory");
+                        viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
+
+                    } else {
+                        viewholder.txtVictoryLoss.setText("Defeat");
+                        viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
+                    }
                 }
             }
 
@@ -121,8 +139,10 @@ public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
     }
 
     private class ViewHolder {
+        public ImageView imgHero;
         public TextView txtGameMode;
         public TextView txtDate;
-        public ImageView imgHero;
+        public TextView txtVictoryLoss;
+
     }
 }

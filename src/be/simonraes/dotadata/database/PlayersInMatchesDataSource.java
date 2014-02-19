@@ -106,8 +106,6 @@ public class PlayersInMatchesDataSource {
     public ArrayList<DetailPlayer> getAllPlayersInMatch(String matchID) {
 
         System.out.println("match id for players is " + matchID);
-        //Cursor cursor = database.rawQuery("select * from players_in_matches where match_id = ?", new String[]{matchID});
-        //todo: not with open close for every player!!!
         open();
         Cursor cursor = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ? AND account_id = ?", new String[]{matchID, "6133547"}, null, null, null, null);
         ArrayList<DetailPlayer> players = new ArrayList();

@@ -1,8 +1,10 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -15,6 +17,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.util.ArrayList;
+
 /**
  * Created by Simon on 30/01/14.
  * Sets layout to show details of a match
@@ -23,6 +27,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     private View viewB;
     private LayoutInflater inflaterB;
+
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
+    private ImageLoadingListener animateFirstListener;
+
+    private ArrayList<TextView> playerNames;
 
     private DetailMatch match;
 
@@ -39,6 +49,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         getActivity().getActionBar().setTitle("Match Details");
 
         match = (DetailMatch) getArguments().getSerializable("be.simonraes.dotadata.detailmatch");
+        playerNames = new ArrayList<TextView>();
 
         boolean hasPicksBans = false;
         if (match != null) {
@@ -55,7 +66,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         TextView txtGameMode = (TextView) view.findViewById(R.id.txtDetailGameMode);
         txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
-        if (hasPicksBans) {
+        if (match.getLobby_type().equals("7")) {
             txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()) + " (Ranked)");
         }
 
@@ -69,15 +80,16 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             txtWinner.setText("Dire Victory");
         }
 
+
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
 
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        DisplayImageOptions options;
+        imageLoader = ImageLoader.getInstance();
+
         View playerRow;
-        ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListenerToo();
+        animateFirstListener = new AnimateFirstDisplayListenerToo();
 
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
@@ -89,20 +101,31 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         int numRadiantPlayers = 0;
         int numDirePlayers = 0;
 
-        for (DetailPlayer d : match.getPlayers()) {
+        for (DetailPlayer player : match.getPlayers()) {
             playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
 
+            View divider = inflater.inflate(R.layout.divider, null);
+
+            if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
+                playerRow.setBackgroundColor(getResources().getColor(R.color.LightSteelBlue));
+            }
+
             TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
-            txtPlayerName.setText(d.getAccount_id());
+            txtPlayerName.setText(player.getAccount_id());
+            playerNames.add(txtPlayerName);
+
+
+            //todo: start parser to get the players name
+
 
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
-            txtPlayerKDA.setText(d.getKills() + "/" + d.getDeaths() + "/" + d.getAssists());
+            txtPlayerKDA.setText(player.getKills() + "/" + player.getDeaths() + "/" + player.getAssists());
 
             TextView txtPlayerLHDenies = (TextView) playerRow.findViewById(R.id.txtDetailLHDenies);
-            txtPlayerLHDenies.setText(d.getLast_hits() + "/" + d.getDenies());
+            txtPlayerLHDenies.setText(player.getLast_hits() + "/" + player.getDenies());
 
             TextView txtPlayerGPMXPM = (TextView) playerRow.findViewById(R.id.txtDetailGPMXPM);
-            txtPlayerGPMXPM.setText(d.getGold_per_min() + "/" + d.getXp_per_min());
+            txtPlayerGPMXPM.setText(player.getGold_per_min() + "/" + player.getXp_per_min());
 
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
@@ -112,7 +135,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     .build();
 
             ImageView imgHero = (ImageView) playerRow.findViewById(R.id.imgDetailHero);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(d.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(player.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
 
             //item image loading options
             options = new DisplayImageOptions.Builder()
@@ -121,30 +144,32 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     .showImageOnLoading(R.drawable.item_lg_loading)
                     .build();
 
+
             ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_0()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, player.getItem_0());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_1()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, player.getItem_1());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_2()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, player.getItem_2());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_3()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, player.getItem_3());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_4()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, player.getItem_4());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(d.getItem_5()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, player.getItem_5());
 
-
-            if (Integer.parseInt(d.getPlayer_slot()) < 5) {
+            if (Integer.parseInt(player.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
+                layPlayersRadiant.addView(divider);
                 numRadiantPlayers++;
             } else {
                 layPlayersDire.addView(playerRow);
+                layPlayersDire.addView(divider);
                 numDirePlayers++;
             }
         }
@@ -155,6 +180,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (numDirePlayers == 0) {
             layPlayersDire.setVisibility(View.GONE);
         }
+
 
         //Picks & bans - only shown if match has picks/bans
         if (hasPicksBans) {
@@ -206,9 +232,21 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         return view;
     }
 
+    private void setItemImage(ImageView imageView, String itemNumber) {
+        String imageURL;
+
+        if (itemNumber.equals("0")) {
+            //empty item slot
+            imageURL = "http://i.imgur.com/wl2LBCB.png";
+        } else {
+            imageURL = "http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(itemNumber) + "_lg.png";
+        }
+
+        imageLoader.displayImage(imageURL, imageView, options, animateFirstListener);
+    }
+
 
     //Add towers and barracks to minimap
-
     @Override
     public void onGlobalLayout() {
 
@@ -226,7 +264,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         int y = layDetailsMinimap.getHeight();
 
         //add towers to minimap
-        //todo: T4 and barracks
+        //todo: barracks (and fix this awful code)
 
 
         TowerStatus twrRadiant = Conversions.towerStatusFromString(match.getTower_status_radiant());

@@ -16,7 +16,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_MATCHES_COLUMN_RADIANT_WIN = "radiant_win";
     public static final String TABLE_MATCHES_COLUMN_DURATION = "duration";
     public static final String TABLE_MATCHES_COLUMN_START_TIME = "start_time";
-    public static final String TABLE_MATCHES_COLUMN_MATCHID = "match_id";
+    public static final String TABLE_MATCHES_COLUMN_MATCH_ID = "match_id";
     public static final String TABLE_MATCHES_COLUMN_MATCH_SEQ_NUM = "match_seq_num";
     public static final String TABLE_MATCHES_COLUMN_TOWER_STATUS_RADIANT = "tower_status_radiant";
     public static final String TABLE_MATCHES_COLUMN_TOWER_STATUS_DIRE = "tower_status_dire";
@@ -31,11 +31,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_MATCHES_COLUMN_NEGATIVE_VOTES = "negative_votes";
     public static final String TABLE_MATCHES_COLUMN_GAME_MODE = "game_mode";
 
-
     public static final String TABLE_PLAYERS_IN_MATCHES = "players_in_matches";
-    //2 extra fields for database key and relation
-    public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID = "pim_id";
-    public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_MATCHID = "match_id";
+    public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID = "pim_id"; //extra field for database key and relation
+    public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_MATCHID = "match_id"; //extra field for database key and relation
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_ACCOUNTID = "account_id";
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_PLAYER_SLOT = "player_slot";
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_ID = "hero_id";
@@ -60,11 +58,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_HEALING = "hero_healing";
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_LEVEL = "level";
 
-    public static final String TABLE_PLAYERS = "players";
-    public static final String TABLE_PLAYERS_COLUMN_STEAMID32 = "steam_id32";
-    public static final String TABLE_PLAYERS_COLUMN_STEAMID64 = "steam_id64";
-    public static final String TABLE_PLAYERS_COLUMN_PERSONANAME = "personaname";
-    public static final String TABLE_PLAYERS_COLUMN_AVATAR = "avatar";
+    public static final String TABLE_PICKS_BANS = "picks_bans";
+    public static final String TABLE_PICKS_BANS_COLUMN_MATCH_ID = "match_id"; //extra field for database relation
+    public static final String TABLE_PICKS_BANS_COLUMN_IS_PICK = "is_pick";
+    public static final String TABLE_PICKS_BANS_COLUMN_HERO_ID = "hero_id";
+    public static final String TABLE_PICKS_BANS_COLUMN_TEAM = "team";
+    public static final String TABLE_PICKS_BANS_COLUMN_ORDER = "orders"; //orders instead of order (is a reserved sqlite word)
+
+//    public static final String TABLE_PLAYERS = "players";
+//    public static final String TABLE_PLAYERS_COLUMN_STEAMID32 = "steam_id32";
+//    public static final String TABLE_PLAYERS_COLUMN_STEAMID64 = "steam_id64";
+//    public static final String TABLE_PLAYERS_COLUMN_PERSONANAME = "personaname";
+//    public static final String TABLE_PLAYERS_COLUMN_AVATAR = "avatar";
 
     private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(radiant_win text, " +
             "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
@@ -77,9 +82,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             "leaver_status text, gold text, last_hits text, denies text, gold_per_min text, xp_per_min text, gold_spent text, hero_damage text, tower_damage text, " +
             "hero_healing text, level text);";
 
-    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
+    private static final String CREATE_TABLE_PICKS_BANS = "create table IF NOT EXISTS picks_bans(match_id text, is_pick text, hero_id text, team text, orders text);";
 
-    private static final String CREATE_TABLE_FRIENDS = "create table IF NOT EXISTS friends(steam_id64 integer primary key, accountid integer);";
+//    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
+
+//    private static final String CREATE_TABLE_FRIENDS = "create table IF NOT EXISTS friends(steam_id64 integer primary key, accountid integer);";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -89,8 +96,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_MATCHES);
         database.execSQL(CREATE_TABLE_PLAYERS_IN_MATCHES);
-        database.execSQL(CREATE_TABLE_PLAYERS);
-        database.execSQL(CREATE_TABLE_FRIENDS);
+        database.execSQL(CREATE_TABLE_PICKS_BANS);
+        //database.execSQL(CREATE_TABLE_PLAYERS);
+        // database.execSQL(CREATE_TABLE_FRIENDS);
     }
 
     @Override

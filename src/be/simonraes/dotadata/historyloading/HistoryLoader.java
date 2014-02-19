@@ -6,12 +6,14 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
+import be.simonraes.dotadata.database.PicksBansDataSource;
 import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.detailmatch.PicksBans;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchesParser;
@@ -166,16 +168,26 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         MatchesDataSource mds = new MatchesDataSource(context);
         mds.saveDetailMatches(result);
 
-        //save players to database
+        //save players and (if needed) picks/bans to database
         ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+        ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
+
         for (DetailMatch match : result) {
             for (DetailPlayer player : match.getPlayers()) {
                 player.setMatchID(match.getMatch_id());
                 players.add(player);
             }
+            if (match.getPicks_bans().size() > 0) {
+                for (PicksBans picksBans : match.getPicks_bans()) {
+                    picksBans.setMatch_id(match.getMatch_id());
+                    picksBansList.add(picksBans);
+                }
+            }
         }
         PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
         pimds.savePlayers(players);
+        PicksBansDataSource pbds = new PicksBansDataSource(context);
+        pbds.savePicksBansList(picksBansList);
 
         updateNotification("Download complete.", 0, 0, false);
 
