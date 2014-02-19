@@ -8,9 +8,12 @@ import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.parser.PlayerSummaryParser;
+import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
  * Created by Simon on 30/01/14.
  * Sets layout to show details of a match
  */
-public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
+public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, ASyncResponsePlayerSummary {
 
     private View viewB;
     private LayoutInflater inflaterB;
@@ -107,15 +110,16 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             View divider = inflater.inflate(R.layout.divider, null);
 
             if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-                playerRow.setBackgroundColor(getResources().getColor(R.color.LightSteelBlue));
+                playerRow.setBackgroundColor(getResources().getColor(R.color.Lavender));
             }
 
             TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
             txtPlayerName.setText(player.getAccount_id());
             playerNames.add(txtPlayerName);
 
-
-            //todo: start parser to get the players name
+            //start parser to get player's name
+            PlayerSummaryParser parser = new PlayerSummaryParser(this);
+            parser.execute(player.getAccount_id());
 
 
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
@@ -419,6 +423,26 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
         if (btnRefresh != null) {
             btnRefresh.setVisible(false);
+        }
+    }
+
+    @Override
+    public void processFinish(PlayerSummaryContainer result) {
+        //receive names of players
+        if (result.getPlayers().getPlayers().size() < 1) {
+            System.out.println("Anonymous");
+            for (TextView textView : playerNames) {
+                if (textView.getText().equals("4294967295")) {
+                    textView.setText("Anonymous");
+                }
+            }
+        } else {
+            System.out.println(result.getPlayers().getPlayers().get(0).getPersonaname());
+            for (TextView textView : playerNames) {
+                if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                    textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                }
+            }
         }
     }
 }

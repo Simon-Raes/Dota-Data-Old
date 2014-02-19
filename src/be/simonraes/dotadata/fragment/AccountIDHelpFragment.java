@@ -43,6 +43,10 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            //todo: add parser with http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=EB5773FAAF039592D9383FA104EEA55D&vanityurl=voshond
+
+
             case R.id.btnHelpProfileNumber:
                 Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_SHORT).show();
                 break;

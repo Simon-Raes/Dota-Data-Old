@@ -49,6 +49,18 @@ public class Conversions {
         return rawLeague;
     }
 
+
+    public static String dotaIDToCommunityID(String accountID) {
+        long steamID = 76561197960265728L + Long.parseLong(accountID);
+        return Long.toString(steamID);
+    }
+
+
+    public static String community64IDToDota64ID(String communityID) {
+        long accountID = Long.parseLong(communityID) - 76561197960265728L;
+        return Long.toString(accountID);
+    }
+
     /**
      * Convert tower_status_radiant/dire to a TowerStatus object that contains the status of all towers for that team.
      */
