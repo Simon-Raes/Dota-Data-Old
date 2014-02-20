@@ -2,7 +2,6 @@ package be.simonraes.dotadata.historyloading;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import be.simonraes.dotadata.adapter.DetailGamesAdapter;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatch;

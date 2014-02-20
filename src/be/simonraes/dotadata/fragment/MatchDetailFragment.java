@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -76,11 +75,23 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         TextView txtDuration = (TextView) view.findViewById(R.id.txtDetailDuration);
         txtDuration.setText("Duration: " + Conversions.secondsToTime(match.getDuration()));
 
+        TextView txtDate = (TextView) view.findViewById(R.id.txtDetailDate);
+        txtDate.setText(Conversions.millisToDate(match.getStart_time()));
+
         TextView txtWinner = (TextView) view.findViewById(R.id.txtDetailWinner);
         if (match.getRadiant_win()) {
             txtWinner.setText("Radiant Victory");
         } else {
             txtWinner.setText("Dire Victory");
+        }
+
+        TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
+        if (match.isUser_win()) {
+            txtVictoryDefeat.setText("Victory");
+            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+        } else {
+            txtVictoryDefeat.setText("Defeat");
+            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
         }
 
 
@@ -109,8 +120,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             View divider = inflater.inflate(R.layout.divider, null);
 
+            //give user's row a special background color
             if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-                playerRow.setBackgroundColor(getResources().getColor(R.color.Lavender));
+                playerRow.setBackgroundColor(getResources().getColor(R.color.LightSteelBlue));
             }
 
             TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
@@ -144,7 +156,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
-                    .showImageOnLoading(R.drawable.item_lg_loading)
+                    .showImageOnLoading(R.drawable.item_lg_unknown)
                     .build();
 
 
@@ -221,17 +233,17 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
                 if (pb.getTeam().equals("0")) {
                     if (pb.isIs_pick()) {
-                        txtPBLeft.setText("PICK");
+                        txtPBLeft.setText("Pick");
                     } else {
-                        txtPBLeft.setText("BAN");
+                        txtPBLeft.setText("Ban");
                     }
                     imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroLeft, options, animateFirstListener);
                     layPicksBans.addView(layPBLeft);
                 } else {
                     if (pb.isIs_pick()) {
-                        txtPBRight.setText("PICK");
+                        txtPBRight.setText("Pick");
                     } else {
-                        txtPBRight.setText("BAN");
+                        txtPBRight.setText("Ban");
                     }
                     imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroRight, options, animateFirstListener);
                     layPicksBans.addView(layPBRight);

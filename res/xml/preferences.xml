@@ -14,6 +14,13 @@
                 android:summary="accountID here"
                 android:title="Dota account ID"/>
 
+        <Preference android:title="Dota 2 account ID info"
+                    android:summary="Alternative methods of entering your Dota 2 account ID.">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="be.simonraes.dotadata"
+                    android:targetClass="be.simonraes.dotadata.AccountIDHelpActivity"/>
+        </Preference>
 
     </PreferenceCategory>
 

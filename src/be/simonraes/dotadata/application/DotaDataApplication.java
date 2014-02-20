@@ -1,4 +1,4 @@
-package be.simonraes.dotadata;
+package be.simonraes.dotadata.application;
 
 import android.app.Application;
 import android.content.Context;

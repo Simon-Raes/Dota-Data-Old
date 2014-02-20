@@ -36,269 +36,47 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Large hero en item images now stored locally instead of downloading every time. New tower images for minimap.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/abaddon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/abyssal_blade_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/aegis_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/alchemist.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ancient_apparition.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ancient_janggo_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/antimage.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/arcane_boots_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/armlet_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/assault_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/axe.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bane.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/basher_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/batrider.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/beastmaster.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/belt_of_strength_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bfury_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bg.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bg2.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bg_tusk.jpeg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bg_tusk2.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bg_tusk3.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/black_king_bar_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/blade_mail_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/blade_of_alacrity_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/blades_of_attack_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/blink_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bloodseeker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bloodstone_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/boots_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/boots_of_elves_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bottle_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bounty_hunter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bracer_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/branches_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/brewmaster.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/bristleback.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/broadsword_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/broodmother.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/buckler_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/butterfly_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/centaur.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/chainmail_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/chaos_knight.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/cheese_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/chen.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/circlet_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/clarity_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/claymore_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/clinkz.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/cloak_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/courier_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/crystal_maiden.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/cyclone_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dagon_2_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dagon_3_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dagon_4_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dagon_5_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dagon_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dark_seer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dazzle.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/death_prophet.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/demon_edge_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/desolator_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/diffusal_blade_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/disruptor.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/doom_bringer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dotabuffaccountid.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dragon_knight.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/drow_ranger.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/dust_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/eagle_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/earth_spirit.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/earthshaker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/elder_titan.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ember_spirit.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/emptyitembg_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/enchantress.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/energy_booster_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/enigma.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ethereal_blade_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/faceless_void.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/flask_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/flying_courier_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/force_staff_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/furion.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/gauntlets_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/gem_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ghost_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/gloves_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/greater_crit_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/gyrocopter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/hand_of_midas_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/headdress_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/heart_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/heavens_halberd_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/helm_of_iron_will_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/helm_of_the_dominator_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/hood_of_defiance_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/huskar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/hyperstone_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/invis_sword_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/invoker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/jakiro.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/javelin_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/juggernaut.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/keeper_of_the_light.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/keyarttusk.jpeg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/kunkka.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/legion_commander.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/leshrac.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lesser_crit_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lich.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/life_stealer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lifesteal_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lina.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lion.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lone_druid.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/longaccountid.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/luna.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/lycan.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/maelstrom_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/magic_stick_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/magic_wand_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/magnataur.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/manta_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mantle_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mask_of_madness_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/medallion_of_courage_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/medusa.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/meepo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mekansm_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mirana.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mithril_hammer_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mjollnir_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/monkey_king_bar_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/morphling.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/mystic_staff_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/naga_siren.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/necrolyte.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/necronomicon_2_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/necronomicon_3_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/necronomicon_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/nevermore.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/night_stalker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/null_talisman_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/nyx_assassin.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/oblivion_staff_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/obsidian_destroyer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ogre_axe_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ogre_magi.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/omniknight.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/orb_of_venom_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/orchid_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/pers_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/phantom_assassin.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/phantom_lancer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/phase_boots_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/phoenix.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/pipe_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/platemail_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/point_booster_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/poor_mans_shield_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/power_treads_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/puck.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/pudge.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/pugna.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/quarterstaff_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/queenofpain.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/quelling_blade_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/radiance_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/rapier_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/rattletrap.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/razor.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/reaver_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/recipe_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/recipe_magic_wand_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/recipe_travel_boots_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/recipe_vladmir_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/refresher_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/relic_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/riki.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ring_of_aquila_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ring_of_basilius_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ring_of_health_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ring_of_protection_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ring_of_regen_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/robe_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/rod_of_atos_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/rubick.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sand_king.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sange_and_yasha_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sange_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/satanic_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/shadow_demon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/shadow_shaman.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sheepstick_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/shivas_guard_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/shredder.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/silencer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/skadi_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/skeleton_king.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/skywrath_mage.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/slardar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/slark.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/slippers_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/smoke_of_deceit_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sniper.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sobi_mask_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/soul_booster_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/soul_ring_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/spectre.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sphere_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/spirit_breaker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/staff_of_wizardry_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/storm_spirit.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/stout_shield_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/sven.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/talisman_of_evasion_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tango_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/templar_assassin.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/terrorblade.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tidehunter.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tinker.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tiny.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tower_dire_new.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tower_radiant_new.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tpscroll_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tranquil_boots_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/travel_boots_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/treant.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/troll_warlord.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tusk.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ultimate_orb_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ultimate_scepter_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/undying.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/urn_of_shadows_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ursa.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/vanguard_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/veil_of_discord_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/vengefulspirit.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/venomancer.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/viper.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/visage.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/vitality_booster_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/vladmir_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/void_stone_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ward_observer_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/ward_sentry_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/warlock.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/weaver.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/windrunner.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/wisp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/witch_doctor.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/wraith_band_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/yasha_lg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/zuus.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java" />
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Fixed missing or incorrect images. Added accountID help screen to settings screen. Implemented conversions of steamcommunity IDs to Dota IDs.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/item_lg_unknown.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/shadow_amulet_lg.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseInternet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseVanity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/AccountIDHelpActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DatabaseStatsLoader.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GameModeStats.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetChecker.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/vanity/VanityContainer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/VanityResolverParser.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/vanity/VanityResponse.java" />
+      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi\item_lg_loading.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\adapter\HistoryGamesAdapter.java" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\DotaDataApplication.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\adapter\DetailGamesAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\fragment\DatabaseGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/gem_lg.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/gem_lg.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetCheck.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetCheck.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/ItemList.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/ItemList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/minimap_tower_dire.xml" afterPath="$PROJECT_DIR$/res/layout/minimap_tower_dire.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/minimap_tower_radiant.xml" afterPath="$PROJECT_DIR$/res/layout/minimap_tower_radiant.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/accountid_help_layout.xml" afterPath="$PROJECT_DIR$/res/layout/accountid_help_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/dialog_accountid_content.xml" afterPath="$PROJECT_DIR$/res/layout/dialog_accountid_content.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/historygames_footer.xml" afterPath="$PROJECT_DIR$/res/layout/historygames_footer.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/historygames_row.xml" afterPath="$PROJECT_DIR$/res/layout/historygames_row.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/liveleaguegames_row.xml" afterPath="$PROJECT_DIR$/res/layout/liveleaguegames_row.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" afterPath="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/matchdetails_player_row.xml" afterPath="$PROJECT_DIR$/res/layout/matchdetails_player_row.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/xml/preferences.xml" afterPath="$PROJECT_DIR$/res/xml/preferences.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/stats_layout.xml" afterPath="$PROJECT_DIR$/res/layout/stats_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -363,42 +141,105 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DetailGamesAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java">
+      <file leaf-file-name="AccountIDHelpFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="120" column="34" selection-start="5045" selection-end="5045" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2176">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="61" selection-start="11323" selection-end="11323" vertical-scroll-proportion="0.0" vertical-offset="2102" max-vertical-offset="7565">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatabaseGamesFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="0" selection-start="2025" selection-end="2025" vertical-scroll-proportion="-0.56340057" vertical-offset="1190" max-vertical-offset="3315">
+            <state line="119" column="66" selection-start="5004" selection-end="5004" vertical-scroll-proportion="-10.576923" vertical-offset="1391" max-vertical-offset="2159">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1520#1533#0" expanded="true" />
+                <element signature="e#5492#5712#0" expanded="true" />
+                <element signature="e#5689#5690#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemList.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/ItemList.java">
+      <file leaf-file-name="HistoryLoader.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="8" selection-start="3323" selection-end="3323" vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="4335">
+            <state line="44" column="25" selection-start="1816" selection-end="1816" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3808">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RecentGamesAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="40" selection-start="1932" selection-end="1932" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2244">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RecentGamesFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="102" column="39" selection-start="4173" selection-end="4173" vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="2941">
               <folding>
-                <element signature="e#182#198#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1027#1040#0" expanded="true" />
+                <element signature="e#2201#2505#0" expanded="true" />
+                <element signature="e#2482#2483#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StatsFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="125" column="70" selection-start="4769" selection-end="4769" vertical-scroll-proportion="0.0" vertical-offset="1378" max-vertical-offset="2227">
+              <folding>
+                <element signature="e#2127#2150#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="preferences.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/xml/preferences.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="57" selection-start="633" selection-end="633" vertical-scroll-proportion="0.4256651" vertical-offset="0" max-vertical-offset="639">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LiveLeagueGamesFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="91" column="4" selection-start="3276" selection-end="3599" vertical-scroll-proportion="0.0" vertical-offset="938" max-vertical-offset="1598">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InternetChecker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="9" selection-start="1709" selection-end="1709" vertical-scroll-proportion="-18.307692" vertical-offset="408" max-vertical-offset="1190">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ASyncResponseInternet.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseInternet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="46" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LiveLeagueMatchParser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/LiveLeagueMatchParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="31" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" vertical-offset="139" max-vertical-offset="816">
+              <folding>
+                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -422,57 +263,57 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DrawerAdapter.java" />
-        <option value="$PROJECT_DIR$/res/layout/liveleaguegame_layout.xml" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/res/layout/pickban_right.xml" />
-        <option value="$PROJECT_DIR$/res/layout/pickban_left.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Preferencess.java" />
-        <option value="$PROJECT_DIR$/res/layout/dialog_accountid_content.xml" />
-        <option value="$PROJECT_DIR$/res/layout/accountid_help_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/HistoryMatchParser.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchParser.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseHistoryLoader.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDetailList.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchesParser.java" />
-        <option value="$PROJECT_DIR$/res/menu/refresh_menu.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
-        <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" />
-        <option value="$PROJECT_DIR$/res/layout/historygames_footer.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDatabase.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java" />
         <option value="$PROJECT_DIR$/res/layout/historygames_row.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/PicksBans.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PicksBansDataSource.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" />
-        <option value="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailPlayerAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/divider.xml" />
-        <option value="$PROJECT_DIR$/res/layout/matchdetails_player_row.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponsePlayerSummary.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/playersummary/PlayerSummaryContainer.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/playersummary/PlayerSummary.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/playersummary/PlayerSummaryPlayers.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/PlayerSummaryParser.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/minimap_tower_radiant.xml" />
         <option value="$PROJECT_DIR$/res/layout/minimap_tower_dire.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/ItemList.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/historygames_footer.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
+        <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GameModeStats.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DatabaseStatsLoader.java" />
+        <option value="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/matchdetails_player_row.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/AccountIDHelpActivity.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/AccountIDHelpActivity.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/vanity/VanityResponse.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseVanity.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/vanity/VanityContainer.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/CustomAlertDialog.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/CustomDialogFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/VanityResolverParser.java" />
+        <option value="$PROJECT_DIR$/res/layout/dialog_accountid_content.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
+        <option value="$PROJECT_DIR$/res/layout/accountid_help_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetCheck.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseInternet.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetChecker.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
+        <option value="$PROJECT_DIR$/res/xml/preferences.xml" />
       </list>
     </option>
   </component>
@@ -711,6 +552,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="vanity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -755,6 +618,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="statistics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="playersummary" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -778,28 +663,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="parser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="drawer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Dota Data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dotadata" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liveleaguegame" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -953,7 +816,51 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="adapter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1304,7 +1211,7 @@
     </configuration>
     <configuration default="false" name="Dota Data" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="Dota Data" />
-      <option name="ACTIVITY_CLASS" value="be.simonraes.dotadata.DrawerController" />
+      <option name="ACTIVITY_CLASS" value="be.simonraes.dotadata.activity.DrawerController" />
       <option name="MODE" value="specific_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
@@ -1476,7 +1383,11 @@
       <created>1392849766666</created>
       <updated>1392849766666</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Large hero en item images now stored locally instead of downloading every time. New tower images for minimap.">
+      <created>1392890188534</created>
+      <updated>1392890188534</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1509,15 +1420,15 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2310231" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1650165" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30473047" sideWeight="0.33943835" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16721672" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22941822" sideWeight="0.519536" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16721672" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20792079" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24532454" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38063806" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1583,269 +1494,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="103" selection-start="1675" selection-end="1675" vertical-scroll-proportion="0.5175038" vertical-offset="0" max-vertical-offset="5287">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="45" selection-start="2390" selection-end="2390" vertical-scroll-proportion="-19.8" vertical-offset="236" max-vertical-offset="935">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="57" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/historygames_footer.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="51" selection-start="700" selection-end="700" vertical-scroll-proportion="-9.52" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/HistoryMatchParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="51" selection-start="2042" selection-end="2042" vertical-scroll-proportion="1.4017991" vertical-offset="0" max-vertical-offset="1105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchesParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="92" selection-start="785" selection-end="844" vertical-scroll-proportion="0.025993884" vertical-offset="119" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/SteamRemoteStorageParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="17" selection-start="2474" selection-end="2476" vertical-scroll-proportion="1.351682" vertical-offset="0" max-vertical-offset="1071">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/LeagueListingParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="98" selection-start="1071" selection-end="1074" vertical-scroll-proportion="0.32415903" vertical-offset="162" max-vertical-offset="816">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="0" selection-start="910" selection-end="910" vertical-scroll-proportion="0.048387095" vertical-offset="273" max-vertical-offset="1071" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="68" selection-start="276" selection-end="276" vertical-scroll-proportion="0.24926686" vertical-offset="0" max-vertical-offset="682">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/historygames_row.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="48" selection-start="1432" selection-end="1432" vertical-scroll-proportion="-19.04" vertical-offset="0" max-vertical-offset="697">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/GameModes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="25" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="1870">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/SkillBuildsDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="34" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/matches_list_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="4" selection-start="405" selection-end="757" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/PicksBans.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="27" selection-start="384" selection-end="384" vertical-scroll-proportion="0.2824632" vertical-offset="10" max-vertical-offset="799">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="4" selection-start="6825" selection-end="8142" vertical-scroll-proportion="0.0" vertical-offset="2037" max-vertical-offset="2771">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="13" selection-start="7602" selection-end="7602" vertical-scroll-proportion="2.0927536" vertical-offset="1361" max-vertical-offset="3196">
-          <folding>
-            <element signature="e#7116#7127#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="42" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0" vertical-offset="25" max-vertical-offset="867">
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1035#1048#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/PicksBansDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="2058" selection-end="2058" vertical-scroll-proportion="0.5912306" vertical-offset="568" max-vertical-offset="1802">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="26" selection-start="4415" selection-end="4415" vertical-scroll-proportion="0.28674352" vertical-offset="1314" max-vertical-offset="6120">
-          <folding>
-            <element signature="e#11084#11095#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="157" selection-start="6329" selection-end="6329" vertical-scroll-proportion="0.6827309" vertical-offset="884" max-vertical-offset="1921">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="-0.4548495" vertical-offset="408" max-vertical-offset="2635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="0" selection-start="3803" selection-end="3803" vertical-scroll-proportion="-22.36" vertical-offset="682" max-vertical-offset="2244">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/DrawerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="36" selection-start="1071" selection-end="1071" vertical-scroll-proportion="0.43524095" vertical-offset="0" max-vertical-offset="3485">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HistoryGamesAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="34" selection-start="374" selection-end="374" vertical-scroll-proportion="0.33398822" vertical-offset="0" max-vertical-offset="2244" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="624">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_divider.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="4" selection-start="508" selection-end="589" vertical-scroll-proportion="-6.12" vertical-offset="0" max-vertical-offset="323">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_player_row.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="56" selection-start="2992" selection-end="2992" vertical-scroll-proportion="-15.8" vertical-offset="523" max-vertical-offset="1122">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/divider.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="24" selection-start="284" selection-end="284" vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="238">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponsePlayerSummary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="61" selection-start="258" selection-end="258" vertical-scroll-proportion="0.17941953" vertical-offset="0" max-vertical-offset="758">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/LiveLeagueMatchParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="31" selection-start="488" selection-end="488" vertical-scroll-proportion="0.018791946" vertical-offset="71" max-vertical-offset="816">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="4" selection-start="335" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="15" selection-start="4591" selection-end="4606" vertical-scroll-proportion="1.323219" vertical-offset="612" max-vertical-offset="3213">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="39" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2737">
           <folding />
         </state>
       </provider>
@@ -1867,27 +1518,6 @@
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/playersummary/PlayerSummaryContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="3" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="25" selection-start="2229" selection-end="2237" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="2516">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="0" selection-start="1864" selection-end="1864" vertical-scroll-proportion="0.0" vertical-offset="781" max-vertical-offset="3162">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="18" selection-start="1735" selection-end="1735" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
           <folding />
         </state>
       </provider>
@@ -1941,36 +1571,374 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/diffusal_blade_lg.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/ItemList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="8" selection-start="3323" selection-end="3323" vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="4335">
+        <state line="237" column="0" selection-start="8527" selection-end="8527" vertical-scroll-proportion="-19.884615" vertical-offset="3512" max-vertical-offset="4369">
           <folding>
-            <element signature="e#182#198#0" expanded="true" />
+            <element signature="e#182#198#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DetailGamesAdapter.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/historygames_footer.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="34" selection-start="5045" selection-end="5045" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2176">
+        <state line="14" column="50" selection-start="644" selection-end="644" vertical-scroll-proportion="-9.52" vertical-offset="0" max-vertical-offset="357">
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="243" column="86" selection-start="10788" selection-end="10788" vertical-scroll-proportion="0.0" vertical-offset="3262" max-vertical-offset="5287">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="26" selection-start="527" selection-end="527" vertical-scroll-proportion="0.0" vertical-offset="1836" max-vertical-offset="3723">
+          <folding>
+            <element signature="e#6640#6641#0" expanded="true" />
+            <element signature="e#6671#6672#0" expanded="true" />
+            <element signature="e#6720#6721#0" expanded="true" />
+            <element signature="e#6760#6761#0" expanded="true" />
+            <element signature="e#6799#6800#0" expanded="true" />
+            <element signature="e#6834#6835#0" expanded="true" />
+            <element signature="e#6890#6891#0" expanded="true" />
+            <element signature="e#6938#6939#0" expanded="true" />
+            <element signature="e#6977#6978#0" expanded="true" />
+            <element signature="e#7012#7013#0" expanded="true" />
+            <element signature="e#7068#7069#0" expanded="true" />
+            <element signature="e#7116#7117#0" expanded="true" />
+            <element signature="e#7164#7165#0" expanded="true" />
+            <element signature="e#7208#7209#0" expanded="true" />
+            <element signature="e#7282#7283#0" expanded="true" />
+            <element signature="e#7348#7349#0" expanded="true" />
+            <element signature="e#7384#7385#0" expanded="true" />
+            <element signature="e#7416#7417#0" expanded="true" />
+            <element signature="e#7466#7467#0" expanded="true" />
+            <element signature="e#7508#7509#0" expanded="true" />
+            <element signature="e#7544#7545#0" expanded="true" />
+            <element signature="e#7576#7577#0" expanded="true" />
+            <element signature="e#7626#7627#0" expanded="true" />
+            <element signature="e#7668#7669#0" expanded="true" />
+            <element signature="e#7713#7714#0" expanded="true" />
+            <element signature="e#7754#7755#0" expanded="true" />
+            <element signature="e#7822#7823#0" expanded="true" />
+            <element signature="e#7882#7883#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="84" selection-start="5699" selection-end="5699" vertical-scroll-proportion="0.0" vertical-offset="1219" max-vertical-offset="1938">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="32" selection-start="9264" selection-end="9264" vertical-scroll-proportion="0.0" vertical-offset="2461" max-vertical-offset="6086">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/GameModes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="36" selection-start="1947" selection-end="1947" vertical-scroll-proportion="0.0" vertical-offset="995" max-vertical-offset="1870">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="51" selection-start="2944" selection-end="2944" vertical-scroll-proportion="-22.76" vertical-offset="332" max-vertical-offset="1190">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GameModeStats.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="57" selection-start="930" selection-end="930" vertical-scroll-proportion="0.0" vertical-offset="309" max-vertical-offset="969">
+          <folding>
+            <element signature="e#264#265#0" expanded="true" />
+            <element signature="e#300#301#0" expanded="true" />
+            <element signature="e#355#356#0" expanded="true" />
+            <element signature="e#405#406#0" expanded="true" />
+            <element signature="e#433#434#0" expanded="true" />
+            <element signature="e#460#461#0" expanded="true" />
+            <element signature="e#497#498#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+            <element signature="e#559#560#0" expanded="true" />
+            <element signature="e#588#589#0" expanded="true" />
+            <element signature="e#629#630#0" expanded="true" />
+            <element signature="e#665#666#0" expanded="true" />
+            <element signature="e#701#702#0" expanded="true" />
+            <element signature="e#736#737#0" expanded="true" />
+            <element signature="e#789#790#0" expanded="true" />
+            <element signature="e#837#838#0" expanded="true" />
+            <element signature="e#982#983#0" expanded="true" />
+            <element signature="e#1020#1021#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="31" selection-start="3232" selection-end="3246" vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="2516">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_player_row.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="57" selection-start="3208" selection-end="3208" vertical-scroll-proportion="1.0187861" vertical-offset="264" max-vertical-offset="1122">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="61" selection-start="11323" selection-end="11323" vertical-scroll-proportion="0.0" vertical-offset="2102" max-vertical-offset="7565">
+        <state line="126" column="91" selection-start="4926" selection-end="4926" vertical-scroll-proportion="0.75710225" vertical-offset="1286" max-vertical-offset="7820">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/DatabaseGamesFragment.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="2025" selection-end="2025" vertical-scroll-proportion="-0.56340057" vertical-offset="1190" max-vertical-offset="3315">
+        <state line="39" column="45" selection-start="2226" selection-end="2226" vertical-scroll-proportion="0.6632948" vertical-offset="204" max-vertical-offset="2397">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DatabaseStatsLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="32" selection-start="116" selection-end="116" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="40" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="578">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/AccountIDHelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="106" selection-start="499" selection-end="499" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1520#1533#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchesParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="13" selection-start="765" selection-end="765" vertical-scroll-proportion="0.21316615" vertical-offset="0" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/leaguelisting/LeagueListingContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="35" selection-start="203" selection-end="247" vertical-scroll-proportion="0.18888889" vertical-offset="0" max-vertical-offset="630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseVanity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="45" selection-start="221" selection-end="221" vertical-scroll-proportion="0.20890938" vertical-offset="0" max-vertical-offset="651">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/vanity/VanityContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="41" selection-start="336" selection-end="336" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <folding>
+            <element signature="e#366#367#0" expanded="true" />
+            <element signature="e#422#423#0" expanded="true" />
+            <element signature="e#462#463#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="8" selection-start="799" selection-end="1616" vertical-scroll-proportion="0.1598746" vertical-offset="204" max-vertical-offset="901">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="68" selection-start="1599" selection-end="1599" vertical-scroll-proportion="1.1147541" vertical-offset="0" max-vertical-offset="1071">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/dialog_accountid_content.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="148" selection-start="464" selection-end="584" vertical-scroll-proportion="0.23684211" vertical-offset="0" max-vertical-offset="646">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="148" column="5" selection-start="5304" selection-end="5304" vertical-scroll-proportion="-13.5" vertical-offset="1961" max-vertical-offset="3587">
+          <folding>
+            <element signature="e#1580#1600#0" expanded="true" />
+            <element signature="e#1602#1623#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/vanity/VanityResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="218" selection-end="218" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/VanityResolverParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="0" selection-start="995" selection-end="995" vertical-scroll-proportion="0.0" vertical-offset="44" max-vertical-offset="1037">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/accountid_help_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="53" selection-start="4058" selection-end="4058" vertical-scroll-proportion="-14.44" vertical-offset="863" max-vertical-offset="2771">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="76" selection-start="2469" selection-end="2469" vertical-scroll-proportion="0.0" vertical-offset="1001" max-vertical-offset="3621">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/LiveLeagueMatchParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="31" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="816">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseInternet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="46" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetCheck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="8" selection-start="1516" selection-end="1930" vertical-scroll-proportion="-0.2677966" vertical-offset="838" max-vertical-offset="1428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="9" selection-start="1709" selection-end="1709" vertical-scroll-proportion="-18.307692" vertical-offset="408" max-vertical-offset="1190">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="4" selection-start="3276" selection-end="3599" vertical-scroll-proportion="0.0" vertical-offset="938" max-vertical-offset="1598">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="66" selection-start="5004" selection-end="5004" vertical-scroll-proportion="-10.576923" vertical-offset="1391" max-vertical-offset="2159">
+          <folding>
+            <element signature="e#5492#5712#0" expanded="true" />
+            <element signature="e#5689#5690#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="40" selection-start="1932" selection-end="1932" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2244">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="25" selection-start="1816" selection-end="1816" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3808">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="39" selection-start="4173" selection-end="4173" vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="2941">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1027#1040#0" expanded="true" />
+            <element signature="e#2201#2505#0" expanded="true" />
+            <element signature="e#2482#2483#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="70" selection-start="4769" selection-end="4769" vertical-scroll-proportion="0.0" vertical-offset="1378" max-vertical-offset="2227">
+          <folding>
+            <element signature="e#2127#2150#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/xml/preferences.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="57" selection-start="633" selection-end="633" vertical-scroll-proportion="0.4256651" vertical-offset="0" max-vertical-offset="639">
+          <folding />
         </state>
       </provider>
     </entry>

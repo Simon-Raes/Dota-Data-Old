@@ -1,4 +1,4 @@
-package be.simonraes.dotadata;
+package be.simonraes.dotadata.activity;
 
 import android.app.*;
 import android.content.res.Configuration;
@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.fragment.*;
@@ -23,7 +24,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.drawer_layout);
 
         setActionBarTitle("Dota Data");
@@ -59,6 +60,11 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
 
+        //set recent games as default
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+
+
     }
 
 
@@ -84,7 +90,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
 
         if (position == 1) {
-            fragment = new DatabaseGamesFragment();
+            fragment = new RecentGamesFragment();
 
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
@@ -136,7 +142,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
         if (btnRefresh != null) {
-            btnRefresh.setVisible(!drawerOpen);
+            btnRefresh.setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }

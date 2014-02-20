@@ -6,7 +6,7 @@
                 android:layout_height="match_parent">
     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                android:id="@+id/imgLiveLeagueRowRadiantLogo"
-               android:src="@drawable/item_lg_loading"
+               android:src="@drawable/item_lg_unknown"
                android:maxWidth="100dp"
                android:padding="10dp"/>
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -19,6 +19,6 @@
                android:layout_alignParentRight="true"
                android:id="@+id/imgLiveLeagueRowDireLogo"
                android:maxWidth="100dp"
-               android:src="@drawable/item_lg_loading"
+               android:src="@drawable/item_lg_unknown"
                android:padding="10dp"/>
 </RelativeLayout>

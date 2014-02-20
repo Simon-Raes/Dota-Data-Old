@@ -31,34 +31,35 @@ import java.util.List;
 /**
  * Created by Simon on 18/02/14.
  */
-public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
+public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
     private Context context;
     private ArrayList<DetailMatch> matches;
 
-    private DisplayImageOptions options;
-    private ImageLoader imageLoader;
-    private ImageLoadingListener animateFirstListener;
+//    private DisplayImageOptions options;
+//    private ImageLoader imageLoader;
+//    private ImageLoadingListener animateFirstListener;
 
     String prefAccountID;
 
-    public DetailGamesAdapter(Context context, ArrayList<DetailMatch> objects) {
+    public RecentGamesAdapter(Context context, ArrayList<DetailMatch> objects) {
         super(context, R.layout.historygames_row, objects);
         this.context = context;
         this.matches = objects;
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        prefAccountID = sharedPref.getString("be.simonraes.dotadata.accountid", "");
 
-        options = new DisplayImageOptions.Builder()
-                .resetViewBeforeLoading(true)
-                .cacheInMemory(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.item_lg_loading)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .build();
+        prefAccountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
 
-        animateFirstListener = new AnimateFirstDisplayListener();
+
+//        options = new DisplayImageOptions.Builder()
+//                .resetViewBeforeLoading(true)
+//                .cacheInMemory(true)
+//                .bitmapConfig(Bitmap.Config.RGB_565)
+//                .showImageOnLoading(R.drawable.item_lg_loading)
+//                .imageScaleType(ImageScaleType.EXACTLY)
+//                .build();
+
+//        animateFirstListener = new AnimateFirstDisplayListener();
     }
 
     //can probably be deleted
@@ -95,30 +96,32 @@ public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
 
         viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
 
+//        imageLoader = ImageLoader.getInstance();
 
-        imageLoader = ImageLoader.getInstance();
+        //find the user's hero, set as image
         String playerHeroID = "1";
         for (DetailPlayer player : match.getPlayers()) {
             if (player.getAccount_id() != null) {
                 if (player.getAccount_id().equals(prefAccountID)) {
-                    playerHeroID = player.getHero_id();
-
-                    //set victory/loss here while we have the user's player info
-                    if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
-                        viewholder.txtVictoryLoss.setText("Victory");
-                        viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
-
-                    } else {
-                        viewholder.txtVictoryLoss.setText("Defeat");
-                        viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
-                    }
+                    playerHeroID = player.getHero_id();//
                 }
             }
+        }
+        viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(playerHeroID), "drawable", context.getPackageName()));
 
+
+        //set victory or defeat text
+        if (match.isUser_win()) {
+            viewholder.txtVictoryLoss.setText("Victory");
+            viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
+        } else {
+            viewholder.txtVictoryLoss.setText("Defeat");
+            viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
         }
 
-        viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(playerHeroID), "drawable", context.getPackageName()));
+        //old
         //imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
+
         return view;
     }
 

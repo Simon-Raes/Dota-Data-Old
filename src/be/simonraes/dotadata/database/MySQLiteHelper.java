@@ -30,6 +30,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_MATCHES_COLUMN_POSITIVE_VOTES = "positive_votes";
     public static final String TABLE_MATCHES_COLUMN_NEGATIVE_VOTES = "negative_votes";
     public static final String TABLE_MATCHES_COLUMN_GAME_MODE = "game_mode";
+    public static final String TABLE_MATCHES_COLUMN_USER_WIN = "user_win";
 
     public static final String TABLE_PLAYERS_IN_MATCHES = "players_in_matches";
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID = "pim_id"; //extra field for database key and relation
@@ -74,7 +75,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(radiant_win text, " +
             "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
             "barracks_status_dire text, cluster text, first_blood_time text, lobby_type text, human_players text, leagueid text, " +
-            "positive_votes text, negative_votes text, game_mode text);";
+            "positive_votes text, negative_votes text, game_mode text, user_win text);";
 
 
     private static final String CREATE_TABLE_PLAYERS_IN_MATCHES = "create table IF NOT EXISTS players_in_matches (pim_id text primary key, account_id text, " +

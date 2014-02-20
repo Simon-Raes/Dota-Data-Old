@@ -10,15 +10,19 @@
 
     <application android:label="@string/app_name"
                  android:icon="@drawable/dd_sm"
-                 android:name=".DotaDataApplication"
+                 android:name=".application.DotaDataApplication"
                  android:theme="@android:style/Theme.Holo.Light">
 
-        <activity android:name="be.simonraes.dotadata.DrawerController"
+        <activity android:name=".activity.DrawerController"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".AccountIDHelpActivity"
+                  android:label="Dota 2 account ID">
+
         </activity>
     </application>
 </manifest>

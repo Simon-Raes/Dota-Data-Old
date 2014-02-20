@@ -237,13 +237,13 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         if (twrRadiant.isTopT4()) {
             View towerRadiantTopT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantTopT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
+            towerRadiantTopT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
             layLiveLeagueMinimap.addView(towerRadiantTopT4);
         }
         if (twrRadiant.isBotT4()) {
             View towerRadiantBotT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantBotT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
+            towerRadiantBotT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
             layLiveLeagueMinimap.addView(towerRadiantBotT4);
         }
 

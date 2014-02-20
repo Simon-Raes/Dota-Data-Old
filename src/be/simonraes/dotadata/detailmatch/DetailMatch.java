@@ -34,6 +34,8 @@ public class DetailMatch implements Serializable {
     private String negative_votes;
     private String game_mode;
 
+    private boolean user_win; //extra database field
+
     //ranked games
     private String radiant_guild_id;
     private String radiant_guild_name;
@@ -258,5 +260,61 @@ public class DetailMatch implements Serializable {
 
     public void setDire_guild_logo(String dire_guild_logo) {
         this.dire_guild_logo = dire_guild_logo;
+    }
+
+    public boolean isUser_win() {
+        return user_win;
+    }
+
+    public void setUser_win(boolean user_win) {
+        this.user_win = user_win;
+    }
+
+    public String getRadiant_name() {
+        return radiant_name;
+    }
+
+    public void setRadiant_name(String radiant_name) {
+        this.radiant_name = radiant_name;
+    }
+
+    public String getRadiant_logo() {
+        return radiant_logo;
+    }
+
+    public void setRadiant_logo(String radiant_logo) {
+        this.radiant_logo = radiant_logo;
+    }
+
+    public String getRadiant_team_complete() {
+        return radiant_team_complete;
+    }
+
+    public void setRadiant_team_complete(String radiant_team_complete) {
+        this.radiant_team_complete = radiant_team_complete;
+    }
+
+    public String getDire_name() {
+        return dire_name;
+    }
+
+    public void setDire_name(String dire_name) {
+        this.dire_name = dire_name;
+    }
+
+    public String getDire_logo() {
+        return dire_logo;
+    }
+
+    public void setDire_logo(String dire_logo) {
+        this.dire_logo = dire_logo;
+    }
+
+    public String getDire_team_complete() {
+        return dire_team_complete;
+    }
+
+    public void setDire_team_complete(String dire_team_complete) {
+        this.dire_team_complete = dire_team_complete;
     }
 }

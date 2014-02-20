@@ -20,21 +20,30 @@
                         android:orientation="vertical"
                         android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="winner"
-                      android:id="@+id/txtDetailWinner"/>
+                      android:id="@+id/txtDetailWinner"
+                      android:text="winner"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="game mode"
+                      android:id="@+id/txtDetailVictoryDefeat"
                       android:layout_below="@id/txtDetailWinner"
-                      android:id="@+id/txtDetailGameMode"/>
+                      android:text="you won or lost"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailGameMode"
+                      android:layout_below="@id/txtDetailVictoryDefeat"
+                      android:text="game mode"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_alignParentRight="true"
                       android:id="@+id/txtDetailMatchID"
+                      android:layout_alignParentRight="true"
                       android:text="match id"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailDate"
                       android:layout_below="@id/txtDetailMatchID"
                       android:layout_alignParentRight="true"
+                      android:text="date"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtDetailDuration"
+                      android:layout_below="@id/txtDetailDate"
+                      android:layout_alignParentRight="true"
                       android:text="duration"/>
 
         </RelativeLayout>

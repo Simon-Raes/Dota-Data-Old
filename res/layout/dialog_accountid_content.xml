@@ -5,9 +5,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="You must enter your Dota 2 account ID before you can use this feature."/>
+              android:textSize="18dp"
+              android:layout_margin="15dp"
+              android:text="Enter your Dota 2 account ID to get started. Hit the Help button for instructions on how to find your Dota 2 account ID."/>
     <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
               android:id="@+id/txtDialogAccountID"
+              android:layout_margin="15dp"
               android:numeric="integer"/>
 
 </LinearLayout>

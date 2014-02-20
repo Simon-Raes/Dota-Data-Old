@@ -3,6 +3,7 @@ package be.simonraes.dotadata.historyloading;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
@@ -10,7 +11,7 @@ import be.simonraes.dotadata.database.PicksBansDataSource;
 import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
-import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
+import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
@@ -18,6 +19,7 @@ import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchesParser;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
+import be.simonraes.dotadata.util.InternetChecker;
 
 import java.util.ArrayList;
 
@@ -25,12 +27,12 @@ import java.util.ArrayList;
  * Created by Simon on 13/02/14.
  * Controller for the download of the complete Dota 2 matchhistory
  */
-public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailList {
+public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailList, ASyncResponseInternet {
 
     private String accountID;
     private ArrayList<HistoryMatch> matches;
     private HistoryMatchParser parser;
-    private ASyncResponseHistoryLoader delegate;
+    //private ASyncResponseHistoryLoader delegate;
     private Context context;
 
     private NotificationManager mNotifyManager;
@@ -39,9 +41,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private String latestSavedMatchID;
     private boolean goToDetailParser;
 
-    public HistoryLoader(ASyncResponseHistoryLoader delegate, Context context, String accountID) {
-        this.accountID = accountID;
-        this.delegate = delegate;
+    public HistoryLoader(Context context) { //ASyncResponseHistoryLoader delegate,
+        this.accountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
+
+
+        //this.delegate = delegate;
         this.context = context;
 
         goToDetailParser = false;
@@ -61,19 +65,35 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //todo: use last match ID to check if a match should be downloaded+saved or not, only download new matches
 
 
-        //start notification
         mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setContentTitle("Downloading Dota 2 history")
-                .setContentText("Starting download...")
-                .setSmallIcon(R.drawable.dd_sm);
-        mNotifyManager.notify(1010, mBuilder.build());
 
-        //start parser
-        parser = new HistoryMatchParser(this);
-        parser.execute(accountID);
+        //check if web service is available
+        InternetChecker checker = new InternetChecker(this);
+        checker.execute();
     }
 
+    //finished checking status of webservice
+    @Override
+    public void processFinish(Boolean result) {
+        if (result) {
+            //start notification
+            mBuilder.setContentTitle("Downloading Dota 2 history")
+                    .setContentText("Starting download...")
+                    .setSmallIcon(R.drawable.dd_sm);
+
+            //start parser
+            parser = new HistoryMatchParser(this);
+            parser.execute(accountID);
+        } else {
+            mBuilder.setContentTitle("Dota 2 webservice unavailable")
+                    .setContentText("Please try again later.")
+                    .setSmallIcon(R.drawable.dd_sm);
+        }
+        mNotifyManager.notify(1010, mBuilder.build());
+    }
+
+    //received next set of 100 history matches
     @Override
     public void processFinish(HistoryContainer result) {
         //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
@@ -164,19 +184,30 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     public void processFinish(ArrayList<DetailMatch> result) {
         updateNotification("Saving...", 0, 0, false);
 
-        //save matches to database
-        MatchesDataSource mds = new MatchesDataSource(context);
-        mds.saveDetailMatches(result);
 
         //save players and (if needed) picks/bans to database
         ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
         ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
 
         for (DetailMatch match : result) {
+            //get victory or loss
             for (DetailPlayer player : match.getPlayers()) {
+                if (player.getAccount_id() != null) {
+                    if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""))) {
+                        //set victory/loss here while we have the user's player info
+                        if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
+                            //player won
+                            match.setUser_win(true);
+                        } else {
+                            match.setUser_win(false);
+                        }
+                    }
+                }
+                //get players
                 player.setMatchID(match.getMatch_id());
                 players.add(player);
             }
+            //get picksbans
             if (match.getPicks_bans().size() > 0) {
                 for (PicksBans picksBans : match.getPicks_bans()) {
                     picksBans.setMatch_id(match.getMatch_id());
@@ -184,8 +215,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 }
             }
         }
+        //save matches to database
+        MatchesDataSource mds = new MatchesDataSource(context);
+        mds.saveDetailMatches(result);
+        //save players
         PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
         pimds.savePlayers(players);
+        //save picksbans
         PicksBansDataSource pbds = new PicksBansDataSource(context);
         pbds.savePicksBansList(picksBansList);
 
@@ -198,4 +234,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 .setProgress(progress, maxProgress, false);
         mNotifyManager.notify(1010, mBuilder.build());
     }
+
+
 }

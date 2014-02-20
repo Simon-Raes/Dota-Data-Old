@@ -10,8 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.*;
 
 /**
  * Created by Simon on 30/01/14.
@@ -48,8 +47,20 @@ public class InternetCheck {
         return isOnline;
     }
 
+    public static boolean siteAvailable() {
+        try {
+            Socket socket = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress("https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=EB5773FAAF039592D9383FA104EEA55D&account_id=6133547", 80);
+            socket.connect(socketAddress, 1000);
+            socket.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
     public static String getErrorCode() {
-        String errormessage="Could not connect to the Dota 2 webservice";
+        String errormessage = "Could not connect to the Dota 2 webservice";
         HttpGet httpRequest = null;
 
         try {
@@ -66,7 +77,7 @@ public class InternetCheck {
             //http://developer.android.com/reference/org/apache/http/HttpStatus.html
 
             //500 INTERNAL SERVER ERROR
-            if(response.getStatusLine().getStatusCode()== HttpStatus.SC_INTERNAL_SERVER_ERROR){
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
                 errormessage = "Dota 2 webservice currently unavailable";
             }
         } catch (IOException e) {

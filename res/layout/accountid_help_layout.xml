@@ -17,34 +17,61 @@
                       android:layout_marginTop="10dp"
                       android:layout_marginBottom="5dp"
                       android:gravity="center"
-                      android:background="@drawable/bg_card">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textStyle="bold"
-                      android:text="Finding your Dota 2 account ID"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
-                      android:layout_marginBottom="5dp"
                       android:orientation="vertical"
                       android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:textSize="16dp"
+
+                      android:text="Finding your Dota 2 account ID"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:paddingTop="20dp"
+                      android:paddingBottom="5dp"
+                      android:text="There are multiple ways to find your Dota 2 account ID. Enter your information in one of the fields below and hit 'Go' to start downloading your Dota 2 match history. \n\nYour matches and statistics will be available once the download is finished."/>
+        </LinearLayout>
+
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/bg_card">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpDotabuffTitle"
                       android:layout_gravity="center"
                       android:textStyle="bold"
+                      android:layout_centerHorizontal="true"
+
                       android:text="Using Dotabuff"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpDotabuffContent"
+                      android:layout_below="@id/txtHelpDotabuffTitle"
                       android:paddingTop="10dp"
                       android:text="When viewing your Dotabuff profile, your Dota 2 account ID will be in the URL."/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtAccountIDDBURL"
+                      android:id="@+id/txtAccountIDDBExample"
+                      android:layout_below="@id/txtHelpDotabuffContent"
                       android:paddingTop="10dp"
-                      android:layout_gravity="center"
+                      android:paddingBottom="10dp"
+                      android:layout_centerHorizontal="true"
                       android:text="http://dotabuff.com/players/6133547"/>
-        </LinearLayout>
+
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/btnHelpDotabuff"
+                    android:layout_below="@+id/txtAccountIDDBExample"
+                    android:layout_alignParentRight="true"
+                    android:text="Go"/>
+
+            <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpDotabuff"
+                      android:layout_toLeftOf="@+id/btnHelpDotabuff"
+                      android:layout_below="@+id/txtAccountIDDBExample"
+                      android:inputType="numberDecimal"
+                      android:imeOptions="actionDone"/>
+        </RelativeLayout>
 
 
         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
@@ -52,7 +79,6 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:orientation="vertical"
                         android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpProfileTitle"
@@ -64,7 +90,7 @@
                       android:id="@+id/txtHelpProfileContent"
                       android:layout_below="@+id/txtHelpProfileTitle"
                       android:paddingTop="10dp"
-                      android:text="Enter your Steam community profile number to convert it to your Dota Account ID. (Note: see below if you have a custom /id/ url.)"/>
+                      android:text="Enter your Steam community profile number to convert it to your Dota Account ID. (Note: see below if you have a vanity url.)"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpProfileExample"
@@ -73,16 +99,19 @@
                       android:paddingBottom="10dp"
                       android:layout_centerHorizontal="true"
                       android:text="http://steamcommunity.com/profiles/76561197966399275"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/btnHelpProfileNumber"
+                    android:layout_below="@+id/txtHelpProfileExample"
+                    android:layout_alignParentRight="true"
+                    android:text="Go"/>
 
             <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpProfileNumber"
                       android:layout_toLeftOf="@+id/btnHelpProfileNumber"
                       android:layout_below="@+id/txtHelpProfileExample"
-                      android:id="@+id/txtHelpProfileNumber"/>
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/txtHelpProfileExample"
-                    android:id="@+id/btnHelpProfileNumber"
-                    android:text="Convert"/>
+                      android:inputType="numberDecimal"
+                      android:imeOptions="actionDone"/>
+
 
         </RelativeLayout>
 
@@ -92,7 +121,6 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:orientation="vertical"
                         android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpIDTitle"
@@ -104,7 +132,7 @@
                       android:id="@+id/txtHelpIDContent"
                       android:layout_below="@id/txtHelpIDTitle"
                       android:paddingTop="10dp"
-                      android:text="Enter your Steam community id name to convert it to your Dota Account ID."/>
+                      android:text="Enter your Steam community vanity url name to convert it to your Dota Account ID."/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpIDExample"
@@ -119,11 +147,12 @@
                     android:layout_below="@id/txtHelpIDExample"
                     android:layout_alignParentRight="true"
                     android:id="@+id/btnHelpIDName"
-                    android:text="Convert"/>
+                    android:text="Go"/>
             <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
                       android:layout_below="@id/txtHelpIDExample"
                       android:layout_toLeftOf="@id/btnHelpIDName"
-                      android:id="@+id/txtHelpIDName"/>
+                      android:id="@+id/txtHelpIDName"
+                      android:imeOptions="actionDone"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

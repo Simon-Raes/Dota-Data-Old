@@ -51,14 +51,41 @@ public class Conversions {
 
 
     public static String dotaIDToCommunityID(String accountID) {
-        long steamID = 76561197960265728L + Long.parseLong(accountID);
+        long steamID;
+        String accID = accountID;
+
+        try {
+            Long.parseLong(accID);
+        } catch (Exception ex) {
+            accID = "0";
+        }
+
+        if (accID.equals("")) {
+            steamID = 0;
+        } else {
+            steamID = 76561197960265728L + Long.parseLong(accID);
+        }
+
         return Long.toString(steamID);
     }
 
 
     public static String community64IDToDota64ID(String communityID) {
-        long accountID = Long.parseLong(communityID) - 76561197960265728L;
-        return Long.toString(accountID);
+        long accountID = 0L;
+        try {
+            accountID = Long.parseLong(communityID) - 76561197960265728L;
+        } catch (NumberFormatException ex) {
+            accountID = 0L;
+        } finally {
+            //todo: needs a better check to see if number matches an account
+
+            if (accountID < 0) {
+                return "0";
+            } else {
+                return Long.toString(accountID);
+
+            }
+        }
     }
 
     /**
