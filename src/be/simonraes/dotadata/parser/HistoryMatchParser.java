@@ -55,7 +55,7 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        if (container.getRecentGames() == null) System.out.println("CONTINARE IN HISTORY PARSER IS NULL");
         return container;
     }
 

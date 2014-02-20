@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application android:label="@string/app_name"
-                 android:icon="@drawable/dd_sm"
+                 android:icon="@drawable/dotadata_sm"
                  android:name=".application.DotaDataApplication"
                  android:theme="@android:style/Theme.Holo.Light">
 

@@ -355,6 +355,8 @@ public class MatchesDataSource {
         System.out.println("got match id to delete: " + matchID);
         open();
         database.delete(MySQLiteHelper.TABLE_MATCHES, "match_id" + "=?", new String[]{matchID});
+        database.delete(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, "match_id" + "=?", new String[]{matchID});
+        database.delete(MySQLiteHelper.TABLE_PICKS_BANS, "match_id" + "=?", new String[]{matchID});
         close();
 
     }

@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by Simon on 14/02/14.
  */
-public class StatsFragment extends Fragment implements View.OnClickListener {
+public class StatsFragment extends Fragment implements View.OnClickListener, ASyncResponseHistoryLoader {
 
     private Button btnUpdateMatches, btnClearDatabase;
     private Button btnNumberOfRecords, btnDeleteLatestMatch;
@@ -121,7 +121,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnUpdateMatches:
-                HistoryLoader loader = new HistoryLoader(getActivity());
+                HistoryLoader loader = new HistoryLoader(getActivity(), this);
                 loader.updateHistory();
                 break;
             case R.id.btnClearDatabase:
@@ -141,4 +141,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void processFinish() {
+
+    }
 }

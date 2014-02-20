@@ -1,11 +1,12 @@
 package be.simonraes.dotadata.util;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Simon on 20/02/14.
@@ -28,8 +29,9 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             URL u = new URL("https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=EB5773FAAF039592D9383FA104EEA55D&account_id=6133547");
             connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("HEAD");
+            connection.setRequestProperty("Connection", "Close");
             int code = connection.getResponseCode();
-            if (code == 200) {
+            if (code == 200 || code == 404) {
                 webStatus = true;
             } else {
                 webStatus = false;
@@ -43,7 +45,7 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            System.out.println("ioexc code");
+            System.out.println("io exc code");
 
             e.printStackTrace();
         } finally {

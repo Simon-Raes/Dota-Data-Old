@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.delegates.ASyncResponseVanity;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.parser.VanityResolverParser;
@@ -26,7 +27,7 @@ import be.simonraes.dotadata.vanity.VanityContainer;
 /**
  * Created by Simon on 13/02/14.
  */
-public class AccountIDHelpFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity {
+public class AccountIDHelpFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity, ASyncResponseHistoryLoader {
 
     private EditText etxtDotabuff, etxtProfileNumber, etxtIDName;
     private Button btnHelpDotabuff, btnHelpProfileNumber, btnHelpIDName;
@@ -117,14 +118,14 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
 
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", accountID).commit();
 
-            HistoryLoader loader = new HistoryLoader(getActivity());
+            HistoryLoader loader = new HistoryLoader(getActivity(), this);
             loader.updateHistory();
 
             new AlertDialog.Builder(getActivity())
                     .setTitle("Success!")
                     .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. You can use other apps while you wait. Use the notification to keep track of progress.")
                     .setCancelable(false)
-                    .setIcon(R.drawable.dd_sm)
+                    .setIcon(R.drawable.dotadata_sm)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //nothing, just dismiss
@@ -138,5 +139,10 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
         {
             Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void processFinish() {
+
     }
 }

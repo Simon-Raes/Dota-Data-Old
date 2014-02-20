@@ -8,5 +8,5 @@ import java.util.ArrayList;
  * Created by Simon on 14/02/14.
  */
 public interface ASyncResponseHistoryLoader {
-    public void processFinish(ArrayList<DetailMatch> result);
+    public void processFinish();
 }

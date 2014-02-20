@@ -11,6 +11,7 @@ import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
+import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by Simon on 18/02/14.
  */
-public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, ASyncResponseDatabase {
+public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, ASyncResponseDatabase, ASyncResponseHistoryLoader {
 
     private ListView lvRecentGames;
     private RecentGamesAdapter listAdapter;
@@ -45,7 +46,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     .setTitle("Welcome!")
                     .setCancelable(false)
                     .setMessage("Your Dota 2 account ID is required before your matches can be downloaded. Hit 'Ok' to get started.")
-                    .setIcon(R.drawable.dd_sm)
+                    .setIcon(R.drawable.dotadata_sm)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -99,7 +100,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnRefresh:
-                HistoryLoader loader = new HistoryLoader(getActivity());
+                HistoryLoader loader = new HistoryLoader(getActivity(), this);
                 loader.updateHistory();
                 return true;
             default:
@@ -164,4 +165,10 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
 
+    @Override
+    public void processFinish() {
+        System.out.println("received update that matches have been downloaded");
+        matches.clear();
+        loadMatches();
+    }
 }

@@ -11,6 +11,7 @@ import be.simonraes.dotadata.database.PicksBansDataSource;
 import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
+import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
@@ -32,7 +33,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private String accountID;
     private ArrayList<HistoryMatch> matches;
     private HistoryMatchParser parser;
-    //private ASyncResponseHistoryLoader delegate;
+    private ASyncResponseHistoryLoader delegate;
     private Context context;
 
     private NotificationManager mNotifyManager;
@@ -41,11 +42,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private String latestSavedMatchID;
     private boolean goToDetailParser;
 
-    public HistoryLoader(Context context) { //ASyncResponseHistoryLoader delegate,
+    public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate) { //
         this.accountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
 
 
-        //this.delegate = delegate;
+        this.delegate = delegate;
         this.context = context;
 
         goToDetailParser = false;
@@ -53,6 +54,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         matches = new ArrayList<HistoryMatch>();
     }
 
+    //todo: prevent history from updating if it is currently updating (with preference boolean?)
     public void updateHistory() {
 
         //get the most recent match from the database
@@ -61,9 +63,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (latestSavedMatchID == null) {
             latestSavedMatchID = "0";
         }
-
-        //todo: use last match ID to check if a match should be downloaded+saved or not, only download new matches
-
 
         mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(context);
@@ -76,11 +75,17 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     //finished checking status of webservice
     @Override
     public void processFinish(Boolean result) {
+
+//        //CHECK WITHOUT INTERNETCHECKPARSER
+//        boolean result = true;
+
+
         if (result) {
             //start notification
             mBuilder.setContentTitle("Downloading Dota 2 history")
                     .setContentText("Starting download...")
-                    .setSmallIcon(R.drawable.dd_sm);
+                    .setTicker("Starting download...")
+                    .setSmallIcon(R.drawable.dotadata_xsm);
 
             //start parser
             parser = new HistoryMatchParser(this);
@@ -88,7 +93,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         } else {
             mBuilder.setContentTitle("Dota 2 webservice unavailable")
                     .setContentText("Please try again later.")
-                    .setSmallIcon(R.drawable.dd_sm);
+                    .setTicker("Dota 2 webservice unavailable")
+                    .setSmallIcon(R.drawable.dotadata_xsm);
         }
         mNotifyManager.notify(1010, mBuilder.build());
     }
@@ -101,6 +107,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
 
         System.out.println("got next set, size is now " + matches.size());
+        if (result == null) System.out.println("RESULT IS NULL");
 
         if (result.getRecentGames().getMatches().size() > 0) {
             if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
@@ -227,10 +234,15 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         updateNotification("Download complete.", 0, 0, false);
 
+        //alert delegate that all matches have been downloaded
+        delegate.processFinish();
+
     }
 
     private void updateNotification(String title, int progress, int maxProgress, boolean isFixed) {
         mBuilder.setContentText(title)
+                .setTicker(title)
+                .setSmallIcon(R.drawable.dotadata_xsm)
                 .setProgress(progress, maxProgress, false);
         mNotifyManager.notify(1010, mBuilder.build());
     }
