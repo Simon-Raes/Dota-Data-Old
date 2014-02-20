@@ -89,8 +89,9 @@ public class ItemList
 		items.put("77", "null_talisman");
 		items.put("78", "recipe_mekansm");
 		items.put("79", "mekansm");
-		items.put("81", "recipe_vladmir");
-		items.put("82", "recipe_magic_wand");
+        items.put("80", "recipe_vladmir");
+        items.put("81", "vladmir");
+        items.put("82", "recipe_magic_wand");
 		items.put("83", "recipe_magic_wand");
 		items.put("84", "flying_courier");
 		items.put("85", "recipe_buckler");
@@ -154,41 +155,41 @@ public class ItemList
 		items.put("143", "basher");
 		items.put("144", "recipe_bfury");
 		items.put("145", "bfury");
-		items.put("146", "recipe_manta");
-		items.put("147", "manta");
-		items.put("148", "recipe_lesser_crit");
-		items.put("149", "lesser_crit");
-		items.put("150", "recipe_armlet");
-		items.put("151", "armlet");
-		items.put("152", "recipe_invis_sword");
-		items.put("153", "invis_sword");
-		items.put("154", "sange_and_yasha");
-		items.put("155", "recipe_satanic");
-		items.put("156", "satanic");
-		items.put("157", "recipe_mjollnir");
-		items.put("158", "mjollnir");
-		items.put("159", "recipe_skadi");
-		items.put("160", "skadi");
-		items.put("161", "recipe_sange");
-		items.put("162", "sange");
-		items.put("163", "recipe_helm_of_the_dominator");
-		items.put("164", "helm_of_the_dominator");
-		items.put("165", "recipe_maelstrom");
-		items.put("166", "maelstrom");
-		items.put("167", "recipe_desolator");
-		items.put("168", "desolator");
-		items.put("169", "recipe_yasha");
-		items.put("170", "yasha");
-		items.put("171", "recipe_mask_of_madness");
-		items.put("172", "mask_of_madness");
-		items.put("173", "recipe_diffusal_blade");
-		items.put("174", "diffusal_blade");
-		items.put("175", "recipe_ethereal_blade");
-		items.put("176", "ethereal_blade");
-		items.put("177", "recipe_soul_ring");
-		items.put("178", "soul_ring");
-		items.put("179", "recipe_arcane_boots");
-		items.put("180", "arcane_boots");
+        items.put("146", "recipe_manta"); //manta
+        items.put("147", "manta");
+        items.put("148", "recipe_lesser_crit"); //lesser crit
+        items.put("149", "lesser_crit");
+        items.put("150", "recipe_armlet"); //armet
+        items.put("151", "armlet");
+        items.put("152", "invis_sword");
+        items.put("153", "recipe_invis_sword");
+        items.put("154", "sange_and_yasha");
+        items.put("155", "recipe_satanic"); //
+        items.put("156", "satanic");
+        items.put("157", "recipe_mjollnir"); //
+        items.put("158", "mjollnir");
+        items.put("159", "recipe_skadi"); //
+        items.put("160", "skadi");
+        items.put("161", "recipe_sange"); //
+        items.put("162", "sange");
+        items.put("163", "recipe_helm_of_the_dominator"); //
+        items.put("164", "helm_of_the_dominator");
+        items.put("165", "recipe_maelstrom"); //
+        items.put("166", "maelstrom");
+        items.put("167", "recipe_desolator"); //
+        items.put("168", "desolator");
+        items.put("169", "recipe_yasha"); //
+        items.put("170", "yasha");
+        items.put("171", "recipe_mask_of_madness"); //
+        items.put("172", "mask_of_madness");
+        items.put("173", "recipe_diffusal_blade"); //
+        items.put("174", "diffusal_blade");
+        items.put("175", "recipe_ethereal_blade"); //
+        items.put("176", "ethereal_blade");
+        items.put("177", "recipe_soul_ring"); //
+        items.put("178", "soul_ring");
+        items.put("179", "recipe_lg"); //
+        items.put("180", "arcane_boots");
 		items.put("181", "orb_of_venom");
 		items.put("182", "stout_shield");
 		items.put("183", "recipe_invis_sword");
@@ -235,9 +236,6 @@ public class ItemList
 		{
             if(items.get(nummer).contains("recipe")){
                 return "recipe";
-            }else if(Integer.parseInt(nummer)==0){
-                //todo: needs to be an empty item slot image
-                return "blink";
             } else {
                 return items.get(nummer);
             }

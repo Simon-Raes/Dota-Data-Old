@@ -117,7 +117,8 @@ public class DetailGamesAdapter extends ArrayAdapter<DetailMatch> {
 
         }
 
-        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
+        viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(playerHeroID), "drawable", context.getPackageName()));
+        //imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
         return view;
     }
 

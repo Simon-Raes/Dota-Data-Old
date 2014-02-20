@@ -140,8 +140,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             ImageView imgHero = (ImageView) playerRow.findViewById(R.id.imgDetailHero);
             imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(player.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
-
-            //item image loading options
+            //imgHero.setImageResource(getActivity().getResources().getIdentifier(HeroList.getHeroImageName(player.getHero_id()), "drawable", getActivity().getPackageName()));            //item image loading options
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
@@ -150,22 +149,34 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
 
             ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
-            setItemImage(imgItem, player.getItem_0());
+            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_0()) + "_lg", "drawable", getActivity().getPackageName()));
+
+            //setItemImage(imgItem, player.getItem_0());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
-            setItemImage(imgItem, player.getItem_1());
+            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_1()) + "_lg", "drawable", getActivity().getPackageName()));
+
+            //setItemImage(imgItem, player.getItem_1());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
-            setItemImage(imgItem, player.getItem_2());
+            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_2()) + "_lg", "drawable", getActivity().getPackageName()));
+
+            //setItemImage(imgItem, player.getItem_2());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
-            setItemImage(imgItem, player.getItem_3());
+            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_3()) + "_lg", "drawable", getActivity().getPackageName()));
+
+            //setItemImage(imgItem, player.getItem_3());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
-            setItemImage(imgItem, player.getItem_4());
+            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_4()) + "_lg", "drawable", getActivity().getPackageName()));
+
+            //setItemImage(imgItem, player.getItem_4());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
-            setItemImage(imgItem, player.getItem_5());
+            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_5()) + "_lg", "drawable", getActivity().getPackageName()));
+
+            //setItemImage(imgItem, player.getItem_5());
 
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
@@ -236,18 +247,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         return view;
     }
 
-    private void setItemImage(ImageView imageView, String itemNumber) {
-        String imageURL;
-
-        if (itemNumber.equals("0")) {
-            //empty item slot
-            imageURL = "http://i.imgur.com/wl2LBCB.png";
-        } else {
-            imageURL = "http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(itemNumber) + "_lg.png";
-        }
-
-        imageLoader.displayImage(imageURL, imageView, options, animateFirstListener);
-    }
+//    private void setItemImage(ImageView imageView, String itemNumber) {
+//        String imageURL;
+//
+//        if (itemNumber.equals("0")) {
+//            //empty item slot
+//            imageURL = "http://i.imgur.com/wl2LBCB.png";
+//        } else {
+//            imageURL = "http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(itemNumber) + "_lg.png";
+//        }
+//
+//        imageLoader.displayImage(imageURL, imageView, options, animateFirstListener);
+//    }
 
 
     //Add towers and barracks to minimap
@@ -337,13 +348,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (twrRadiant.isTopT4()) {
             View towerRadiantTopT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantTopT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
+            towerRadiantTopT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
             layDetailsMinimap.addView(towerRadiantTopT4);
         }
         if (twrRadiant.isBotT4()) {
             View towerRadiantBotT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantBotT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
+            towerRadiantBotT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
             layDetailsMinimap.addView(towerRadiantBotT4);
         }
 
