@@ -21,6 +21,8 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
 
+    //private boolean appLaunch = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,14 +61,29 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
-
-        //set recent games as default
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+        if (savedInstanceState == null) {
+            System.out.println("saved state is null");
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+        } else {
+            if (savedInstanceState.getBoolean("appLaunch", true)) {
+                System.out.println("got saved state applaunch true");
+                //user is starting app, set recent games as default
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+            }
+        }
 
 
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        System.out.println("saving state");
+        outState.putBoolean("appLaunch", false);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

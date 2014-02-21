@@ -31,6 +31,11 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     private View footerView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matches_list_layout, container, false);
         pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
@@ -56,10 +61,14 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         } else {
             //force onCreateOptionsMenu to be called
             setHasOptionsMenu(true);
-
-            if (matches.size() == 0) {
-                loadMatches();
+            if (savedInstanceState == null) {
+                if (matches.size() == 0) {
+                    loadMatches();
+                }
+            } else {
+                matches = savedInstanceState.getParcelableArrayList("matches");
             }
+
 
             listAdapter = new RecentGamesAdapter(getActivity(), matches);
             lvRecentGames.setAdapter(listAdapter);
@@ -70,6 +79,12 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         }
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("matches", matches);
     }
 
     //Detect click on match in list
@@ -88,7 +103,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         //send object to fragment
         Bundle bundle = new Bundle();
-        bundle.putSerializable("be.simonraes.dotadata.detailmatch", match);
+        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
         fragment.setArguments(bundle);
 
         transaction.addToBackStack(null).commit();

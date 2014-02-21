@@ -1,17 +1,18 @@
 package be.simonraes.dotadata.detailmatch;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Simon on 30/01/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DetailMatch implements Serializable {
+public class DetailMatch implements Parcelable {
 
     //all games
     @JsonProperty("players")
@@ -317,4 +318,102 @@ public class DetailMatch implements Serializable {
     public void setDire_team_complete(String dire_team_complete) {
         this.dire_team_complete = dire_team_complete;
     }
+
+    //parcelable code
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(players);
+        dest.writeInt(radiant_win ? 1 : 0);
+        dest.writeString(duration);
+        dest.writeString(start_time);
+        dest.writeString(match_id);
+        dest.writeString(match_seq_num);
+        dest.writeString(tower_status_radiant);
+        dest.writeString(tower_status_dire);
+        dest.writeString(barracks_status_radiant);
+        dest.writeString(barracks_status_dire);
+        dest.writeString(cluster);
+        dest.writeString(first_blood_time);
+        dest.writeString(lobby_type);
+        dest.writeString(human_players);
+        dest.writeString(leagueid);
+        dest.writeString(positive_votes);
+        dest.writeString(negative_votes);
+        dest.writeString(game_mode);
+
+        dest.writeInt(user_win ? 1 : 0);
+
+        dest.writeString(radiant_guild_id);
+        dest.writeString(radiant_guild_name);
+        dest.writeString(radiant_guild_logo);
+        dest.writeString(dire_guild_id);
+        dest.writeString(dire_guild_name);
+        dest.writeString(dire_guild_logo);
+
+        dest.writeTypedList(picks_bans);
+
+        dest.writeString(radiant_name);
+        dest.writeString(radiant_logo);
+        dest.writeString(radiant_team_complete);
+        dest.writeString(dire_name);
+        dest.writeString(dire_logo);
+        dest.writeString(dire_team_complete);
+    }
+
+    public DetailMatch(Parcel pc) {
+        pc.readTypedList(players, DetailPlayer.CREATOR);
+        radiant_win = (pc.readInt() == 1);
+        duration = pc.readString();
+        start_time = pc.readString();
+        match_id = pc.readString();
+        match_seq_num = pc.readString();
+        tower_status_radiant = pc.readString();
+        tower_status_dire = pc.readString();
+        barracks_status_radiant = pc.readString();
+        barracks_status_dire = pc.readString();
+        cluster = pc.readString();
+        first_blood_time = pc.readString();
+        lobby_type = pc.readString();
+        human_players = pc.readString();
+        leagueid = pc.readString();
+        positive_votes = pc.readString();
+        negative_votes = pc.readString();
+        game_mode = pc.readString();
+
+        user_win = (pc.readInt() == 1);
+
+        radiant_guild_id = pc.readString();
+        radiant_guild_name = pc.readString();
+        radiant_guild_logo = pc.readString();
+        dire_guild_id = pc.readString();
+        dire_guild_name = pc.readString();
+        dire_guild_logo = pc.readString();
+
+        pc.readTypedList(picks_bans, PicksBans.CREATOR);
+
+        radiant_name = pc.readString();
+        radiant_logo = pc.readString();
+        radiant_team_complete = pc.readString();
+        dire_name = pc.readString();
+        dire_logo = pc.readString();
+        dire_team_complete = pc.readString();
+    }
+
+    public static final Parcelable.Creator<DetailMatch> CREATOR = new
+            Parcelable.Creator<DetailMatch>() {
+                public DetailMatch createFromParcel(Parcel pc) {
+                    return new DetailMatch(pc);
+                }
+
+                public DetailMatch[] newArray(int size) {
+                    return new DetailMatch[size];
+                }
+            };
+
 }

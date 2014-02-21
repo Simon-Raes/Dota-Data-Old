@@ -1,6 +1,7 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,7 +51,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         getActivity().getActionBar().setTitle("Match Details");
 
-        match = (DetailMatch) getArguments().getSerializable("be.simonraes.dotadata.detailmatch");
+        match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
         playerNames = new ArrayList<TextView>();
 
         boolean hasPicksBans = false;

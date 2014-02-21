@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.detailmatch;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * Created by Simon on 30/01/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DetailPlayer implements Serializable {
+public class DetailPlayer implements Parcelable {
 
     private String matchID; //for use in database
     private String pim; //for databaae records
@@ -254,4 +256,79 @@ public class DetailPlayer implements Serializable {
     public void setAbilityupgrades(ArrayList<AbilityUpgrades> abilityupgrades) {
         this.abilityupgrades = abilityupgrades;
     }
+
+    //parcelable code
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(matchID);
+        dest.writeString(pim);
+        dest.writeString(account_id);
+        dest.writeString(player_slot);
+        dest.writeString(hero_id);
+        dest.writeString(item_0);
+        dest.writeString(item_1);
+        dest.writeString(item_2);
+        dest.writeString(item_3);
+        dest.writeString(item_4);
+        dest.writeString(item_5);
+        dest.writeString(kills);
+        dest.writeString(deaths);
+        dest.writeString(assists);
+        dest.writeString(leaver_status);
+        dest.writeString(gold);
+        dest.writeString(last_hits);
+        dest.writeString(denies);
+        dest.writeString(gold_per_min);
+        dest.writeString(xp_per_min);
+        dest.writeString(gold_spent);
+        dest.writeString(hero_damage);
+        dest.writeString(tower_damage);
+        dest.writeString(hero_healing);
+        dest.writeString(level);
+        dest.writeTypedList(abilityupgrades);
+    }
+
+    public DetailPlayer(Parcel pc) {
+        account_id = pc.readString();
+        player_slot = pc.readString();
+        hero_id = pc.readString();
+        item_0 = pc.readString();
+        item_1 = pc.readString();
+        item_2 = pc.readString();
+        item_3 = pc.readString();
+        item_4 = pc.readString();
+        item_5 = pc.readString();
+        kills = pc.readString();
+        deaths = pc.readString();
+        assists = pc.readString();
+        leaver_status = pc.readString();
+        gold = pc.readString();
+        last_hits = pc.readString();
+        denies = pc.readString();
+        gold_per_min = pc.readString();
+        xp_per_min = pc.readString();
+        gold_spent = pc.readString();
+        hero_damage = pc.readString();
+        tower_damage = pc.readString();
+        hero_healing = pc.readString();
+        level = pc.readString();
+        pc.readTypedList(abilityupgrades, AbilityUpgrades.CREATOR);
+    }
+
+    public static final Parcelable.Creator<DetailPlayer> CREATOR = new
+            Parcelable.Creator<DetailPlayer>() {
+                public DetailPlayer createFromParcel(Parcel pc) {
+                    return new DetailPlayer(pc);
+                }
+
+                public DetailPlayer[] newArray(int size) {
+                    return new DetailPlayer[size];
+                }
+            };
 }

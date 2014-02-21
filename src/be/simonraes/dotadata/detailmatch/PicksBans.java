@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.detailmatch;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * Created by Simon on 3/02/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PicksBans implements Serializable {
+public class PicksBans implements Parcelable {
 
     private String match_id; //extra field for database
 
@@ -60,4 +62,38 @@ public class PicksBans implements Serializable {
     public void setOrder(String order) {
         this.order = order;
     }
+
+
+    //parcelable code
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(is_pick ? 1 : 0);
+        dest.writeString(hero_id);
+        dest.writeString(team);
+        dest.writeString(order);
+    }
+
+    public PicksBans(Parcel pc) {
+        is_pick = (pc.readInt() == 1);
+        hero_id = pc.readString();
+        team = pc.readString();
+        order = pc.readString();
+    }
+
+    public static final Creator<PicksBans> CREATOR = new
+            Creator<PicksBans>() {
+                public PicksBans createFromParcel(Parcel pc) {
+                    return new PicksBans(pc);
+                }
+
+                public PicksBans[] newArray(int size) {
+                    return new PicksBans[size];
+                }
+            };
 }
