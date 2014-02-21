@@ -33,6 +33,11 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //onCreate() will still be called when fragment is in the background, save matches here for when user returns to this screen
+        if (savedInstanceState != null) {
+            matches = savedInstanceState.getParcelableArrayList("matches");
+        }
     }
 
     @Override
@@ -61,19 +66,21 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         } else {
             //force onCreateOptionsMenu to be called
             setHasOptionsMenu(true);
+
             if (savedInstanceState == null) {
                 if (matches.size() == 0) {
-                    loadMatches();
+                    //this is the first time opening this screen, get a fresh set of matches from the database
+                    loadMatchesFromDatabase();
                 }
             } else {
+                //list state has been saved before, load that state
                 matches = savedInstanceState.getParcelableArrayList("matches");
             }
-
 
             listAdapter = new RecentGamesAdapter(getActivity(), matches);
             lvRecentGames.setAdapter(listAdapter);
             footerView = inflater.inflate(R.layout.historygames_footer, null);
-            lvRecentGames.addFooterView(footerView);
+            lvRecentGames.addFooterView(footerView, null, false);
             lvRecentGames.setOnItemClickListener(this);
             lvRecentGames.setOnScrollListener(this);
         }
@@ -84,7 +91,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        System.out.println("saved " + matches.size() + " to savedinstancestate");
         outState.putParcelableArrayList("matches", matches);
+
     }
 
     //Detect click on match in list
@@ -123,7 +132,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         }
     }
 
-    private void loadMatches() {
+    private void loadMatchesFromDatabase() {
         DatabaseMatchLoader loader = new DatabaseMatchLoader(this, getActivity());
 
         if (matches.size() < 1) {
@@ -142,7 +151,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         if (scrollState == SCROLL_STATE_IDLE) {
             if (lvRecentGames.getLastVisiblePosition() >= lvRecentGames.getCount() - 5) { //getal duidt aan hoe ver van het einde de loading al zal starten
                 //load more list items:
-                loadMatches();
+                loadMatchesFromDatabase();
             }
         }
     }
@@ -184,6 +193,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     public void processFinish() {
         System.out.println("received update that matches have been downloaded");
         matches.clear();
-        loadMatches();
+        loadMatchesFromDatabase();
     }
 }

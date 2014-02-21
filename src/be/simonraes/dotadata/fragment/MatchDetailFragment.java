@@ -55,6 +55,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         playerNames = new ArrayList<TextView>();
 
         boolean hasPicksBans = false;
+
         if (match != null) {
             if (match.getPicks_bans().size() > 0) {
                 hasPicksBans = true;
@@ -253,26 +254,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         }
 
-        //add listener to retrieve height and width of minimap layout
+        //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
         layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
         layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         return view;
     }
-
-//    private void setItemImage(ImageView imageView, String itemNumber) {
-//        String imageURL;
-//
-//        if (itemNumber.equals("0")) {
-//            //empty item slot
-//            imageURL = "http://i.imgur.com/wl2LBCB.png";
-//        } else {
-//            imageURL = "http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(itemNumber) + "_lg.png";
-//        }
-//
-//        imageLoader.displayImage(imageURL, imageView, options, animateFirstListener);
-//    }
-
 
     //Add towers and barracks to minimap
     @Override
@@ -450,18 +437,17 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
+    //received names of players
     @Override
     public void processFinish(PlayerSummaryContainer result) {
-        //receive names of players
+
         if (result.getPlayers().getPlayers().size() < 1) {
-            System.out.println("Anonymous");
             for (TextView textView : playerNames) {
                 if (textView.getText().equals("4294967295")) {
                     textView.setText("Anonymous");
                 }
             }
         } else {
-            System.out.println(result.getPlayers().getPlayers().get(0).getPersonaname());
             for (TextView textView : playerNames) {
                 if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
                     textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
