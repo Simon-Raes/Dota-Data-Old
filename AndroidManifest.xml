@@ -14,6 +14,7 @@
                  android:theme="@android:style/Theme.Holo.Light">
 
         <activity android:name=".activity.DrawerController"
+                  android:launchMode="singleTop"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

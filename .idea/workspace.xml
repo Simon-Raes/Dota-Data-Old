@@ -36,9 +36,17 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Recent games fragment no longer opens on every orientation. Replaced serializable with parcelable in all detailmatch classes.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Fixed recent games fragment losing listcontent after 2 orientations on the matchdetails screen. Made list footer non clickable.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tower_dire.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tower_radiant.png" />
+      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi\tower_dire_lg.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi\tower_radiant_lg.png" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi\tower_dire_new.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tower_dire.png" />
+      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi\tower_radiant_new.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tower_radiant.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/minimap_tower_dire.xml" afterPath="$PROJECT_DIR$/res/layout/minimap_tower_dire.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/minimap_tower_radiant.xml" afterPath="$PROJECT_DIR$/res/layout/minimap_tower_radiant.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -103,10 +111,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="HistoryLoader.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="261" column="50" selection-start="10989" selection-end="10989" vertical-scroll-proportion="0.0" vertical-offset="3641" max-vertical-offset="4386">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="45" selection-start="1159" selection-end="1159" vertical-scroll-proportion="0.6219512" vertical-offset="0" max-vertical-offset="656">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="RecentGamesFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="50" selection-start="3600" selection-end="3600" vertical-scroll-proportion="0.0" vertical-offset="871" max-vertical-offset="3145">
+            <state line="79" column="50" selection-start="3604" selection-end="3604" vertical-scroll-proportion="0.0" vertical-offset="871" max-vertical-offset="3145">
               <folding>
                 <element signature="e#1122#1135#0" expanded="true" />
               </folding>
@@ -123,14 +149,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="449" column="16" selection-start="20033" selection-end="20033" vertical-scroll-proportion="1.4674658" vertical-offset="3648" max-vertical-offset="4760">
+            <state line="449" column="16" selection-start="20033" selection-end="20033" vertical-scroll-proportion="0.0" vertical-offset="3648" max-vertical-offset="4760">
               <folding>
                 <element signature="method#onGlobalLayout#0;class#MatchDetailFragment#0" expanded="false" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="minimap_tower_dire.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/minimap_tower_dire.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="15" selection-start="415" selection-end="415" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="238">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -202,8 +240,6 @@
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AccountIDHelpFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailContainer.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" />
@@ -212,6 +248,8 @@
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/AbilityUpgrades.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -885,6 +923,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="drawable-mdpi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="drawable-hdpi" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -965,16 +1021,16 @@
       <recent name="interfaces" />
       <recent name="fragment" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="be.simonraes.dotadata" />
+      <recent name="" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Simon\Desktop\Dota Data\res\drawable-mdpi" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\libs" />
       <recent name="C:\Users\Simon\Desktop\drawer\res\drawable-hdpi" />
       <recent name="C:\Users\Simon\Desktop\drawer\res\layout\screens" />
-      <recent name="C:\Users\Simon\Desktop\drawer\res\menu" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="be.simonraes.dotadata" />
-      <recent name="" />
     </key>
   </component>
   <component name="RunManager" selected="Android Application.Dota Data">
@@ -1319,7 +1375,11 @@
       <created>1392982764293</created>
       <updated>1392982764293</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Fixed recent games fragment losing listcontent after 2 orientations on the matchdetails screen. Made list footer non clickable.">
+      <created>1392986230741</created>
+      <updated>1392986230741</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1349,6 +1409,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21232124" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1358,7 +1419,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22941822" sideWeight="0.519536" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16721672" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31463146" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24972497" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38063806" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1371,7 +1432,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1650165" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28540066" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1390,7 +1450,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added custom adapter with dividers for the Drawer" />
     <MESSAGE value="Added league team logos to list- and detailfragments." />
     <MESSAGE value="Added settings screen and option to change accountID." />
     <MESSAGE value="Added tower status to minimap of matchdetails screen (not yet implemented on live league game screen)." />
@@ -1415,7 +1474,8 @@
     <MESSAGE value="Fixed missing or incorrect images. Added accountID help screen to settings screen. Implemented conversions of steamcommunity IDs to Dota IDs. Implemented first-launch functions using accountID help screen. Added class to check if dota API is available." />
     <MESSAGE value="Added notification ticker and fixed internet access breaking after doing a webservice-status-check." />
     <MESSAGE value="Recent games fragment no longer opens on every orientation. Replaced serializable with parcelable in all detailmatch classes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Recent games fragment no longer opens on every orientation. Replaced serializable with parcelable in all detailmatch classes." />
+    <MESSAGE value="Fixed recent games fragment losing listcontent after 2 orientations on the matchdetails screen. Made list footer non clickable." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed recent games fragment losing listcontent after 2 orientations on the matchdetails screen. Made list footer non clickable." />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1426,28 +1486,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/diffusal_blade_lg.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/ItemList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="237" column="0" selection-start="8527" selection-end="8527" vertical-scroll-proportion="-19.884615" vertical-offset="3512" max-vertical-offset="4369">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/historygames_footer.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="50" selection-start="644" selection-end="644" vertical-scroll-proportion="-9.52" vertical-offset="0" max-vertical-offset="357">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="243" column="86" selection-start="10788" selection-end="10788" vertical-scroll-proportion="0.0" vertical-offset="3262" max-vertical-offset="5287">
@@ -1811,20 +1849,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="736" selection-end="736" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="5" selection-start="9978" selection-end="9978" vertical-scroll-proportion="0.0" vertical-offset="3110" max-vertical-offset="3995">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="40" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
@@ -1869,7 +1893,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="50" selection-start="3600" selection-end="3600" vertical-scroll-proportion="0.0" vertical-offset="871" max-vertical-offset="3145">
+        <state line="79" column="50" selection-start="3604" selection-end="3604" vertical-scroll-proportion="0.0" vertical-offset="871" max-vertical-offset="3145">
           <folding>
             <element signature="e#1122#1135#0" expanded="true" />
           </folding>
@@ -1883,12 +1907,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/tower_dire.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/tower_radiant.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="449" column="16" selection-start="20033" selection-end="20033" vertical-scroll-proportion="1.4674658" vertical-offset="3648" max-vertical-offset="4760">
+        <state line="449" column="16" selection-start="20033" selection-end="20033" vertical-scroll-proportion="0.0" vertical-offset="3648" max-vertical-offset="4760">
           <folding>
             <element signature="method#onGlobalLayout#0;class#MatchDetailFragment#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/minimap_tower_dire.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="15" selection-start="415" selection-end="415" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="238">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="261" column="50" selection-start="10989" selection-end="10989" vertical-scroll-proportion="0.0" vertical-offset="3641" max-vertical-offset="4386">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="45" selection-start="1159" selection-end="1159" vertical-scroll-proportion="0.6219512" vertical-offset="0" max-vertical-offset="656">
+          <folding />
         </state>
       </provider>
     </entry>

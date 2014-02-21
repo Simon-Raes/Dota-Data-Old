@@ -2,10 +2,13 @@ package be.simonraes.dotadata.historyloading;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.PicksBansDataSource;
 import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
@@ -130,7 +133,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
-                    updateNotification("No new games found.", 0, 0, false);
+                    updateNotification("No new games found.", 0, 0, false, false);
                     goToDetailParser = false;
                 }
 
@@ -189,7 +192,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     /*Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
-        updateNotification("Saving...", 0, 0, false);
+        updateNotification("Saving...", 0, 0, false, false);
 
 
         //save players and (if needed) picks/bans to database
@@ -232,19 +235,42 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         PicksBansDataSource pbds = new PicksBansDataSource(context);
         pbds.savePicksBansList(picksBansList);
 
-        updateNotification("Download complete.", 0, 0, false);
+        updateNotification("Download complete.", 0, 0, false, true);
 
         //alert delegate that all matches have been downloaded
         delegate.processFinish();
 
     }
 
-    private void updateNotification(String title, int progress, int maxProgress, boolean isFixed) {
+    private void updateNotification(String title, int progress, int maxProgress, boolean isFixed, boolean clickable) {
+        if (clickable) {
+            Intent resultIntent = new Intent(context, DrawerController.class);
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            context,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            mBuilder.setContentText(title)
+                    .setTicker(title)
+                    .setSmallIcon(R.drawable.dotadata_xsm)
+                    .setAutoCancel(true)
+                    .setContentIntent(resultPendingIntent)
+                    .setProgress(progress, maxProgress, false);
+            mNotifyManager.notify(1010, mBuilder.build());
+
+        } else {
+
+        }
         mBuilder.setContentText(title)
                 .setTicker(title)
+                .setAutoCancel(true)
                 .setSmallIcon(R.drawable.dotadata_xsm)
                 .setProgress(progress, maxProgress, false);
         mNotifyManager.notify(1010, mBuilder.build());
+
     }
 
 
