@@ -49,7 +49,6 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
             viewholder = new ViewHolder();
             viewholder.txtMatchID = (TextView) view.findViewById(R.id.txtGameID);
 
-            //todo: get team logo from http://dev.dota2.com/archive/index.php/t-71363.html
             viewholder.imgLogoRadiant = (ImageView) view.findViewById(R.id.imgLiveLeagueRowRadiantLogo);
             viewholder.imgLogoDire = (ImageView) view.findViewById(R.id.imgLiveLeagueRowDireLogo);
             view.setTag(viewholder);

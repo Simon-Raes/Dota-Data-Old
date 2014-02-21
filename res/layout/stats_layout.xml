@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/Gainsboro">
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- Scrollview content -->
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                  android:orientation="vertical"
-                  android:gravity="center">
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
-                      android:layout_marginBottom="5dp"
-                      android:background="@drawable/bg_card">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="Stats"/>
-        </LinearLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+                android:id="@+id/svStats"
+                android:background="@color/Gainsboro">
 
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
-                      android:layout_marginBottom="5dp"
-                      android:background="@drawable/bg_card">
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/btnUpdateMatches"
-                    android:text="Update matches"/>
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/btnClearDatabase"
-                    android:text="Clear database"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
-                      android:layout_marginBottom="5dp"
-                      android:background="@drawable/bg_card">
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/btnNumberOfRecords"
-                    android:text="Number of records"/>
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/btnDeleteLatestMatch"
-                    android:text="Delete latest match"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
+        <!-- Scrollview content -->
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
                       android:orientation="vertical"
-                      android:layout_marginBottom="5dp"
-                      android:background="@drawable/bg_card">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtStatsWinrate"
-                      android:text="winrate"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtStatsGameModes"
-                      android:text="winrate"/>
+                      android:gravity="center">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:background="@drawable/bg_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Stats"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:background="@drawable/bg_card">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btnUpdateMatches"
+                        android:text="Update matches"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btnClearDatabase"
+                        android:text="Clear database"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:background="@drawable/bg_card">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btnNumberOfRecords"
+                        android:text="Number of records"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/btnDeleteLatestMatch"
+                        android:text="Delete latest match"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical"
+                          android:layout_marginBottom="5dp"
+                          android:background="@drawable/bg_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsWinrate"
+                          android:text="winrate"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsGameModes"
+                          android:text="winrate"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <!-- loadingindicator -->
+    <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:id="@+id/pbStats"
+                 android:indeterminate="true"
+                 android:visibility="gone"
+                 style="?android:attr/progressBarStyleLarge"
+                 android:layout_centerInParent="true"/>
+</RelativeLayout>

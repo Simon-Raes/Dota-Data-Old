@@ -161,13 +161,28 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         if (btnRefresh != null) {
             btnRefresh.setVisible(false);
         }
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            btnFavourite.setVisible(false);
+        }
+        MenuItem btnNote = menu.findItem(R.id.btnNote);
+        if (btnNote != null) {
+            btnNote.setVisible(false);
+        }
+
+        if (drawerOpen) {
+            btnRefresh.setVisible(false);
+            btnFavourite.setVisible(false);
+            btnNote.setVisible(false);
+        }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.refresh_menu, menu);
+        inflater.inflate(R.menu.actionbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

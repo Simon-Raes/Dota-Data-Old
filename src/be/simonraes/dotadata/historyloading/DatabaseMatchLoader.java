@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Simon on 19/02/14.
- * AsyncTask class that gets matches from the database and returns them to the listview fragment.
+ * AsyncTask class that gets matches (in blocks of 50) from the database and returns them to the listview fragment.
  */
 public class DatabaseMatchLoader extends AsyncTask<String, Integer, ArrayList<DetailMatch>> {
 

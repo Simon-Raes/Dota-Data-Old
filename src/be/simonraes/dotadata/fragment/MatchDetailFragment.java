@@ -8,10 +8,12 @@ import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.*;
@@ -21,6 +23,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Simon on 30/01/14.
@@ -434,6 +437,43 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
         if (btnRefresh != null) {
             btnRefresh.setVisible(false);
+        }
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            if (match.isFavourite()) {
+                btnFavourite.setIcon(R.drawable.ic_action_important);
+            } else {
+                btnFavourite.setIcon(R.drawable.ic_action_not_important);
+            }
+            btnFavourite.setVisible(true);
+        }
+        MenuItem btnNote = menu.findItem(R.id.btnNote);
+        if (btnNote != null) {
+            btnNote.setVisible(true);
+        }
+    }
+
+    //ActionBar button clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btnNote:
+                Toast.makeText(getActivity(), "NYI: add note to match", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.btnFavourite:
+                MatchesDataSource mds = new MatchesDataSource(getActivity());
+                match.setFavourite(!match.isFavourite());
+                //todo: fix database so 1 match can be added (single add method doesn't have database open(),close())
+                mds.saveDetailMatches(new ArrayList<DetailMatch>(Arrays.asList(match)));
+                if (match.isFavourite()) {
+                    Toast.makeText(getActivity(), "Added match to favourites", Toast.LENGTH_SHORT).show();
+                    item.setIcon(R.drawable.ic_action_important);
+                } else {
+                    Toast.makeText(getActivity(), "Removed match from favourites", Toast.LENGTH_SHORT).show();
+                    item.setIcon(R.drawable.ic_action_not_important);
+                }
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

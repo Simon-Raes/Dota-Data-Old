@@ -121,6 +121,8 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
             HistoryLoader loader = new HistoryLoader(getActivity(), this);
             loader.updateHistory();
 
+            //todo: add a dialog here that shows the user's current steam name + avater and ask if it is the correct account, only start parsing if user agrees
+
             new AlertDialog.Builder(getActivity())
                     .setTitle("Success!")
                     .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. You can use other apps while you wait. Use the notification to keep track of progress.")

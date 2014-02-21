@@ -55,6 +55,10 @@ public class DetailMatch implements Parcelable {
     private String dire_logo;
     private String dire_team_complete;
 
+    //features
+    private boolean favourite;
+    private String note;
+
     public DetailMatch() {
 
     }
@@ -319,6 +323,22 @@ public class DetailMatch implements Parcelable {
         this.dire_team_complete = dire_team_complete;
     }
 
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     //parcelable code
 
     @Override
@@ -364,6 +384,10 @@ public class DetailMatch implements Parcelable {
         dest.writeString(dire_name);
         dest.writeString(dire_logo);
         dest.writeString(dire_team_complete);
+
+        dest.writeInt(favourite ? 1 : 0);
+        dest.writeString(note);
+
     }
 
     public DetailMatch(Parcel pc) {
@@ -403,6 +427,9 @@ public class DetailMatch implements Parcelable {
         dire_name = pc.readString();
         dire_logo = pc.readString();
         dire_team_complete = pc.readString();
+
+        favourite = (pc.readInt() == 1);
+        note = pc.readString();
     }
 
     public static final Parcelable.Creator<DetailMatch> CREATOR = new

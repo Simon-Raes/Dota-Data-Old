@@ -40,7 +40,9 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_MATCHES_COLUMN_POSITIVE_VOTES,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_NEGATIVE_VOTES,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN};
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN,
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE,
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE};
 
 
     //todo: need middle layer/class so this can be removed
@@ -136,6 +138,8 @@ public class MatchesDataSource {
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE, match.getGame_mode());
         //  System.out.println("put " + match.getGame_mode());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN, String.valueOf(match.isUser_win()));
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE, String.valueOf(match.isFavourite()));
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, String.valueOf(match.getNote()));
 
         System.out.println("saving match " + match.getMatch_id());
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -166,19 +170,19 @@ public class MatchesDataSource {
             DetailMatch detailMatch = cursorToDetailMatch(cursor);
 
 
-//            //test get players for all matches
-//            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
-//            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
-//            cursorPlayers.moveToFirst();
-//            while (!cursorPlayers.isAfterLast()) {
-//                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
-//                players.add(detailPlayer);
-//                cursorPlayers.moveToNext();
-//            }
-//            cursorPlayers.close();
+            //test get players for all matches
+            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
+            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+            cursorPlayers.moveToFirst();
 
+            while (!cursorPlayers.isAfterLast()) {
+                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+                players.add(detailPlayer);
+                cursorPlayers.moveToNext();
+            }
+            cursorPlayers.close();
+            detailMatch.setPlayers(players);
 
-//            detailMatch.setPlayers(players);
             matches.add(detailMatch);
             cursor.moveToNext();
         }
@@ -301,6 +305,8 @@ public class MatchesDataSource {
         detailMatch.setNegative_votes(cursor.getString(15));
         detailMatch.setGame_mode(cursor.getString(16));
         detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(17)));
+        detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(18)));
+        detailMatch.setNote(cursor.getString(19));
 
         return detailMatch;
     }
@@ -358,6 +364,5 @@ public class MatchesDataSource {
         database.delete(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, "match_id" + "=?", new String[]{matchID});
         database.delete(MySQLiteHelper.TABLE_PICKS_BANS, "match_id" + "=?", new String[]{matchID});
         close();
-
     }
 }
