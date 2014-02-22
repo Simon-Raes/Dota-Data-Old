@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:background="@color/Gainsboro"
+            android:id="@+id/svMatchDetails">
+
+    <!-- Scrollview content (must be 1 layout) -->
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:gravity="center">
+
+        <!-- Match info (duration, winner,...) -->
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_card_small">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailWinner"
+                      android:text="winner"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailVictoryDefeat"
+                      android:layout_below="@id/txtDetailWinner"
+                      android:text="you won or lost"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailGameMode"
+                      android:layout_below="@id/txtDetailVictoryDefeat"
+                      android:text="game mode"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailMatchID"
+                      android:layout_alignParentRight="true"
+                      android:text="match id"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailDate"
+                      android:layout_below="@id/txtDetailMatchID"
+                      android:layout_alignParentRight="true"
+                      android:text="date"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDetailDuration"
+                      android:layout_below="@id/txtDetailDate"
+                      android:layout_alignParentRight="true"
+                      android:text="duration"/>
+
+        </RelativeLayout>
+
+        <!-- Note -->
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:id="@+id/layDetailNote"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_card_small"
+                        android:visibility="gone">
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/btnDetailDeleteNote"
+                         android:layout_alignParentRight="true"
+                         android:background="@null"
+                         android:src="@drawable/ic_action_remove"/>
+            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:layout_toLeftOf="@id/btnDetailDeleteNote"
+                      android:layout_centerVertical="true"
+                      android:id="@+id/txtDetailNote"/>
+
+        </RelativeLayout>
+
+        <!-- Scrollview containing radiant and dire player cards-->
+        <HorizontalScrollView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:scrollbars="none">
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+                <!-- Radiant players card-->
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/layDetailRadiantPlayers"
+                              android:layout_marginLeft="5dp"
+                              android:layout_marginRight="3dp"
+                              android:layout_marginTop="5dp"
+                              android:layout_marginBottom="5dp"
+                              android:orientation="vertical"
+                              android:background="@drawable/bg_card_small">
+
+                    <View style="@style/Divider"/>
+
+                </LinearLayout>
+
+                <!-- Dire players card-->
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/layDetailDirePlayers"
+                              android:layout_marginLeft="3dp"
+                              android:layout_marginRight="5dp"
+                              android:layout_marginTop="5dp"
+                              android:layout_marginBottom="5dp"
+                              android:orientation="vertical"
+                              android:background="@drawable/bg_card_small">
+
+                    <View style="@style/Divider"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <!-- Picks and bans, only shown when needed -->
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:visibility="gone"
+                      android:id="@+id/layDetailPicksBans"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginBottom="5dp"
+                      android:orientation="vertical"
+                      android:background="@drawable/bg_card_small">
+        </LinearLayout>
+
+
+        <!-- Player skillbuilds -->
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginBottom="5dp"
+                      android:orientation="vertical"
+                      android:visibility="gone"
+                      android:background="@drawable/bg_card_small">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="Skill builds (NYI)"/>
+        </LinearLayout>
+
+        <!-- Map: tower and barracks status -->
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginBottom="5dp"
+                      android:background="@drawable/bg_card_small"
+                      android:paddingTop="20dp"
+                      android:gravity="center"
+                      android:paddingBottom="20dp">
+            <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/layDetailsMinimap">
+                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                           android:id="@+id/imgDetailMinimap"
+                           android:adjustViewBounds="true"
+                           android:src="@drawable/dota_minimap_sd"/>
+            </FrameLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
