@@ -72,7 +72,12 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.btnHelpDotabuff:
-                saveDotaID(etxtDotabuff.getText().toString());
+                if (!etxtDotabuff.getText().equals("")) {
+                    saveDotaID(etxtDotabuff.getText().toString());
+                } else {
+                    saveDotaID("0");
+                }
+
 
                 //hide keyboard
                 ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpDotabuff.getWindowToken(), 0);

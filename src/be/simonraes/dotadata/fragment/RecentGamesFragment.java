@@ -91,7 +91,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        System.out.println("saved " + matches.size() + " to savedinstancestate");
         outState.putParcelableArrayList("matches", matches);
 
     }

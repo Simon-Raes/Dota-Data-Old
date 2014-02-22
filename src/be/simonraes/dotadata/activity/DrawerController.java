@@ -61,18 +61,16 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
-        if (savedInstanceState == null) {
-            System.out.println("saved state is null");
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
-        } else {
-            if (savedInstanceState.getBoolean("appLaunch", true)) {
-                System.out.println("got saved state applaunch true");
-                //user is starting app, set recent games as default
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
-            }
-        }
+//        if (savedInstanceState == null) {
+//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//            transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
+//        } else {
+//            if (savedInstanceState.getBoolean("appLaunch", true)) {
+        //user is starting app, set recent games as default
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
+//            }
+//        }
 
 
     }

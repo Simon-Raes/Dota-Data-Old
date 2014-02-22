@@ -48,6 +48,28 @@
 
         </RelativeLayout>
 
+        <!-- Note -->
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:id="@+id/layDetailNote"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_card"
+                        android:visibility="gone">
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/btnDetailDeleteNote"
+                         android:layout_alignParentRight="true"
+                         android:background="@null"
+                         android:src="@drawable/ic_action_remove"/>
+            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:layout_toLeftOf="@id/btnDetailDeleteNote"
+                      android:layout_centerVertical="true"
+                      android:id="@+id/txtDetailNote"/>
+
+        </RelativeLayout>
+
         <!-- Scrollview containing radiant and dire player cards-->
         <HorizontalScrollView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"

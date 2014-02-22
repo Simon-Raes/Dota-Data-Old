@@ -95,6 +95,9 @@ public class GameModes {
         if (number.equals("16")) {
             gameMode = "Captain's Draft";
         }
+        if (number.equals("17")) {
+            gameMode = "Balanced Draft";
+        }
         if (number.equals("18")) {
             gameMode = "Ability Draft";
         }

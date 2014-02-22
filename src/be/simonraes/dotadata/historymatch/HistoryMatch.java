@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.historymatch;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * Created by Simon on 30/01/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HistoryMatch implements Serializable{
+public class HistoryMatch implements Parcelable {
 
     private String match_id;
     private String match_seq_num;
@@ -64,4 +66,39 @@ public class HistoryMatch implements Serializable{
     public void setPlayers(List<HistoryPlayer> players) {
         this.players = players;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(match_id);
+        dest.writeString(match_seq_num);
+        dest.writeString(start_time);
+        dest.writeString(lobby_type);
+        dest.writeTypedList(players);
+    }
+
+    public HistoryMatch(Parcel pc) {
+
+        match_id = pc.readString();
+        match_seq_num = pc.readString();
+        start_time = pc.readString();
+        lobby_type = pc.readString();
+        pc.readTypedList(players, HistoryPlayer.CREATOR);
+    }
+
+    public static final Parcelable.Creator<HistoryMatch> CREATOR = new
+            Parcelable.Creator<HistoryMatch>() {
+                public HistoryMatch createFromParcel(Parcel pc) {
+                    return new HistoryMatch(pc);
+                }
+
+                public HistoryMatch[] newArray(int size) {
+                    return new HistoryMatch[size];
+                }
+            };
 }

@@ -1,10 +1,13 @@
 package be.simonraes.dotadata.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.res.Configuration;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -13,7 +16,6 @@ import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
-import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.*;
@@ -29,10 +31,10 @@ import java.util.Arrays;
  * Created by Simon on 30/01/14.
  * Sets layout to show details of a match
  */
-public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, ASyncResponsePlayerSummary {
+public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary {
 
-    private View viewB;
     private LayoutInflater inflaterB;
+    private View view;
 
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
@@ -48,9 +50,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
-        View view = inflater.inflate(R.layout.matchdetails_layout, container, false);
+        view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         inflaterB = inflater;
-        viewB = view;
 
         getActivity().getActionBar().setTitle("Match Details");
 
@@ -213,6 +214,15 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             layPlayersDire.setVisibility(View.GONE);
         }
 
+        //note layout
+        if (match.getNote() != null && !match.getNote().equals("") && !match.getNote().equals("null")) {
+            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
+            layNote.setVisibility(View.VISIBLE);
+            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
+            txtNote.setText(match.getNote());
+            ImageButton btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
+            btnDeleteNote.setOnClickListener(this);
+        }
 
         //Picks & bans - only shown if match has picks/bans
         if (hasPicksBans) {
@@ -441,7 +451,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
         if (btnFavourite != null) {
             if (match.isFavourite()) {
-                btnFavourite.setIcon(R.drawable.ic_action_important);
+                btnFavourite.setIcon(R.drawable.ic_action_important_color);
             } else {
                 btnFavourite.setIcon(R.drawable.ic_action_not_important);
             }
@@ -458,7 +468,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnNote:
-                Toast.makeText(getActivity(), "NYI: add note to match", Toast.LENGTH_SHORT).show();
+                noteDialog();
                 return true;
             case R.id.btnFavourite:
                 MatchesDataSource mds = new MatchesDataSource(getActivity());
@@ -467,7 +477,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 mds.saveDetailMatches(new ArrayList<DetailMatch>(Arrays.asList(match)));
                 if (match.isFavourite()) {
                     Toast.makeText(getActivity(), "Added match to favourites", Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_action_important);
+                    item.setIcon(R.drawable.ic_action_important_color);
                 } else {
                     Toast.makeText(getActivity(), "Removed match from favourites", Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_action_not_important);
@@ -493,6 +503,77 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
                 }
             }
+        }
+    }
+
+    private void noteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add note");
+        String m_Text = "";
+
+        // Set up the input
+        final EditText input = new EditText(getActivity());
+        input.setLines(6);
+        input.setMinLines(3);
+        if (match.getNote() != null && !match.getNote().equals("") && !match.getNote().equals("null")) {
+            input.setText(match.getNote());
+        } else {
+            input.setText("");
+        }
+
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveNote(input.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void saveNote(String text) {
+        MatchesDataSource mds = new MatchesDataSource(getActivity());
+        match.setNote(text);
+        mds.open();
+        mds.saveDetailMatch(match);
+        mds.close();
+        if (text.equals("")) {
+            Toast.makeText(getActivity(), "Note removed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Note saved", Toast.LENGTH_SHORT).show();
+        }
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        transaction.remove(this);
+        transaction.replace(R.id.content_frame, this).commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnDetailDeleteNote:
+                saveNote("");
+//                MatchesDataSource mds = new MatchesDataSource(getActivity());
+//                match.setNote("");
+//                mds.open();
+//                mds.saveDetailMatch(match);
+//                mds.close();
+//                Toast.makeText(getActivity(),"Note removed",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
     }
 }

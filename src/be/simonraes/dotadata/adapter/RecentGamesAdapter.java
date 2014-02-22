@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -16,10 +15,6 @@ import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
@@ -43,7 +38,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
     String prefAccountID;
 
     public RecentGamesAdapter(Context context, ArrayList<DetailMatch> objects) {
-        super(context, R.layout.historygames_row, objects);
+        super(context, R.layout.matches_list_row, objects);
         this.context = context;
         this.matches = objects;
 
@@ -76,7 +71,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.historygames_row, parent, false);
+            view = inflater.inflate(R.layout.matches_list_row, parent, false);
             viewholder = new ViewHolder();
             viewholder.imgHero = (ImageView) view.findViewById(R.id.imgRowHero);
             viewholder.txtGameMode = (TextView) view.findViewById(R.id.txtRowGameMode);
@@ -109,6 +104,10 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
         }
         viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(playerHeroID), "drawable", context.getPackageName()));
 
+        if (match.isFavourite()) {
+            ImageView imgFavourite = (ImageView) view.findViewById(R.id.imgFavourite);
+            imgFavourite.setVisibility(View.VISIBLE);
+        }
 
         //set victory or defeat text
         if (match.isUser_win()) {
