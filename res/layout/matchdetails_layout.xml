@@ -86,7 +86,22 @@
                               android:layout_marginBottom="5dp"
                               android:orientation="vertical"
                               android:background="@drawable/bg_card">
+                    <!-- Header -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:textColor="@color/DimGray"
+                                  android:text="K/D/A"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:textColor="@color/DimGray"
 
+                                  android:text="LH/D"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:textColor="@color/DimGray"
+                                  android:text="GPM/XPM"/>
+                    </RelativeLayout>
                     <View style="@style/Divider"/>
 
                 </LinearLayout>
@@ -100,7 +115,22 @@
                               android:layout_marginBottom="5dp"
                               android:orientation="vertical"
                               android:background="@drawable/bg_card">
+                    <!-- Header -->
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:textColor="@color/DimGray"
+                                  android:text="K/D/A"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:textColor="@color/DimGray"
 
+                                  android:text="LH/D"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:textColor="@color/DimGray"
+                                  android:text="GPM/XPM"/>
+                    </RelativeLayout>
                     <View style="@style/Divider"/>
 
                 </LinearLayout>

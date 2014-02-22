@@ -104,6 +104,17 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
 
+        //note layout
+        if (match.getNote() != null && !match.getNote().equals("") && !match.getNote().equals("null")) {
+            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
+            layNote.setVisibility(View.VISIBLE);
+            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
+            txtNote.setText(match.getNote());
+            ImageButton btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
+            btnDeleteNote.setOnClickListener(this);
+        }
+
+
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
@@ -124,6 +135,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         int numRadiantPlayers = 0;
         int numDirePlayers = 0;
 
+
         for (DetailPlayer player : match.getPlayers()) {
             playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
 
@@ -131,8 +143,11 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             //give user's row a special background color
             if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-                playerRow.setBackgroundColor(getResources().getColor(R.color.LightSteelBlue));
+                playerRow.setBackgroundColor(getResources().getColor(R.color.LightGrey));
             }
+
+            TextView txtPlayerLevel = (TextView) playerRow.findViewById(R.id.txtDetailPlayerLevel);
+            txtPlayerLevel.setText(player.getLevel());
 
             TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
             txtPlayerName.setText(player.getAccount_id());
@@ -208,6 +223,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 layPlayersDire.addView(divider);
                 numDirePlayers++;
             }
+
         }
         if (numRadiantPlayers == 0) {
             layPlayersRadiant.setVisibility(View.GONE);
@@ -217,15 +233,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             layPlayersDire.setVisibility(View.GONE);
         }
 
-        //note layout
-        if (match.getNote() != null && !match.getNote().equals("") && !match.getNote().equals("null")) {
-            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
-            layNote.setVisibility(View.VISIBLE);
-            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
-            txtNote.setText(match.getNote());
-            ImageButton btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
-            btnDeleteNote.setOnClickListener(this);
-        }
 
         //Picks & bans - only shown if match has picks/bans
         if (hasPicksBans) {
