@@ -3,12 +3,14 @@ package be.simonraes.dotadata.fragment;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
@@ -45,6 +47,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private DetailMatch match;
 
     private FrameLayout layDetailsMinimap;
+    private ImageButton btnDetailDeleteNote;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -565,12 +568,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         switch (v.getId()) {
             case R.id.btnDetailDeleteNote:
                 saveNote("");
-//                MatchesDataSource mds = new MatchesDataSource(getActivity());
-//                match.setNote("");
-//                mds.open();
-//                mds.saveDetailMatch(match);
-//                mds.close();
-//                Toast.makeText(getActivity(),"Note removed",Toast.LENGTH_SHORT).show();
+//                //hide keyboard
+                //((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnDetailDeleteNote.getWindowToken(), 0);
                 break;
             default:
                 break;

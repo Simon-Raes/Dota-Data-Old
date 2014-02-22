@@ -26,6 +26,17 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
     private ProgressBar pbRecentGames;
     private ArrayList<LiveLeagueMatch> matches = new ArrayList<LiveLeagueMatch>();
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //onCreate() will still be called when fragment is in the background, save matches here for when user returns to this screen
+        if (savedInstanceState != null) {
+            matches = savedInstanceState.getParcelableArrayList("matches");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matches_list_layout, container, false);
@@ -37,14 +48,28 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
         //force onCreateOptionsMenu to be called
         setHasOptionsMenu(true);
 
-        if (matches.size() == 0) {
-            loadMatches();
+
+        if (savedInstanceState == null) {
+            if (matches.size() == 0) {
+                //this is the first time opening this screen, get a fresh set of matches from the database
+                loadMatches();
+            }
+        } else {
+            //list state has been saved before, load that state
+            matches = savedInstanceState.getParcelableArrayList("matches");
         }
 
         lvRecentGames.setAdapter(new LiveLeagueGamesAdapter(getActivity(), matches));
         lvRecentGames.setOnItemClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("matches", matches);
+
     }
 
     private void loadMatches() {
@@ -67,7 +92,7 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
 
         //send object to fragment
         Bundle bundle = new Bundle();
-        bundle.putSerializable("liveLeagueMatch", match);
+        bundle.putParcelable("liveLeagueMatch", match);
         fragment.setArguments(bundle);
 
         transaction.addToBackStack(null).commit();

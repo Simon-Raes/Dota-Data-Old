@@ -1,7 +1,9 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +14,19 @@ import android.widget.TextView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueMatch;
 import be.simonraes.dotadata.parser.SteamRemoteStorageParser;
+import be.simonraes.dotadata.teamlogo.TeamLogoContainer;
 import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -57,24 +66,21 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
         }
 
 
-        options = new DisplayImageOptions.Builder()
-                .resetViewBeforeLoading(true)
-                .cacheInMemory(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .build();
-
         viewholder.txtMatchID.setText(Html.fromHtml("<b>" + matches.get(position).getRadiantTeam().getTeam_name() + "</b>" + " vs " + "<b>" + matches.get(position).getDireTeam().getTeam_name() + "</b>"));
 
-        SteamRemoteStorageParser logoParser;
+//        SteamRemoteStorageParser logoParser;
+//
+
+        viewholder.position = position;
+
 
         if (!matches.get(position).getRadiantTeam().getTeam_logo().equals("0")) {
-            logoParser = new SteamRemoteStorageParser(viewholder.imgLogoRadiant);
-            logoParser.execute(matches.get(position).getRadiantTeam().getTeam_logo());
+            ThumbnailTask task = new ThumbnailTask(position, viewholder);
+            task.execute(matches.get(position).getRadiantTeam().getTeam_logo(), "radiant");
         }
         if (!matches.get(position).getDireTeam().getTeam_logo().equals("0")) {
-            logoParser = new SteamRemoteStorageParser(viewholder.imgLogoDire);
-            logoParser.execute(matches.get(position).getDireTeam().getTeam_logo());
+            ThumbnailTask task = new ThumbnailTask(position, viewholder);
+            task.execute(matches.get(position).getDireTeam().getTeam_logo(), "dire");
         }
 
 
@@ -82,7 +88,67 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
     }
 
 
+    private static class ThumbnailTask extends AsyncTask<String, Void, TeamLogoContainer> {
+        private int mPosition;
+        private ViewHolder mHolder;
+        private String team;
+
+        public ThumbnailTask(int position, ViewHolder holder) {
+            mPosition = position;
+            mHolder = holder;
+        }
+
+        @Override
+        protected TeamLogoContainer doInBackground(String... params) {
+            ObjectMapper mapper = new ObjectMapper();
+
+            String ugcid = params[0];
+            team = params[1];
+
+            TeamLogoContainer container = new TeamLogoContainer();
+
+            try {
+                container = mapper.readValue(new URL("http://api.steampowered.com/ISteamRemoteStorage/GetUGCFileDetails/v1/?key=EB5773FAAF039592D9383FA104EEA55D&appid=570&ugcid=" + ugcid), TeamLogoContainer.class);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return container;
+        }
+
+        @Override
+        protected void onPostExecute(TeamLogoContainer container) {
+            if (mHolder.position == mPosition) {
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .resetViewBeforeLoading(true)
+                        .cacheInMemory(true)
+                        .showImageOnLoading(R.drawable.hero_sb_loading)
+                        .imageScaleType(ImageScaleType.EXACTLY)
+                        .build();
+                AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
+
+                if (container.getTeamlogo() != null) {
+                    if (team.equals("radiant")) {
+                        imageLoader.displayImage(container.getTeamlogo().getUrl(), mHolder.imgLogoRadiant, options, animateFirstListener);
+
+                    } else {
+                        imageLoader.displayImage(container.getTeamlogo().getUrl(), mHolder.imgLogoDire, options, animateFirstListener);
+                    }
+                }
+            }
+        }
+    }
+
+
     private class ViewHolder {
+        public int position;
         public TextView txtMatchID;
         public ImageView imgLogoRadiant, imgLogoDire;
     }

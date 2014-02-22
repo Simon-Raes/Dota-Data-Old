@@ -12,25 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
+import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.delegates.ASyncResponseVanity;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
+import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.parser.VanityResolverParser;
+import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.vanity.VanityContainer;
 
 /**
  * Created by Simon on 13/02/14.
  */
-public class AccountIDHelpFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity, ASyncResponseHistoryLoader {
+public class AccountIDHelpFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity, ASyncResponseHistoryLoader, ASyncResponsePlayerSummary {
 
     private EditText etxtDotabuff, etxtProfileNumber, etxtIDName;
     private Button btnHelpDotabuff, btnHelpProfileNumber, btnHelpIDName;
+
+    private String userAccountID;
 
 
     @Override
@@ -62,6 +64,16 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
 
         TextView txtIDName = (TextView) view.findViewById(R.id.txtHelpIDExample);
         txtIDName.setText(Html.fromHtml("Example: http://steamcommunity.com/id/<b>Voshond</b>/"));
+
+
+        //display warning for users that will lose currently saved data
+        LinearLayout layWarning = (LinearLayout) view.findViewById(R.id.layHelpUserWarning);
+
+        if (!PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", "").equals("")) {
+            layWarning.setVisibility(View.VISIBLE);
+        } else {
+            layWarning.setVisibility(View.GONE);
+        }
 
         return view;
 
@@ -121,29 +133,14 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
 
         if (!accountID.equals("0")) {
 
-            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", accountID).commit();
+            userAccountID = accountID;
 
-            HistoryLoader loader = new HistoryLoader(getActivity(), this);
-            loader.updateHistory();
-
-            //todo: add a dialog here that shows the user's current steam name + avater and ask if it is the correct account, only start parsing if user agrees
-
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("Success!")
-                    .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. You can use other apps while you wait. Use the notification to keep track of progress.")
-                    .setCancelable(false)
-                    .setIcon(R.drawable.dotadata_sm)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //nothing, just dismiss
-                        }
-                    }
-                    ).show();
+            //get player information
+            PlayerSummaryParser parser = new PlayerSummaryParser(this);
+            parser.execute(accountID);
 
 
-        } else
-
-        {
+        } else {
             Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
         }
     }
@@ -151,5 +148,55 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
     @Override
     public void processFinish() {
 
+    }
+
+    //got player summary based on accountID
+    @Override
+    public void processFinish(PlayerSummaryContainer result) {
+        if (result.getPlayers().getPlayers().size() > 0) {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("User found!")
+                            //todo: add user image (url is already in result object)
+                    .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
+                    .setCancelable(false)
+                    .setIcon(R.drawable.dotadata_sm)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            //everything is good, save user account id
+                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", userAccountID).commit();
+
+                            //start download
+                            startDownload();
+                        }
+                    }
+
+                    )
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //nothing, just dismiss
+                        }
+                    })
+                    .show();
+        } else {
+            Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void startDownload() {
+        HistoryLoader loader = new HistoryLoader(getActivity(), this);
+        loader.firstDownload();
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Success!")
+                .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. Your games and statistics will be available once the download completes.")
+                .setCancelable(false)
+                .setIcon(R.drawable.dotadata_sm)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //nothing, just dismiss
+                    }
+                }
+                ).show();
     }
 }

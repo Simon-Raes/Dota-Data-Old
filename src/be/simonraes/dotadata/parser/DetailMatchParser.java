@@ -25,6 +25,7 @@ public class DetailMatchParser extends AsyncTask<String, Void, DetailContainer> 
     @Override
     protected DetailContainer doInBackground(String... params) {
 
+
         ObjectMapper mapper = new ObjectMapper();
         String matchid = params[0];
 

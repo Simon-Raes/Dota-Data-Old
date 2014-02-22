@@ -74,6 +74,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
             view = inflater.inflate(R.layout.matches_list_row, parent, false);
             viewholder = new ViewHolder();
             viewholder.imgHero = (ImageView) view.findViewById(R.id.imgRowHero);
+            viewholder.imgFavourite = (ImageView) view.findViewById(R.id.imgFavourite);
             viewholder.txtGameMode = (TextView) view.findViewById(R.id.txtRowGameMode);
             viewholder.txtDate = (TextView) view.findViewById(R.id.txtRowDate);
             viewholder.txtVictoryLoss = (TextView) view.findViewById(R.id.txtRowVictoryLoss);
@@ -105,8 +106,11 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
         viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(playerHeroID), "drawable", context.getPackageName()));
 
         if (match.isFavourite()) {
-            ImageView imgFavourite = (ImageView) view.findViewById(R.id.imgFavourite);
-            imgFavourite.setVisibility(View.VISIBLE);
+
+            viewholder.imgFavourite.setVisibility(View.VISIBLE);
+        } else {
+            //must be hidden again because this view can be re-used for other (non-favourited) matches
+            viewholder.imgFavourite.setVisibility(View.GONE);
         }
 
         //set victory or defeat text
@@ -143,6 +147,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
     private class ViewHolder {
         public ImageView imgHero;
+        public ImageView imgFavourite;
         public TextView txtGameMode;
         public TextView txtDate;
         public TextView txtVictoryLoss;

@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.liveleaguegame;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * Created by Simon on 4/02/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LiveLeagueMatch implements Serializable{
+public class LiveLeagueMatch implements Parcelable {
 
     @JsonProperty("players")
     public ArrayList<LiveLeaguePlayer> liveLeaguePlayers = new ArrayList<LiveLeaguePlayer>();
@@ -23,7 +25,7 @@ public class LiveLeagueMatch implements Serializable{
     public String tower_state;
     public String league_id;
 
-    public LiveLeagueMatch(){
+    public LiveLeagueMatch() {
 
     }
 
@@ -82,4 +84,45 @@ public class LiveLeagueMatch implements Serializable{
     public void setLeague_id(String league_id) {
         this.league_id = league_id;
     }
+
+
+    //parcelable code
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(liveLeaguePlayers);
+        dest.writeParcelable(radiantTeam, 0);
+        dest.writeParcelable(direTeam, 0);
+        dest.writeString(lobby_id);
+        dest.writeString(spectators);
+        dest.writeString(tower_state);
+        dest.writeString(league_id);
+    }
+
+    public LiveLeagueMatch(Parcel pc) {
+        pc.readTypedList(liveLeaguePlayers, LiveLeaguePlayer.CREATOR);
+        radiantTeam = pc.readParcelable(LiveLeagueTeam.class.getClassLoader());
+        direTeam = pc.readParcelable(LiveLeagueTeam.class.getClassLoader());
+        lobby_id = pc.readString();
+        spectators = pc.readString();
+        tower_state = pc.readString();
+        league_id = pc.readString();
+
+    }
+
+    public static final Creator<LiveLeagueMatch> CREATOR = new
+            Creator<LiveLeagueMatch>() {
+                public LiveLeagueMatch createFromParcel(Parcel pc) {
+                    return new LiveLeagueMatch(pc);
+                }
+
+                public LiveLeagueMatch[] newArray(int size) {
+                    return new LiveLeagueMatch[size];
+                }
+            };
 }

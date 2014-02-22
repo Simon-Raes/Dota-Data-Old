@@ -16,7 +16,7 @@ public class HistoryContainer implements Parcelable {
     @JsonProperty("result")
     public HistoryMatches recentgames;
 
-    public HistoryContainer(){
+    public HistoryContainer() {
 
     }
 
@@ -27,6 +27,9 @@ public class HistoryContainer implements Parcelable {
     public void setRecentGames(HistoryMatches recentgames) {
         this.recentgames = recentgames;
     }
+
+
+    //parcelable code
 
     @Override
     public int describeContents() {

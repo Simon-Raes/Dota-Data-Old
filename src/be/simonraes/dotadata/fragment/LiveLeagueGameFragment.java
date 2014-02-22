@@ -49,7 +49,7 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
 
         getActivity().getActionBar().setTitle("Live league game");
 
-        match = (LiveLeagueMatch) getArguments().getSerializable("liveLeagueMatch");
+        match = (LiveLeagueMatch) getArguments().getParcelable("liveLeagueMatch");
 
         TextView txtTeams = (TextView) view.findViewById(R.id.txtLiveLeagueTeams);
         txtTeams.setText(Html.fromHtml("<b>" + match.getRadiantTeam().getTeam_name() + "</b>" + " vs " + "<b>" + match.getDireTeam().getTeam_name() + "</b>"));

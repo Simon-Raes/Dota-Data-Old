@@ -30,8 +30,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
 
     private ScrollView svStats;
     private ProgressBar pbStats;
-    private Button btnUpdateMatches, btnClearDatabase;
-    private Button btnNumberOfRecords, btnDeleteLatestMatch;
+//    private Button btnUpdateMatches, btnClearDatabase;
+//    private Button btnNumberOfRecords, btnDeleteLatestMatch;
 
     private TextView txtWinRate, txtGameModes;
 
@@ -44,17 +44,17 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
         svStats = (ScrollView) view.findViewById(R.id.svStats);
         pbStats = (ProgressBar) view.findViewById(R.id.pbStats);
 
-        btnUpdateMatches = (Button) view.findViewById(R.id.btnUpdateMatches);
-        btnUpdateMatches.setOnClickListener(this);
-
-        btnClearDatabase = (Button) view.findViewById(R.id.btnClearDatabase);
-        btnClearDatabase.setOnClickListener(this);
-
-        btnNumberOfRecords = (Button) view.findViewById(R.id.btnNumberOfRecords);
-        btnNumberOfRecords.setOnClickListener(this);
-
-        btnDeleteLatestMatch = (Button) view.findViewById(R.id.btnDeleteLatestMatch);
-        btnDeleteLatestMatch.setOnClickListener(this);
+//        btnUpdateMatches = (Button) view.findViewById(R.id.btnUpdateMatches);
+//        btnUpdateMatches.setOnClickListener(this);
+//
+//        btnClearDatabase = (Button) view.findViewById(R.id.btnClearDatabase);
+//        btnClearDatabase.setOnClickListener(this);
+//
+//        btnNumberOfRecords = (Button) view.findViewById(R.id.btnNumberOfRecords);
+//        btnNumberOfRecords.setOnClickListener(this);
+//
+//        btnDeleteLatestMatch = (Button) view.findViewById(R.id.btnDeleteLatestMatch);
+//        btnDeleteLatestMatch.setOnClickListener(this);
 
         txtWinRate = (TextView) view.findViewById(R.id.txtStatsWinrate);
         txtGameModes = (TextView) view.findViewById(R.id.txtStatsGameModes);
@@ -71,21 +71,21 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnUpdateMatches:
-                HistoryLoader loader = new HistoryLoader(getActivity(), this);
-                loader.updateHistory();
-                break;
-            case R.id.btnClearDatabase:
-                getActivity().deleteDatabase("be.simonraes.dotadata.db");
-                break;
-            case R.id.btnNumberOfRecords:
-                MatchesDataSource mds = new MatchesDataSource(getActivity());
-                Toast.makeText(getActivity(), Integer.toString(mds.getNumberOfRecords()), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btnDeleteLatestMatch:
-                MatchesDataSource mds2 = new MatchesDataSource(getActivity());
-                mds2.deleteLatestMatch();
-                break;
+//            case R.id.btnUpdateMatches:
+//                HistoryLoader loader = new HistoryLoader(getActivity(), this);
+//                loader.updateHistory();
+//                break;
+//            case R.id.btnClearDatabase:
+//                getActivity().deleteDatabase("be.simonraes.dotadata.db");
+//                break;
+//            case R.id.btnNumberOfRecords:
+//                MatchesDataSource mds = new MatchesDataSource(getActivity());
+//                Toast.makeText(getActivity(), Integer.toString(mds.getNumberOfRecords()), Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.btnDeleteLatestMatch:
+//                MatchesDataSource mds2 = new MatchesDataSource(getActivity());
+//                mds2.deleteLatestMatch();
+//                break;
             default:
                 break;
         }

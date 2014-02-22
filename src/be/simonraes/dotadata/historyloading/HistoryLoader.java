@@ -57,7 +57,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         matches = new ArrayList<HistoryMatch>();
     }
 
-    //todo: prevent history from updating if it is currently updating (with preference boolean?)
+    public void firstDownload() {
+        //clear previous database
+        context.deleteDatabase("be.simonraes.dotadata.db");
+        //start download as usual
+        updateHistory();
+    }
+
     public void updateHistory() {
 
         //get the most recent match from the database
@@ -79,9 +85,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     @Override
     public void processFinish(Boolean result) {
 
-//        //CHECK WITHOUT INTERNETCHECKPARSER
-//        boolean result = true;
-
 
         if (result) {
             //start notification
@@ -92,6 +95,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
             //start parser
             parser = new HistoryMatchParser(this);
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", true).commit();
             parser.execute(accountID);
         } else {
             mBuilder.setContentTitle("Dota 2 webservice unavailable")
@@ -118,15 +122,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
                 goToDetailParser = true;
 
-                System.out.println("last stored match is in this set, stop parsing history");
-
                 ArrayList<HistoryMatch> recentMatches = new ArrayList<HistoryMatch>();
                 //only keep the newer matches, discard the rest
                 for (HistoryMatch match : result.getRecentGames().getMatches()) {
                     if (Integer.parseInt(match.getMatch_id()) > Integer.parseInt(latestSavedMatchID)) {
-
-                        System.out.println("matchID " + match.getMatch_id() + " is more recent than last saved match (" + latestSavedMatchID + ") adding to list");
-
                         recentMatches.add(match);
                     }
                 }
@@ -134,6 +133,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
                     updateNotification("No new games found.", 0, 0, false, false);
+                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+
                     goToDetailParser = false;
                 }
 
@@ -142,8 +143,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             } else {
                 //stored matchID is not in this set, download the next one
                 goToDetailParser = false;
-
-                System.out.println("need next set of history results, starting history parser");
 
                 matches.addAll(result.getRecentGames().getMatches());
                 //start parser for next page of results
@@ -189,7 +188,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
     }
 
-    /*Save detailmatches to database*/
+    /*Finished parsing detailmatches, Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
         updateNotification("Saving...", 0, 0, false, false);
@@ -235,6 +234,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         PicksBansDataSource pbds = new PicksBansDataSource(context);
         pbds.savePicksBansList(picksBansList);
 
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
         updateNotification("Download complete.", 0, 0, false, true);
 
         //alert delegate that all matches have been downloaded

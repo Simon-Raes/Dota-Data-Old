@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.liveleaguegame;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * Created by Simon on 4/02/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LiveLeaguePlayer implements Serializable {
+public class LiveLeaguePlayer implements Parcelable {
 
     public String account_id;
     public String name;
@@ -50,4 +52,39 @@ public class LiveLeaguePlayer implements Serializable {
     public void setTeam(String team) {
         this.team = team;
     }
+
+    //parcelable code
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(account_id);
+        dest.writeString(name);
+        dest.writeString(hero_id);
+        dest.writeString(team);
+
+    }
+
+    public LiveLeaguePlayer(Parcel pc) {
+        account_id = pc.readString();
+        name = pc.readString();
+        hero_id = pc.readString();
+        team = pc.readString();
+
+    }
+
+    public static final Creator<LiveLeaguePlayer> CREATOR = new
+            Creator<LiveLeaguePlayer>() {
+                public LiveLeaguePlayer createFromParcel(Parcel pc) {
+                    return new LiveLeaguePlayer(pc);
+                }
+
+                public LiveLeaguePlayer[] newArray(int size) {
+                    return new LiveLeaguePlayer[size];
+                }
+            };
 }

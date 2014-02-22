@@ -54,6 +54,7 @@ public class SteamRemoteStorageParser extends AsyncTask<String, Void, TeamLogoCo
     protected void onPostExecute(TeamLogoContainer teamLogoContainer) {
         super.onPostExecute(teamLogoContainer);
 
+
         ImageLoader imageLoader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)

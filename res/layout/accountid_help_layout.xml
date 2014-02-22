@@ -22,13 +22,29 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:textStyle="bold"
                       android:textSize="16dp"
-
                       android:text="Finding your Dota 2 account ID"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:paddingTop="20dp"
                       android:paddingBottom="5dp"
                       android:text="There are multiple ways to find your Dota 2 account ID. Enter your information in one of the fields below and hit 'Go' to start downloading your Dota 2 match history. \n\nYour matches and statistics will be available once the download is finished."/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:id="@+id/layHelpUserWarning"
+                      android:layout_marginLeft="20dp"
+                      android:layout_marginRight="20dp"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="5dp"
+                      android:gravity="center"
+                      android:orientation="vertical"
+                      android:visibility="gone"
+                      android:background="@drawable/bg_card">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:textSize="16dp"
+                      android:text="PLEASE NOTE: Currently saved matches will be removed when downloading matches for a new user."/>
+
         </LinearLayout>
 
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"

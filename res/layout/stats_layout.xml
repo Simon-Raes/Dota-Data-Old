@@ -20,37 +20,37 @@
                           android:layout_marginBottom="5dp"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="Stats"/>
+                          android:text="Stats (Not yet implemented)"/>
             </LinearLayout>
+            <!--
+                        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                      android:layout_marginLeft="20dp"
+                                      android:layout_marginRight="20dp"
+                                      android:layout_marginTop="10dp"
+                                      android:layout_marginBottom="5dp"
+                                      android:background="@drawable/bg_card">
+                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:id="@+id/btnUpdateMatches"
+                                    android:text="Update matches"/>
+                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:id="@+id/btnClearDatabase"
+                                    android:text="Clear database"/>
+                        </LinearLayout>
 
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
-                          android:background="@drawable/bg_card">
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/btnUpdateMatches"
-                        android:text="Update matches"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/btnClearDatabase"
-                        android:text="Clear database"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
-                          android:background="@drawable/bg_card">
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/btnNumberOfRecords"
-                        android:text="Number of records"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:id="@+id/btnDeleteLatestMatch"
-                        android:text="Delete latest match"/>
-            </LinearLayout>
-
+                        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                      android:layout_marginLeft="20dp"
+                                      android:layout_marginRight="20dp"
+                                      android:layout_marginTop="10dp"
+                                      android:layout_marginBottom="5dp"
+                                      android:background="@drawable/bg_card">
+                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:id="@+id/btnNumberOfRecords"
+                                    android:text="Number of records"/>
+                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:id="@+id/btnDeleteLatestMatch"
+                                    android:text="Delete latest match"/>
+                        </LinearLayout>
+            -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:layout_marginLeft="20dp"
                           android:layout_marginRight="20dp"

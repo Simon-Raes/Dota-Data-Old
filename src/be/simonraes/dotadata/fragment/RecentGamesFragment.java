@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -70,7 +71,12 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             if (savedInstanceState == null) {
                 if (matches.size() == 0) {
                     //this is the first time opening this screen, get a fresh set of matches from the database
-                    loadMatchesFromDatabase();
+
+                    if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
+                        Toast.makeText(getActivity(), "Download still in progress.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        loadMatchesFromDatabase();
+                    }
                 }
             } else {
                 //list state has been saved before, load that state
@@ -123,8 +129,13 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnRefresh:
-                HistoryLoader loader = new HistoryLoader(getActivity(), this);
-                loader.updateHistory();
+                //only start download if it isn't already downloading
+                if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
+                    Toast.makeText(getActivity(), "Already downloading", Toast.LENGTH_SHORT).show();
+                } else {
+                    HistoryLoader loader = new HistoryLoader(getActivity(), this);
+                    loader.updateHistory();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -148,7 +159,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == SCROLL_STATE_IDLE) {
-            if (lvRecentGames.getLastVisiblePosition() >= lvRecentGames.getCount() - 5) { //getal duidt aan hoe ver van het einde de loading al zal starten
+            if (lvRecentGames.getLastVisiblePosition() >= lvRecentGames.getCount() - 5) {
                 //load more list items:
                 loadMatchesFromDatabase();
             }
@@ -190,7 +201,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void processFinish() {
-        System.out.println("received update that matches have been downloaded");
         matches.clear();
         loadMatchesFromDatabase();
     }
