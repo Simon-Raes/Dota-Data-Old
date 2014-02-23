@@ -1,13 +1,14 @@
 package be.simonraes.dotadata.historyloading;
 
 import android.app.Notification;
-import android.app.NotificationManager;
+//import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
+//import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesDataSource;
@@ -40,13 +41,14 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private ASyncResponseHistoryLoader delegate;
     private Context context;
 
-    private NotificationManager mNotifyManager;
-    private NotificationCompat.Builder mBuilder;
+//    private NotificationManager mNotifyManager;
+//    private NotificationCompat.Builder mBuilder;
 
     private String latestSavedMatchID;
 
     private boolean goToDetailParser;
 
+    private ProgressDialog introDialog;
     private ProgressDialog progressDialog;
 
     public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate) { //
@@ -77,10 +79,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             latestSavedMatchID = "0";
         }
 
-        mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(context);
+//        mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        mBuilder = new NotificationCompat.Builder(context);
 
-        progressDialog = ProgressDialog.show(context, "", "", true);
+        introDialog = ProgressDialog.show(context, "", "Checking for new games.", true);
 
         //check if web service is available
         InternetChecker checker = new InternetChecker(this);
@@ -94,24 +96,24 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         if (result) {
             //start notification
-            mBuilder.setContentTitle("Downloading Dota 2 history")
-                    .setContentText("Starting download...")
-                    .setTicker("Starting download...")
-                    .setSmallIcon(R.drawable.dotadata_xsm);
+//            mBuilder.setContentTitle("Downloading Dota 2 history")
+//                    .setContentText("Starting download...")
+//                    .setTicker("Starting download...")
+//                    .setSmallIcon(R.drawable.dotadata_xsm);
 
             //start parser
             parser = new HistoryMatchParser(this);
 //            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", true).commit();
             parser.execute(accountID);
         } else {
-            mBuilder.setContentTitle("Dota 2 webservice unavailable")
-                    .setContentText("Please try again later.")
-                    .setTicker("Dota 2 webservice unavailable")
-                    .setSmallIcon(R.drawable.dotadata_xsm);
+//            mBuilder.setContentTitle("Dota 2 webservice unavailable")
+//                    .setContentText("Please try again later.")
+//                    .setTicker("Dota 2 webservice unavailable")
+//                    .setSmallIcon(R.drawable.dotadata_xsm);
 
-            progressDialog.dismiss();
+            introDialog.dismiss();
         }
-        mNotifyManager.notify(1010, mBuilder.build());
+//        mNotifyManager.notify(1010, mBuilder.build());
     }
 
     //received next set of 100 history matches
@@ -137,9 +139,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
-                    updateNotification("No new games found.", 0, 0, false, false);
+//                    updateNotification("No new games found.", 0, 0, false, false);
+                    Toast.makeText(context, "No new games found.", Toast.LENGTH_SHORT).show();
 //                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
-                    progressDialog.dismiss();
+                    introDialog.dismiss();
 
                     goToDetailParser = false;
                 }
@@ -169,7 +172,19 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (goToDetailParser) {
             //got all historymatches
 
-            System.out.println("got all historymatches, sending them to detailparser");
+//            System.out.println("got all historymatches, sending them to detailparser");
+
+            introDialog.dismiss();
+
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Downloading match history");
+            progressDialog.setProgressPercentFormat(null);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(matches.size());
+            progressDialog.setProgress(0);
+            progressDialog.setCancelable(false);
+            progressDialog.setIndeterminate(false);
+            progressDialog.show();
 
             String[] matchIDs = new String[matches.size()];
 
@@ -182,22 +197,25 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     }
 
 
-    /*Update notification progress bar*/
+    /*Update progress indicator*/
     @Override
     public void processUpdate(Integer[] progress) {
-        mBuilder.setContentText(progress[0] + " of " + matches.size() + " matches downloaded.");
-        mBuilder.setProgress(matches.size(), progress[0], false);
-        Notification progressNotification = mBuilder.build();
-        //set notification as ongoing event (can't be removed from notifications)
-        progressNotification.flags |= Notification.FLAG_ONGOING_EVENT;
-        mNotifyManager.notify(1010, progressNotification);
+//        mBuilder.setContentText(progress[0] + " of " + matches.size() + " matches downloaded.");
+//        mBuilder.setProgress(matches.size(), progress[0], false);
+//        Notification progressNotification = mBuilder.build();
+//        //set notification as ongoing event (can't be removed from notifications)
+//        progressNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+//        mNotifyManager.notify(1010, progressNotification);
 
+
+        //introDialog.setProgressPercentFormat(null);
+        progressDialog.setProgress(progress[0]);
     }
 
     /*Finished parsing detailmatches, Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
-        updateNotification("Saving...", 0, 0, false, false);
+//        updateNotification("Saving...", 0, 0, false, false);
 
 
         //save players and (if needed) picks/bans to database
@@ -241,45 +259,45 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         pbds.savePicksBansList(picksBansList);
 
 //        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
-        updateNotification("Download complete.", 0, 0, false, true);
+//        updateNotification("Download complete.", 0, 0, false, true);
 
-        progressDialog.dismiss();
+        introDialog.dismiss();
 
         //alert delegate that all matches have been downloaded
         delegate.processFinish();
 
     }
 
-    private void updateNotification(String title, int progress, int maxProgress, boolean isFixed, boolean clickable) {
-        if (clickable) {
-            Intent resultIntent = new Intent(context, DrawerController.class);
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            context,
-                            0,
-                            resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
-
-            mBuilder.setContentText(title)
-                    .setTicker(title)
-                    .setSmallIcon(R.drawable.dotadata_xsm)
-                    .setAutoCancel(true)
-                    .setContentIntent(resultPendingIntent)
-                    .setProgress(progress, maxProgress, false);
-            mNotifyManager.notify(1010, mBuilder.build());
-
-        } else {
-
-        }
-        mBuilder.setContentText(title)
-                .setTicker(title)
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.dotadata_xsm)
-                .setProgress(progress, maxProgress, false);
-        mNotifyManager.notify(1010, mBuilder.build());
-
-    }
+//    private void updateNotification(String title, int progress, int maxProgress, boolean isFixed, boolean clickable) {
+//        if (clickable) {
+//            Intent resultIntent = new Intent(context, DrawerController.class);
+//            PendingIntent resultPendingIntent =
+//                    PendingIntent.getActivity(
+//                            context,
+//                            0,
+//                            resultIntent,
+//                            PendingIntent.FLAG_UPDATE_CURRENT
+//                    );
+//
+//            mBuilder.setContentText(title)
+//                    .setTicker(title)
+//                    .setSmallIcon(R.drawable.dotadata_xsm)
+//                    .setAutoCancel(true)
+//                    .setContentIntent(resultPendingIntent)
+//                    .setProgress(progress, maxProgress, false);
+//            mNotifyManager.notify(1010, mBuilder.build());
+//
+//        } else {
+//            mBuilder.setContentText(title)
+//                    .setTicker(title)
+//                    .setAutoCancel(true)
+//                    .setSmallIcon(R.drawable.dotadata_xsm)
+//                    .setProgress(progress, maxProgress, false);
+//            mNotifyManager.notify(1010, mBuilder.build());
+//        }
+//
+//
+//    }
 
 
 }

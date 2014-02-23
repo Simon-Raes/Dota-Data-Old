@@ -238,17 +238,17 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        System.out.println("app being destroyed");
-        //remove history notification (in case app was terminated during downloading)
-        //todo: cancelling the notification has no effect
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.cancel(1010);
-
-        //reset status
-//        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
-
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        System.out.println("app being destroyed");
+//        //remove history notification (in case app was terminated during downloading)
+//        //todo: cancelling the notification has no effect
+//        NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+//        notificationManager.cancel(1010);
+//
+//        //reset status
+////        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+//
+//    }
 }

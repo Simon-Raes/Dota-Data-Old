@@ -83,7 +83,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             }
 
             footerView = inflater.inflate(R.layout.historygames_footer, null);
-            lvRecentGames.addFooterView(footerView, null, false);
+            if (matches.size() > 0) {
+                lvRecentGames.addFooterView(footerView, null, false);
+            }
             listAdapter = new RecentGamesAdapter(getActivity(), matches);
             lvRecentGames.setAdapter(listAdapter);
 
