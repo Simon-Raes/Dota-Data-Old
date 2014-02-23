@@ -50,7 +50,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         getActivity().getActionBar().setTitle("Recent games");
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
-
             final LinearLayout layDialogContent = (LinearLayout) inflater.inflate(R.layout.dialog_accountid_content, null);
             final EditText txtDialogAccountID = (EditText) layDialogContent.findViewById(R.id.txtDialogAccountID);
             new AlertDialog.Builder(getActivity())

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:descendantFocusability="blocksDescendants"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:padding="10dp"
+               android:id="@+id/imgSelectUser"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textSize="20dp"
+              android:layout_centerVertical="true"
+              android:layout_toRightOf="@id/imgSelectUser"
+              android:id="@+id/txtSelectUserName"/>
+    <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:src="@drawable/ic_action_refresh"
+                 android:layout_alignParentRight="true"
+                 android:paddingRight="10dp"
+                 android:layout_centerVertical="true"
+
+                 android:background="@null"
+                 android:id="@+id/btnSwitchUserUpdate"/>
+    <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:src="@drawable/ic_action_discard"
+                 android:paddingRight="25dp"
+                 android:layout_centerVertical="true"
+
+                 android:layout_toLeftOf="@id/btnSwitchUserUpdate"
+                 android:background="@null"
+                 android:id="@+id/btnSwitchUserDelete"/>
+</RelativeLayout>

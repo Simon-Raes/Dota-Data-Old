@@ -56,8 +56,9 @@ public class DetailMatch implements Parcelable {
     private String dire_team_complete;
 
     //features
-    private boolean favourite;
-    private String note;
+    private boolean favourite; //option to add a match to your favourites
+    private String note; //custom note you can attach to a match
+    private String user; //account_id of the user that downloaded+saved this match
 
     public DetailMatch() {
 
@@ -337,6 +338,14 @@ public class DetailMatch implements Parcelable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     //parcelable code

@@ -42,7 +42,8 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE};
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE,
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER};
 
 
     //todo: need middle layer/class so this can be removed
@@ -82,8 +83,11 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_ORDER
     };
 
-    public MatchesDataSource(Context context) {
+    private String user_accountID;
+
+    public MatchesDataSource(Context context, String user_accountID) {
         this.context = context;
+        this.user_accountID = user_accountID;
         dbHelper = new MySQLiteHelper(context);
     }
 
@@ -104,44 +108,28 @@ public class MatchesDataSource {
         ContentValues values = new ContentValues();
 
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_RADIANT_WIN, radiantWinForTable);
-//        System.out.println("put " + radiantWinForTable);
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION, match.getDuration());
-        //System.out.println("put " + match.getDuration());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME, match.getStart_time());
-        // System.out.println("put " + match.getStart_time());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCH_ID, matchIDForTable);
-        //System.out.println("put " + matchIDForTable);
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_MATCH_SEQ_NUM, match.getMatch_seq_num());
-        //       System.out.println("put " + match.getMatch_seq_num());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_TOWER_STATUS_RADIANT, match.getTower_status_radiant());
-        //     System.out.println("put " + match.getTower_status_radiant());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_TOWER_STATUS_DIRE, match.getTower_status_dire());
-        //   System.out.println("put " + match.getTower_status_dire());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_BARRACKS_STATUS_RADIANT, match.getBarracks_status_radiant());
-        // System.out.println("put " + match.getBarracks_status_radiant());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_BARRACKS_STATUS_DIRE, match.getBarracks_status_dire());
-        // System.out.println("put " + match.getBarracks_status_dire());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_CLUSTER, match.getCluster());
-        //System.out.println("put " + match.getCluster());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_FIRST_BLOOD_TIME, match.getFirst_blood_time());
-        //System.out.println("put " + match.getFirst_blood_time());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_LOBBY_TYPE, match.getLobby_type());
-        //System.out.println("put " + match.getLobby_type());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_HUMAN_PLAYERS, match.getHuman_players());
-        //  System.out.println("put " + match.getHuman_players());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_LEAGUEID, match.getLeagueid());
-        //  System.out.println("put " + match.getLeagueid());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_POSITIVE_VOTES, match.getPositive_votes());
-        //System.out.println("put " + match.getPositive_votes());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NEGATIVE_VOTES, match.getNegative_votes());
-        //  System.out.println("put " + match.getNegative_votes());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE, match.getGame_mode());
-        //  System.out.println("put " + match.getGame_mode());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN, String.valueOf(match.isUser_win()));
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE, String.valueOf(match.isFavourite()));
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, String.valueOf(match.getNote()));
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, match.getNote());
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER, user_accountID);
 
-        System.out.println("saving match " + match.getMatch_id());
+//        System.out.println("saving match " + match.getMatch_id());
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
@@ -163,7 +151,7 @@ public class MatchesDataSource {
         ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
         PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
         open();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, null, null, null, null, "match_id DESC", null);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "user = ?", new String[]{user_accountID}, null, null, "match_id DESC", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -198,13 +186,12 @@ public class MatchesDataSource {
     public ArrayList<DetailMatch> get50MatchesStartingAtMatchID(String matchID) {
 
         ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
-        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
         open();
         Cursor cursor;
         if (matchID != null && !matchID.equals("")) {
-            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id < ?", new String[]{matchID}, null, null, "match_id DESC", "50");
+            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id < ? AND user = ?", new String[]{matchID, user_accountID}, null, null, "match_id DESC", "50");
         } else {
-            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, null, null, null, null, "match_id DESC", "50");
+            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "user = ?", new String[]{user_accountID}, null, null, "match_id DESC", "50");
         }
 
         cursor.moveToFirst();
@@ -271,7 +258,7 @@ public class MatchesDataSource {
     public DetailMatch getLatestMatch() {
         open();
         DetailMatch dmb = new DetailMatch();
-        Cursor cursor = database.rawQuery("SELECT * FROM matches ORDER BY match_id DESC LIMIT 1;", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM matches WHERE user = ? ORDER BY match_id DESC LIMIT 1;", new String[]{user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             dmb = cursorToDetailMatch(cursor);
@@ -307,6 +294,7 @@ public class MatchesDataSource {
         detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(17)));
         detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(18)));
         detailMatch.setNote(cursor.getString(19));
+        detailMatch.setUser(cursor.getString(20));
 
         return detailMatch;
     }

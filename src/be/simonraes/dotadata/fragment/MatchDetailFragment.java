@@ -143,7 +143,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             //give user's row a special background color
             if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-                playerRow.setBackgroundColor(getResources().getColor(R.color.LightGrey));
+                playerRow.setBackgroundColor(getResources().getColor(R.color.AntiqueWhite));
             }
 
             TextView txtPlayerLevel = (TextView) playerRow.findViewById(R.id.txtDetailPlayerLevel);
@@ -481,7 +481,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 noteDialog();
                 return true;
             case R.id.btnFavourite:
-                MatchesDataSource mds = new MatchesDataSource(getActivity());
+                MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
                 match.setFavourite(!match.isFavourite());
                 //todo: fix database so 1 match can be added (single add method doesn't have database open(),close())
                 mds.saveDetailMatches(new ArrayList<DetailMatch>(Arrays.asList(match)));
@@ -553,7 +553,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     }
 
     private void saveNote(String text) {
-        MatchesDataSource mds = new MatchesDataSource(getActivity());
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
         match.setNote(text);
         mds.open();
         mds.saveDetailMatch(match);

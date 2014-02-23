@@ -3,6 +3,7 @@ package be.simonraes.dotadata.historyloading;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
@@ -43,7 +44,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private NotificationCompat.Builder mBuilder;
 
     private String latestSavedMatchID;
+
     private boolean goToDetailParser;
+
+    private ProgressDialog progressDialog;
 
     public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate) { //
         this.accountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
@@ -59,7 +63,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
     public void firstDownload() {
         //clear previous database
-        context.deleteDatabase("be.simonraes.dotadata.db");
+        //context.deleteDatabase("be.simonraes.dotadata.db");
         //start download as usual
         updateHistory();
     }
@@ -67,7 +71,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     public void updateHistory() {
 
         //get the most recent match from the database
-        MatchesDataSource mds = new MatchesDataSource(context);
+        MatchesDataSource mds = new MatchesDataSource(context, accountID);
         latestSavedMatchID = mds.getLatestMatch().getMatch_id();
         if (latestSavedMatchID == null) {
             latestSavedMatchID = "0";
@@ -75,6 +79,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(context);
+
+        progressDialog = ProgressDialog.show(context, "", "", true);
 
         //check if web service is available
         InternetChecker checker = new InternetChecker(this);
@@ -95,13 +101,15 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
             //start parser
             parser = new HistoryMatchParser(this);
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", true).commit();
+//            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", true).commit();
             parser.execute(accountID);
         } else {
             mBuilder.setContentTitle("Dota 2 webservice unavailable")
                     .setContentText("Please try again later.")
                     .setTicker("Dota 2 webservice unavailable")
                     .setSmallIcon(R.drawable.dotadata_xsm);
+
+            progressDialog.dismiss();
         }
         mNotifyManager.notify(1010, mBuilder.build());
     }
@@ -112,9 +120,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
         // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
 
-
-        System.out.println("got next set, size is now " + matches.size());
-        if (result == null) System.out.println("RESULT IS NULL");
 
         if (result.getRecentGames().getMatches().size() > 0) {
             if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
@@ -133,7 +138,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
                     updateNotification("No new games found.", 0, 0, false, false);
-                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+//                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+                    progressDialog.dismiss();
 
                     goToDetailParser = false;
                 }
@@ -202,7 +208,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             //get victory or loss
             for (DetailPlayer player : match.getPlayers()) {
                 if (player.getAccount_id() != null) {
-                    if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""))) {
+                    if (player.getAccount_id().equals(accountID)) {
                         //set victory/loss here while we have the user's player info
                         if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
                             //player won
@@ -225,7 +231,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             }
         }
         //save matches to database
-        MatchesDataSource mds = new MatchesDataSource(context);
+        MatchesDataSource mds = new MatchesDataSource(context, accountID);
         mds.saveDetailMatches(result);
         //save players
         PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
@@ -234,8 +240,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         PicksBansDataSource pbds = new PicksBansDataSource(context);
         pbds.savePicksBansList(picksBansList);
 
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+//        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
         updateNotification("Download complete.", 0, 0, false, true);
+
+        progressDialog.dismiss();
 
         //alert delegate that all matches have been downloaded
         delegate.processFinish();

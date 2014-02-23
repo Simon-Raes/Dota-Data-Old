@@ -30,38 +30,21 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
     private Context context;
     private ArrayList<DetailMatch> matches;
-
-//    private DisplayImageOptions options;
-//    private ImageLoader imageLoader;
-//    private ImageLoadingListener animateFirstListener;
-
-    String prefAccountID;
+    private String prefAccountID;
 
     public RecentGamesAdapter(Context context, ArrayList<DetailMatch> objects) {
         super(context, R.layout.matches_list_row, objects);
         this.context = context;
         this.matches = objects;
 
-
         prefAccountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
-
-
-//        options = new DisplayImageOptions.Builder()
-//                .resetViewBeforeLoading(true)
-//                .cacheInMemory(true)
-//                .bitmapConfig(Bitmap.Config.RGB_565)
-//                .showImageOnLoading(R.drawable.item_lg_loading)
-//                .imageScaleType(ImageScaleType.EXACTLY)
-//                .build();
-
-//        animateFirstListener = new AnimateFirstDisplayListener();
     }
 
-    //can probably be deleted
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-    }
+//    //can probably be deleted
+//    @Override
+//    public void notifyDataSetChanged() {
+//        super.notifyDataSetChanged();
+//    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -92,7 +75,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
         viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
 
-//        imageLoader = ImageLoader.getInstance();
 
         //find the user's hero, set as image
         String playerHeroID = "1";
@@ -122,28 +104,11 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
             viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
         }
 
-        //old
-        //imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(playerHeroID) + "_hphover.png", viewholder.imgHero, options, animateFirstListener);
 
         return view;
     }
 
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
-        }
-    }
 
     private class ViewHolder {
         public ImageView imgHero;
@@ -151,6 +116,5 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
         public TextView txtGameMode;
         public TextView txtDate;
         public TextView txtVictoryLoss;
-
     }
 }

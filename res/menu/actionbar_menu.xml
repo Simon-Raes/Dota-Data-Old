@@ -10,9 +10,13 @@
           android:showAsAction="ifRoom"/>
     <item android:id="@+id/btnRefresh"
           android:icon="@drawable/ic_action_refresh"
-          android:title="Refresh"
+          android:title="Update"
           android:showAsAction="always"/>
 
+    <item android:id="@+id/btnManageUsers"
+          android:icon="@drawable/ic_action_settings"
+          android:title="Manage users"
+          android:showAsAction="never"/>
     <item android:id="@+id/btnSettings"
           android:icon="@drawable/ic_action_settings"
           android:title="Settings"

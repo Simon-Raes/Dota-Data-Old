@@ -2,6 +2,7 @@ package be.simonraes.dotadata.statistics;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
@@ -25,7 +26,7 @@ public class DatabaseStatsLoader extends AsyncTask<String, Integer, ArrayList<De
     @Override
     protected ArrayList<DetailMatch> doInBackground(String... params) {
 
-        MatchesDataSource mds = new MatchesDataSource(context);
+        MatchesDataSource mds = new MatchesDataSource(context, PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""));
         ArrayList<DetailMatch> matches = mds.getAllMatches();
 
         return matches;

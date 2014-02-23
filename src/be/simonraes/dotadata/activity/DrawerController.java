@@ -3,7 +3,6 @@ package be.simonraes.dotadata.activity;
 import android.app.*;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
@@ -68,6 +67,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         } else {
             if (savedInstanceState.getBoolean("appLaunch", true)) {
                 //user is starting app, set recent games as default
+//                PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
             }
@@ -194,6 +194,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         FragmentTransaction transaction = fm.beginTransaction();
 
         switch (item.getItemId()) {
+            case R.id.btnManageUsers:
+                Fragment userFragment = new ManageUsersFragment();
+
+                transaction.replace(R.id.content_frame, userFragment);
+
+                transaction.addToBackStack(null).commit();
+                break;
             case R.id.btnSettings:
                 Fragment settingsFragment = new SettingsFragment();
 
@@ -241,7 +248,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         notificationManager.cancel(1010);
 
         //reset status
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+//        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
 
     }
 }
