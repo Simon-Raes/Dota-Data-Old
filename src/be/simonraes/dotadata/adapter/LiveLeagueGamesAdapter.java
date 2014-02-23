@@ -129,7 +129,7 @@ public class LiveLeagueGamesAdapter extends ArrayAdapter<LiveLeagueMatch> {
                 DisplayImageOptions options = new DisplayImageOptions.Builder()
                         .resetViewBeforeLoading(true)
                         .cacheInMemory(true)
-                        .showImageOnLoading(R.drawable.hero_sb_loading)
+                        .showImageOnLoading(R.drawable.item_lg_unknown)
                         .imageScaleType(ImageScaleType.EXACTLY)
                         .build();
                 AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();

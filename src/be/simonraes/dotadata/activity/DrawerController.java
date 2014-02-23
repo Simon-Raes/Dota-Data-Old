@@ -3,6 +3,7 @@ package be.simonraes.dotadata.activity;
 import android.app.*;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
@@ -238,5 +239,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         //todo: cancelling the notification has no effect
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(1010);
+
+        //reset status
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+
     }
 }

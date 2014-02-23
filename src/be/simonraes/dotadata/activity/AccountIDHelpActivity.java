@@ -1,7 +1,8 @@
-package be.simonraes.dotadata;
+package be.simonraes.dotadata.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.fragment.AccountIDHelpFragment;
 
@@ -15,5 +16,12 @@ public class AccountIDHelpActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new AccountIDHelpFragment()).commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
+
     }
 }

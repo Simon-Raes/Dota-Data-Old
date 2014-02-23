@@ -83,10 +83,11 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                 matches = savedInstanceState.getParcelableArrayList("matches");
             }
 
-            listAdapter = new RecentGamesAdapter(getActivity(), matches);
-            lvRecentGames.setAdapter(listAdapter);
             footerView = inflater.inflate(R.layout.historygames_footer, null);
             lvRecentGames.addFooterView(footerView, null, false);
+            listAdapter = new RecentGamesAdapter(getActivity(), matches);
+            lvRecentGames.setAdapter(listAdapter);
+
             lvRecentGames.setOnItemClickListener(this);
             lvRecentGames.setOnScrollListener(this);
         }

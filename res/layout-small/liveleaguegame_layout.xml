@@ -13,9 +13,9 @@
 
         <!-- Match info -->
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/bg_card">
 
@@ -24,7 +24,7 @@
                        android:layout_alignParentLeft="true"
                        android:maxWidth="100dp"
                        android:adjustViewBounds="true"
-                       android:layout_centerVertical="true"
+                       android:src="@drawable/item_lg_unknown"
                        android:layout_margin="10dp"/>
 
             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                        android:id="@+id/imgLiveLeagueDetailsDireLogo"
                        android:layout_alignParentRight="true"
-                       android:layout_centerVertical="true"
+                       android:src="@drawable/item_lg_unknown"
                        android:adjustViewBounds="true"
                        android:maxWidth="100dp"
                        android:layout_margin="10dp"/>
@@ -62,9 +62,9 @@
                 <!-- Radiant players card-->
                 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:id="@+id/layLiveLeagueRadiantPlayers"
-                              android:layout_marginLeft="20dp"
-                              android:layout_marginRight="20dp"
-                              android:layout_marginTop="10dp"
+                              android:layout_marginLeft="5dp"
+                              android:layout_marginRight="3dp"
+                              android:layout_marginTop="5dp"
                               android:layout_marginBottom="5dp"
                               android:orientation="vertical"
                               android:background="@drawable/bg_card">
@@ -75,9 +75,9 @@
                 <!-- Dire players card-->
                 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:id="@+id/layLiveLeagueDirePlayers"
-                              android:layout_marginLeft="20dp"
-                              android:layout_marginRight="20dp"
-                              android:layout_marginTop="10dp"
+                              android:layout_marginLeft="3dp"
+                              android:layout_marginRight="5dp"
+                              android:layout_marginTop="5dp"
                               android:layout_marginBottom="5dp"
                               android:orientation="vertical"
                               android:background="@drawable/bg_card">
@@ -91,9 +91,9 @@
 
         <!-- Spectators info -->
         <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginTop="5dp"
                       android:layout_marginBottom="5dp"
                       android:orientation="vertical"
                       android:background="@drawable/bg_card">
@@ -118,9 +118,9 @@
 
         <!-- Map: tower and barracks status -->
         <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_marginLeft="20dp"
-                      android:layout_marginRight="20dp"
-                      android:layout_marginTop="10dp"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginTop="5dp"
                       android:layout_marginBottom="5dp"
                       android:orientation="vertical"
                       android:paddingTop="20dp"

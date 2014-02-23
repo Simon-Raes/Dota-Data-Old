@@ -12,6 +12,7 @@
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:id="@+id/txtGameID"
               android:layout_below="@id/imgLiveLeagueRowDireLogo"
+              android:padding="10dp"
               android:layout_centerHorizontal="true"
               android:textColor="@android:color/black"
               android:text="team testtest vs team test ft testing team"/>

@@ -6,20 +6,20 @@
     <PreferenceCategory
             android:key="pref_key_account_settings"
             android:title="Account">
-
-        <EditTextPreference
-                android:defaultValue="0"
-                android:inputType="number"
-                android:key="be.simonraes.dotadata.accountid"
-                android:summary="accountID here"
-                android:title="Dota account ID"/>
-
-        <Preference android:title="Dota 2 account ID info"
-                    android:summary="Alternative methods of entering your Dota 2 account ID.">
+        <!-- Account should be set through accountIDhelp screen so the correct methods are called
+                <EditTextPreference
+                        android:defaultValue="0"
+                        android:inputType="number"
+                        android:key="be.simonraes.dotadata.accountid"
+                        android:summary="accountID here"
+                        android:title="Dota account ID"/>
+        -->
+        <Preference android:title="Set Dota 2 account ID"
+                    android:summary="Change your account ID to view matches from a different user.">
             <intent
                     android:action="android.intent.action.VIEW"
                     android:targetPackage="be.simonraes.dotadata"
-                    android:targetClass="be.simonraes.dotadata.AccountIDHelpActivity"/>
+                    android:targetClass="be.simonraes.dotadata.activity.AccountIDHelpActivity"/>
         </Preference>
 
     </PreferenceCategory>

@@ -43,7 +43,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onResume() {
         super.onResume();
-        updateSummaries();
+//        updateSummaries();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -57,10 +57,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         if (key.equals("be.simonraes.dotadata.accountid")) {
-            updateSummaries();
+//            updateSummaries();
         }
     }
 
+    //not used
     private void updateSummaries() {
         Preference prefAccountID = findPreference("be.simonraes.dotadata.accountid");
         prefAccountID.setSummary(getPreferenceScreen().getSharedPreferences().getString("be.simonraes.dotadata.accountid", "AccountID"));
