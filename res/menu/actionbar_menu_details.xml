@@ -8,10 +8,7 @@
           android:icon="@drawable/ic_action_not_important"
           android:title="Favourite"
           android:showAsAction="ifRoom"/>
-    <item android:id="@+id/btnRefresh"
-          android:icon="@drawable/ic_action_refresh"
-          android:title="Update"
-          android:showAsAction="always"/>
+
 
     <item android:id="@+id/btnManageUsers"
           android:icon="@drawable/ic_action_settings"

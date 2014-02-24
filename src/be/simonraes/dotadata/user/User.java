@@ -9,6 +9,7 @@ public class User {
     private String steam_id;
     private String name;
     private String avatar;
+    private String last_saved_match;
 
     public User() {
     }
@@ -50,5 +51,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getLast_saved_match() {
+        return last_saved_match;
+    }
+
+    public void setLast_saved_match(String last_saved_match) {
+        this.last_saved_match = last_saved_match;
     }
 }

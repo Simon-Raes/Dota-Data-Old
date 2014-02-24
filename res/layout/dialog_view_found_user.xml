@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:src="@drawable/item_lg_unknown"
+               android:padding="10dp"
+
+               android:id="@+id/imgDialogFoundUser"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/txtDialogFoundUser"
+              android:layout_toRightOf="@id/imgDialogFoundUser"
+              android:layout_centerVertical="true"
+              android:text="Found user xxx.\nStart download for this user?"/>
+</RelativeLayout>

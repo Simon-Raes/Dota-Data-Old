@@ -1,8 +1,6 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -25,13 +23,14 @@ import java.util.ArrayList;
 public class ManageUsersFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private ArrayList<User> users;
+    private ListView lvUsers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.select_user_layout, null);
-        ListView lvUsers = (ListView) view.findViewById(R.id.lvSelectUser);
+        View view = inflater.inflate(R.layout.manage_users_layout, null);
+        lvUsers = (ListView) view.findViewById(R.id.lvSelectUser);
 
-        getActivity().getActionBar().setTitle("Manage users");
+        getActivity().setTitle("Manage users");
 
         Button btnNewUser = (Button) view.findViewById(R.id.btnSelectUserNew);
         btnNewUser.setOnClickListener(this);
@@ -51,9 +50,9 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
             Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_SHORT).show();
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+            lvUsers.setAdapter(new UsersAdapter(getActivity(), users));
+            //getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
         }
-
     }
 
     @Override
@@ -61,7 +60,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         switch (v.getId()) {
             case R.id.btnSelectUserNew:
 
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new AccountIDHelpFragment()).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new AddUserFragment()).addToBackStack(null).commit();
 
                 break;
             default:

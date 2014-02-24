@@ -1,6 +1,7 @@
 package be.simonraes.dotadata.activity;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -8,13 +9,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 
-public class DrawerController extends Activity implements ListView.OnItemClickListener, ASyncResponseLiveLeague {
+public class DrawerController extends Activity implements ListView.OnItemClickListener {
 
     private String listContent[];
     private DrawerLayout drawerLayout;
@@ -22,6 +24,10 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     private ActionBarDrawerToggle drawerToggle;
 
     private boolean appLaunch = true;
+    private String previousActionBarTitle;
+
+    private CharSequence mTitle;
+    private CharSequence mDrawerTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 //        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.drawer_layout);
 
-        setActionBarTitle("Dota Data");
+        mTitle = mDrawerTitle = getTitle();
+
+        // getActionBar().setTitle("Dota Data");
 
         listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics", "divider LEAGUE GAMES", "Live league games",
                 "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
@@ -42,12 +50,14 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
+                getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -83,103 +93,59 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Fragment fragment;
-        FragmentManager fm = getFragmentManager();
         drawerLayout.closeDrawer(drawerList);
         drawerList.setItemChecked(position, true);
 
-
-//      removed - replaced with databasegamesfragment
-//        if (position == 1) {
-//            fragment = new RecentGamesFragment();
-//
-//            FragmentTransaction transaction = fm.beginTransaction();
-//            transaction.replace(R.id.content_frame, fragment);
-//
-//            transaction.addToBackStack(null).commit();
-//
-//        } else
-
-
-        if (position == 1) {
-            fragment = new RecentGamesFragment();
-
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, fragment);
-
-            transaction.addToBackStack(null).commit();
-
-        } else if (position == 2) {
-            fragment = new StatsFragment();
-
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, fragment);
-
-            transaction.addToBackStack(null).commit();
-
-        } else if (position == 4) {
-            fragment = new LiveLeagueGamesFragment();
-
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, fragment);
-
-            transaction.addToBackStack(null).commit();
-
-        } else {
-            fragment = new NYIFragment();
-
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, fragment);
-
-            transaction.addToBackStack(null).commit();
+        switch (position) {
+            case 1:
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
+                break;
+            case 2:
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsFragment(), "StatsFragment").addToBackStack(null).commit();
+                break;
+            case 4:
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new LiveLeagueGamesFragment(), "LiveLeagueGamesFragment").addToBackStack(null).commit();
+                break;
+            default:
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
+                break;
         }
     }
 
-
-    //live league games parser finished
-    @Override
-    public void processFinish(LiveLeagueContainer result) {
-
-    }
-
-
-    private void setActionBarTitle(String title) {
-        getActionBar().setTitle(title);
-    }
 
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
-        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
-        if (btnRefresh != null) {
-            btnRefresh.setVisible(false);
-        }
-        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
-        if (btnFavourite != null) {
-            btnFavourite.setVisible(false);
-        }
-        MenuItem btnNote = menu.findItem(R.id.btnNote);
-        if (btnNote != null) {
-            btnNote.setVisible(false);
-        }
 
-        if (drawerOpen) {
-            btnRefresh.setVisible(false);
-            btnFavourite.setVisible(false);
-            btnNote.setVisible(false);
+
+        if (drawerLayout.isDrawerOpen(drawerList)) {
+
+            System.out.println("prep menu in controller");
+
+            MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+            if (btnRefresh != null) {
+                btnRefresh.setVisible(false);
+            }
+            MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+            if (btnFavourite != null) {
+                btnFavourite.setVisible(false);
+            }
+            MenuItem btnNote = menu.findItem(R.id.btnNote);
+            if (btnNote != null) {
+                btnNote.setVisible(false);
+            }
+
         }
 
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actionbar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -189,32 +155,15 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             return true;
         }
 
-        // Handle your other action bar items...
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
 
         switch (item.getItemId()) {
             case R.id.btnManageUsers:
-                Fragment userFragment = new ManageUsersFragment();
-
-                transaction.replace(R.id.content_frame, userFragment);
-
-                transaction.addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new ManageUsersFragment(), "ManageUsersFragment").addToBackStack(null).commit();
                 break;
-            case R.id.btnSettings:
-                Fragment settingsFragment = new SettingsFragment();
 
-                transaction.replace(R.id.content_frame, settingsFragment);
-
-                transaction.addToBackStack(null).commit();
-                break;
 
             case R.id.btnAbout:
-                Fragment aboutFragment = new NYIFragment();
-
-                transaction.replace(R.id.content_frame, aboutFragment);
-
-                transaction.addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
                 break;
 
             default:
@@ -238,17 +187,5 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        System.out.println("app being destroyed");
-//        //remove history notification (in case app was terminated during downloading)
-//        //todo: cancelling the notification has no effect
-//        NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-//        notificationManager.cancel(1010);
-//
-//        //reset status
-////        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
-//
-//    }
+
 }

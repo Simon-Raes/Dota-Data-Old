@@ -21,9 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AccountIDHelpActivity"
-                  android:label="Dota 2 account ID">
 
-        </activity>
     </application>
 </manifest>

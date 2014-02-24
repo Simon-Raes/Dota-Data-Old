@@ -3,7 +3,6 @@ package be.simonraes.dotadata.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.user.User;
@@ -21,11 +20,13 @@ public class UsersDataSource {
     private MySQLiteHelper dbHelper;
     private Context context;
 
+
     private String[] usersColumns = {
             MySQLiteHelper.TABLE_USERS_ACCOUNT_ID,
             MySQLiteHelper.TABLE_USERS_STEAM_ID,
             MySQLiteHelper.TABLE_USERS_NAME,
-            MySQLiteHelper.TABLE_USERS_AVATAR
+            MySQLiteHelper.TABLE_USERS_AVATAR,
+            MySQLiteHelper.TABLE_USERS_LAST_SAVED_MATCH
     };
 
     public UsersDataSource(Context context) {
@@ -49,18 +50,10 @@ public class UsersDataSource {
         values.put(MySQLiteHelper.TABLE_USERS_STEAM_ID, user.getSteam_id());
         values.put(MySQLiteHelper.TABLE_USERS_NAME, user.getName());
         values.put(MySQLiteHelper.TABLE_USERS_AVATAR, user.getAvatar());
+        values.put(MySQLiteHelper.TABLE_USERS_LAST_SAVED_MATCH, user.getLast_saved_match());
 
         open();
-
-        try {
-            System.out.println("soutint:");
-            System.out.println(database.insertOrThrow(MySQLiteHelper.TABLE_USERS, null, values));
-
-        } catch (Exception e) {
-            System.out.println("errerrrrrrrrrrrr+ " + e.getStackTrace());
-        }
-
-
+        database.insertWithOnConflict(MySQLiteHelper.TABLE_USERS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         close();
     }
 
@@ -70,9 +63,6 @@ public class UsersDataSource {
         Cursor cursor = database.query(MySQLiteHelper.TABLE_USERS, usersColumns, null, null, null, null, null, null);
         ArrayList<User> users = new ArrayList<User>();
 
-        System.out.println(DatabaseUtils.queryNumEntries(database, "appusers"));
-
-        System.out.println("cursor size = " + cursor.getCount());
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             users.add(cursorToUser(cursor));
@@ -93,9 +83,16 @@ public class UsersDataSource {
             thisUser = cursorToUser(cursor);
             cursor.moveToNext();
         }
+
         cursor.close();
         close();
         return thisUser;
+    }
+
+    public void deleteUserByID(String accountID) {
+        open();
+        database.delete(MySQLiteHelper.TABLE_USERS, "account_id = ?", new String[]{accountID});
+        close();
     }
 
     public User cursorToUser(Cursor cursor) {
@@ -105,6 +102,7 @@ public class UsersDataSource {
         thisUser.setSteam_id(cursor.getString(1));
         thisUser.setName(cursor.getString(2));
         thisUser.setAvatar(cursor.getString(3));
+        thisUser.setLast_saved_match(cursor.getString(4));
 
         return thisUser;
     }

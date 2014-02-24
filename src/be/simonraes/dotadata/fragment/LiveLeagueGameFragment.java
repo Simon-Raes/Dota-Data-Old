@@ -47,7 +47,7 @@ public class LiveLeagueGameFragment extends Fragment implements ASyncResponseLea
         view = inflater.inflate(R.layout.liveleaguegame_layout, container, false);
         inflaterB = inflater;
 
-        getActivity().getActionBar().setTitle("Live league game");
+        getActivity().setTitle("Live league game");
 
         match = (LiveLeagueMatch) getArguments().getParcelable("liveLeagueMatch");
 

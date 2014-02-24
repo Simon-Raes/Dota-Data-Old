@@ -56,7 +56,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         inflaterB = inflater;
 
-        getActivity().getActionBar().setTitle("Match Details");
+        getActivity().setTitle("Match Details");
 
         match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
         playerNames = new ArrayList<TextView>();
@@ -154,8 +154,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             playerNames.add(txtPlayerName);
 
             //start parser to get player's name
-            PlayerSummaryParser parser = new PlayerSummaryParser(this);
-            parser.execute(player.getAccount_id());
+            if (InternetCheck.isOnline(getActivity())) {
+                PlayerSummaryParser parser = new PlayerSummaryParser(this);
+                parser.execute(player.getAccount_id());
+            }
 
 
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
@@ -170,6 +172,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
+                    .cacheOnDisc(true)
                     .showImageOnLoading(R.drawable.hero_sb_loading)
                     .imageScaleType(ImageScaleType.EXACTLY)
                     .build();
@@ -453,23 +456,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_menu, menu);
+
         MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
         if (btnRefresh != null) {
             btnRefresh.setVisible(false);
-        }
-        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
-        if (btnFavourite != null) {
-            if (match.isFavourite()) {
-                btnFavourite.setIcon(R.drawable.ic_action_important_color);
-            } else {
-                btnFavourite.setIcon(R.drawable.ic_action_not_important);
-            }
-            btnFavourite.setVisible(true);
-        }
-        MenuItem btnNote = menu.findItem(R.id.btnNote);
-        if (btnNote != null) {
-            btnNote.setVisible(true);
         }
     }
 

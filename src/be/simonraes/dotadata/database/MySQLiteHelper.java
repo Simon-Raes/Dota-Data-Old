@@ -69,15 +69,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_PICKS_BANS_COLUMN_TEAM = "team";
     public static final String TABLE_PICKS_BANS_COLUMN_ORDER = "orders"; //orders instead of order (order is a reserved sqlite word)
 
-    public static final String TABLE_USERS = "appusers";
+    public static final String TABLE_USERS = "users";
     public static final String TABLE_USERS_ACCOUNT_ID = "account_id";
     public static final String TABLE_USERS_STEAM_ID = "steam_id";
     public static final String TABLE_USERS_NAME = "name";
     public static final String TABLE_USERS_AVATAR = "avatar";
+    public static final String TABLE_USERS_LAST_SAVED_MATCH = "last_saved_match";
 
 
     private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(radiant_win text, " +
-            "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
+            "duration text, start_time text, match_id integer, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
             "barracks_status_dire text, cluster text, first_blood_time text, lobby_type text, human_players text, leagueid text, " +
             "positive_votes text, negative_votes text, game_mode text, user_win text, favourite text, note text, user text);";
 
@@ -89,7 +90,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_PICKS_BANS = "create table IF NOT EXISTS picks_bans(match_id text, is_pick text, hero_id text, team text, orders text);";
 
-    private static final String CREATE_TABLE_USERS = "create table IF NOT EXISTS appusers(account_id text primary key, steam_id text, name text, avatar text);";
+    private static final String CREATE_TABLE_USERS = "create table IF NOT EXISTS users(account_id text primary key, steam_id text, name text, avatar text, last_saved_match text);";
 
 //    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
 

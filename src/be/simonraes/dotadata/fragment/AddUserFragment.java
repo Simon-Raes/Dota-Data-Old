@@ -23,13 +23,19 @@ import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.parser.VanityResolverParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.user.User;
+import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.vanity.VanityContainer;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import java.util.zip.Inflater;
 
 /**
  * Created by Simon on 13/02/14.
  */
-public class AccountIDHelpFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity, ASyncResponseHistoryLoader, ASyncResponsePlayerSummary {
+public class AddUserFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity, ASyncResponseHistoryLoader, ASyncResponsePlayerSummary {
 
     private EditText etxtDotabuff, etxtProfileNumber, etxtIDName;
     private Button btnHelpDotabuff, btnHelpProfileNumber, btnHelpIDName;
@@ -41,7 +47,8 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.accountid_help_layout, container, false);
 
-        getActivity().getActionBar().setTitle("Dota 2 Account ID");
+        getActivity().getActionBar().setTitle("Add new user");
+
         //make sure keyboard doesn't automatically open on page load
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -170,14 +177,29 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
             } else {
+                View layDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_view_found_user, null);
+                ImageView imgDialog = (ImageView) layDialog.findViewById(R.id.imgDialogFoundUser);
 
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .resetViewBeforeLoading(true)
+                        .cacheInMemory(true)
+                        .showImageOnLoading(R.drawable.item_lg_unknown)
+                        .imageScaleType(ImageScaleType.EXACTLY)
+                        .build();
+                AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
 
+                imageLoader.displayImage(testUser.getAvatar(), imgDialog, options, animateFirstListener);
+
+                TextView txtDialog = (TextView) layDialog.findViewById(R.id.txtDialogFoundUser);
+                txtDialog.setText("Start download for this account?");
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("User found!")
+                        .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
                                 //todo: add user image (url is already in result object)
-                        .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
+                                //.setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
+                        .setView(layDialog)
                         .setCancelable(false)
-                        .setIcon(R.drawable.dotadata_sm)
+                                //.setIcon(R.drawable.dotadata_sm)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -211,17 +233,19 @@ public class AccountIDHelpFragment extends Fragment implements View.OnClickListe
         HistoryLoader loader = new HistoryLoader(getActivity(), this);
         loader.firstDownload();
 
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Success!")
-                .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. Your games and statistics will be available once the download completes.")
-                .setCancelable(false)
-                .setIcon(R.drawable.dotadata_sm)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //nothing, just dismiss
-                    }
-                }
-                ).show();
+        //moved this dialog to historyloader
+//
+//        new AlertDialog.Builder(getActivity())
+//                .setTitle("Success!")
+//                .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. Your games and statistics will be available once the download completes.")
+//                .setCancelable(false)
+//                .setIcon(R.drawable.dotadata_sm)
+//                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //nothing, just dismiss
+//                    }
+//                }
+//                ).show();
 
     }
 }

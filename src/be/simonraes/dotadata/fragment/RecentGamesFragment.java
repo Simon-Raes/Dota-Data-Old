@@ -47,11 +47,10 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
-        getActivity().getActionBar().setTitle("Recent games");
+        getActivity().setTitle("Recent games");
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
-            final LinearLayout layDialogContent = (LinearLayout) inflater.inflate(R.layout.dialog_accountid_content, null);
-            final EditText txtDialogAccountID = (EditText) layDialogContent.findViewById(R.id.txtDialogAccountID);
+
             new AlertDialog.Builder(getActivity())
                     .setTitle("Welcome!")
                     .setCancelable(false)
@@ -60,7 +59,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
-                            getFragmentManager().beginTransaction().replace(R.id.content_frame, new AccountIDHelpFragment()).commit();
+                            getFragmentManager().beginTransaction().replace(R.id.content_frame, new AddUserFragment()).commit();
                         }
                     }).show();
         } else {
@@ -83,9 +82,11 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             }
 
             footerView = inflater.inflate(R.layout.historygames_footer, null);
-            if (matches.size() > 0) {
-                lvRecentGames.addFooterView(footerView, null, false);
-            }
+
+//            if (matches.size() > 0) {
+            lvRecentGames.addFooterView(footerView, null, false);
+//            }
+
             listAdapter = new RecentGamesAdapter(getActivity(), matches);
             lvRecentGames.setAdapter(listAdapter);
 
@@ -100,7 +101,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("matches", matches);
-
     }
 
     //Detect click on match in list
@@ -195,9 +195,18 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
-        btnRefresh.setVisible(true);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_menu, menu);
+
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            btnFavourite.setVisible(false);
+        }
+        MenuItem btnNote = menu.findItem(R.id.btnNote);
+        if (btnNote != null) {
+            btnNote.setVisible(false);
+        }
     }
 
 

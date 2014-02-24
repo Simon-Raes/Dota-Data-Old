@@ -39,7 +39,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stats_layout, null);
 
-        getActivity().getActionBar().setTitle("Statistics");
+        getActivity().setTitle("Statistics");
 
         svStats = (ScrollView) view.findViewById(R.id.svStats);
         pbStats = (ProgressBar) view.findViewById(R.id.pbStats);

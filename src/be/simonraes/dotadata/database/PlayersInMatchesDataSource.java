@@ -120,13 +120,13 @@ public class PlayersInMatchesDataSource {
         return players;
     }
 
-    public boolean recordExists(DetailPlayer player, String MatchID) {
-        String localKey = player.getAccount_id() + MatchID + player.getPlayer_slot();
-        Cursor cursor = database.rawQuery("select 1 from player_in_match where pim_id = ?", new String[]{localKey});
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
-        return exists;
-    }
+//    public boolean recordExists(DetailPlayer player, String MatchID) {
+//        String localKey = player.getAccount_id() + MatchID + player.getPlayer_slot();
+//        Cursor cursor = database.rawQuery("select 1 from player_in_match where pim_id = ?", new String[]{localKey});
+//        boolean exists = (cursor.getCount() > 0);
+//        cursor.close();
+//        return exists;
+//    }
 
     private DetailPlayer cursorToDetailHeroBag(Cursor cursor) {
         DetailPlayer player = new DetailPlayer();

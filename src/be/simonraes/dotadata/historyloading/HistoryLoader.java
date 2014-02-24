@@ -14,6 +14,7 @@ import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.PicksBansDataSource;
 import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
+import be.simonraes.dotadata.database.UsersDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
@@ -25,6 +26,7 @@ import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchesParser;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
+import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.InternetChecker;
 
 import java.util.ArrayList;
@@ -41,12 +43,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private ASyncResponseHistoryLoader delegate;
     private Context context;
 
-//    private NotificationManager mNotifyManager;
-//    private NotificationCompat.Builder mBuilder;
-
     private String latestSavedMatchID;
 
     private boolean goToDetailParser;
+    private boolean firstTimeSetup;
 
     private ProgressDialog introDialog;
     private ProgressDialog progressDialog;
@@ -59,28 +59,27 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         this.context = context;
 
         goToDetailParser = false;
+        firstTimeSetup = false;
 
         matches = new ArrayList<HistoryMatch>();
     }
 
     public void firstDownload() {
-        //clear previous database
-        //context.deleteDatabase("be.simonraes.dotadata.db");
-        //start download as usual
+        firstTimeSetup = true;
         updateHistory();
     }
 
     public void updateHistory() {
 
         //get the most recent match from the database
-        MatchesDataSource mds = new MatchesDataSource(context, accountID);
-        latestSavedMatchID = mds.getLatestMatch().getMatch_id();
+        UsersDataSource uds = new UsersDataSource(context);
+        User user = uds.getUserByID(accountID);
+
+        latestSavedMatchID = user.getLast_saved_match();
+        System.out.println("last saved match ID = " + user.getLast_saved_match());
         if (latestSavedMatchID == null) {
             latestSavedMatchID = "0";
         }
-
-//        mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//        mBuilder = new NotificationCompat.Builder(context);
 
         introDialog = ProgressDialog.show(context, "", "Checking for new games.", true);
 
@@ -95,25 +94,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
 
         if (result) {
-            //start notification
-//            mBuilder.setContentTitle("Downloading Dota 2 history")
-//                    .setContentText("Starting download...")
-//                    .setTicker("Starting download...")
-//                    .setSmallIcon(R.drawable.dotadata_xsm);
-
             //start parser
             parser = new HistoryMatchParser(this);
 //            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", true).commit();
             parser.execute(accountID);
         } else {
-//            mBuilder.setContentTitle("Dota 2 webservice unavailable")
-//                    .setContentText("Please try again later.")
-//                    .setTicker("Dota 2 webservice unavailable")
-//                    .setSmallIcon(R.drawable.dotadata_xsm);
-
             introDialog.dismiss();
         }
-//        mNotifyManager.notify(1010, mBuilder.build());
     }
 
     //received next set of 100 history matches
@@ -139,9 +126,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
-//                    updateNotification("No new games found.", 0, 0, false, false);
                     Toast.makeText(context, "No new games found.", Toast.LENGTH_SHORT).show();
-//                    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
                     introDialog.dismiss();
 
                     goToDetailParser = false;
@@ -172,12 +157,14 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (goToDetailParser) {
             //got all historymatches
 
-//            System.out.println("got all historymatches, sending them to detailparser");
-
             introDialog.dismiss();
 
             progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Downloading match history");
+            progressDialog.setTitle("Updating match history");
+            if (firstTimeSetup) {
+                //only show this message for the initial download
+                progressDialog.setMessage("Your Dota 2 match history is now downloading. Your games and statistics will be available once the download completes.");
+            }
             progressDialog.setProgressPercentFormat(null);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setMax(matches.size());
@@ -200,23 +187,15 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     /*Update progress indicator*/
     @Override
     public void processUpdate(Integer[] progress) {
-//        mBuilder.setContentText(progress[0] + " of " + matches.size() + " matches downloaded.");
-//        mBuilder.setProgress(matches.size(), progress[0], false);
-//        Notification progressNotification = mBuilder.build();
-//        //set notification as ongoing event (can't be removed from notifications)
-//        progressNotification.flags |= Notification.FLAG_ONGOING_EVENT;
-//        mNotifyManager.notify(1010, progressNotification);
-
-
-        //introDialog.setProgressPercentFormat(null);
         progressDialog.setProgress(progress[0]);
     }
 
     /*Finished parsing detailmatches, Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
-//        updateNotification("Saving...", 0, 0, false, false);
 
+        progressDialog.setProgress(result.size());
+        progressDialog.setMessage("Saving.");
 
         //save players and (if needed) picks/bans to database
         ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
@@ -248,56 +227,29 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 }
             }
         }
+
         //save matches to database
         MatchesDataSource mds = new MatchesDataSource(context, accountID);
         mds.saveDetailMatches(result);
+
         //save players
         PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
         pimds.savePlayers(players);
+
         //save picksbans
         PicksBansDataSource pbds = new PicksBansDataSource(context);
         pbds.savePicksBansList(picksBansList);
 
-//        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
-//        updateNotification("Download complete.", 0, 0, false, true);
 
-        introDialog.dismiss();
+        //keep track of the last saved match for this user
+        UsersDataSource uds = new UsersDataSource(context);
+        User user = uds.getUserByID(accountID);
+        user.setLast_saved_match(result.get(0).getMatch_id());
+        uds.saveUser(user);
+
+        progressDialog.dismiss();
 
         //alert delegate that all matches have been downloaded
         delegate.processFinish();
-
     }
-
-//    private void updateNotification(String title, int progress, int maxProgress, boolean isFixed, boolean clickable) {
-//        if (clickable) {
-//            Intent resultIntent = new Intent(context, DrawerController.class);
-//            PendingIntent resultPendingIntent =
-//                    PendingIntent.getActivity(
-//                            context,
-//                            0,
-//                            resultIntent,
-//                            PendingIntent.FLAG_UPDATE_CURRENT
-//                    );
-//
-//            mBuilder.setContentText(title)
-//                    .setTicker(title)
-//                    .setSmallIcon(R.drawable.dotadata_xsm)
-//                    .setAutoCancel(true)
-//                    .setContentIntent(resultPendingIntent)
-//                    .setProgress(progress, maxProgress, false);
-//            mNotifyManager.notify(1010, mBuilder.build());
-//
-//        } else {
-//            mBuilder.setContentText(title)
-//                    .setTicker(title)
-//                    .setAutoCancel(true)
-//                    .setSmallIcon(R.drawable.dotadata_xsm)
-//                    .setProgress(progress, maxProgress, false);
-//            mNotifyManager.notify(1010, mBuilder.build());
-//        }
-//
-//
-//    }
-
-
 }

@@ -43,7 +43,7 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
         pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
-        getActivity().getActionBar().setTitle("Live league games");
+        getActivity().setTitle("Live league games");
 
         //force onCreateOptionsMenu to be called
         setHasOptionsMenu(true);
@@ -108,11 +108,20 @@ public class LiveLeagueGamesFragment extends Fragment implements AdapterView.OnI
         ((LiveLeagueGamesAdapter) lvRecentGames.getAdapter()).notifyDataSetChanged();
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.refresh_menu, menu);
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_menu, menu);
+
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            btnFavourite.setVisible(false);
+        }
+        MenuItem btnNote = menu.findItem(R.id.btnNote);
+        if (btnNote != null) {
+            btnNote.setVisible(false);
+        }
+    }
 
     //ActionBar button clicked
     @Override
