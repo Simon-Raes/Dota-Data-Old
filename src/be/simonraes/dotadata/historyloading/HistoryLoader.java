@@ -1,10 +1,12 @@
 package be.simonraes.dotadata.historyloading;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 //import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 //import android.support.v4.app.NotificationCompat;
@@ -22,6 +24,7 @@ import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.fragment.RecentGamesFragment;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchesParser;
@@ -248,6 +251,19 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         uds.saveUser(user);
 
         progressDialog.dismiss();
+
+        if (firstTimeSetup) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Download finished")
+                    .setMessage("Your matches and statistics are now available.")
+                    .setCancelable(false)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
+        }
+
 
         //alert delegate that all matches have been downloaded
         delegate.processFinish();
