@@ -16,6 +16,7 @@ import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
+import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.Preferencess;
 
 import java.util.ArrayList;
@@ -132,12 +133,14 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         switch (item.getItemId()) {
             case R.id.btnRefresh:
                 //only start download if it isn't already downloading
-                if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
-                    Toast.makeText(getActivity(), "Already downloading", Toast.LENGTH_SHORT).show();
-                } else {
+                if (InternetCheck.isOnline(getActivity())) {
                     HistoryLoader loader = new HistoryLoader(getActivity(), this);
                     loader.updateHistory();
+                } else {
+                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
                 }
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

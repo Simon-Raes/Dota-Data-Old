@@ -36,33 +36,9 @@
     </layouts>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Replaced notification with a progressDialog.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/menu/actionbar_menu_details.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/menu/actionbar_menu_recent_games.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/dialog_view_found_user.xml" />
-      <change type="DELETED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\layout\dialog_accountid_content.xml" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\res\layout\select_user_layout.xml" afterPath="$PROJECT_DIR$/res/layout/manage_users_layout.xml" />
-      <change type="MOVED" beforePath="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\fragment\AccountIDHelpFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/AccountIDHelpActivity.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/AccountIDHelpActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGameFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/ManageUsersFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/ManageUsersFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" />
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="No longer crashes on detailscreen when offline. Now caches avatars en small hero images on disc. More work on download- and new-user-dialogs. Implemented function to delete user. Fixed interaction between drawer and actionbar (title and buttons).">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/user/User.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/user/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/UsersDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/UsersDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/actionbar_menu.xml" afterPath="$PROJECT_DIR$/res/menu/actionbar_menu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/matches_list_layout.xml" afterPath="$PROJECT_DIR$/res/layout/matches_list_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -130,16 +106,16 @@
       <file leaf-file-name="UsersAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="35" selection-start="3313" selection-end="3313" vertical-scroll-proportion="0.0" vertical-offset="628" max-vertical-offset="2261">
+            <state line="83" column="35" selection-start="3317" selection-end="3317" vertical-scroll-proportion="0.0" vertical-offset="628" max-vertical-offset="2261">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddUserFragment.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="AddUserFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="191" column="71" selection-start="8168" selection-end="8168" vertical-scroll-proportion="0.0" vertical-offset="2380" max-vertical-offset="3791">
+            <state line="200" column="36" selection-start="8697" selection-end="8697" vertical-scroll-proportion="0.0" vertical-offset="2907" max-vertical-offset="4029">
               <folding />
             </state>
           </provider>
@@ -157,13 +133,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="465" column="41" selection-start="20883" selection-end="20883" vertical-scroll-proportion="0.43371522" vertical-offset="4393" max-vertical-offset="6562">
+            <state line="457" column="13" selection-start="20568" selection-end="20568" vertical-scroll-proportion="0.0" vertical-offset="4376" max-vertical-offset="6545">
               <folding>
                 <element signature="method#onGlobalLayout#0;class#MatchDetailFragment#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RecentGamesFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="139" column="45" selection-start="5593" selection-end="5711" vertical-scroll-proportion="0.0" vertical-offset="1717" max-vertical-offset="3502">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -278,12 +263,12 @@
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
         <option value="$PROJECT_DIR$/res/layout/matches_list_layout.xml" />
         <option value="$PROJECT_DIR$/res/layout/dialog_accountid_content.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" />
         <option value="$PROJECT_DIR$/res/layout/dialog_view_found_user.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" />
       </list>
     </option>
   </component>
@@ -1544,7 +1529,11 @@
       <created>1393196551115</created>
       <updated>1393196551115</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="No longer crashes on detailscreen when offline. Now caches avatars en small hero images on disc. More work on download- and new-user-dialogs. Implemented function to delete user. Fixed interaction between drawer and actionbar (title and buttons).">
+      <created>1393275492787</created>
+      <updated>1393275492787</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1585,7 +1574,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22941822" sideWeight="0.519536" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3190319" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2618262" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13531353" sideWeight="0.6605617" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14851485" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1615,7 +1604,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added picks and bans to ranked games. Fixed settings summaries not showing on page load." />
     <MESSAGE value="Recent games: Added simple dialog asking for accountID if it hasn't been entered yet." />
     <MESSAGE value="Added screen with details on how to get your Dota account ID." />
     <MESSAGE value="Added function to download the user's complete Dota history. Keeps user informed using a fixed notification. &#10;History is only downloaded, still needs to be saved to a database." />
@@ -1640,7 +1628,8 @@
     <MESSAGE value="Added layouts for smaller screens." />
     <MESSAGE value="Added support for multiple users." />
     <MESSAGE value="Replaced notification with a progressDialog." />
-    <option name="LAST_COMMIT_MESSAGE" value="Replaced notification with a progressDialog." />
+    <MESSAGE value="No longer crashes on detailscreen when offline. Now caches avatars en small hero images on disc. More work on download- and new-user-dialogs. Implemented function to delete user. Fixed interaction between drawer and actionbar (title and buttons)." />
+    <option name="LAST_COMMIT_MESSAGE" value="No longer crashes on detailscreen when offline. Now caches avatars en small hero images on disc. More work on download- and new-user-dialogs. Implemented function to delete user. Fixed interaction between drawer and actionbar (title and buttons)." />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1822,8 +1811,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="130" column="12" selection-start="5388" selection-end="5699" vertical-scroll-proportion="0.0" vertical-offset="1632" max-vertical-offset="3145">
           <folding>
-            <element signature="e#1839#1859#0" expanded="true" />
-            <element signature="e#1861#1882#0" expanded="true" />
+            <element signature="e#1840#1860#0" expanded="true" />
+            <element signature="e#1862#1883#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1927,13 +1916,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="0" selection-start="2106" selection-end="2106" vertical-scroll-proportion="0.0" vertical-offset="370" max-vertical-offset="3485">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LiveLeagueGamesFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="45" column="21" selection-start="1752" selection-end="1752" vertical-scroll-proportion="-0.50169873" vertical-offset="953" max-vertical-offset="2176">
@@ -1964,13 +1946,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="35" selection-start="3313" selection-end="3313" vertical-scroll-proportion="0.0" vertical-offset="628" max-vertical-offset="2261">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/dialog_view_found_user.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="35" selection-start="391" selection-end="391" vertical-scroll-proportion="-4.76" vertical-offset="0" max-vertical-offset="374">
@@ -1979,13 +1954,6 @@
       </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="71" selection-start="8168" selection-end="8168" vertical-scroll-proportion="0.0" vertical-offset="2380" max-vertical-offset="3791">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/parser/PlayerSummaryParser.java">
@@ -2002,12 +1970,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="139" column="45" selection-start="5593" selection-end="5711" vertical-scroll-proportion="0.0" vertical-offset="1717" max-vertical-offset="3502">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="465" column="41" selection-start="20883" selection-end="20883" vertical-scroll-proportion="0.43371522" vertical-offset="4393" max-vertical-offset="6562">
+        <state line="457" column="13" selection-start="20568" selection-end="20568" vertical-scroll-proportion="0.0" vertical-offset="4376" max-vertical-offset="6545">
           <folding>
             <element signature="method#onGlobalLayout#0;class#MatchDetailFragment#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="35" selection-start="3317" selection-end="3317" vertical-scroll-proportion="0.0" vertical-offset="628" max-vertical-offset="2261">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="200" column="36" selection-start="8697" selection-end="8697" vertical-scroll-proportion="0.0" vertical-offset="2907" max-vertical-offset="4029">
+          <folding />
         </state>
       </provider>
     </entry>

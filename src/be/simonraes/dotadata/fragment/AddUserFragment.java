@@ -25,12 +25,11 @@ import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
 import be.simonraes.dotadata.util.Conversions;
+import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.vanity.VanityContainer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-
-import java.util.zip.Inflater;
 
 /**
  * Created by Simon on 13/02/14.
@@ -93,41 +92,55 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         switch (v.getId()) {
 
             case R.id.btnHelpDotabuff:
-                if (!etxtDotabuff.getText().equals("")) {
-                    saveDotaID(etxtDotabuff.getText().toString());
+                if (InternetCheck.isOnline(getActivity())) {
+                    if (!etxtDotabuff.getText().equals("")) {
+
+                        saveDotaID(etxtDotabuff.getText().toString());
+
+                    } else {
+                        saveDotaID("0");
+                    }
                 } else {
-                    saveDotaID("0");
+                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
                 }
-
-
                 //hide keyboard
                 ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpDotabuff.getWindowToken(), 0);
-
                 break;
 
             case R.id.btnHelpProfileNumber:
 
+                if (InternetCheck.isOnline(getActivity())) {
+                    if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
+                        saveDotaID(Conversions.community64IDToDota64ID(etxtProfileNumber.getText().toString()));
+                    } else {
+                        saveDotaID("0");
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+                }
                 //hide keyboard
                 ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpProfileNumber.getWindowToken(), 0);
-                if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
-                    saveDotaID(Conversions.community64IDToDota64ID(etxtProfileNumber.getText().toString()));
-                } else {
-                    saveDotaID("0");
-                }
                 break;
+
             case R.id.btnHelpIDName:
+
+                if (InternetCheck.isOnline(getActivity())) {
+                    if (!etxtIDName.getText().toString().equals("") && etxtIDName.getText().toString() != null) {
+                        VanityResolverParser parser = new VanityResolverParser(this);
+                        parser.execute(etxtIDName.getText().toString());
+                    } else {
+                        saveDotaID("0");
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+                }
 
                 //hide keyboard
                 ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpIDName.getWindowToken(), 0);
-
-                if (!etxtIDName.getText().toString().equals("") && etxtIDName.getText().toString() != null) {
-                    VanityResolverParser parser = new VanityResolverParser(this);
-                    parser.execute(etxtIDName.getText().toString());
-                } else {
-                    saveDotaID("0");
-                }
                 break;
+
             default:
+
                 break;
         }
     }
@@ -177,27 +190,27 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
             } else {
-                View layDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_view_found_user, null);
-                ImageView imgDialog = (ImageView) layDialog.findViewById(R.id.imgDialogFoundUser);
+//                View layDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_view_found_user, null);
+//                ImageView imgDialog = (ImageView) layDialog.findViewById(R.id.imgDialogFoundUser);
+//
+//                ImageLoader imageLoader = ImageLoader.getInstance();
+//                DisplayImageOptions options = new DisplayImageOptions.Builder()
+//                        .resetViewBeforeLoading(true)
+//                        .cacheInMemory(true)
+//                        .showImageOnLoading(R.drawable.item_lg_unknown)
+//                        .imageScaleType(ImageScaleType.EXACTLY)
+//                        .build();
+//                AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
+//
+//                imageLoader.displayImage(testUser.getAvatar(), imgDialog, options, animateFirstListener);
 
-                ImageLoader imageLoader = ImageLoader.getInstance();
-                DisplayImageOptions options = new DisplayImageOptions.Builder()
-                        .resetViewBeforeLoading(true)
-                        .cacheInMemory(true)
-                        .showImageOnLoading(R.drawable.item_lg_unknown)
-                        .imageScaleType(ImageScaleType.EXACTLY)
-                        .build();
-                AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
-
-                imageLoader.displayImage(testUser.getAvatar(), imgDialog, options, animateFirstListener);
-
-                TextView txtDialog = (TextView) layDialog.findViewById(R.id.txtDialogFoundUser);
-                txtDialog.setText("Start download for this account?");
+//                TextView txtDialog = (TextView) layDialog.findViewById(R.id.txtDialogFoundUser);
+//                txtDialog.setText("Start download for this account?");
                 new AlertDialog.Builder(getActivity())
                         .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
-                                //todo: add user image (url is already in result object)
-                                //.setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
-                        .setView(layDialog)
+                                ////todo: add user image (url is already in result object)
+                        .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
+//                        .setView(layDialog)
                         .setCancelable(false)
                                 //.setIcon(R.drawable.dotadata_sm)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
