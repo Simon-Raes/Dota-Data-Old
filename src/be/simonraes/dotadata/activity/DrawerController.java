@@ -163,11 +163,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         switch (item.getItemId()) {
             case R.id.btnManageUsers:
+                drawerToggle.setDrawerIndicatorEnabled(true);
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new ManageUsersFragment(), "ManageUsersFragment").addToBackStack(null).commit();
                 break;
 
 
             case R.id.btnAbout:
+                drawerToggle.setDrawerIndicatorEnabled(true);
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
                 break;
 
