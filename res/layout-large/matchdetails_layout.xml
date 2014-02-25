@@ -73,6 +73,7 @@
         <!-- Scrollview containing radiant and dire player cards-->
         <HorizontalScrollView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
+                              android:id="@+id/svMatchDetailsPlayers"
                               android:scrollbars="none">
 
             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">

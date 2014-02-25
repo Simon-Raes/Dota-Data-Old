@@ -15,6 +15,7 @@ import android.widget.ListView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.fragment.*;
+import be.simonraes.dotadata.util.OrientationHelper;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener {
 
@@ -194,5 +195,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OrientationHelper.unlockOrientation(this);
+    }
 }

@@ -1,5 +1,6 @@
 package be.simonraes.dotadata.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,13 +12,12 @@ import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.UsersDataSource;
+import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.user.User;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
-import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.GameModes;
-import be.simonraes.dotadata.util.HeroList;
+import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -28,15 +28,18 @@ import java.util.ArrayList;
 /**
  * Created by Simon on 23/02/14.
  */
-public class UsersAdapter extends ArrayAdapter<User> {
+public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHistoryLoader {
 
     private ArrayList<User> users;
     private Context context;
+    private Activity activity;
 
-    public UsersAdapter(Context context, ArrayList<User> users) {
+    public UsersAdapter(Context context, ArrayList<User> users, Activity activity) {
         super(context, R.layout.select_user_row, users);
+
         this.context = context;
         this.users = users;
+        this.activity = activity;
     }
 
     @Override
@@ -84,14 +87,12 @@ public class UsersAdapter extends ArrayAdapter<User> {
         imageLoader.displayImage(user.getAvatar(), viewholder.imgUser, options, animateFirstListener);
 
         final User finalUser = users.get(position);
+        final UsersAdapter finalAdapter = this;
 
         //delete button
         viewholder.btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                System.out.println("clicked delete for user " + finalUser.getName());
 
                 new AlertDialog.Builder(context)
                         .setTitle("Delete " + finalUser.getName() + "?")
@@ -128,7 +129,9 @@ public class UsersAdapter extends ArrayAdapter<User> {
         viewholder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, user.getName() + " updated (NYI)", Toast.LENGTH_SHORT).show();
+
+                HistoryLoader loader = new HistoryLoader(context, finalAdapter, finalUser.getAccount_id());
+                loader.updateHistory();
             }
 
         });
@@ -152,6 +155,12 @@ public class UsersAdapter extends ArrayAdapter<User> {
             PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", "").commit();
         }
         notifyDataSetChanged();
+    }
+
+    //finished updating user matches
+    @Override
+    public void processFinish(boolean foundGames) {
+        OrientationHelper.unlockOrientation(activity);
     }
 
     private class ViewHolder {

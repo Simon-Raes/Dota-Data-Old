@@ -4,13 +4,18 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
@@ -24,6 +29,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -59,6 +67,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         setHasOptionsMenu(true);
 
+        //disable drawer icon (needed for reorientation)
+        ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         //update the actionbar to show the up carat/affordance
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -460,6 +470,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
+    //set action bar buttons
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -471,7 +482,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    //ActionBar button clicked
+    //click action bar buttson
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -494,6 +505,71 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     Toast.makeText(getActivity(), "Removed match from favourites", Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_action_not_important);
                 }
+            case R.id.btnShare:
+
+                View scrollViewView = view.findViewById(R.id.svMatchDetailsPlayers);
+                //ScrollView scrollViewMain = (ScrollView) view.findViewById(R.id.svMatchDetails);
+                HorizontalScrollView scrollViewPlayers = (HorizontalScrollView) view.findViewById(R.id.svMatchDetailsPlayers);
+
+                scrollViewView.setDrawingCacheEnabled(true);
+                scrollViewView.buildDrawingCache(true);
+//                scrollViewMain.setDrawingCacheEnabled(true);
+//                scrollViewMain.buildDrawingCache(true);
+                scrollViewPlayers.setDrawingCacheEnabled(true);
+                scrollViewPlayers.buildDrawingCache(true);
+
+//                ScrollView z = (ScrollView) view.findViewById(R.id.svMatchDetails);
+//                int totalHeight = z.getChildAt(0).getHeight();
+//                int totalWidth = z.getChildAt(0).getWidth();
+//                scrollView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+
+                scrollViewView.layout(0, 0, scrollViewPlayers.getChildAt(0).getWidth(), scrollViewPlayers.getChildAt(0).getHeight());
+
+
+                Bitmap b = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), scrollViewPlayers.getChildAt(0).getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(b);
+                scrollViewView.layout(0, 0, scrollViewView.getLayoutParams().width, scrollViewView.getLayoutParams().height);
+                scrollViewView.draw(c);
+
+
+//                Bitmap b = Bitmap.createBitmap(scrollViewView.getDrawingCache());
+
+                scrollViewView.setDrawingCacheEnabled(false);
+                scrollViewView.buildDrawingCache(false);
+//                scrollViewMain.setDrawingCacheEnabled(false);
+//                scrollViewMain.buildDrawingCache(false);
+                scrollViewPlayers.setDrawingCacheEnabled(false);
+                scrollViewPlayers.buildDrawingCache(false);
+
+                //Save bitmap
+                String extr = Environment.getExternalStorageDirectory().toString();
+                File mFolder = new File(extr + "/dotes");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+
+                String fileName = "scoreboard.jpg";
+                File myPath = new File(mFolder.getAbsolutePath(), fileName);
+
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(myPath);
+                    b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    fos.flush();
+                    fos.close();
+                    MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), b, "Screen", "screen");
+                    System.out.println("saved to " + myPath);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

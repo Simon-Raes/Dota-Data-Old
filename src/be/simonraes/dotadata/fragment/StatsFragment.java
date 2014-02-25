@@ -92,7 +92,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
 
 
     @Override
-    public void processFinish() {
+    public void processFinish(boolean foundGames) {
 
     }
 

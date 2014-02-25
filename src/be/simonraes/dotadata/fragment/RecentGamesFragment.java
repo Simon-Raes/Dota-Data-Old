@@ -1,9 +1,6 @@
 package be.simonraes.dotadata.fragment;
 
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,6 +15,7 @@ import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.util.InternetCheck;
+import be.simonraes.dotadata.util.OrientationHelper;
 import be.simonraes.dotadata.util.Preferencess;
 
 import java.util.ArrayList;
@@ -32,6 +30,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     private ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
     private ProgressBar pbRecentGames;
     private View footerView;
+    private Activity activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,11 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
         getActivity().setTitle("Recent games");
+
+
+        //test
+        activity = getActivity();
+
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
 
@@ -105,6 +109,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         outState.putParcelableArrayList("matches", matches);
     }
 
+
     //Detect click on match in list
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -129,14 +134,30 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         transaction.addToBackStack(null).commit();
     }
 
+    //create options menu
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_menu, menu);
 
-    //ActionBar button clicked
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            btnFavourite.setVisible(false);
+        }
+        MenuItem btnNote = menu.findItem(R.id.btnNote);
+        if (btnNote != null) {
+            btnNote.setVisible(false);
+        }
+    }
+
+    //use options menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnRefresh:
                 //only start download if it isn't already downloading
                 if (InternetCheck.isOnline(getActivity())) {
+                    OrientationHelper.lockOrientation(activity);
                     HistoryLoader loader = new HistoryLoader(getActivity(), this);
                     loader.updateHistory();
                 } else {
@@ -200,25 +221,14 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         lvRecentGames.setVisibility(View.VISIBLE);
     }
 
+
+    //historyloader is ready
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.actionbar_menu, menu);
-
-        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
-        if (btnFavourite != null) {
-            btnFavourite.setVisible(false);
+    public void processFinish(boolean foundGames) {
+        if (foundGames) {
+            matches.clear();
+            loadMatchesFromDatabase();
         }
-        MenuItem btnNote = menu.findItem(R.id.btnNote);
-        if (btnNote != null) {
-            btnNote.setVisible(false);
-        }
-    }
-
-
-    @Override
-    public void processFinish() {
-        matches.clear();
-        loadMatchesFromDatabase();
+        OrientationHelper.unlockOrientation(activity);
     }
 }

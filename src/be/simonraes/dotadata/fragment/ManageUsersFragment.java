@@ -36,7 +36,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         UsersDataSource uds = new UsersDataSource(getActivity());
         users = uds.getAllUsers();
         System.out.println("got " + users.size() + "users");
-        lvUsers.setAdapter(new UsersAdapter(getActivity(), users));
+        lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
         lvUsers.setOnItemClickListener(this);
 
         return view;
@@ -48,7 +48,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
             Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_SHORT).show();
-            lvUsers.setAdapter(new UsersAdapter(getActivity(), users));
+            lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
         }
     }
@@ -77,9 +77,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSelectUserNew:
-
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new AddUserFragment()).addToBackStack(null).commit();
-
                 break;
             default:
                 break;

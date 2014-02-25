@@ -67,6 +67,20 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         matches = new ArrayList<HistoryMatch>();
     }
 
+    //overloaded constructor for use with non-active user accountID
+    public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate, String accountID) {
+        this.accountID = accountID;
+
+        this.delegate = delegate;
+        this.context = context;
+
+        goToDetailParser = false;
+        firstTimeSetup = false;
+
+        matches = new ArrayList<HistoryMatch>();
+    }
+
+
     public void firstDownload() {
         firstTimeSetup = true;
         updateHistory();
@@ -91,6 +105,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         checker.execute();
     }
 
+
     //finished checking status of webservice
     @Override
     public void processFinish(Boolean result) {
@@ -99,10 +114,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (result) {
             //start parser
             parser = new HistoryMatchParser(this);
-//            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", true).commit();
             parser.execute(accountID);
         } else {
-            introDialog.dismiss();
+            if (introDialog.isShowing()) {
+                introDialog.dismiss();
+            }
         }
     }
 
@@ -130,9 +146,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
                     Toast.makeText(context, "No new games found.", Toast.LENGTH_SHORT).show();
-                    introDialog.dismiss();
-
+                    if (introDialog.isShowing()) {
+                        introDialog.dismiss();
+                    }
                     goToDetailParser = false;
+                    delegate.processFinish(false);
                 }
 
                 matches.addAll(recentMatches);
@@ -160,7 +178,9 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (goToDetailParser) {
             //got all historymatches
 
-            introDialog.dismiss();
+            if (introDialog.isShowing()) {
+                introDialog.dismiss();
+            }
 
             progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Updating match history");
@@ -250,7 +270,9 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         user.setLast_saved_match(result.get(0).getMatch_id());
         uds.saveUser(user);
 
-        progressDialog.dismiss();
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
 
         if (firstTimeSetup) {
             new AlertDialog.Builder(context)
@@ -266,6 +288,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
 
         //alert delegate that all matches have been downloaded
-        delegate.processFinish();
+        delegate.processFinish(true);
     }
 }

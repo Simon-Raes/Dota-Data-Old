@@ -26,6 +26,7 @@ import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.InternetCheck;
+import be.simonraes.dotadata.util.OrientationHelper;
 import be.simonraes.dotadata.vanity.VanityContainer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -74,37 +75,28 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         txtIDName.setText(Html.fromHtml("Example: http://steamcommunity.com/id/<b>Voshond</b>/"));
 
 
-        //display warning for users that will lose currently saved data
-        LinearLayout layWarning = (LinearLayout) view.findViewById(R.id.layHelpUserWarning);
-
-        if (!PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", "").equals("")) {
-            layWarning.setVisibility(View.VISIBLE);
-        } else {
-            layWarning.setVisibility(View.GONE);
-        }
-
         return view;
 
     }
 
     @Override
     public void onClick(View v) {
+        //hide keyboard
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpDotabuff.getWindowToken(), 0);
+        //lock orientation during loading/parsing
+        OrientationHelper.lockOrientation(getActivity());
         switch (v.getId()) {
 
             case R.id.btnHelpDotabuff:
                 if (InternetCheck.isOnline(getActivity())) {
                     if (!etxtDotabuff.getText().equals("")) {
-
                         saveDotaID(etxtDotabuff.getText().toString());
-
                     } else {
                         saveDotaID("0");
                     }
                 } else {
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
                 }
-                //hide keyboard
-                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpDotabuff.getWindowToken(), 0);
                 break;
 
             case R.id.btnHelpProfileNumber:
@@ -118,8 +110,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
                 } else {
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
                 }
-                //hide keyboard
-                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpProfileNumber.getWindowToken(), 0);
                 break;
 
             case R.id.btnHelpIDName:
@@ -134,27 +124,22 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
                 } else {
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
                 }
-
-                //hide keyboard
-                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpIDName.getWindowToken(), 0);
                 break;
 
             default:
-
                 break;
         }
     }
 
     @Override
     public void processFinish(VanityContainer result) {
-        //got player long ID
+        //got player steamID ID
         saveDotaID(Conversions.community64IDToDota64ID(result.getResponse().getSteamid()));
     }
 
     private void saveDotaID(String accountID) {
 
         if (!accountID.equals("0")) {
-
             userAccountID = accountID;
 
             //get player information
@@ -164,13 +149,10 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 
         } else {
             Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
+            OrientationHelper.unlockOrientation(getActivity());
         }
     }
 
-    @Override
-    public void processFinish() {
-
-    }
 
     //got player summary based on accountID
     @Override
@@ -208,7 +190,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 //                txtDialog.setText("Start download for this account?");
                 new AlertDialog.Builder(getActivity())
                         .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
-                                ////todo: add user image (url is already in result object)
+                                //todo: add user image (url is already in result object)
                         .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
 //                        .setView(layDialog)
                         .setCancelable(false)
@@ -232,6 +214,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //nothing, just dismiss
+                                OrientationHelper.unlockOrientation(getActivity());
                             }
                         })
                         .show();
@@ -242,23 +225,15 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         }
     }
 
+    //start historyloader
     private void startDownload() {
         HistoryLoader loader = new HistoryLoader(getActivity(), this);
         loader.firstDownload();
+    }
 
-        //moved this dialog to historyloader
-//
-//        new AlertDialog.Builder(getActivity())
-//                .setTitle("Success!")
-//                .setMessage("Your Dota 2 account ID has been saved and your match history is now downloading in the background. Your games and statistics will be available once the download completes.")
-//                .setCancelable(false)
-//                .setIcon(R.drawable.dotadata_sm)
-//                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //nothing, just dismiss
-//                    }
-//                }
-//                ).show();
-
+    //result from historyloader
+    @Override
+    public void processFinish(boolean foundGames) {
+        OrientationHelper.unlockOrientation(getActivity());
     }
 }
