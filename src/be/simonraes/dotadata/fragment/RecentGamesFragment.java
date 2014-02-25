@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
@@ -116,7 +117,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
 
-        getActivity().setProgressBarIndeterminateVisibility(false);
+        //hacky way to set UP arrow in actionbar of matchdetails screen
+        ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+
 
         //send object to fragment
         Bundle bundle = new Bundle();

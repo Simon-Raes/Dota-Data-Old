@@ -6,15 +6,15 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.*;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
-import be.simonraes.dotadata.delegates.ASyncResponseLiveLeague;
 import be.simonraes.dotadata.fragment.*;
-import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener {
 
@@ -71,16 +71,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
-        } else {
-            if (savedInstanceState.getBoolean("appLaunch", true)) {
-                //user is starting app, set recent games as default
-//                PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("be.simonraes.dotadata.downloadinprogress", false).commit();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
-            }
         }
     }
 
@@ -110,6 +103,18 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
                 break;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //turn on the Navigation Drawer image; this is called in the LowerLevelFragments
+        drawerToggle.setDrawerIndicatorEnabled(true);
+    }
+
+    public ActionBarDrawerToggle getActionBarDrawerToggle() {
+        return drawerToggle;
     }
 
 

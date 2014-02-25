@@ -3,14 +3,12 @@ package be.simonraes.dotadata.fragment;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.*;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
@@ -57,6 +55,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         inflaterB = inflater;
 
         getActivity().setTitle("Match Details");
+
+
+        setHasOptionsMenu(true);
+
+        //update the actionbar to show the up carat/affordance
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
         playerNames = new ArrayList<TextView>();
@@ -470,6 +475,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+
+                return true;
             case R.id.btnNote:
                 noteDialog();
                 return true;
