@@ -13,6 +13,7 @@
 
         <!-- Match info (duration, winner,...) -->
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:id="@+id/layDetailHeader"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
@@ -153,7 +154,7 @@
         </LinearLayout>
 
 
-        <!-- Player skillbuilds -->
+        <!-- Player skillbuilds, hidden until implemented -->
         <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                       android:layout_marginLeft="20dp"
                       android:layout_marginRight="20dp"
@@ -168,6 +169,7 @@
 
         <!-- Map: tower and barracks status -->
         <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:id="@+id/layDetailMapCard"
                       android:layout_marginLeft="20dp"
                       android:layout_marginRight="20dp"
                       android:layout_marginTop="10dp"

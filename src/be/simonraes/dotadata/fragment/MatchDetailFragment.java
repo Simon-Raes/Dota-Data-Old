@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,9 +32,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,6 +55,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     private FrameLayout layDetailsMinimap;
     private ImageButton btnDetailDeleteNote;
+
+    private Bitmap screenShot;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -468,6 +472,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
             layDetailsMinimap.addView(towerDireBotT4);
         }
+
+
     }
 
     //set action bar buttons
@@ -480,7 +486,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (btnRefresh != null) {
             btnRefresh.setVisible(false);
         }
+
+
     }
+
 
     //click action bar buttson
     @Override
@@ -488,7 +497,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
-
                 return true;
             case R.id.btnNote:
                 noteDialog();
@@ -505,71 +513,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     Toast.makeText(getActivity(), "Removed match from favourites", Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_action_not_important);
                 }
+                return true;
             case R.id.btnShare:
-
-                View scrollViewView = view.findViewById(R.id.svMatchDetailsPlayers);
-                //ScrollView scrollViewMain = (ScrollView) view.findViewById(R.id.svMatchDetails);
-                HorizontalScrollView scrollViewPlayers = (HorizontalScrollView) view.findViewById(R.id.svMatchDetailsPlayers);
-
-                scrollViewView.setDrawingCacheEnabled(true);
-                scrollViewView.buildDrawingCache(true);
-//                scrollViewMain.setDrawingCacheEnabled(true);
-//                scrollViewMain.buildDrawingCache(true);
-                scrollViewPlayers.setDrawingCacheEnabled(true);
-                scrollViewPlayers.buildDrawingCache(true);
-
-//                ScrollView z = (ScrollView) view.findViewById(R.id.svMatchDetails);
-//                int totalHeight = z.getChildAt(0).getHeight();
-//                int totalWidth = z.getChildAt(0).getWidth();
-//                scrollView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-
-                scrollViewView.layout(0, 0, scrollViewPlayers.getChildAt(0).getWidth(), scrollViewPlayers.getChildAt(0).getHeight());
-
-
-                Bitmap b = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), scrollViewPlayers.getChildAt(0).getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(b);
-                scrollViewView.layout(0, 0, scrollViewView.getLayoutParams().width, scrollViewView.getLayoutParams().height);
-                scrollViewView.draw(c);
-
-
-//                Bitmap b = Bitmap.createBitmap(scrollViewView.getDrawingCache());
-
-                scrollViewView.setDrawingCacheEnabled(false);
-                scrollViewView.buildDrawingCache(false);
-//                scrollViewMain.setDrawingCacheEnabled(false);
-//                scrollViewMain.buildDrawingCache(false);
-                scrollViewPlayers.setDrawingCacheEnabled(false);
-                scrollViewPlayers.buildDrawingCache(false);
-
-                //Save bitmap
-                String extr = Environment.getExternalStorageDirectory().toString();
-                File mFolder = new File(extr + "/dotes");
-                if (!mFolder.exists()) {
-                    mFolder.mkdir();
-                }
-
-                String fileName = "scoreboard.jpg";
-                File myPath = new File(mFolder.getAbsolutePath(), fileName);
-
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(myPath);
-                    b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    fos.flush();
-                    fos.close();
-                    MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), b, "Screen", "screen");
-                    System.out.println("saved to " + myPath);
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                setShareIntentImage();
+                System.out.println("btnShare");
 
                 return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -647,6 +598,125 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         transaction.remove(this);
         transaction.replace(R.id.content_frame, this).commit();
     }
+
+    private void setShareIntentImage() {
+        //match info
+
+        View viewInfo = view.findViewById(R.id.layDetailHeader);
+        Bitmap headerBitmap = Bitmap.createBitmap(viewInfo.getWidth(), viewInfo.getHeight(), Bitmap.Config.ARGB_8888);
+        //Construct a canvas with the specified bitmap to draw into.
+        Canvas viewCanvas = new Canvas(headerBitmap);
+        viewInfo.draw(viewCanvas);
+        //image now stored in headerBitmap
+
+
+        //players
+
+        View viewPlayers = view.findViewById(R.id.svMatchDetailsPlayers);
+        HorizontalScrollView scrollViewPlayers = (HorizontalScrollView) view.findViewById(R.id.svMatchDetailsPlayers);
+
+        viewPlayers.setDrawingCacheEnabled(true);
+        viewPlayers.buildDrawingCache(true);
+
+        Bitmap playersBitmap = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), scrollViewPlayers.getChildAt(0).getHeight(), Bitmap.Config.ARGB_8888);
+        //add bitmap to canvas
+        Canvas c = new Canvas(playersBitmap);
+        //set canvas background color
+        c.drawColor(getResources().getColor(R.color.Gainsboro));
+        //set view size
+        viewPlayers.layout(0, 0, viewPlayers.getLayoutParams().width, viewPlayers.getLayoutParams().height);
+        //draw view on canvas
+        viewPlayers.draw(c);
+
+        viewPlayers.setDrawingCacheEnabled(false);
+        viewPlayers.buildDrawingCache(false);
+        //image now stored in playersBitmap
+
+
+        //minimap
+        View viewMap = view.findViewById(R.id.layDetailMapCard);
+        Bitmap mapBitmap = Bitmap.createBitmap(viewMap.getWidth(), viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas mapCanvas = new Canvas(mapBitmap);
+        viewMap.draw(mapCanvas);
+        //image stored in mapBitmap
+
+
+        //total
+
+        //start with header as widest view
+        int widestWidth = viewInfo.getWidth();
+        Bitmap resultBitmap = Bitmap.createBitmap(viewInfo.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+
+        //check if other views are wider
+        if (scrollViewPlayers.getChildAt(0).getWidth() > widestWidth) {
+            widestWidth = scrollViewPlayers.getChildAt(0).getWidth();
+            resultBitmap = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+        }
+        if (viewMap.getWidth() > widestWidth) {
+            widestWidth = viewMap.getWidth();
+            resultBitmap = Bitmap.createBitmap(viewMap.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+
+        }
+
+        Canvas resultCanvas = new Canvas(resultBitmap);
+        resultCanvas.drawColor(getResources().getColor(R.color.Gainsboro));
+        Paint paint = new Paint();
+
+        resultCanvas.drawBitmap(headerBitmap, (widestWidth - viewInfo.getWidth()) / 2, 0, paint);
+        resultCanvas.drawBitmap(playersBitmap, (widestWidth - scrollViewPlayers.getChildAt(0).getWidth()) / 2, headerBitmap.getHeight(), paint);
+        resultCanvas.drawBitmap(mapBitmap, (widestWidth - viewMap.getWidth()) / 2, headerBitmap.getHeight() + scrollViewPlayers.getChildAt(0).getHeight(), paint);
+
+        //Save bitmap
+        String path = Environment.getExternalStorageDirectory().toString();
+        File mFolder = new File(path + "/dotes");
+        if (!mFolder.exists()) {
+            mFolder.mkdir();
+        }
+
+        String fileName = "scoreboard.jpg";
+        File myPath = new File(mFolder.getAbsolutePath(), fileName);
+        System.out.println(myPath);
+        FileOutputStream fos;
+
+        try {
+            fos = new FileOutputStream(myPath);
+            resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), resultBitmap, "Scoreboard", "result of match xxxxxx");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        screenShot = resultBitmap;
+        Bitmap icon = resultBitmap;
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        startActivity(Intent.createChooser(share, "Share Image"));
+
+
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("image/*");
+//        Uri uri = Uri.fromFile(myPath);
+//        intent.putExtra(Intent.EXTRA_STREAM, uri.toString());
+//        mShareActionProvider.setShareIntent(intent);
+
+    }
+
 
     @Override
     public void onClick(View v) {
