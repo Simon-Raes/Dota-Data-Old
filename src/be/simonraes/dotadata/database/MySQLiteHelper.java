@@ -13,6 +13,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_MATCHES = "matches";
+    public static final String TABLE_MATCHES_COLUMN_KEY = "key";
     public static final String TABLE_MATCHES_COLUMN_RADIANT_WIN = "radiant_win";
     public static final String TABLE_MATCHES_COLUMN_DURATION = "duration";
     public static final String TABLE_MATCHES_COLUMN_START_TIME = "start_time";
@@ -77,7 +78,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_USERS_LAST_SAVED_MATCH = "last_saved_match";
 
 
-    private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(radiant_win text, " +
+    private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches(key text primary key, radiant_win text, " +
             "duration text, start_time text, match_id integer, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
             "barracks_status_dire text, cluster text, first_blood_time text, lobby_type text, human_players text, leagueid text, " +
             "positive_votes text, negative_votes text, game_mode text, user_win text, favourite text, note text, user text);";

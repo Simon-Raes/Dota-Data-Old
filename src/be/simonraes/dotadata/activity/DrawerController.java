@@ -141,6 +141,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
                 btnNote.setVisible(false);
             }
 
+
         }
 
         return super.onPrepareOptionsMenu(menu);

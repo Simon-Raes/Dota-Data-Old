@@ -487,6 +487,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             btnRefresh.setVisible(false);
         }
 
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            if (match.isFavourite()) {
+                btnFavourite.setIcon(R.drawable.ic_action_important_color);
+            } else {
+                btnFavourite.setIcon(R.drawable.ic_action_not_important);
+            }
+        }
 
     }
 
@@ -514,11 +522,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     item.setIcon(R.drawable.ic_action_not_important);
                 }
                 return true;
-            case R.id.btnShare:
-                setShareIntentImage();
-                System.out.println("btnShare");
 
-                return true;
+
+//            case R.id.btnShare:
+//                setShareIntentImage();
+//
+//                return true;
 
 
             default:

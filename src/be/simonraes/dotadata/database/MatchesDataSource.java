@@ -23,6 +23,7 @@ public class MatchesDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] matchesColumns = {
+            MySQLiteHelper.TABLE_MATCHES_COLUMN_KEY,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_RADIANT_WIN,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME,
@@ -106,7 +107,7 @@ public class MatchesDataSource {
         String radiantWinForTable = String.valueOf(match.getRadiant_win());
 
         ContentValues values = new ContentValues();
-
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_KEY, match.getKey());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_RADIANT_WIN, radiantWinForTable);
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION, match.getDuration());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME, match.getStart_time());
@@ -127,9 +128,9 @@ public class MatchesDataSource {
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN, String.valueOf(match.isUser_win()));
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE, String.valueOf(match.isFavourite()));
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, match.getNote());
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER, user_accountID);
+        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER, match.getUser());
 
-//        System.out.println("saving match " + match.getMatch_id());
+        System.out.println("saving match " + match.getKey());
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
@@ -274,27 +275,28 @@ public class MatchesDataSource {
     private DetailMatch cursorToDetailMatch(Cursor cursor) {
         DetailMatch detailMatch = new DetailMatch();
 
-        detailMatch.setRadiant_win(Boolean.parseBoolean(cursor.getString(0)));
-        detailMatch.setDuration(cursor.getString(1));
-        detailMatch.setStart_time(cursor.getString(2));
-        detailMatch.setMatch_id(Integer.toString(cursor.getInt(3)));
-        detailMatch.setMatch_seq_num(cursor.getString(4));
-        detailMatch.setTower_status_radiant(cursor.getString(5));
-        detailMatch.setTower_status_dire(cursor.getString(6));
-        detailMatch.setBarracks_status_radiant(cursor.getString(7));
-        detailMatch.setBarracks_status_dire(cursor.getString(8));
-        detailMatch.setCluster(cursor.getString(9));
-        detailMatch.setFirst_blood_time(cursor.getString(10));
-        detailMatch.setLobby_type(cursor.getString(11));
-        detailMatch.setHuman_players(cursor.getString(12));
-        detailMatch.setLeagueid(cursor.getString(13));
-        detailMatch.setPositive_votes(cursor.getString(14));
-        detailMatch.setNegative_votes(cursor.getString(15));
-        detailMatch.setGame_mode(cursor.getString(16));
-        detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(17)));
-        detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(18)));
-        detailMatch.setNote(cursor.getString(19));
-        detailMatch.setUser(cursor.getString(20));
+        detailMatch.setKey(cursor.getString(0));
+        detailMatch.setRadiant_win(Boolean.parseBoolean(cursor.getString(1)));
+        detailMatch.setDuration(cursor.getString(2));
+        detailMatch.setStart_time(cursor.getString(3));
+        detailMatch.setMatch_id(Integer.toString(cursor.getInt(4)));
+        detailMatch.setMatch_seq_num(cursor.getString(5));
+        detailMatch.setTower_status_radiant(cursor.getString(6));
+        detailMatch.setTower_status_dire(cursor.getString(7));
+        detailMatch.setBarracks_status_radiant(cursor.getString(8));
+        detailMatch.setBarracks_status_dire(cursor.getString(9));
+        detailMatch.setCluster(cursor.getString(10));
+        detailMatch.setFirst_blood_time(cursor.getString(11));
+        detailMatch.setLobby_type(cursor.getString(12));
+        detailMatch.setHuman_players(cursor.getString(13));
+        detailMatch.setLeagueid(cursor.getString(14));
+        detailMatch.setPositive_votes(cursor.getString(15));
+        detailMatch.setNegative_votes(cursor.getString(16));
+        detailMatch.setGame_mode(cursor.getString(17));
+        detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(18)));
+        detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(19)));
+        detailMatch.setNote(cursor.getString(20));
+        detailMatch.setUser(cursor.getString(21));
 
         return detailMatch;
     }

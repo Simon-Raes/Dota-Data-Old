@@ -2,6 +2,7 @@ package be.simonraes.dotadata.detailmatch;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import be.simonraes.dotadata.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class DetailMatch implements Parcelable {
 
     //all games
+    private String key; //for database
     @JsonProperty("players")
     private ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
     private boolean radiant_win;
@@ -62,6 +64,14 @@ public class DetailMatch implements Parcelable {
 
     public DetailMatch() {
 
+    }
+
+    public String getKey() {
+        return match_id + user;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public boolean getRadiant_win() {

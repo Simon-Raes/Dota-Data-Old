@@ -249,6 +249,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                     picksBansList.add(picksBans);
                 }
             }
+            match.setUser(accountID);
         }
 
         //save matches to database

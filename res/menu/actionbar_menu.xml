@@ -12,11 +12,13 @@
           android:icon="@drawable/ic_action_refresh"
           android:title="Update"
           android:showAsAction="always"/>
+
+    <!--
     <item android:id="@+id/btnShare"
           android:icon="@drawable/ic_action_share"
           android:title="Share"
           android:showAsAction="ifRoom"/>
-
+    -->
     <item android:id="@+id/btnManageUsers"
           android:icon="@drawable/ic_action_settings"
           android:title="Manage users"
