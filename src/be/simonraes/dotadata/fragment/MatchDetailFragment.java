@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.*;
 import android.widget.*;
@@ -32,7 +31,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,9 +56,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private DetailMatch match;
 
     private FrameLayout layDetailsMinimap;
-    private ImageButton btnDetailDeleteNote;
-
-    private Bitmap screenShot;
 
 
     @Override
@@ -643,29 +642,32 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
 
         //minimap
-        View viewMap = view.findViewById(R.id.layDetailMapCard);
-        Bitmap mapBitmap = Bitmap.createBitmap(viewMap.getWidth(), viewMap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas mapCanvas = new Canvas(mapBitmap);
-        viewMap.draw(mapCanvas);
-        //image stored in mapBitmap
+//        View viewMap = view.findViewById(R.id.layDetailMapCard);
+//        Bitmap mapBitmap = Bitmap.createBitmap(viewMap.getWidth(), viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+//        Canvas mapCanvas = new Canvas(mapBitmap);
+//        viewMap.draw(mapCanvas);
+//        //image stored in mapBitmap
 
 
         //total
 
         //start with header as widest view
         int widestWidth = viewInfo.getWidth();
-        Bitmap resultBitmap = Bitmap.createBitmap(viewInfo.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap resultBitmap = Bitmap.createBitmap(viewInfo.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight(), Bitmap.Config.ARGB_8888);
+
+//        Bitmap resultBitmap = Bitmap.createBitmap(viewInfo.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
 
         //check if other views are wider
         if (scrollViewPlayers.getChildAt(0).getWidth() > widestWidth) {
             widestWidth = scrollViewPlayers.getChildAt(0).getWidth();
-            resultBitmap = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
-        }
-        if (viewMap.getWidth() > widestWidth) {
-            widestWidth = viewMap.getWidth();
-            resultBitmap = Bitmap.createBitmap(viewMap.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+            resultBitmap = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight(), Bitmap.Config.ARGB_8888);
 
+//            resultBitmap = Bitmap.createBitmap(scrollViewPlayers.getChildAt(0).getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
         }
+//        if (viewMap.getWidth() > widestWidth) {
+//            widestWidth = viewMap.getWidth();
+//            resultBitmap = Bitmap.createBitmap(viewMap.getWidth(), viewInfo.getHeight() + scrollViewPlayers.getChildAt(0).getHeight() + viewMap.getHeight(), Bitmap.Config.ARGB_8888);
+//        }
 
         Canvas resultCanvas = new Canvas(resultBitmap);
         resultCanvas.drawColor(getResources().getColor(R.color.Gainsboro));
@@ -673,40 +675,40 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         resultCanvas.drawBitmap(headerBitmap, (widestWidth - viewInfo.getWidth()) / 2, 0, paint);
         resultCanvas.drawBitmap(playersBitmap, (widestWidth - scrollViewPlayers.getChildAt(0).getWidth()) / 2, headerBitmap.getHeight(), paint);
-        resultCanvas.drawBitmap(mapBitmap, (widestWidth - viewMap.getWidth()) / 2, headerBitmap.getHeight() + scrollViewPlayers.getChildAt(0).getHeight(), paint);
+//        resultCanvas.drawBitmap(mapBitmap, (widestWidth - viewMap.getWidth()) / 2, headerBitmap.getHeight() + scrollViewPlayers.getChildAt(0).getHeight(), paint);
 
         //Save bitmap
-        String path = Environment.getExternalStorageDirectory().toString();
-        File mFolder = new File(path + "/dotes");
-        if (!mFolder.exists()) {
-            mFolder.mkdir();
-        }
+//        String path = Environment.getExternalStorageDirectory().toString();
+//        File mFolder = new File(path + "/dotes");
+//        if (!mFolder.exists()) {
+//            mFolder.mkdir();
+//        }
+//
+//        String fileName = "scoreboard.jpg";
+//        File myPath = new File(mFolder.getAbsolutePath(), fileName);
+//        System.out.println(myPath);
+//        FileOutputStream fos;
+//
+//        try {
+//            fos = new FileOutputStream(myPath);
+//            resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//            fos.flush();
+//            fos.close();
+//            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), resultBitmap, "Scoreboard", "result of match xxxxxx");
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        String fileName = "scoreboard.jpg";
-        File myPath = new File(mFolder.getAbsolutePath(), fileName);
-        System.out.println(myPath);
-        FileOutputStream fos;
 
-        try {
-            fos = new FileOutputStream(myPath);
-            resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), resultBitmap, "Scoreboard", "result of match xxxxxx");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        screenShot = resultBitmap;
+        //Bitmap screenShot = resultBitmap;
         Bitmap icon = resultBitmap;
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "dotadata" + File.separator + "DD_Scoreboard.jpg");
         try {
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
