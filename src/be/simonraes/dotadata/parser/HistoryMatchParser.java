@@ -54,6 +54,8 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return container;

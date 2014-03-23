@@ -31,6 +31,9 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             connection.setRequestMethod("HEAD");
             connection.setRequestProperty("Connection", "Close");
             int code = connection.getResponseCode();
+
+            //todo: can still return true when service is offline, resulting in an app crash
+
             if (code == 200 || code == 404) {
                 webStatus = true;
             } else {
@@ -40,11 +43,9 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             System.out.println("correct code" + code);
             // You can determine on HTTP return code received. 200 is success.
         } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
             System.out.println("malformed code");
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println("io exc code");
 
             e.printStackTrace();

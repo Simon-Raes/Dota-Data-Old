@@ -6,7 +6,7 @@ public class HeroList {
     private static HashMap<String, String> heroes = new HashMap<String, String>();
     private static HashMap<String, String> heroimages = new HashMap<String, String>();
 
-    //todo: informatie uit GetHeroes json halen en in hashmap steken
+    //todo: get hero info from GetHeroes API and store it (in db) - needs solution for hero images
 
     private static void initHeroesHashMap() {
         heroes.put("1", "Anti-Mage");
@@ -32,8 +32,8 @@ public class HeroList {
         heroes.put("21", "Windrunner");
         heroes.put("22", "Zeus");
         heroes.put("23", "Kunkka");
-        heroes.put("24", "Lina");
-        heroes.put("25", "Lich");
+        heroes.put("24", "Unknown"); //Hero 24 doesn't exist
+        heroes.put("25", "Lina");
         heroes.put("26", "Lion");
         heroes.put("27", "Shadow Shaman");
         heroes.put("28", "Slardar");
@@ -254,6 +254,13 @@ public class HeroList {
         } else {
             return "unknown_hero";
         }
+    }
+
+    public static HashMap<String, String> getHeroes() {
+        if (heroes.size() < 1) {
+            initHeroesHashMap();
+        }
+        return heroes;
     }
 
 

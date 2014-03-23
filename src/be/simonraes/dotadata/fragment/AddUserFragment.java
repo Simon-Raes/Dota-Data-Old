@@ -23,14 +23,10 @@ import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.parser.VanityResolverParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.user.User;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
 import be.simonraes.dotadata.vanity.VanityContainer;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 /**
  * Created by Simon on 13/02/14.
@@ -45,7 +41,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.accountid_help_layout, container, false);
+        View view = inflater.inflate(R.layout.add_user_layout, container, false);
 
         getActivity().getActionBar().setTitle("Add new user");
 
@@ -235,5 +231,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void processFinish(boolean foundGames) {
         OrientationHelper.unlockOrientation(getActivity());
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
+
     }
 }

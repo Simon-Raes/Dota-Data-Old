@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/spinGameModes"
+          android:showAsAction="always"
+          android:orderInCategory="0"
+          android:visible="false"
+          android:actionViewClass="android.widget.Spinner"/>
+    <item android:id="@+id/spinHeroes"
+          android:showAsAction="always"
+          android:orderInCategory="0"
+          android:visible="false"
+          android:actionViewClass="android.widget.Spinner"/>
+
     <item android:id="@+id/btnNote"
           android:icon="@drawable/ic_action_edit"
           android:title="Add note"

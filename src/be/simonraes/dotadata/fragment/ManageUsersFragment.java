@@ -47,7 +47,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         //set app-wide account ID to this user
         if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
-            Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_SHORT).show();
             lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
         }

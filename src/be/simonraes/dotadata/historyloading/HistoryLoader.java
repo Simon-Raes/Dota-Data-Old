@@ -24,6 +24,7 @@ import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.fragment.ManageUsersFragment;
 import be.simonraes.dotadata.fragment.RecentGamesFragment;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
@@ -282,6 +283,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                     .setCancelable(false)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+
                         }
                     })
                     .show();

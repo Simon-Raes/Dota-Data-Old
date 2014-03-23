@@ -75,7 +75,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             if (savedInstanceState == null) {
                 if (matches.size() == 0) {
                     //this is the first time opening this screen, get a fresh set of matches from the database
-
+                    //todo: is this still used?
                     if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
                         Toast.makeText(getActivity(), "Download still in progress.", Toast.LENGTH_SHORT).show();
                     } else {
@@ -116,6 +116,8 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         DetailMatch match = (DetailMatch) lvRecentGames.getAdapter().getItem(position);
 
+        //todo: get full match from db here (using match_id got from row)
+
         Fragment fragment = new MatchDetailFragment();
 
         FragmentManager fm = getFragmentManager();
@@ -123,8 +125,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         transaction.replace(R.id.content_frame, fragment);
 
         //hacky way to set UP arrow in actionbar of matchdetails screen
-        ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-
+        if (((DrawerController) getActivity()) != null) {
+            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        }
 
         //send object to fragment
         Bundle bundle = new Bundle();
@@ -164,7 +167,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
                 }
 
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -172,6 +174,8 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void loadMatchesFromDatabase() {
+        //todo: only load the necessary values for this list, not the full match object/record
+
         DatabaseMatchLoader loader = new DatabaseMatchLoader(this, getActivity());
 
         if (matches.size() < 1) {
@@ -188,6 +192,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState == SCROLL_STATE_IDLE) {
+            //start loading next set of matches at 5 rows from the last
             if (lvRecentGames.getLastVisiblePosition() >= lvRecentGames.getCount() - 5) {
                 //load more list items:
                 loadMatchesFromDatabase();

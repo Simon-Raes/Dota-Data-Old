@@ -17,40 +17,43 @@
                           android:layout_marginLeft="20dp"
                           android:layout_marginRight="20dp"
                           android:layout_marginTop="10dp"
+                          android:orientation="vertical"
                           android:layout_marginBottom="5dp"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="Stats (Not yet implemented)"/>
+                          android:id="@+id/txtStatsGamesPlayed"
+                          android:text="Games played"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsWinrate"
+                          android:text="Winrate"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsLongestGame"
+                        android:text="Longest game"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostKills"
+                        android:text="Most kills"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostDeaths"
+                        android:text="Most deaths"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostAssists"
+                        android:text="Most assists"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostLastHits"
+                        android:text="Most last hits"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostDenies"
+                        android:text="Most denies"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostGold"
+                        android:text="Most gold"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostGPM"
+                        android:text="Highest GPM"/>
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/txtStatsMostXPM"
+                        android:text="Highest XPM"/>
             </LinearLayout>
-            <!--
-                        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                      android:layout_marginLeft="20dp"
-                                      android:layout_marginRight="20dp"
-                                      android:layout_marginTop="10dp"
-                                      android:layout_marginBottom="5dp"
-                                      android:background="@drawable/bg_card">
-                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                    android:id="@+id/btnUpdateMatches"
-                                    android:text="Update matches"/>
-                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                    android:id="@+id/btnClearDatabase"
-                                    android:text="Clear database"/>
-                        </LinearLayout>
-
-                        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                      android:layout_marginLeft="20dp"
-                                      android:layout_marginRight="20dp"
-                                      android:layout_marginTop="10dp"
-                                      android:layout_marginBottom="5dp"
-                                      android:background="@drawable/bg_card">
-                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                    android:id="@+id/btnNumberOfRecords"
-                                    android:text="Number of records"/>
-                            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                    android:id="@+id/btnDeleteLatestMatch"
-                                    android:text="Delete latest match"/>
-                        </LinearLayout>
-            -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:layout_marginLeft="20dp"
                           android:layout_marginRight="20dp"
@@ -59,11 +62,17 @@
                           android:layout_marginBottom="5dp"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtStatsWinrate"
-                          android:text="winrate"/>
+                          android:text="TODO: averages"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical"
+                          android:layout_marginBottom="5dp"
+                          android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtStatsGameModes"
-                          android:text="winrate"/>
+                          android:text="TODO: graphs"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

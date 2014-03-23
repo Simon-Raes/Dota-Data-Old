@@ -1,9 +1,27 @@
 package be.simonraes.dotadata.util;
 
+import java.util.HashMap;
+
 /**
  * Created by Simon on 2/02/14.
  */
 public class GameModes {
+
+    private static HashMap<String, String> lobbyTypes = new HashMap<String, String>();
+    private static HashMap<String, String> gameModes = new HashMap<String, String>();
+
+
+    private static void initLobbyTypesHashMap() {
+        lobbyTypes.put("-1", "Invalid");
+        lobbyTypes.put("0", "Public matchmaking");
+        lobbyTypes.put("1", "Practice");
+        lobbyTypes.put("2", "Tournament");
+        lobbyTypes.put("3", "Tutorial");
+        lobbyTypes.put("4", "Co-op with bots");
+        lobbyTypes.put("5", "Team matchmaking");
+        lobbyTypes.put("6", "Solo queue matchmaking");
+        lobbyTypes.put("7", "Ranked Match");
+    }
 
     public static String getLobbyType(String number) {
 
@@ -39,8 +57,30 @@ public class GameModes {
         return lobbyType;
     }
 
-    public static String getGameMode(String number) {
+    private static void initGameModesHashMap() {
+        gameModes.put("0", "Unknown gamemode");
+        gameModes.put("1", "All Pick");
+        gameModes.put("2", "Captain's Mode");
+        gameModes.put("3", "Random Draft");
+        gameModes.put("4", "Single Draft");
+        gameModes.put("5", "All Random");
+        gameModes.put("6", "Intro");
+        gameModes.put("7", "Diretide");
+        gameModes.put("8", "Reverse Captain's Mode");
+        gameModes.put("9", "Greeviling");
+        gameModes.put("10", "Tutorial");
+        gameModes.put("11", "Mid only");
+        gameModes.put("12", "Least Played");
+        gameModes.put("13", "Limited Hero Pool");
+        gameModes.put("14", "FH");
+        gameModes.put("15", "Custom Gamemode");
+        gameModes.put("16", "Captain's Draft");
+        gameModes.put("17", "Balanced Draft");
+        gameModes.put("18", "Ability Draft");
 
+    }
+
+    public static String getGameMode(String number) {
 
         String gameMode = "Unknown gamemode";
 
@@ -103,5 +143,19 @@ public class GameModes {
         }
 
         return gameMode;
+    }
+
+    public static HashMap<String, String> getLobbyTypes() {
+        if (lobbyTypes.size() < 1) {
+            initLobbyTypesHashMap();
+        }
+        return lobbyTypes;
+    }
+
+    public static HashMap<String, String> getGameModes() {
+        if (gameModes.size() < 1) {
+            initGameModesHashMap();
+        }
+        return gameModes;
     }
 }

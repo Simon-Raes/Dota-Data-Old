@@ -66,8 +66,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         inflaterB = inflater;
 
         getActivity().setTitle("Match Details");
-
-
         setHasOptionsMenu(true);
 
         //disable drawer icon (needed for reorientation)
@@ -207,7 +205,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_0()) + "_lg", "drawable", getActivity().getPackageName()));
-
+            imgItem.setContentDescription(ItemList.getItem((player.getItem_0())));
             //setItemImage(imgItem, player.getItem_0());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
@@ -716,7 +714,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         } catch (IOException e) {
             e.printStackTrace();
         }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(Environment.getExternalStorageDirectory() + File.separator + "dotadata" + File.separator + "DD_Scoreboard.jpg"));
         startActivity(Intent.createChooser(share, "Share Image"));
 
 

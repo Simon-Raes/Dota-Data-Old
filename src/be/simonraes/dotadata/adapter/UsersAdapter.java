@@ -13,8 +13,6 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.UsersDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.*;
@@ -22,7 +20,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +32,7 @@ public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHis
     private Activity activity;
 
     public UsersAdapter(Context context, ArrayList<User> users, Activity activity) {
-        super(context, R.layout.select_user_row, users);
+        super(context, R.layout.manage_users_row, users);
 
         this.context = context;
         this.users = users;
@@ -50,7 +47,7 @@ public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHis
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.select_user_row, parent, false);
+            view = inflater.inflate(R.layout.manage_users_row, parent, false);
             viewholder = new ViewHolder();
             viewholder.imgUser = (ImageView) view.findViewById(R.id.imgSelectUser);
             viewholder.txtUser = (TextView) view.findViewById(R.id.txtSelectUserName);

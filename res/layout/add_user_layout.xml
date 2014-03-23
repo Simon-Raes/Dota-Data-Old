@@ -22,12 +22,12 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:textStyle="bold"
                       android:textSize="16dp"
-                      android:text="Finding your Dota 2 account ID"/>
+                      android:text="How to add a new user"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:paddingTop="20dp"
                       android:paddingBottom="5dp"
-                      android:text="There are multiple ways to find your Dota 2 account ID. Enter your information in one of the fields below and hit 'Go' to start downloading your Dota 2 match history. \n\nYour matches and statistics will be available once the download is finished."/>
+                      android:text="Enter your information in one of the fields below and hit 'Go' to start downloading your Dota 2 match history. \n\nYour matches and statistics will be available once the download is finished."/>
         </LinearLayout>
 
 

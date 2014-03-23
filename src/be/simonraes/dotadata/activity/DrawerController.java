@@ -38,7 +38,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         mTitle = mDrawerTitle = getTitle();
 
-        listContent = new String[]{"divider MY GAMES", "Recent Games", "divider LEAGUE GAMES", "Live league games"};
+        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics", "divider LEAGUE GAMES", "Live league games"};
 
 //        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics", "divider LEAGUE GAMES", "Live league games",
 //                "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
@@ -94,9 +94,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             case 1:
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
                 break;
-//            case 2:
-//                getFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsFragment(), "StatsFragment").addToBackStack(null).commit();
-//                break;
+            case 2:
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsFragment(), "StatsFragment").addToBackStack(null).commit();
+                break;
             case 3:
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new LiveLeagueGamesFragment(), "LiveLeagueGamesFragment").addToBackStack(null).commit();
                 break;
@@ -171,7 +171,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
             case R.id.btnAbout:
                 drawerToggle.setDrawerIndicatorEnabled(true);
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
                 break;
 
             default:

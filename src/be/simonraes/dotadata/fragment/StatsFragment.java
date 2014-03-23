@@ -1,100 +1,120 @@
 package be.simonraes.dotadata.fragment;
 
-import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
+import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
+import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
-import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.historyloading.HistoryLoader;
-import be.simonraes.dotadata.statistics.DatabaseStatsLoader;
-import be.simonraes.dotadata.statistics.GameModeStats;
+import be.simonraes.dotadata.statistics.StatsRecord;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
+import be.simonraes.dotadata.util.HeroList;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Simon on 14/02/14.
+ * Creates the layout for stats and calculates stats
  */
-public class StatsFragment extends Fragment implements View.OnClickListener, ASyncResponseHistoryLoader, ASyncResponseDatabase {
+public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private ScrollView svStats;
     private ProgressBar pbStats;
-//    private Button btnUpdateMatches, btnClearDatabase;
-//    private Button btnNumberOfRecords, btnDeleteLatestMatch;
 
-    private TextView txtWinRate, txtGameModes;
+    //todo: saveInstanceState so state is saved when going BACK to this screen (from match details)
+    //http://stackoverflow.com/questions/6787071/android-fragment-how-to-save-states-of-views-in-a-fragment-when-another-fragmen
+
+    private TextView btnStatsGamesPlayed, btnStatsWinrate;
+
+    private Button
+            btnStatsLongestGame,
+            btnStatsMostKills,
+            btnStatsMostDeaths,
+            btnStatsMostAssists,
+            btnStatsMostLastHits,
+            btnStatsMostDenies,
+            btnStatsMostGold,
+            btnStatsMostGPM,
+            btnStatsMostXPM;
+
+    //todo: averages
+
+    private double gamesPlayed = 0;
+    private double gameswon = 0;
+    private double winrate = 0;
+    private Long longestGame = 0L;
+    private String longestGameID;
+    private int mostKills = 0;
+    private String mostKillsID;
+    private int mostDeaths = 0;
+    private String mostDeathsID;
+    private int mostAssists = 0;
+    private String mostAssistsID;
+    private int mostLastHits = 0;
+    private String mostLastHitsID;
+    private int mostDenies = 0;
+    private String mostDeniesID;
+    private int mostGold = 0;
+    private String mostGoldID;
+    private int mostGPM = 0;
+    private String mostGPMID;
+    private int mostXPM = 0;
+    private String mostXPMID;
+
+
+    private String gameModeID = "-1";
+    private String heroID = "-1";
+
+    private int countUpdate = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stats_layout, null);
 
         getActivity().setTitle("Statistics");
+        setHasOptionsMenu(true);
 
         svStats = (ScrollView) view.findViewById(R.id.svStats);
         pbStats = (ProgressBar) view.findViewById(R.id.pbStats);
 
-//        btnUpdateMatches = (Button) view.findViewById(R.id.btnUpdateMatches);
-//        btnUpdateMatches.setOnClickListener(this);
-//
-//        btnClearDatabase = (Button) view.findViewById(R.id.btnClearDatabase);
-//        btnClearDatabase.setOnClickListener(this);
-//
-//        btnNumberOfRecords = (Button) view.findViewById(R.id.btnNumberOfRecords);
-//        btnNumberOfRecords.setOnClickListener(this);
-//
-//        btnDeleteLatestMatch = (Button) view.findViewById(R.id.btnDeleteLatestMatch);
-//        btnDeleteLatestMatch.setOnClickListener(this);
+        btnStatsGamesPlayed = (TextView) view.findViewById(R.id.txtStatsGamesPlayed);
+        btnStatsWinrate = (TextView) view.findViewById(R.id.txtStatsWinrate);
+        btnStatsLongestGame = (Button) view.findViewById(R.id.txtStatsLongestGame);
+        btnStatsLongestGame.setOnClickListener(this);
+        btnStatsMostKills = (Button) view.findViewById(R.id.txtStatsMostKills);
+        btnStatsMostKills.setOnClickListener(this);
+        btnStatsMostDeaths = (Button) view.findViewById(R.id.txtStatsMostDeaths);
+        btnStatsMostDeaths.setOnClickListener(this);
+        btnStatsMostAssists = (Button) view.findViewById(R.id.txtStatsMostAssists);
+        btnStatsMostAssists.setOnClickListener(this);
+        btnStatsMostLastHits = (Button) view.findViewById(R.id.txtStatsMostLastHits);
+        btnStatsMostLastHits.setOnClickListener(this);
+        btnStatsMostDenies = (Button) view.findViewById(R.id.txtStatsMostDenies);
+        btnStatsMostDenies.setOnClickListener(this);
+        btnStatsMostGold = (Button) view.findViewById(R.id.txtStatsMostGold);
+        btnStatsMostGold.setOnClickListener(this);
+        btnStatsMostGPM = (Button) view.findViewById(R.id.txtStatsMostGPM);
+        btnStatsMostGPM.setOnClickListener(this);
+        btnStatsMostXPM = (Button) view.findViewById(R.id.txtStatsMostXPM);
+        btnStatsMostXPM.setOnClickListener(this);
 
-        txtWinRate = (TextView) view.findViewById(R.id.txtStatsWinrate);
-        txtGameModes = (TextView) view.findViewById(R.id.txtStatsGameModes);
+//        svStats.setVisibility(View.GONE);
+//        pbStats.setVisibility(View.VISIBLE);
 
-        DatabaseStatsLoader loader = new DatabaseStatsLoader(this, getActivity());
-        loader.execute();
-
-        svStats.setVisibility(View.GONE);
-        pbStats.setVisibility(View.VISIBLE);
+        svStats.setVisibility(View.VISIBLE);
+        pbStats.setVisibility(View.GONE);
 
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-//            case R.id.btnUpdateMatches:
-//                HistoryLoader loader = new HistoryLoader(getActivity(), this);
-//                loader.updateHistory();
-//                break;
-//            case R.id.btnClearDatabase:
-//                getActivity().deleteDatabase("be.simonraes.dotadata.db");
-//                break;
-//            case R.id.btnNumberOfRecords:
-//                MatchesDataSource mds = new MatchesDataSource(getActivity());
-//                Toast.makeText(getActivity(), Integer.toString(mds.getNumberOfRecords()), Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.btnDeleteLatestMatch:
-//                MatchesDataSource mds2 = new MatchesDataSource(getActivity());
-//                mds2.deleteLatestMatch();
-//                break;
-            default:
-                break;
-        }
-    }
-
-
-    @Override
-    public void processFinish(boolean foundGames) {
-
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -113,83 +133,220 @@ public class StatsFragment extends Fragment implements View.OnClickListener, ASy
         if (btnNote != null) {
             btnNote.setVisible(false);
         }
+        MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
+        if (spinHeroes != null) {
+            spinHeroes.setVisible(true);
+            Spinner sp = (Spinner) spinHeroes.getActionView();
+            if (sp != null) {
+                sp.setAdapter(new HeroSpinnerAdapter(getActivity(), HeroList.getHeroes()));
+                sp.setOnItemSelectedListener(this);
+            }
+        }
+        MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
+        if (spinGameModes != null) {
+            spinGameModes.setVisible(true);
+            Spinner sp = (Spinner) spinGameModes.getActionView();
+            if (sp != null) {
+                sp.setAdapter(new GameModeSpinnerAdapter(getActivity(), GameModes.getGameModes()));
+                sp.setOnItemSelectedListener(this);
+            }
+        }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                getFragmentManager().popBackStack();
-//
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 
-    //received all matches
     @Override
-    public void processFinish(ArrayList<DetailMatch> matches) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int spinID = parent.getId();
+        switch (spinID) {
+            case R.id.spinHeroes:
+                HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
+                heroID = adapter.getIDForPosition(position);
+                updateContent();
 
+                break;
+            case R.id.spinGameModes:
+                GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
+                gameModeID = gAdapter.getIDForPosition(position);
+                updateContent();
 
-        HashMap<String, GameModeStats> gameModeStatsList = new HashMap<String, GameModeStats>();
+                break;
+            default:
+                break;
+        }
+    }
 
-        int totalWins = 0, totalLosses = 0;
-        for (DetailMatch match : matches) {
-            //winrate
-            if (match.isUser_win()) {
-                totalWins++;
-            } else {
-                totalLosses++;
+    private void updateContent() {
+        //initializing the spinners calls the itemSelected method, this counter makes sure this query is only called once when opening the screen
+        if (countUpdate > 2) {
+            MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+            ArrayList<StatsRecord> matches = null;
+
+            //neither selected, get statsrecords for all games
+            if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
+                matches = mds.getAllStatRecords();
+            }
+            //only gamemode selected
+            else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
+                matches = mds.getAllStatRecordsForGameMode(gameModeID);
+            }
+            //only hero selected
+            else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
+                matches = mds.getAllStatRecordsForHero(heroID);
+            }
+            //both selected
+            else {
+                matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
             }
 
-            //gamemode stats
-            if (gameModeStatsList.containsKey(match.getGame_mode())) {
-                GameModeStats gameMode = gameModeStatsList.get(match.getGame_mode());
+            //reset values
+            gamesPlayed = 0;
+            gameswon = 0;
+            winrate = 0;
+            longestGame = 0L;
+            mostKills = 0;
+            mostDeaths = 0;
+            mostAssists = 0;
+            mostLastHits = 0;
+            mostDenies = 0;
+            mostGold = 0;
+            mostGPM = 0;
+            mostXPM = 0;
 
-                //number of games
-                gameMode.setNumberOfGames(gameMode.getNumberOfGames() + 1);
-
-                //wins-losses-winrate
-                if (match.isUser_win()) {
-                    gameMode.setWins(gameMode.getWins() + 1);
-                } else {
-                    gameMode.setLosses(gameMode.getLosses() + 1);
+            //calculate new values
+            for (StatsRecord rec : matches) {
+                gamesPlayed++;
+                if (rec.isUser_win()) {
+                    gameswon++;
                 }
-
-                //longest game
-                if (Integer.parseInt(match.getDuration()) > gameMode.getLongestMatch()) {
-                    gameMode.setLongestMatch(Integer.parseInt(match.getDuration()));
+                if (Long.parseLong(rec.getDuration()) > longestGame) {
+                    longestGame = Long.parseLong(rec.getDuration());
+                    longestGameID = rec.getMatch_id();
                 }
+                if (Integer.parseInt(rec.getKills()) > mostKills) {
+                    mostKills = Integer.parseInt(rec.getKills());
+                    mostKillsID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getDeaths()) > mostDeaths) {
+                    mostDeaths = Integer.parseInt(rec.getDeaths());
+                    mostDeathsID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getAssists()) > mostAssists) {
+                    mostAssists = Integer.parseInt(rec.getAssists());
+                    mostAssistsID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getLast_hits()) > mostLastHits) {
+                    mostLastHits = Integer.parseInt(rec.getLast_hits());
+                    mostLastHitsID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getDenies()) > mostDenies) {
+                    mostDenies = Integer.parseInt(rec.getDenies());
+                    mostDeniesID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getGold()) > mostGold) {
+                    mostGold = Integer.parseInt(rec.getGold());
+                    mostGoldID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getGold_per_min()) > mostGPM) {
+                    mostGPM = Integer.parseInt(rec.getGold_per_min());
+                    mostGPMID = rec.getMatch_id();
+                }
+                if (Integer.parseInt(rec.getXp_per_min()) > mostXPM) {
+                    mostXPM = Integer.parseInt(rec.getXp_per_min());
+                    mostXPMID = rec.getMatch_id();
+                }
+            }
+            System.out.println(gameswon + " games won");
+            if (gamesPlayed > 0) {
+                winrate = (gameswon / gamesPlayed) * 100;
             } else {
-                GameModeStats gameMode = new GameModeStats();
-                gameMode.setNumberOfGames(1);
-                if (match.isUser_win()) {
-                    gameMode.setWins(1);
-                } else {
-                    gameMode.setLosses(1);
-                }
-                gameMode.setLongestMatch(Integer.parseInt(match.getDuration()));
-                gameModeStatsList.put(match.getGame_mode(), gameMode);
+                winrate = 0;
             }
 
-
+            btnStatsGamesPlayed.setText("Games played: " + (int) gamesPlayed);
+            btnStatsWinrate.setText("Winrate: " + Conversions.roundDouble(winrate, 2) + "%");
+            btnStatsLongestGame.setText("Longest game: " + Conversions.secondsToTime(longestGame.toString()));
+            btnStatsMostKills.setText("Most kills: " + mostKills);
+            btnStatsMostDeaths.setText("Most deaths: " + mostDeaths);
+            btnStatsMostAssists.setText("Most assists: " + mostAssists);
+            btnStatsMostLastHits.setText("Most last hits: " + mostLastHits);
+            btnStatsMostDenies.setText("Most denies: " + mostDenies);
+            btnStatsMostGold.setText("Most gold: " + mostGold);
+            btnStatsMostGPM.setText("Highest GPM: " + mostGPM);
+            btnStatsMostXPM.setText("Highest XPM: " + mostXPM);
         }
-        double winrate = (double) totalWins / ((double) totalWins + (double) totalLosses);
-        DecimalFormat formatWinrate = new DecimalFormat("#.00");
+        countUpdate++;
+    }
 
-        txtWinRate.setText("WINNINGS: " + totalWins + " losses: " + totalLosses + " winrate: " + formatWinrate.format(winrate * 100) + "%");
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
-        StringBuilder builder = new StringBuilder();
-        for (Map.Entry<String, GameModeStats> entry : gameModeStatsList.entrySet()) {
-            String key = entry.getKey();
-            GameModeStats value = entry.getValue();
-            builder.append(GameModes.getGameMode(key) + " - Wins: " + value.getWins() + " - Losses: " + value.getLosses() + " - Winrate: " + formatWinrate.format(value.getWinrate() * 100) + "%\n");
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        DetailMatch match = null;
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+
+        /*
+        mostAssistsID;
+    private String mostLastHitsID;
+    private String ;
+    private String ;
+    private String ;
+    private String ;
+         */
+
+
+        switch (v.getId()) {
+            case R.id.txtStatsLongestGame:
+                match = mds.getMatchByID(longestGameID);
+                break;
+            case R.id.txtStatsMostKills:
+                match = mds.getMatchByID(mostKillsID);
+                break;
+            case R.id.txtStatsMostDeaths:
+                match = mds.getMatchByID(mostDeathsID);
+                break;
+            case R.id.txtStatsMostLastHits:
+                match = mds.getMatchByID(mostLastHitsID);
+                break;
+            case R.id.txtStatsMostDenies:
+                match = mds.getMatchByID(mostDeniesID);
+                break;
+            case R.id.txtStatsMostGold:
+                match = mds.getMatchByID(mostGoldID);
+                break;
+            case R.id.txtStatsMostGPM:
+                match = mds.getMatchByID(mostGPMID);
+                break;
+            case R.id.txtStatsMostXPM:
+                match = mds.getMatchByID(mostXPMID);
+                break;
+            default:
+                break;
         }
-        txtGameModes.setText(builder.toString());
 
-        svStats.setVisibility(View.VISIBLE);
-        pbStats.setVisibility(View.GONE);
+        if (match != null) {
 
+            Fragment fragment = new MatchDetailFragment();
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+
+            //hacky way to set UP arrow in actionbar of matchdetails screen
+            if (((DrawerController) getActivity()) != null) {
+                ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+            }
+
+            //send object to fragment
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
+            fragment.setArguments(bundle);
+
+
+            transaction.addToBackStack(null).commit();
+        }
     }
 }
