@@ -5,17 +5,6 @@
                 android:layout_width="match_parent"
                 android:background="@color/Gainsboro"
                 android:layout_height="match_parent" android:weightSum="1">
-    <!--<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:id="@+id/laySelectUserHeader"
-                  android:layout_marginLeft="20dp"
-                  android:layout_marginRight="20dp"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginBottom="10dp"
-                  android:layout_alignParentTop="true"
-                  android:background="@drawable/bg_card"            >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="Select a user: "/>
-    </LinearLayout>-->
 
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:id="@+id/laySelectUserFooter"
@@ -32,6 +21,7 @@
                 android:background="@null"
                 android:text="Add new user"/>
     </LinearLayout>
+
 
     <ListView android:layout_width="fill_parent" android:layout_height="fill_parent"
               android:id="@+id/lvSelectUser"

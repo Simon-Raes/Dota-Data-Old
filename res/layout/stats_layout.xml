@@ -21,48 +21,154 @@
                           android:layout_marginBottom="5dp"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Numbers"/>
+                <View style="@style/Divider"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:id="@+id/txtStatsGamesPlayed"
                           android:text="Games played"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsGamesWon"
+                          android:text="Games won"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsGamesLost"
+                          android:text="Games lost"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:id="@+id/txtStatsWinrate"
                           android:text="Winrate"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsTotalDuration"
+                          android:text="Total duration"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsAverageDuration"
+                          android:text="Average duration"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsTotalKills"
+                          android:text="Total kills"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsTotalDeaths"
+                          android:text="Total deaths"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsTotalAssists"
+                          android:text="Total assists"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsAverageKills"
+                          android:text="Average kills"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsAverageDeaths"
+                          android:text="Average deaths"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsAverageAssists"
+                          android:text="Average assists"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsAverageGPM"
+                          android:text="Average GPM"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtStatsAverageXPM"
+                          android:text="Average XPM"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical"
+                          android:layout_marginBottom="5dp"
+                          android:background="@drawable/bg_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Records"/>
+                <View style="@style/Divider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsLongestGame"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Longest game"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostKills"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most kills"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostDeaths"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most deaths"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostAssists"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most assists"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostLastHits"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most last hits"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostDenies"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most denies"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostGold"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most gold"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostGPM"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Highest GPM"/>
-                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostXPM"
+                        android:background="@null"
+                        android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Highest XPM"/>
             </LinearLayout>
+
+
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:layout_marginLeft="20dp"
                           android:layout_marginRight="20dp"
                           android:layout_marginTop="10dp"
                           android:orientation="vertical"
                           android:layout_marginBottom="5dp"
+                          android:id="@+id/layStatsGameModes"
+                          android:visibility="gone"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="TODO: averages"/>
+                          android:text="Gamemodes"/>
+                <View style="@style/Divider"/>
+                <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                    <!-- Location of legend, is set in code-->
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:id="@+id/layPieLegend"
+                                  android:layout_alignParentRight="true"
+                                  android:layout_centerVertical="true"
+                                  android:layout_height="wrap_content" android:orientation="vertical">
+                    </LinearLayout>
+                    <be.simonraes.dotadata.holograph.PieGraph android:layout_width="fill_parent"
+                                                              android:layout_height="300dp"
+                                                              android:layout_toLeftOf="@id/layPieLegend"
+                                                              android:id="@+id/pieGameModes"/>
+                </RelativeLayout>
+
+
             </LinearLayout>
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:layout_marginLeft="20dp"
@@ -70,9 +176,16 @@
                           android:layout_marginTop="10dp"
                           android:orientation="vertical"
                           android:layout_marginBottom="5dp"
+                          android:id="@+id/layStatsHeroes"
+                          android:visibility="gone"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="TODO: graphs"/>
+                          android:text="Most played heroes"/>
+                <View style="@style/Divider"/>
+                <be.simonraes.dotadata.holograph.BarGraph android:layout_width="fill_parent"
+                                                          android:layout_height="300dp"
+                                                          android:id="@+id/barHeroes"/>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

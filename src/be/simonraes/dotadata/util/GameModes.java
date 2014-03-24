@@ -127,7 +127,7 @@ public class GameModes {
             gameMode = "Limited Hero Pool";
         }
         if (number.equals("14")) {
-            gameMode = "FH";
+            gameMode = "Compendium";
         }
         if (number.equals("15")) {
             gameMode = "Custom gamemode";

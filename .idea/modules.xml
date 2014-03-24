@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Dota Data.iml" filepath="$PROJECT_DIR$/Dota Data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../graphs/HoloGraphLibrary/HoloGraphLibrary.iml" filepath="$PROJECT_DIR$/../graphs/HoloGraphLibrary/HoloGraphLibrary.iml" />
     </modules>
   </component>
 </project>

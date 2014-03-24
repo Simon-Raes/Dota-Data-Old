@@ -231,7 +231,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void processFinish(boolean foundGames) {
         OrientationHelper.unlockOrientation(getActivity());
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
 
     }
 }

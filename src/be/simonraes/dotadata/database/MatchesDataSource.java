@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.statistics.DetailMatchLite;
 import be.simonraes.dotadata.statistics.HeroStats;
-import be.simonraes.dotadata.statistics.StatsRecord;
 
 import java.util.ArrayList;
 
@@ -291,59 +291,9 @@ public class MatchesDataSource {
     }
 
 
-    public ArrayList<StatsRecord> getAllStatRecords() {
+    public ArrayList<DetailMatchLite> getAllStatRecords() {
         open();
-        ArrayList<StatsRecord> records = new ArrayList<StatsRecord>();
-        Cursor cursor = database.rawQuery("SELECT " +
-                "radiant_win," +
-                "duration," +
-                "start_time, " +
-                "matches.match_id," +
-                "lobby_type," +
-                "game_mode," +
-                "user_win," +
-                "favourite," +
-                "note," +
-                "account_id," +
-                "hero_id," +
-                "item_0," +
-                "item_1," +
-                "item_2," +
-                "item_3," +
-                "item_4," +
-                "item_5," +
-                "kills," +
-                "deaths," +
-                "assists," +
-                "leaver_status," +
-                "gold," +
-                "last_hits," +
-                "denies," +
-                "gold_per_min," +
-                "xp_per_min," +
-                "gold_spent," +
-                "hero_damage," +
-                "tower_damage," +
-                "hero_healing," +
-                "level " +
-                "FROM players_in_matches " +
-                "JOIN matches " +
-                "ON matches.match_id = players_in_matches.match_id " +
-                "WHERE account_id = ?;", new String[]{user_accountID});
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            records.add(cursorToStatsRecord(cursor));
-            cursor.moveToNext();
-        }
-        cursor.close();
-        close();
-
-        return records;
-    }
-
-    public ArrayList<StatsRecord> getAllStatRecordsForHero(String heroID) {
-        open();
-        ArrayList<StatsRecord> records = new ArrayList<StatsRecord>();
+        ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +
                 "radiant_win," +
                 "duration," +
@@ -380,7 +330,7 @@ public class MatchesDataSource {
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
                 "WHERE account_id = ? " +
-                "AND hero_id = ?;", new String[]{user_accountID, heroID});
+                "AND user = ?;", new String[]{user_accountID, user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToStatsRecord(cursor));
@@ -392,9 +342,9 @@ public class MatchesDataSource {
         return records;
     }
 
-    public ArrayList<StatsRecord> getAllStatRecordsForGameMode(String gameModeID) {
+    public ArrayList<DetailMatchLite> getAllStatRecordsForHero(String heroID) {
         open();
-        ArrayList<StatsRecord> records = new ArrayList<StatsRecord>();
+        ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +
                 "radiant_win," +
                 "duration," +
@@ -431,7 +381,8 @@ public class MatchesDataSource {
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
                 "WHERE account_id = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, gameModeID});
+                "AND user = ? " +
+                "AND hero_id = ?;", new String[]{user_accountID, user_accountID, heroID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToStatsRecord(cursor));
@@ -443,9 +394,9 @@ public class MatchesDataSource {
         return records;
     }
 
-    public ArrayList<StatsRecord> getAllStatRecordsForHeroAndGameMode(String heroID, String gameModeID) {
+    public ArrayList<DetailMatchLite> getAllStatRecordsForGameMode(String gameModeID) {
         open();
-        ArrayList<StatsRecord> records = new ArrayList<StatsRecord>();
+        ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +
                 "radiant_win," +
                 "duration," +
@@ -482,8 +433,61 @@ public class MatchesDataSource {
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
                 "WHERE account_id = ? " +
+                "AND user = ? " +
+                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, gameModeID});
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            records.add(cursorToStatsRecord(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        close();
+
+        return records;
+    }
+
+    public ArrayList<DetailMatchLite> getAllStatRecordsForHeroAndGameMode(String heroID, String gameModeID) {
+        open();
+        ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
+        Cursor cursor = database.rawQuery("SELECT " +
+                "radiant_win," +
+                "duration," +
+                "start_time, " +
+                "matches.match_id," +
+                "lobby_type," +
+                "game_mode," +
+                "user_win," +
+                "favourite," +
+                "note," +
+                "account_id," +
+                "hero_id," +
+                "item_0," +
+                "item_1," +
+                "item_2," +
+                "item_3," +
+                "item_4," +
+                "item_5," +
+                "kills," +
+                "deaths," +
+                "assists," +
+                "leaver_status," +
+                "gold," +
+                "last_hits," +
+                "denies," +
+                "gold_per_min," +
+                "xp_per_min," +
+                "gold_spent," +
+                "hero_damage," +
+                "tower_damage," +
+                "hero_healing," +
+                "level " +
+                "FROM players_in_matches " +
+                "JOIN matches " +
+                "ON matches.match_id = players_in_matches.match_id " +
+                "WHERE account_id = ? " +
+                "AND user = ? " +
                 "AND hero_id = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, heroID, gameModeID});
+                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, heroID, gameModeID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToStatsRecord(cursor));
@@ -569,8 +573,8 @@ public class MatchesDataSource {
         return player;
     }
 
-    private StatsRecord cursorToStatsRecord(Cursor cursor) {
-        StatsRecord record = new StatsRecord();
+    private DetailMatchLite cursorToStatsRecord(Cursor cursor) {
+        DetailMatchLite record = new DetailMatchLite();
 
         //START TIME OOK NODIG VOOR HISTORY GRAPH DINGEN
 

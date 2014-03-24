@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Stores all values needed for the stats display
  * Created by Simon on 23/03/14.
  */
-public class StatsRecord implements Parcelable {
+public class DetailMatchLite implements Parcelable {
 
     //detailmatch values
     private boolean radiant_win;
@@ -44,7 +44,7 @@ public class StatsRecord implements Parcelable {
     private String hero_healing;
     private String level;
 
-    public StatsRecord() {
+    public DetailMatchLite() {
 
     }
 
@@ -340,7 +340,7 @@ public class StatsRecord implements Parcelable {
         dest.writeString(level);
     }
 
-    public StatsRecord(Parcel pc) {
+    public DetailMatchLite(Parcel pc) {
         radiant_win = (pc.readInt() == 1);
         duration = pc.readString();
         start_time = pc.readString();
@@ -376,14 +376,14 @@ public class StatsRecord implements Parcelable {
 
     }
 
-    public static final Parcelable.Creator<StatsRecord> CREATOR = new
-            Parcelable.Creator<StatsRecord>() {
-                public StatsRecord createFromParcel(Parcel pc) {
-                    return new StatsRecord(pc);
+    public static final Parcelable.Creator<DetailMatchLite> CREATOR = new
+            Parcelable.Creator<DetailMatchLite>() {
+                public DetailMatchLite createFromParcel(Parcel pc) {
+                    return new DetailMatchLite(pc);
                 }
 
-                public StatsRecord[] newArray(int size) {
-                    return new StatsRecord[size];
+                public DetailMatchLite[] newArray(int size) {
+                    return new DetailMatchLite[size];
                 }
             };
 

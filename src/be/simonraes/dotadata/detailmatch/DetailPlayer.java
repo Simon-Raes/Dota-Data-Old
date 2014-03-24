@@ -295,6 +295,8 @@ public class DetailPlayer implements Parcelable {
     }
 
     public DetailPlayer(Parcel pc) {
+        matchID = pc.readString();
+        pim = pc.readString();
         account_id = pc.readString();
         player_slot = pc.readString();
         hero_id = pc.readString();

@@ -144,8 +144,8 @@ public class HeroList {
         heroimages.put("21", "windrunner");
         heroimages.put("22", "zuus");
         heroimages.put("23", "kunkka");
-        heroimages.put("24", "lina");
-        heroimages.put("25", "lich");
+        heroimages.put("24", "unknown");
+        heroimages.put("25", "lina");
         heroimages.put("26", "lion");
         heroimages.put("27", "shadow_shaman");
         heroimages.put("28", "slardar");

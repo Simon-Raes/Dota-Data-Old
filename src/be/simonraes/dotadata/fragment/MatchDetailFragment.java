@@ -535,17 +535,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     //received names of players
     @Override
     public void processFinish(PlayerSummaryContainer result) {
-
-        if (result.getPlayers().getPlayers().size() < 1) {
-            for (TextView textView : playerNames) {
-                if (textView.getText().equals("4294967295")) {
-                    textView.setText("Anonymous");
+        if (result.getPlayers() != null) {
+            if (result.getPlayers().getPlayers().size() < 1) {
+                for (TextView textView : playerNames) {
+                    if (textView.getText().equals("4294967295")) {
+                        textView.setText("Anonymous");
+                    }
                 }
-            }
-        } else {
-            for (TextView textView : playerNames) {
-                if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
-                    textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+            } else {
+                for (TextView textView : playerNames) {
+                    if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                        textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                    }
                 }
             }
         }

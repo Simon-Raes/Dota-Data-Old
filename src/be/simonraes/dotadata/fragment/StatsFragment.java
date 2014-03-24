@@ -3,6 +3,7 @@ package be.simonraes.dotadata.fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.*;
@@ -13,12 +14,16 @@ import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
 import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.statistics.StatsRecord;
+import be.simonraes.dotadata.holograph.Bar;
+import be.simonraes.dotadata.holograph.BarGraph;
+import be.simonraes.dotadata.holograph.PieGraph;
+import be.simonraes.dotadata.holograph.PieSlice;
+import be.simonraes.dotadata.statistics.DetailMatchLite;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by Simon on 14/02/14.
@@ -29,10 +34,42 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private ScrollView svStats;
     private ProgressBar pbStats;
 
+    private Spinner spinnerHeroes;
+    private Spinner spinnerGameModes;
+
+    private View view;
+    private LinearLayout layStatsGameModes, layStatsHeroes;
+
+    private boolean isSpinnerSwitch = true;
+
+    private PieGraph pg;
+    private BarGraph bg;
+    private ArrayList<Bar> points;
+
+    private ArrayList<DetailMatchLite> matches = null;
+    private HashMap<String, Integer> gameModesMap; //contains played gamemodes, count
+    private HashMap<String, String> mapGameModeIDName; //contains played gamemodesIDs, gamemodenames
+    private HashMap<String, Integer> heroesMap; //contains played heroes, count
+    private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
+
     //todo: saveInstanceState so state is saved when going BACK to this screen (from match details)
     //http://stackoverflow.com/questions/6787071/android-fragment-how-to-save-states-of-views-in-a-fragment-when-another-fragmen
 
-    private TextView btnStatsGamesPlayed, btnStatsWinrate;
+    private TextView
+            txtStatsGamesPlayed,
+            txtStatsWinrate,
+            txtStatsGamesWon,
+            txtStatsGamesLost,
+            txtStatsTotalDuration,
+            txtStatsAverageDuration,
+            txtStatsTotalKills,
+            txtStatsTotalDeaths,
+            txtStatsTotalAssists,
+            txtStatsAverageKills,
+            txtStatsAverageDeaths,
+            txtStatsAverageAssists,
+            txtStatsAverageGPM,
+            txtStatsAverageXPM;
 
     private Button
             btnStatsLongestGame,
@@ -45,11 +82,19 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             btnStatsMostGPM,
             btnStatsMostXPM;
 
-    //todo: averages
-
+    //numbers
     private double gamesPlayed = 0;
-    private double gameswon = 0;
+    private double gamesWon = 0;
+    private double gamesLost = 0;
     private double winrate = 0;
+    private double totalDuration;
+    private double averageDuration;
+    private double totalKills = 0, totalDeaths = 0, totalAssists = 0;
+    private double averageKills = 0, averageDeaths = 0, averageAssists = 0;
+    private double totalGPM = 0, totalXPM = 0;
+    private double averageGPM = 0, averageXPM;
+
+    //records
     private Long longestGame = 0L;
     private String longestGameID;
     private int mostKills = 0;
@@ -77,7 +122,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.stats_layout, null);
+        this.view = inflater.inflate(R.layout.stats_layout, null);
 
         getActivity().setTitle("Statistics");
         setHasOptionsMenu(true);
@@ -85,8 +130,23 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         svStats = (ScrollView) view.findViewById(R.id.svStats);
         pbStats = (ProgressBar) view.findViewById(R.id.pbStats);
 
-        btnStatsGamesPlayed = (TextView) view.findViewById(R.id.txtStatsGamesPlayed);
-        btnStatsWinrate = (TextView) view.findViewById(R.id.txtStatsWinrate);
+        //numbers
+        txtStatsGamesPlayed = (TextView) view.findViewById(R.id.txtStatsGamesPlayed);
+        txtStatsWinrate = (TextView) view.findViewById(R.id.txtStatsWinrate);
+        txtStatsGamesWon = (TextView) view.findViewById(R.id.txtStatsGamesWon);
+        txtStatsGamesLost = (TextView) view.findViewById(R.id.txtStatsGamesLost);
+        txtStatsTotalDuration = (TextView) view.findViewById(R.id.txtStatsTotalDuration);
+        txtStatsAverageDuration = (TextView) view.findViewById(R.id.txtStatsAverageDuration);
+        txtStatsTotalKills = (TextView) view.findViewById(R.id.txtStatsTotalKills);
+        txtStatsTotalDeaths = (TextView) view.findViewById(R.id.txtStatsTotalDeaths);
+        txtStatsTotalAssists = (TextView) view.findViewById(R.id.txtStatsTotalAssists);
+        txtStatsAverageKills = (TextView) view.findViewById(R.id.txtStatsAverageKills);
+        txtStatsAverageDeaths = (TextView) view.findViewById(R.id.txtStatsAverageDeaths);
+        txtStatsAverageAssists = (TextView) view.findViewById(R.id.txtStatsAverageAssists);
+        txtStatsAverageGPM = (TextView) view.findViewById(R.id.txtStatsAverageGPM);
+        txtStatsAverageXPM = (TextView) view.findViewById(R.id.txtStatsAverageXPM);
+
+        //records
         btnStatsLongestGame = (Button) view.findViewById(R.id.txtStatsLongestGame);
         btnStatsLongestGame.setOnClickListener(this);
         btnStatsMostKills = (Button) view.findViewById(R.id.txtStatsMostKills);
@@ -106,11 +166,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         btnStatsMostXPM = (Button) view.findViewById(R.id.txtStatsMostXPM);
         btnStatsMostXPM.setOnClickListener(this);
 
-//        svStats.setVisibility(View.GONE);
-//        pbStats.setVisibility(View.VISIBLE);
-
-        svStats.setVisibility(View.VISIBLE);
-        pbStats.setVisibility(View.GONE);
+        layStatsGameModes = (LinearLayout) view.findViewById(R.id.layStatsGameModes);
+        layStatsHeroes = (LinearLayout) view.findViewById(R.id.layStatsHeroes);
 
         return view;
     }
@@ -136,19 +193,26 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
         if (spinHeroes != null) {
             spinHeroes.setVisible(true);
-            Spinner sp = (Spinner) spinHeroes.getActionView();
-            if (sp != null) {
-                sp.setAdapter(new HeroSpinnerAdapter(getActivity(), HeroList.getHeroes()));
-                sp.setOnItemSelectedListener(this);
+            spinnerHeroes = (Spinner) spinHeroes.getActionView();
+            if (spinnerHeroes != null) {
+
+//                updateSpinnerHeroes();
+
+//                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), mapHeroIDName));
+                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), HeroList.getHeroes()));
+
+                spinnerHeroes.setOnItemSelectedListener(this);
             }
         }
         MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
         if (spinGameModes != null) {
             spinGameModes.setVisible(true);
-            Spinner sp = (Spinner) spinGameModes.getActionView();
-            if (sp != null) {
-                sp.setAdapter(new GameModeSpinnerAdapter(getActivity(), GameModes.getGameModes()));
-                sp.setOnItemSelectedListener(this);
+            spinnerGameModes = (Spinner) spinGameModes.getActionView();
+            if (spinnerGameModes != null) {
+                //updateSpinnerHeroes();
+
+                spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), GameModes.getGameModes()));
+                spinnerGameModes.setOnItemSelectedListener(this);
             }
         }
     }
@@ -157,17 +221,33 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         int spinID = parent.getId();
+
+        System.out.println("isSpinnerSwitch = " + isSpinnerSwitch);
+
         switch (spinID) {
             case R.id.spinHeroes:
                 HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
                 heroID = adapter.getIDForPosition(position);
+
                 updateContent();
+                if (spinnerHeroes.getSelectedItemPosition() > 0 && !isSpinnerSwitch) {
+                    getPlayedGameModesForSelectedHero();
+                    spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), mapGameModeIDName));
+                }
+                isSpinnerSwitch = false;
 
                 break;
             case R.id.spinGameModes:
                 GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
                 gameModeID = gAdapter.getIDForPosition(position);
+
                 updateContent();
+                if (spinnerGameModes.getSelectedItemPosition() > 0 && !isSpinnerSwitch) {
+                    getPlayedHeroesForSelectedGameMode();
+                    spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), mapHeroIDName));
+                }
+
+                isSpinnerSwitch = false;
 
                 break;
             default:
@@ -175,104 +255,78 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
     }
 
+    private void getPlayedHeroesForSelectedGameMode() {
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        if (Integer.parseInt(gameModeID) > 0) {
+            matches = mds.getAllStatRecordsForGameMode(gameModeID);
+        } else {
+            matches = mds.getAllStatRecords();
+        }
+
+        mapHeroIDName = new HashMap<String, String>();
+        for (DetailMatchLite rec : matches) {
+            mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
+        }
+        isSpinnerSwitch = true;
+    }
+
+    private void getPlayedGameModesForSelectedHero() {
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        if (Integer.parseInt(heroID) > 0) {
+            matches = mds.getAllStatRecordsForHero(heroID);
+        } else {
+            matches = mds.getAllStatRecords();
+        }
+
+        mapGameModeIDName = new HashMap<String, String>();
+        for (DetailMatchLite rec : matches) {
+            mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
+        }
+        isSpinnerSwitch = true;
+    }
+
     private void updateContent() {
+        svStats.setVisibility(View.GONE);
+        pbStats.setVisibility(View.VISIBLE);
+
         //initializing the spinners calls the itemSelected method, this counter makes sure this query is only called once when opening the screen
         if (countUpdate > 2) {
+
+            layStatsGameModes.setVisibility(View.GONE);
+            layStatsHeroes.setVisibility(View.GONE);
+
             MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-            ArrayList<StatsRecord> matches = null;
 
             //neither selected, get statsrecords for all games
             if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
                 matches = mds.getAllStatRecords();
+                setNumbers();
+                setGameModesGraph();
+                setHeroesGraph();
             }
             //only gamemode selected
             else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
                 matches = mds.getAllStatRecordsForGameMode(gameModeID);
+                setNumbers();
+                setHeroesGraph();
             }
             //only hero selected
             else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
                 matches = mds.getAllStatRecordsForHero(heroID);
+                setNumbers();
+                setGameModesGraph();
             }
             //both selected
             else {
                 matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
+                setNumbers();
             }
 
-            //reset values
-            gamesPlayed = 0;
-            gameswon = 0;
-            winrate = 0;
-            longestGame = 0L;
-            mostKills = 0;
-            mostDeaths = 0;
-            mostAssists = 0;
-            mostLastHits = 0;
-            mostDenies = 0;
-            mostGold = 0;
-            mostGPM = 0;
-            mostXPM = 0;
 
-            //calculate new values
-            for (StatsRecord rec : matches) {
-                gamesPlayed++;
-                if (rec.isUser_win()) {
-                    gameswon++;
-                }
-                if (Long.parseLong(rec.getDuration()) > longestGame) {
-                    longestGame = Long.parseLong(rec.getDuration());
-                    longestGameID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getKills()) > mostKills) {
-                    mostKills = Integer.parseInt(rec.getKills());
-                    mostKillsID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getDeaths()) > mostDeaths) {
-                    mostDeaths = Integer.parseInt(rec.getDeaths());
-                    mostDeathsID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getAssists()) > mostAssists) {
-                    mostAssists = Integer.parseInt(rec.getAssists());
-                    mostAssistsID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getLast_hits()) > mostLastHits) {
-                    mostLastHits = Integer.parseInt(rec.getLast_hits());
-                    mostLastHitsID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getDenies()) > mostDenies) {
-                    mostDenies = Integer.parseInt(rec.getDenies());
-                    mostDeniesID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getGold()) > mostGold) {
-                    mostGold = Integer.parseInt(rec.getGold());
-                    mostGoldID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getGold_per_min()) > mostGPM) {
-                    mostGPM = Integer.parseInt(rec.getGold_per_min());
-                    mostGPMID = rec.getMatch_id();
-                }
-                if (Integer.parseInt(rec.getXp_per_min()) > mostXPM) {
-                    mostXPM = Integer.parseInt(rec.getXp_per_min());
-                    mostXPMID = rec.getMatch_id();
-                }
-            }
-            System.out.println(gameswon + " games won");
-            if (gamesPlayed > 0) {
-                winrate = (gameswon / gamesPlayed) * 100;
-            } else {
-                winrate = 0;
-            }
+            //show view
+            svStats.setVisibility(View.VISIBLE);
+            pbStats.setVisibility(View.GONE);
 
-            btnStatsGamesPlayed.setText("Games played: " + (int) gamesPlayed);
-            btnStatsWinrate.setText("Winrate: " + Conversions.roundDouble(winrate, 2) + "%");
-            btnStatsLongestGame.setText("Longest game: " + Conversions.secondsToTime(longestGame.toString()));
-            btnStatsMostKills.setText("Most kills: " + mostKills);
-            btnStatsMostDeaths.setText("Most deaths: " + mostDeaths);
-            btnStatsMostAssists.setText("Most assists: " + mostAssists);
-            btnStatsMostLastHits.setText("Most last hits: " + mostLastHits);
-            btnStatsMostDenies.setText("Most denies: " + mostDenies);
-            btnStatsMostGold.setText("Most gold: " + mostGold);
-            btnStatsMostGPM.setText("Highest GPM: " + mostGPM);
-            btnStatsMostXPM.setText("Highest XPM: " + mostXPM);
         }
         countUpdate++;
     }
@@ -288,16 +342,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         DetailMatch match = null;
         MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
 
-        /*
-        mostAssistsID;
-    private String mostLastHitsID;
-    private String ;
-    private String ;
-    private String ;
-    private String ;
-         */
-
-
         switch (v.getId()) {
             case R.id.txtStatsLongestGame:
                 match = mds.getMatchByID(longestGameID);
@@ -307,6 +351,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 break;
             case R.id.txtStatsMostDeaths:
                 match = mds.getMatchByID(mostDeathsID);
+                break;
+            case R.id.txtStatsMostAssists:
+                match = mds.getMatchByID(mostAssistsID);
                 break;
             case R.id.txtStatsMostLastHits:
                 match = mds.getMatchByID(mostLastHitsID);
@@ -345,8 +392,251 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
             fragment.setArguments(bundle);
 
-
             transaction.addToBackStack(null).commit();
         }
     }
+
+    private void setNumbers() {
+
+
+        //reset numbers
+        gamesPlayed = 0; //
+        gamesWon = 0;//
+        gamesLost = 0;//
+        winrate = 0;//
+        totalDuration = 0;//
+        averageDuration = 0;
+        totalKills = 0;//
+        totalDeaths = 0;//
+        totalAssists = 0;//
+        averageKills = 0;
+        averageDeaths = 0;
+        averageAssists = 0;
+        totalGPM = 0; //
+        totalXPM = 0; //
+        averageGPM = 0;
+        averageXPM = 0;
+
+        //reset records
+        longestGame = 0L;
+        mostKills = 0;
+        mostDeaths = 0;
+        mostAssists = 0;
+        mostLastHits = 0;
+        mostDenies = 0;
+        mostGold = 0;
+        mostGPM = 0;
+        mostXPM = 0;
+
+        gameModesMap = new HashMap<String, Integer>();
+        for (String a : GameModes.getGameModes().values()) {
+            gameModesMap.put(a, 0);
+        }
+        heroesMap = new HashMap<String, Integer>();
+        for (String a : HeroList.getHeroes().values()) {
+            heroesMap.put(a, 0);
+        }
+
+        //calculate new values
+        for (DetailMatchLite rec : matches) {
+            //numbers
+            gamesPlayed++;
+            if (rec.isUser_win()) {
+                gamesWon++;
+            } else {
+                gamesLost++;
+            }
+            totalDuration += Double.parseDouble(rec.getDuration());
+            totalKills += Double.parseDouble(rec.getKills());
+            totalDeaths += Double.parseDouble(rec.getDeaths());
+            totalAssists += Double.parseDouble(rec.getAssists());
+            totalGPM += Double.parseDouble(rec.getGold_per_min());
+            totalXPM += Double.parseDouble(rec.getXp_per_min());
+
+
+            //records
+            if (Long.parseLong(rec.getDuration()) > longestGame) {
+                longestGame = Long.parseLong(rec.getDuration());
+                longestGameID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getKills()) > mostKills) {
+                mostKills = Integer.parseInt(rec.getKills());
+                mostKillsID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getDeaths()) > mostDeaths) {
+                mostDeaths = Integer.parseInt(rec.getDeaths());
+                mostDeathsID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getAssists()) > mostAssists) {
+                mostAssists = Integer.parseInt(rec.getAssists());
+                mostAssistsID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getLast_hits()) > mostLastHits) {
+                mostLastHits = Integer.parseInt(rec.getLast_hits());
+                mostLastHitsID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getDenies()) > mostDenies) {
+                mostDenies = Integer.parseInt(rec.getDenies());
+                mostDeniesID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getGold()) > mostGold) {
+                mostGold = Integer.parseInt(rec.getGold());
+                mostGoldID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getGold_per_min()) > mostGPM) {
+                mostGPM = Integer.parseInt(rec.getGold_per_min());
+                mostGPMID = rec.getMatch_id();
+            }
+            if (Integer.parseInt(rec.getXp_per_min()) > mostXPM) {
+                mostXPM = Integer.parseInt(rec.getXp_per_min());
+                mostXPMID = rec.getMatch_id();
+            }
+            if (gameModesMap.get(GameModes.getGameMode(rec.getGame_mode())) != null) {
+                int prevValue = gameModesMap.get(GameModes.getGameMode(rec.getGame_mode()));
+                gameModesMap.put(GameModes.getGameMode(rec.getGame_mode()), prevValue + 1);
+            }
+            if (heroesMap.get(HeroList.getHeroName(rec.getHero_id())) != null) {
+                int prevValue = heroesMap.get(HeroList.getHeroName(rec.getHero_id()));
+                heroesMap.put(HeroList.getHeroName(rec.getHero_id()), prevValue + 1);
+            }
+        }
+
+//        //create a hashmap off all heroes played for the currently selected gamemode (heroID, heroName)
+//        mapHeroIDName = new HashMap<String, String>();
+//        for (Map.Entry<String, String> entry : HeroList.getHeroes().entrySet()) {
+//            if (heroesMap.get(entry.getValue()) > 0) {
+//                mapHeroIDName.put(entry.getKey(), entry.getValue());
+//            }
+//        }
+//        System.out.println("map hero size "+mapHeroIDName.size());
+//
+//        //create a hashmap off all gamemodes played with the currently selected hero (modeID, modeName)
+//        mapGameModeIDName = new HashMap<String, String>();
+//        for (Map.Entry<String, String> entry : GameModes.getGameModes().entrySet()) {
+//            if (gameModesMap.get(entry.getValue()) > 0) {
+//                mapGameModeIDName.put(entry.getKey(), entry.getValue());
+//            }
+//        }
+//        System.out.println("map mode size "+mapGameModeIDName.size());
+
+
+        if (gamesPlayed > 0) {
+            winrate = (gamesWon / gamesPlayed) * 100;
+        } else {
+            winrate = 0;
+        }
+
+        averageDuration = totalDuration / gamesPlayed;
+        averageKills = totalKills / gamesPlayed;
+        averageDeaths = totalDeaths / gamesPlayed;
+        averageAssists = totalAssists / gamesPlayed;
+        averageGPM = totalGPM / gamesPlayed;
+        averageXPM = totalXPM / gamesPlayed;
+
+        //numbers
+        txtStatsGamesPlayed.setText("Games played: " + (int) gamesPlayed);
+        txtStatsWinrate.setText("Winrate: " + Conversions.roundDouble(winrate, 2) + "%");
+        txtStatsGamesWon.setText("Games won: " + (int) gamesWon);
+        txtStatsGamesLost.setText("Games lost: " + (int) gamesLost);
+        txtStatsTotalDuration.setText("Total time played: " + Conversions.secondsToTime(Integer.toString((int) totalDuration)));
+        txtStatsAverageDuration.setText("Average game length: " + Conversions.secondsToTime(Integer.toString((int) averageDuration)));
+        txtStatsTotalKills.setText("Total kills: " + (int) totalKills);
+        txtStatsTotalDeaths.setText("Total deaths: " + (int) totalDeaths);
+        txtStatsTotalAssists.setText("Total assists: " + (int) totalAssists);
+        txtStatsAverageKills.setText("Average kills: " + Conversions.roundDouble(averageKills, 1));
+        txtStatsAverageDeaths.setText("Average deaths: " + Conversions.roundDouble(averageDeaths, 1));
+        txtStatsAverageAssists.setText("Average assists: " + Conversions.roundDouble(averageAssists, 1));
+        txtStatsAverageGPM.setText("Average GPM: " + (int) averageGPM);
+        txtStatsAverageXPM.setText("Average XPM: " + (int) averageXPM);
+
+        //records
+        btnStatsLongestGame.setText("Longest game: " + Conversions.secondsToTime(longestGame.toString()));
+        btnStatsMostKills.setText("Most kills: " + mostKills);
+        btnStatsMostDeaths.setText("Most deaths: " + mostDeaths);
+        btnStatsMostAssists.setText("Most assists: " + mostAssists);
+        btnStatsMostLastHits.setText("Most last hits: " + mostLastHits);
+        btnStatsMostDenies.setText("Most denies: " + mostDenies);
+        btnStatsMostGold.setText("Most gold: " + mostGold);
+        btnStatsMostGPM.setText("Highest GPM: " + mostGPM);
+        btnStatsMostXPM.setText("Highest XPM: " + mostXPM);
+    }
+
+    private void setGameModesGraph() {
+        layStatsGameModes.setVisibility(View.VISIBLE);
+        LinearLayout layLegend = (LinearLayout) view.findViewById(R.id.layPieLegend);
+        layLegend.removeAllViews();
+
+        pg = (PieGraph) view.findViewById(R.id.pieGameModes);
+        pg.removeSlices();
+        pg.setOnSliceClickedListener(pieHandler);
+
+        Random rnd;
+        for (Map.Entry<String, Integer> entry : gameModesMap.entrySet()) {
+            if (entry.getValue() > 0) {
+                //seed the random so a hero will always have the same color
+                rnd = new Random(entry.getKey().hashCode() + 1);
+                int sliceColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+
+                //add slice
+                PieSlice slice = new PieSlice();
+                slice.setColor(sliceColor);
+                slice.setValue(entry.getValue());
+                slice.setTitle(entry.getKey());
+                pg.addSlice(slice);
+
+                //set legend
+                TextView txtLegend = new TextView(getActivity());
+                txtLegend.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                txtLegend.setText(entry.getKey() + ": " + entry.getValue());
+                txtLegend.setTextColor(sliceColor);
+                layLegend.addView(txtLegend);
+            }
+        }
+    }
+
+    private void setHeroesGraph() {
+        layStatsHeroes.setVisibility(View.VISIBLE);
+        bg = (BarGraph) view.findViewById(R.id.barHeroes);
+        bg.setOnBarClickedListener(barHandler);
+
+        points = new ArrayList<Bar>();
+        Random rnd;
+        for (Map.Entry<String, Integer> entry : heroesMap.entrySet()) {
+            if (entry.getValue() > 0) {
+                Bar d = new Bar();
+                //seed the random so a hero will always have the same color
+                rnd = new Random(entry.getKey().hashCode());
+                d.setColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                d.setName(entry.getKey());
+                d.setValue((int) entry.getValue());
+                d.setValueString(Integer.toString((int) entry.getValue()));
+
+                points.add(d);
+            }
+        }
+        if (points.size() > 0) {
+            Collections.sort(points);
+            if (points.size() > 10) {
+                points.subList(10, points.size()).clear();
+            }
+
+        }
+        bg.setBars(points);
+    }
+
+    //called when clicking a gamemode piechart slice
+    PieGraph.OnSliceClickedListener pieHandler = new PieGraph.OnSliceClickedListener() {
+        public void onClick(int index) {
+            Toast.makeText(getActivity(), pg.getSlice(index).getTitle() + ": " + (int) pg.getSlice(index).getValue() + " game(s).", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    //listener for bar chart
+    BarGraph.OnBarClickedListener barHandler = new BarGraph.OnBarClickedListener() {
+        public void onClick(int index) {
+            Toast.makeText(getActivity(), points.get(index).getName(), Toast.LENGTH_SHORT).show();
+        }
+    };
 }

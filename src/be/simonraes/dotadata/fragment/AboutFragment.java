@@ -13,6 +13,9 @@ import be.simonraes.dotadata.R;
 public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        getActivity().getActionBar().setTitle("About");
+
         return inflater.inflate(R.layout.about_layout, container, false);
     }
 }

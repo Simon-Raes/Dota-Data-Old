@@ -40,7 +40,7 @@ public class DotaDataApplication extends Application {
                 .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
                 .denyCacheImageMultipleSizesInMemory()
                 .tasksProcessingOrder(QueueProcessingType.FIFO)
-                .writeDebugLogs()
+                        //.writeDebugLogs()
                 .build();
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config);

@@ -1,26 +1,36 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
 import be.simonraes.dotadata.util.Conversions;
+import be.simonraes.dotadata.util.HeroList;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
  * Created by Simon on 23/03/14.
  */
 public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.SpinnerAdapter {
-    Context context;
+    private Context context;
 
-    ArrayList<String> names;
-    ArrayList<String> keys;
+    private ArrayList<String> names;
+    private ArrayList<String> keys;
+
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
+    private ImageLoadingListener animateFirstListener;
 
     public HeroSpinnerAdapter(Context ctx, HashMap<String, String> content) {
         context = ctx;
@@ -54,12 +64,52 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        //todo: xml layout with hero image
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        TextView text = new TextView(context);
-        text.setTextColor(Color.BLACK);
-        text.setText(names.get(position));
-        return text;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.hero_picker_row, null);
+
+            imageLoader = ImageLoader.getInstance();
+            animateFirstListener = new AnimateFirstDisplayListenerToo();
+            options = new DisplayImageOptions.Builder()
+                    .resetViewBeforeLoading(true)
+                    .cacheInMemory(true)
+                    .showImageOnLoading(R.drawable.hero_sb_loading)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+                    .build();
+        }
+
+        ImageView imgHero = (ImageView) convertView.findViewById(R.id.imgPickerHero);
+
+        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(keys.get(position)) + "_sb.png", imgHero, options, animateFirstListener);
+
+        return convertView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.hero_picker_row, null);
+
+            imageLoader = ImageLoader.getInstance();
+            animateFirstListener = new AnimateFirstDisplayListenerToo();
+            options = new DisplayImageOptions.Builder()
+                    .resetViewBeforeLoading(true)
+                    .cacheInMemory(true)
+                    .showImageOnLoading(R.drawable.hero_sb_loading)
+                    .imageScaleType(ImageScaleType.EXACTLY)
+                    .build();
+        }
+
+        ImageView imgHero = (ImageView) convertView.findViewById(R.id.imgPickerHero);
+        TextView txtHero = (TextView) convertView.findViewById(R.id.txtPickerHero);
+        txtHero.setText(names.get(position));
+
+        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(keys.get(position)) + "_sb.png", imgHero, options, animateFirstListener);
+
+        return convertView;
     }
 
 
