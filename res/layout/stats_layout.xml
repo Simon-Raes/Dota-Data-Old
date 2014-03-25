@@ -128,55 +128,55 @@
                 <View style="@style/Divider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsLongestGame"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Longest game"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostKills"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most kills"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostDeaths"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most deaths"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostAssists"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most assists"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostLastHits"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most last hits"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostDenies"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most denies"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostGold"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Most gold"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostGPM"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Highest GPM"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostXPM"
-                        android:background="@null"
+                        android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"
                         android:text="Highest XPM"/>
             </LinearLayout>
