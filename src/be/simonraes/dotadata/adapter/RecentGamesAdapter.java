@@ -40,12 +40,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
         prefAccountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
     }
 
-//    //can probably be deleted
-//    @Override
-//    public void notifyDataSetChanged() {
-//        super.notifyDataSetChanged();
-//    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         DetailMatch match = matches.get(position);
@@ -107,7 +101,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
         return view;
     }
-
 
 
     private class ViewHolder {

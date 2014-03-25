@@ -29,7 +29,7 @@ public class GameModeSpinnerAdapter extends BaseAdapter implements android.widge
         content.remove("0"); //unknown
         content.remove("6"); //intro
         content.remove("10"); //tutorial
-        content.remove("14"); //FH
+        //content.remove("14"); //Compendium
         content.remove("15"); //custom gamemode
         content.remove("17"); //balanced draft todo: remove this line when this gamemode gets released
 

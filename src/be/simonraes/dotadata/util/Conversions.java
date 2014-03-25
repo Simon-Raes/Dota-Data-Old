@@ -3,6 +3,7 @@ package be.simonraes.dotadata.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Simon on 2/02/14.
@@ -28,15 +29,61 @@ public class Conversions {
     }
 
     public static String secondsToTime(String matchDuration) {
-        int iSeconds = Integer.parseInt(matchDuration) % 60;
-        String seconds;
-        if (iSeconds < 10) {
-            seconds = "0" + Integer.toString(iSeconds);
+        long iSeconds = Long.parseLong(matchDuration);
+        long millis = iSeconds * 1000;
+//        String seconds;
+//        if (iSeconds < 10) {
+//            seconds = "0" + Integer.toString(iSeconds);
+//        } else {
+//            seconds = Integer.toString(iSeconds);
+//        }
+//        String minutes = Integer.toString(Integer.parseInt(matchDuration) / 60);
+//        String hours =
+//        return minutes + ":" + seconds;
+
+
+//        int hours = iSeconds / 3600,
+//                remainder = iSeconds % 3600,
+//                minutes = remainder / 60,
+//                seconds = remainder % 60;
+//
+//        return ((hours < 10 ? "0" : "") + hours
+//                + ":" + (minutes < 10 ? "0" : "") + minutes
+//                + ":" + (seconds < 10 ? "0" : "") + seconds);
+
+
+        long lhours = TimeUnit.MILLISECONDS.toHours(millis);
+        long lminutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(lhours);
+        long lseconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.HOURS.toSeconds(lhours) - TimeUnit.MINUTES.toSeconds(lminutes);
+
+        String hours = Long.toString(lhours);
+        String minutes = "", seconds = "";
+
+        if (lminutes < 10) {
+            minutes = "0" + lminutes;
+        } else if (lminutes < 1) {
+            minutes = "00";
         } else {
-            seconds = Integer.toString(iSeconds);
+            minutes = Long.toString(lminutes);
         }
-        String minutes = Integer.toString(Integer.parseInt(matchDuration) / 60);
-        return minutes + ":" + seconds;
+
+        if (lseconds < 10) {
+            seconds = "0" + lseconds;
+        } else if (lseconds < 1) {
+            seconds = "00";
+        } else {
+            seconds = Long.toString(lseconds);
+        }
+
+        return hours + ":" + minutes + ":" + seconds;
+
+
+//        return String.format("%d:%d:%d",
+//                TimeUnit.MILLISECONDS.toHours(millis),
+//                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+//                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))))
+//        );
+
     }
 
     public static String leagueTitleToString(String rawLeague) {

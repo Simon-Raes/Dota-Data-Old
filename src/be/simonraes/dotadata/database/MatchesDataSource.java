@@ -330,6 +330,12 @@ public class MatchesDataSource {
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
                 "WHERE account_id = ? " +
+                "AND game_mode != 0 " +
+                "AND game_mode != 6 " +
+                "AND game_mode != 7 " +
+                "AND game_mode != 9 " +
+                "AND game_mode != 10 " +
+                "AND game_mode != 15 " +
                 "AND user = ?;", new String[]{user_accountID, user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

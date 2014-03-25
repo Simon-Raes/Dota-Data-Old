@@ -1,8 +1,10 @@
 package be.simonraes.dotadata.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -37,8 +39,10 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private Spinner spinnerHeroes;
     private Spinner spinnerGameModes;
 
+    private int lastHeroIndex, lastGameModeIndex;
+
     private View view;
-    private LinearLayout layStatsGameModes, layStatsHeroes;
+    private LinearLayout layStatsGameModes, layStatsHeroes, layStatsRecords, layStatsNumbers, layStatsNoGames;
 
     private boolean isSpinnerSwitch = true;
 
@@ -81,7 +85,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             btnStatsMostGold,
             btnStatsMostGPM,
             btnStatsMostXPM;
-
+    private ImageButton btnStatsHelp;
     //numbers
     private double gamesPlayed = 0;
     private double gamesWon = 0;
@@ -114,6 +118,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private int mostXPM = 0;
     private String mostXPMID;
 
+    private int heroSelection, gameModeSelection;
 
     private String gameModeID = "-1";
     private String heroID = "-1";
@@ -122,6 +127,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("oncreateview");
         this.view = inflater.inflate(R.layout.stats_layout, null);
 
         getActivity().setTitle("Statistics");
@@ -133,8 +139,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         //numbers
         txtStatsGamesPlayed = (TextView) view.findViewById(R.id.txtStatsGamesPlayed);
         txtStatsWinrate = (TextView) view.findViewById(R.id.txtStatsWinrate);
-        txtStatsGamesWon = (TextView) view.findViewById(R.id.txtStatsGamesWon);
-        txtStatsGamesLost = (TextView) view.findViewById(R.id.txtStatsGamesLost);
+//        txtStatsGamesWon = (TextView) view.findViewById(R.id.txtStatsGamesWon);
+//        txtStatsGamesLost = (TextView) view.findViewById(R.id.txtStatsGamesLost);
         txtStatsTotalDuration = (TextView) view.findViewById(R.id.txtStatsTotalDuration);
         txtStatsAverageDuration = (TextView) view.findViewById(R.id.txtStatsAverageDuration);
         txtStatsTotalKills = (TextView) view.findViewById(R.id.txtStatsTotalKills);
@@ -165,16 +171,40 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         btnStatsMostGPM.setOnClickListener(this);
         btnStatsMostXPM = (Button) view.findViewById(R.id.txtStatsMostXPM);
         btnStatsMostXPM.setOnClickListener(this);
+        btnStatsHelp = (ImageButton) view.findViewById(R.id.btnStatsHelp);
+        btnStatsHelp.setOnClickListener(this);
 
         layStatsGameModes = (LinearLayout) view.findViewById(R.id.layStatsGameModes);
         layStatsHeroes = (LinearLayout) view.findViewById(R.id.layStatsHeroes);
+        layStatsNumbers = (LinearLayout) view.findViewById(R.id.layStatsNumbers);
+        layStatsRecords = (LinearLayout) view.findViewById(R.id.layStatsRecords);
+        layStatsNoGames = (LinearLayout) view.findViewById(R.id.layStatsNoGames);
+
+
+        if (savedInstanceState != null) {
+            gameModeSelection = savedInstanceState.getInt("gameModeSelection");
+            heroSelection = savedInstanceState.getInt("heroSelection");
+            countUpdate = 2;
+        } else {
+            gameModeSelection = -1;
+            heroSelection = -1;
+        }
 
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        System.out.println("onSaveInstanceState");
+
+        super.onSaveInstanceState(outState);
+        outState.putInt("gameModeSelection", spinnerGameModes.getSelectedItemPosition());
+        outState.putInt("heroSelection", spinnerHeroes.getSelectedItemPosition());
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        System.out.println("onCreateOptionsMenu");
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.actionbar_menu, menu);
 
@@ -199,9 +229,14 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 //                updateSpinnerHeroes();
 
 //                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), mapHeroIDName));
-                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), HeroList.getHeroes()));
-
+                getPlayedHeroes();
+                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), mapHeroIDName));
                 spinnerHeroes.setOnItemSelectedListener(this);
+
+                //if there was a savedState, set spinner selection
+                if (heroSelection >= 0) {
+                    spinnerHeroes.setSelection(heroSelection);
+                }
             }
         }
         MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
@@ -213,6 +248,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
                 spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), GameModes.getGameModes()));
                 spinnerGameModes.setOnItemSelectedListener(this);
+
+                //if there was a savedState, set spinner selection
+                if (gameModeSelection >= 0) {
+                    spinnerGameModes.setSelection(gameModeSelection);
+                }
             }
         }
     }
@@ -220,34 +260,35 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        int spinID = parent.getId();
+        System.out.println("onItemSelected");
 
-        System.out.println("isSpinnerSwitch = " + isSpinnerSwitch);
+        int spinID = parent.getId();
 
         switch (spinID) {
             case R.id.spinHeroes:
                 HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
                 heroID = adapter.getIDForPosition(position);
 
-                updateContent();
-                if (spinnerHeroes.getSelectedItemPosition() > 0 && !isSpinnerSwitch) {
-                    getPlayedGameModesForSelectedHero();
-                    spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), mapGameModeIDName));
-                }
-                isSpinnerSwitch = false;
+                //only go to database if needed
+//                if(lastHeroIndex==spinnerHeroes.getSelectedItemPosition()){
+//                    updateVisuals();
+//                } else {
+//                    lastHeroIndex=spinnerHeroes.getSelectedItemPosition();
+                updateMatches();
+//                }
+
 
                 break;
             case R.id.spinGameModes:
                 GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
                 gameModeID = gAdapter.getIDForPosition(position);
 
-                updateContent();
-                if (spinnerGameModes.getSelectedItemPosition() > 0 && !isSpinnerSwitch) {
-                    getPlayedHeroesForSelectedGameMode();
-                    spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), mapHeroIDName));
-                }
-
-                isSpinnerSwitch = false;
+//                if(lastGameModeIndex==spinnerGameModes.getSelectedItemPosition()){
+//                    updateVisuals();
+//                } else {
+//                    lastGameModeIndex=spinnerGameModes.getSelectedItemPosition();
+                updateMatches();
+//                }
 
                 break;
             default:
@@ -255,42 +296,57 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
     }
 
-    private void getPlayedHeroesForSelectedGameMode() {
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-        if (Integer.parseInt(gameModeID) > 0) {
-            matches = mds.getAllStatRecordsForGameMode(gameModeID);
-        } else {
-            matches = mds.getAllStatRecords();
-        }
+    private void getPlayedHeroes() {
+        System.out.println("getPlayedHeroes");
 
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        matches = mds.getAllStatRecords();
         mapHeroIDName = new HashMap<String, String>();
         for (DetailMatchLite rec : matches) {
             mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
         }
-        isSpinnerSwitch = true;
     }
 
-    private void getPlayedGameModesForSelectedHero() {
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-        if (Integer.parseInt(heroID) > 0) {
-            matches = mds.getAllStatRecordsForHero(heroID);
-        } else {
-            matches = mds.getAllStatRecords();
-        }
+//    private void getPlayedHeroesForSelectedGameMode() {
+//        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+//        if (Integer.parseInt(gameModeID) > 0) {
+//            matches = mds.getAllStatRecordsForGameMode(gameModeID);
+//        } else {
+//            matches = mds.getAllStatRecords();
+//        }
+//
+//        mapHeroIDName = new HashMap<String, String>();
+//        for (DetailMatchLite rec : matches) {
+//            mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
+//        }
+//        isSpinnerSwitch = true;
+//    }
+//
+//    private void getPlayedGameModesForSelectedHero() {
+//        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+//        if (Integer.parseInt(heroID) > 0) {
+//            matches = mds.getAllStatRecordsForHero(heroID);
+//        } else {
+//            matches = mds.getAllStatRecords();
+//        }
+//
+//        mapGameModeIDName = new HashMap<String, String>();
+//        for (DetailMatchLite rec : matches) {
+//            mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
+//        }
+//        isSpinnerSwitch = true;
+//    }
 
-        mapGameModeIDName = new HashMap<String, String>();
-        for (DetailMatchLite rec : matches) {
-            mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
-        }
-        isSpinnerSwitch = true;
-    }
+    /*Gets new data for the selected filters*/
+    private void updateMatches() {
+        System.out.println("updateMatches");
 
-    private void updateContent() {
         svStats.setVisibility(View.GONE);
         pbStats.setVisibility(View.VISIBLE);
 
         //initializing the spinners calls the itemSelected method, this counter makes sure this query is only called once when opening the screen
         if (countUpdate > 2) {
+            System.out.println("inside count>2");
 
             layStatsGameModes.setVisibility(View.GONE);
             layStatsHeroes.setVisibility(View.GONE);
@@ -300,35 +356,75 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             //neither selected, get statsrecords for all games
             if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
                 matches = mds.getAllStatRecords();
-                setNumbers();
-                setGameModesGraph();
-                setHeroesGraph();
             }
             //only gamemode selected
             else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
                 matches = mds.getAllStatRecordsForGameMode(gameModeID);
-                setNumbers();
-                setHeroesGraph();
             }
             //only hero selected
             else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
                 matches = mds.getAllStatRecordsForHero(heroID);
-                setNumbers();
-                setGameModesGraph();
             }
             //both selected
             else {
                 matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
-                setNumbers();
             }
 
-
-            //show view
-            svStats.setVisibility(View.VISIBLE);
-            pbStats.setVisibility(View.GONE);
-
+            //display the new data
+            updateVisuals();
         }
         countUpdate++;
+    }
+
+    /*Sets textfields, charts, graphs,... with the stored data*/
+    private void updateVisuals() {
+        //neither selected, get statsrecords for all games
+        if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
+            if (matches.size() > 0) {
+                btnStatsHelp.setVisibility(View.VISIBLE);
+                setNumbers();
+                setGameModesGraph();
+                setHeroesGraph();
+            }
+        }
+        //only gamemode selected
+        else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
+            if (matches.size() > 0) {
+                btnStatsHelp.setVisibility(View.GONE);
+                setNumbers();
+                setHeroesGraph();
+            }
+        }
+        //only hero selected
+        else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
+            if (matches.size() > 0) {
+                btnStatsHelp.setVisibility(View.GONE);
+                setNumbers();
+                setGameModesGraph();
+            }
+        }
+        //both selected
+        else {
+            if (matches.size() > 0) {
+                btnStatsHelp.setVisibility(View.GONE);
+                setNumbers();
+            }
+        }
+
+        //only show stats cards if matches were found
+        if (matches.size() > 0) {
+            layStatsNumbers.setVisibility(View.VISIBLE);
+            layStatsRecords.setVisibility(View.VISIBLE);
+            layStatsNoGames.setVisibility(View.GONE);
+        } else {
+            layStatsNumbers.setVisibility(View.GONE);
+            layStatsRecords.setVisibility(View.GONE);
+            layStatsNoGames.setVisibility(View.VISIBLE);
+        }
+
+        //show view, hide loading indicator
+        svStats.setVisibility(View.VISIBLE);
+        pbStats.setVisibility(View.GONE);
     }
 
     @Override
@@ -338,6 +434,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Override
     public void onClick(View v) {
+        System.out.println("onClick");
 
         DetailMatch match = null;
         MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
@@ -370,6 +467,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.txtStatsMostXPM:
                 match = mds.getMatchByID(mostXPMID);
                 break;
+            case R.id.btnStatsHelp:
+                showInfoDialog();
+                break;
             default:
                 break;
         }
@@ -398,6 +498,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     private void setNumbers() {
 
+        System.out.println("setNumbers");
 
         //reset numbers
         gamesPlayed = 0; //
@@ -535,10 +636,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         //numbers
         txtStatsGamesPlayed.setText("Games played: " + (int) gamesPlayed);
-        txtStatsWinrate.setText("Winrate: " + Conversions.roundDouble(winrate, 2) + "%");
-        txtStatsGamesWon.setText("Games won: " + (int) gamesWon);
-        txtStatsGamesLost.setText("Games lost: " + (int) gamesLost);
+        txtStatsWinrate.setText("Wins: " + (int) gamesWon + " / Losses: " + (int) gamesLost + " (" + Conversions.roundDouble(winrate, 2) + "%)");
+//        txtStatsGamesWon.setText("Games won: " + (int) gamesWon);
+//        txtStatsGamesLost.setText("Games lost: " + (int) gamesLost);
         txtStatsTotalDuration.setText("Total time played: " + Conversions.secondsToTime(Integer.toString((int) totalDuration)));
+
         txtStatsAverageDuration.setText("Average game length: " + Conversions.secondsToTime(Integer.toString((int) averageDuration)));
         txtStatsTotalKills.setText("Total kills: " + (int) totalKills);
         txtStatsTotalDeaths.setText("Total deaths: " + (int) totalDeaths);
@@ -562,6 +664,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     private void setGameModesGraph() {
+        System.out.println("setGameModesGraph");
+
         layStatsGameModes.setVisibility(View.VISIBLE);
         LinearLayout layLegend = (LinearLayout) view.findViewById(R.id.layPieLegend);
         layLegend.removeAllViews();
@@ -597,6 +701,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     private void setHeroesGraph() {
+        System.out.println("setHeroesGraph");
+
         layStatsHeroes.setVisibility(View.VISIBLE);
         bg = (BarGraph) view.findViewById(R.id.barHeroes);
         bg.setOnBarClickedListener(barHandler);
@@ -624,6 +730,20 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         }
         bg.setBars(points);
+    }
+
+
+    private void showInfoDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Any gamemode statistics")
+                .setMessage("'Any gamemode' will show statistics based on all matches, except Diretide, Greeviling and Custom gamemodes.")
+                .setCancelable(true)
+                .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 
     //called when clicking a gamemode piechart slice

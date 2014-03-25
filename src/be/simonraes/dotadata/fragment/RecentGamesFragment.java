@@ -30,7 +30,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     private ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
     private ProgressBar pbRecentGames;
     private View footerView;
-    private Activity activity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,11 +48,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
         getActivity().setTitle("Recent games");
-
-
-        //test
-        activity = getActivity();
-
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
 
@@ -75,12 +69,12 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             if (savedInstanceState == null) {
                 if (matches.size() == 0) {
                     //this is the first time opening this screen, get a fresh set of matches from the database
-                    //todo: is this still used?
-                    if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
-                        Toast.makeText(getActivity(), "Download still in progress.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        loadMatchesFromDatabase();
-                    }
+//                    //todo: is this still used?
+//                    if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
+//                        Toast.makeText(getActivity(), "Download still in progress.", Toast.LENGTH_SHORT).show();
+//                    } else {
+                    loadMatchesFromDatabase();
+//                    }
                 }
             } else {
                 //list state has been saved before, load that state
@@ -160,7 +154,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             case R.id.btnRefresh:
                 //only start download if it isn't already downloading
                 if (InternetCheck.isOnline(getActivity())) {
-                    OrientationHelper.lockOrientation(activity);
+                    OrientationHelper.lockOrientation(getActivity());
                     HistoryLoader loader = new HistoryLoader(getActivity(), this);
                     loader.updateHistory();
                 } else {
@@ -234,6 +228,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             matches.clear();
             loadMatchesFromDatabase();
         }
-        OrientationHelper.unlockOrientation(activity);
+        OrientationHelper.unlockOrientation(getActivity());
     }
 }
