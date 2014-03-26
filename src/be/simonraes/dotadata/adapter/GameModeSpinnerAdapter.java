@@ -20,10 +20,12 @@ public class GameModeSpinnerAdapter extends BaseAdapter implements android.widge
     ArrayList<String> names;
     ArrayList<String> keys;
 
+    HashMap<String, String> thisContent;
+
     public GameModeSpinnerAdapter(Context ctx, HashMap<String, String> content) {
         context = ctx;
         //sort on values
-        content = Conversions.sortHashMapByValues(content);
+        thisContent = Conversions.sortHashMapByValues(content);
         //remove unneeded gamemodes
 
         content.remove("0"); //unknown
@@ -33,9 +35,9 @@ public class GameModeSpinnerAdapter extends BaseAdapter implements android.widge
         content.remove("15"); //custom gamemode
         content.remove("17"); //balanced draft todo: remove this line when this gamemode gets released
 
-        names = new ArrayList<String>(content.values());
+        names = new ArrayList<String>(thisContent.values());
         names.add(0, "Any gamemode");
-        keys = new ArrayList<String>(content.keySet());
+        keys = new ArrayList<String>(thisContent.keySet());
         keys.add(0, "-1");
     }
 

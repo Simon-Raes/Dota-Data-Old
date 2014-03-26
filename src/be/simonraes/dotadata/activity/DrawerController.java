@@ -139,7 +139,14 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             if (btnNote != null) {
                 btnNote.setVisible(false);
             }
-
+            MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
+            if (spinHeroes != null) {
+                spinHeroes.setVisible(false);
+            }
+            MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
+            if (spinGameModes != null) {
+                spinGameModes.setVisible(false);
+            }
 
         }
 

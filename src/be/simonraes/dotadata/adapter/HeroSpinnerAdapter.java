@@ -32,13 +32,15 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
     private DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener;
 
+    private HashMap<String, String> spinnerContent;
+
     public HeroSpinnerAdapter(Context ctx, HashMap<String, String> content) {
         context = ctx;
 
-        content = Conversions.sortHashMapByValues(content);
-        names = new ArrayList<String>(content.values());
+        spinnerContent = Conversions.sortHashMapByValues(content);
+        names = new ArrayList<String>(spinnerContent.values());
         names.add(0, "Any hero");
-        keys = new ArrayList<String>(content.keySet());
+        keys = new ArrayList<String>(spinnerContent.keySet());
         keys.add(0, "-1");
     }
 
