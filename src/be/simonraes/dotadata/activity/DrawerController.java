@@ -38,7 +38,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         mTitle = mDrawerTitle = getTitle();
 
-        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics", "divider LEAGUE GAMES", "Live league games"};
+        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics"};
 
 //        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics", "divider LEAGUE GAMES", "Live league games",
 //                "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
@@ -97,9 +97,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             case 2:
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsFragment(), "StatsFragment").addToBackStack(null).commit();
                 break;
-            case 3:
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new LiveLeagueGamesFragment(), "LiveLeagueGamesFragment").addToBackStack(null).commit();
-                break;
+//            case 3:
+//                getFragmentManager().beginTransaction().replace(R.id.content_frame, new LiveLeagueGamesFragment(), "LiveLeagueGamesFragment").addToBackStack(null).commit();
+//                break;
             default:
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
                 break;

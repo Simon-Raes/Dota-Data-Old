@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -39,12 +40,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private Spinner spinnerHeroes;
     private Spinner spinnerGameModes;
 
-//    private int lastHeroIndex, lastGameModeIndex;
-
     private View view;
     private LinearLayout layStatsGameModes, layStatsHeroes, layStatsRecords, layStatsNumbers, layStatsNoGames;
-
-//    private boolean isSpinnerSwitch = true;
 
     private boolean comesFromInstanceStateHeroes, comesFromInstanceStateGameModes;
 
@@ -59,7 +56,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
 
     //todo: saveInstanceState so state is saved when going BACK to this screen (from match details)
-    //http://stackoverflow.com/questions/6787071/android-fragment-how-to-save-states-of-views-in-a-fragment-when-another-fragmen
+    //http://stackoverflow.com/questions/15313598/once-for-all-how-to-correctly-save-instance-state-of-fragments-in-back-stack
+
 
     private TextView
             txtStatsGamesPlayed,
@@ -128,6 +126,30 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 //
 //    private int countUpdate;
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            System.out.println("come from state");
+            comesFromInstanceStateHeroes = true;
+            comesFromInstanceStateGameModes = true;
+            gameModeSelection = savedInstanceState.getInt("gameModeSelection");
+            heroSelection = savedInstanceState.getInt("heroSelection");
+            matches = savedInstanceState.getParcelableArrayList("matches");
+            mapHeroIDName = (HashMap<String, String>) savedInstanceState.getSerializable("mapHeroes");
+            mapGameModeIDName = (HashMap<String, String>) savedInstanceState.getSerializable("mapGameModes");
+//            countUpdate = 2;
+        } else {
+            System.out.println("come not from state");
+            comesFromInstanceStateHeroes = false;
+            comesFromInstanceStateGameModes = false;
+            gameModeSelection = -1;
+            heroSelection = -1;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("oncreateview");
@@ -189,21 +211,14 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         gameModeID = "-1";
         heroID = "-1";
 
-        if (savedInstanceState != null) {
-            comesFromInstanceStateHeroes = true;
-            comesFromInstanceStateGameModes = true;
-            gameModeSelection = savedInstanceState.getInt("gameModeSelection");
-            heroSelection = savedInstanceState.getInt("heroSelection");
-            matches = savedInstanceState.getParcelableArrayList("matches");
-//            countUpdate = 2;
-        } else {
-            comesFromInstanceStateHeroes = false;
-            comesFromInstanceStateGameModes = false;
-            gameModeSelection = -1;
-            heroSelection = -1;
-        }
 
         return view;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -211,11 +226,14 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         System.out.println("onSaveInstanceState");
 
         super.onSaveInstanceState(outState);
-        outState.putInt("gameModeSelection", spinnerGameModes.getSelectedItemPosition());
-        outState.putInt("heroSelection", spinnerHeroes.getSelectedItemPosition());
+        outState.putInt("gameModeSelection", gameModeSelection);
+        System.out.println("put gamemodeselection " + gameModeSelection);
+        outState.putInt("heroSelection", heroSelection);
         outState.putBoolean("comesFromInstanceStateHeroes", comesFromInstanceStateHeroes);
         outState.putBoolean("comesFromInstanceStateGameModes", comesFromInstanceStateGameModes);
         outState.putParcelableArrayList("matches", matches);
+        outState.putSerializable("mapHeroes", mapHeroIDName);
+        outState.putSerializable("mapGameModes", mapGameModeIDName);
     }
 
     @Override
@@ -259,7 +277,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             spinnerGameModes = (Spinner) spinGameModes.getActionView();
             if (spinnerGameModes != null) {
 
-                spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), GameModes.getGameModes()));
+                spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), mapGameModeIDName));
                 spinnerGameModes.setOnItemSelectedListener(this);
 
                 //if there was a savedState, set spinner selection
@@ -279,6 +297,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.spinHeroes:
                 HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
                 heroID = adapter.getIDForPosition(position);
+                heroSelection = spinnerHeroes.getSelectedItemPosition();
 
                 //don't reload matches for a reorientation
                 if (!comesFromInstanceStateHeroes) {
@@ -292,6 +311,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.spinGameModes:
                 GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
                 gameModeID = gAdapter.getIDForPosition(position);
+                gameModeSelection = spinnerGameModes.getSelectedItemPosition();
 
                 //don't reload matches for a reorientation
                 if (!comesFromInstanceStateGameModes) {
@@ -308,16 +328,16 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
     private void getPlayedHeroes() {
         System.out.println("getPlayedHeroes");
-        //System.out.println("matches size: "+matches.size());
 
         MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-
         mapHeroIDName = new HashMap<String, String>();
+        mapGameModeIDName = new HashMap<String, String>();
         for (DetailMatchLite rec : mds.getAllStatRecords()) {
-            System.out.println("for");
             mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
+            mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
         }
-        System.out.println(mapHeroIDName.size());
+        System.out.println("made new heroes map: " + mapHeroIDName.size());
+
 
 
     }
@@ -426,31 +446,49 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         switch (v.getId()) {
             case R.id.txtStatsLongestGame:
-                match = mds.getMatchByID(longestGameID);
+                if (Integer.parseInt(longestGameID) > 0) {
+                    match = mds.getMatchByID(longestGameID);
+                }
                 break;
             case R.id.txtStatsMostKills:
-                match = mds.getMatchByID(mostKillsID);
+                if (Integer.parseInt(mostKillsID) > 0) {
+                    match = mds.getMatchByID(mostKillsID);
+                }
                 break;
             case R.id.txtStatsMostDeaths:
-                match = mds.getMatchByID(mostDeathsID);
+                if (Integer.parseInt(mostDeathsID) > 0) {
+                    match = mds.getMatchByID(mostDeathsID);
+                }
                 break;
             case R.id.txtStatsMostAssists:
-                match = mds.getMatchByID(mostAssistsID);
+                if (Integer.parseInt(mostAssistsID) > 0) {
+                    match = mds.getMatchByID(mostAssistsID);
+                }
                 break;
             case R.id.txtStatsMostLastHits:
-                match = mds.getMatchByID(mostLastHitsID);
+                if (Integer.parseInt(mostLastHitsID) > 0) {
+                    match = mds.getMatchByID(mostLastHitsID);
+                }
                 break;
             case R.id.txtStatsMostDenies:
-                match = mds.getMatchByID(mostDeniesID);
+                if (Integer.parseInt(mostDeniesID) > 0) {
+                    match = mds.getMatchByID(mostDeniesID);
+                }
                 break;
             case R.id.txtStatsMostGold:
-                match = mds.getMatchByID(mostGoldID);
+                if (Integer.parseInt(mostGoldID) > 0) {
+                    match = mds.getMatchByID(mostGoldID);
+                }
                 break;
             case R.id.txtStatsMostGPM:
-                match = mds.getMatchByID(mostGPMID);
+                if (Integer.parseInt(mostGPMID) > 0) {
+                    match = mds.getMatchByID(mostGPMID);
+                }
                 break;
             case R.id.txtStatsMostXPM:
-                match = mds.getMatchByID(mostXPMID);
+                if (Integer.parseInt(mostXPMID) > 0) {
+                    match = mds.getMatchByID(mostXPMID);
+                }
                 break;
             case R.id.btnStatsHelp:
                 showInfoDialog();
@@ -502,21 +540,34 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         averageGPM = 0;
         averageXPM = 0;
 
-        //reset records
-        longestGame = 0L;
-        mostKills = 0;
-        mostDeaths = 0;
-        mostAssists = 0;
-        mostLastHits = 0;
-        mostDenies = 0;
-        mostGold = 0;
-        mostGPM = 0;
-        mostXPM = 0;
+        //todo: most hero damage, tower damage, hero healing
 
+        //reset records
+        longestGame = -1L;
+        mostKills = -1;
+        mostDeaths = -1;
+        mostAssists = -1;
+        mostLastHits = -1;
+        mostDenies = -1;
+        mostGold = -1;
+        mostGPM = -1;
+        mostXPM = -1;
+        longestGameID = "-1";
+        mostKillsID = "-1";
+        mostDeathsID = "-1";
+        mostAssistsID = "-1";
+        mostLastHitsID = "-1";
+        mostDeniesID = "-1";
+        mostGoldID = "-1";
+        mostGPMID = "-1";
+        mostXPMID = "-1";
+
+        //calculated number of games played per gamemode
         gameModesMap = new HashMap<String, Integer>();
         for (String a : GameModes.getGameModes().values()) {
             gameModesMap.put(a, 0);
         }
+        //calculate number of games player per hero
         heroesMap = new HashMap<String, Integer>();
         for (String a : HeroList.getHeroes().values()) {
             heroesMap.put(a, 0);
@@ -600,21 +651,20 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         averageXPM = totalXPM / gamesPlayed;
 
         //numbers
-        txtStatsGamesPlayed.setText("Games played: " + (int) gamesPlayed);
-        txtStatsWinrate.setText("Wins: " + (int) gamesWon + " / Losses: " + (int) gamesLost + " (" + Conversions.roundDouble(winrate, 2) + "%)");
+        txtStatsGamesPlayed.setText(Html.fromHtml("Games played<br>" + (int) gamesPlayed));
+        txtStatsWinrate.setText(Html.fromHtml("Wins / Losses / Winrate<br>" + (int) gamesWon + " / " + (int) gamesLost + " / " + Conversions.roundDouble(winrate, 2) + "%"));
 //        txtStatsGamesWon.setText("Games won: " + (int) gamesWon);
 //        txtStatsGamesLost.setText("Games lost: " + (int) gamesLost);
-        txtStatsTotalDuration.setText("Total time played: " + Conversions.secondsToTime(Integer.toString((int) totalDuration)));
-
-        txtStatsAverageDuration.setText("Average game length: " + Conversions.secondsToTime(Integer.toString((int) averageDuration)));
-        txtStatsTotalKills.setText("Total kills: " + (int) totalKills);
-        txtStatsTotalDeaths.setText("Total deaths: " + (int) totalDeaths);
-        txtStatsTotalAssists.setText("Total assists: " + (int) totalAssists);
-        txtStatsAverageKills.setText("Average kills: " + Conversions.roundDouble(averageKills, 1));
-        txtStatsAverageDeaths.setText("Average deaths: " + Conversions.roundDouble(averageDeaths, 1));
-        txtStatsAverageAssists.setText("Average assists: " + Conversions.roundDouble(averageAssists, 1));
-        txtStatsAverageGPM.setText("Average GPM: " + (int) averageGPM);
-        txtStatsAverageXPM.setText("Average XPM: " + (int) averageXPM);
+        txtStatsTotalDuration.setText(Html.fromHtml("Total time played<br>" + Conversions.secondsToTime(Integer.toString((int) totalDuration))));
+        txtStatsAverageDuration.setText(Html.fromHtml("Average game length<br>" + Conversions.secondsToTime(Integer.toString((int) averageDuration))));
+        txtStatsTotalKills.setText(Html.fromHtml("Total kills<br>" + (int) totalKills));
+        txtStatsTotalDeaths.setText(Html.fromHtml("Total deaths<br>" + (int) totalDeaths));
+        txtStatsTotalAssists.setText(Html.fromHtml("Total assists<br>" + (int) totalAssists));
+        txtStatsAverageKills.setText(Html.fromHtml("Average kills<br>" + Conversions.roundDouble(averageKills, 1)));
+        txtStatsAverageDeaths.setText(Html.fromHtml("Average deaths<br>" + Conversions.roundDouble(averageDeaths, 1)));
+        txtStatsAverageAssists.setText(Html.fromHtml("Average assists<br>" + Conversions.roundDouble(averageAssists, 1)));
+        txtStatsAverageGPM.setText(Html.fromHtml("Average GPM<br>" + (int) averageGPM));
+        txtStatsAverageXPM.setText(Html.fromHtml("Average XPM<br>" + (int) averageXPM));
 
         //records
         btnStatsLongestGame.setText("Longest game: " + Conversions.secondsToTime(longestGame.toString()));
@@ -643,7 +693,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         for (Map.Entry<String, Integer> entry : gameModesMap.entrySet()) {
             if (entry.getValue() > 0) {
                 //seed the random so a gamemode will always have the same color
-                rnd = new Random(entry.getKey().hashCode() + 1); // +1 for better colors
+                rnd = new Random(entry.getKey().hashCode() + 43438); // +1 for better colors, tested 2-10 (not good)
                 int sliceColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
                 //add slice
@@ -715,7 +765,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     //called when clicking a gamemode piechart slice
     PieGraph.OnSliceClickedListener pieHandler = new PieGraph.OnSliceClickedListener() {
         public void onClick(int index) {
-            Toast.makeText(getActivity(), pieGraph.getSlice(index).getTitle() + ": " + (int) pieGraph.getSlice(index).getValue() + " game(s).", Toast.LENGTH_SHORT).show();
+            String game = " game.";
+            if ((int) pieGraph.getSlice(index).getValue() != 1) {
+                game = " games.";
+            }
+            Toast.makeText(getActivity(), pieGraph.getSlice(index).getTitle() + ": " + (int) pieGraph.getSlice(index).getValue() + game, Toast.LENGTH_SHORT).show();
         }
     };
 

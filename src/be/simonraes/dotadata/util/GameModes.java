@@ -72,7 +72,7 @@ public class GameModes {
         gameModes.put("11", "Mid only");
         gameModes.put("12", "Least Played");
         gameModes.put("13", "Limited Hero Pool");
-        gameModes.put("14", "FH");
+        gameModes.put("14", "Compendium");
         gameModes.put("15", "Custom Gamemode");
         gameModes.put("16", "Captain's Draft");
         gameModes.put("17", "Balanced Draft");

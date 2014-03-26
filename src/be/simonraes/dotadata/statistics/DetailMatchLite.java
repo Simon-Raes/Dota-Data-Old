@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Stores all values needed for the stats display
+ * Combination of matchdetails and playerinfo, contains the info for stats
  * Created by Simon on 23/03/14.
  */
 public class DetailMatchLite implements Parcelable {
