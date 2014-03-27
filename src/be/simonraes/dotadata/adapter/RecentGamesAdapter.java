@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,29 +9,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.statistics.DetailMatchLite;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+
 
 /**
  * Created by Simon on 18/02/14.
  */
-public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
+public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
 
     private Context context;
-    private ArrayList<DetailMatch> matches;
+    private ArrayList<DetailMatchLite> matches;
     private String prefAccountID;
 
-    public RecentGamesAdapter(Context context, ArrayList<DetailMatch> objects) {
+    public RecentGamesAdapter(Context context, ArrayList<DetailMatchLite> objects) {
         super(context, R.layout.matches_list_row, objects);
         this.context = context;
         this.matches = objects;
@@ -42,7 +35,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        DetailMatch match = matches.get(position);
+        DetailMatchLite match = matches.get(position);
         View view = convertView;
         final ViewHolder viewholder;
 
@@ -69,17 +62,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatch> {
 
         viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
 
-
-        //find the user's hero, set as image
-        String playerHeroID = "1";
-        for (DetailPlayer player : match.getPlayers()) {
-            if (player.getAccount_id() != null) {
-                if (player.getAccount_id().equals(prefAccountID)) {
-                    playerHeroID = player.getHero_id();//
-                }
-            }
-        }
-        viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(playerHeroID), "drawable", context.getPackageName()));
+        viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(match.getHero_id()), "drawable", context.getPackageName()));
 
         if (match.isFavourite()) {
 

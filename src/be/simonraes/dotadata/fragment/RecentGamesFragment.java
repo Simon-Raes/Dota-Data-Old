@@ -9,11 +9,13 @@ import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
+import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
+import be.simonraes.dotadata.statistics.DetailMatchLite;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
 import be.simonraes.dotadata.util.Preferencess;
@@ -27,7 +29,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
     private ListView lvRecentGames;
     private RecentGamesAdapter listAdapter;
-    private ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
+    private ArrayList<DetailMatchLite> matches = new ArrayList<DetailMatchLite>();
     private ProgressBar pbRecentGames;
     private View footerView;
 
@@ -69,12 +71,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             if (savedInstanceState == null) {
                 if (matches.size() == 0) {
                     //this is the first time opening this screen, get a fresh set of matches from the database
-//                    //todo: is this still used?
-//                    if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("be.simonraes.dotadata.downloadinprogress", false)) {
-//                        Toast.makeText(getActivity(), "Download still in progress.", Toast.LENGTH_SHORT).show();
-//                    } else {
                     loadMatchesFromDatabase();
-//                    }
                 }
             } else {
                 //list state has been saved before, load that state
@@ -108,9 +105,10 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        DetailMatch match = (DetailMatch) lvRecentGames.getAdapter().getItem(position);
+        DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
-        //todo: get full match from db here (using match_id got from row)
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
 
         Fragment fragment = new MatchDetailFragment();
 
@@ -201,7 +199,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
     //received matches from database
     @Override
-    public void processFinish(ArrayList<DetailMatch> detailMatches) {
+    public void processFinish(ArrayList<DetailMatchLite> detailMatches) {
 
         if (detailMatches.size() == 0) {
             if (matches.size() == 0) {

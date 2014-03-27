@@ -234,6 +234,106 @@ public class MatchesDataSource {
         return matches;
     }
 
+    public ArrayList<DetailMatchLite> get50LiteMatchesStartingFromID(String matchID) {
+        ArrayList<DetailMatchLite> matches = new ArrayList<DetailMatchLite>();
+        open();
+        Cursor cursor;
+        if (matchID != null && !matchID.equals("")) {
+            cursor = database.rawQuery("SELECT " +
+                    "radiant_win," +
+                    "duration," +
+                    "start_time, " +
+                    "matches.match_id," +
+                    "lobby_type," +
+                    "game_mode," +
+                    "user_win," +
+                    "favourite," +
+                    "note," +
+                    "account_id," +
+                    "hero_id," +
+                    "item_0," +
+                    "item_1," +
+                    "item_2," +
+                    "item_3," +
+                    "item_4," +
+                    "item_5," +
+                    "kills," +
+                    "deaths," +
+                    "assists," +
+                    "leaver_status," +
+                    "gold," +
+                    "last_hits," +
+                    "denies," +
+                    "gold_per_min," +
+                    "xp_per_min," +
+                    "gold_spent," +
+                    "hero_damage," +
+                    "tower_damage," +
+                    "hero_healing," +
+                    "level " +
+                    "FROM players_in_matches " +
+                    "JOIN matches " +
+                    "ON matches.match_id = players_in_matches.match_id " +
+                    "WHERE account_id = ? " +
+                    "AND players_in_matches.match_id < ? " +
+                    "AND user = ? " +
+                    "ORDER BY players_in_matches.match_id DESC " +
+                    "LIMIT 50;", new String[]{user_accountID, matchID, user_accountID});
+        } else {
+            cursor = database.rawQuery("SELECT " +
+                    "radiant_win," +
+                    "duration," +
+                    "start_time, " +
+                    "matches.match_id," +
+                    "lobby_type," +
+                    "game_mode," +
+                    "user_win," +
+                    "favourite," +
+                    "note," +
+                    "account_id," +
+                    "hero_id," +
+                    "item_0," +
+                    "item_1," +
+                    "item_2," +
+                    "item_3," +
+                    "item_4," +
+                    "item_5," +
+                    "kills," +
+                    "deaths," +
+                    "assists," +
+                    "leaver_status," +
+                    "gold," +
+                    "last_hits," +
+                    "denies," +
+                    "gold_per_min," +
+                    "xp_per_min," +
+                    "gold_spent," +
+                    "hero_damage," +
+                    "tower_damage," +
+                    "hero_healing," +
+                    "level " +
+                    "FROM players_in_matches " +
+                    "JOIN matches " +
+                    "ON matches.match_id = players_in_matches.match_id " +
+                    "WHERE account_id = ? " +
+                    "AND user = ? " +
+                    "ORDER BY players_in_matches.match_id DESC " +
+                    "LIMIT 50;", new String[]{user_accountID, user_accountID});
+        }
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            DetailMatchLite matchLite = cursorToDetailMatchLite(cursor);
+            matches.add(matchLite);
+            cursor.moveToNext();
+        }
+
+        // Make sure to close the cursor
+        cursor.close();
+        close();
+        return matches;
+    }
+
 
     public DetailMatch getMatchByID(String matchID) {
         DetailMatch dmb = new DetailMatch();
@@ -290,7 +390,7 @@ public class MatchesDataSource {
         return dmb;
     }
 
-
+    /*Only gets matches used in statistics!*/
     public ArrayList<DetailMatchLite> getAllStatRecords() {
         open();
         ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
@@ -339,7 +439,7 @@ public class MatchesDataSource {
                 "AND user = ?;", new String[]{user_accountID, user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            records.add(cursorToStatsRecord(cursor));
+            records.add(cursorToDetailMatchLite(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -391,7 +491,7 @@ public class MatchesDataSource {
                 "AND hero_id = ?;", new String[]{user_accountID, user_accountID, heroID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            records.add(cursorToStatsRecord(cursor));
+            records.add(cursorToDetailMatchLite(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -443,7 +543,7 @@ public class MatchesDataSource {
                 "AND game_mode = ?;", new String[]{user_accountID, user_accountID, gameModeID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            records.add(cursorToStatsRecord(cursor));
+            records.add(cursorToDetailMatchLite(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -496,7 +596,7 @@ public class MatchesDataSource {
                 "AND game_mode = ?;", new String[]{user_accountID, user_accountID, heroID, gameModeID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            records.add(cursorToStatsRecord(cursor));
+            records.add(cursorToDetailMatchLite(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -579,7 +679,7 @@ public class MatchesDataSource {
         return player;
     }
 
-    private DetailMatchLite cursorToStatsRecord(Cursor cursor) {
+    private DetailMatchLite cursorToDetailMatchLite(Cursor cursor) {
         DetailMatchLite record = new DetailMatchLite();
 
         //START TIME OOK NODIG VOOR HISTORY GRAPH DINGEN
