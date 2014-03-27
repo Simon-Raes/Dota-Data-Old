@@ -58,6 +58,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private HashMap<String, Integer> heroesMap; //contains played heroes, count
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
 
+    private boolean wentToDetails;
+
 
     private TextView
             txtStatsGamesPlayed,
@@ -131,6 +133,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         if (savedInstanceState != null) {
             System.out.println("come from state");
+            // wentToDetails = false;
             comesFromInstanceStateHeroes = true;
             comesFromInstanceStateGameModes = true;
             gameModeSelection = savedInstanceState.getInt("gameModeSelection");
@@ -251,6 +254,29 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         if (btnNote != null) {
             btnNote.setVisible(false);
         }
+        MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
+        if (spinGameModes != null) {
+            spinGameModes.setVisible(true);
+            spinnerGameModes = (Spinner) spinGameModes.getActionView();
+            if (spinnerGameModes != null) {
+
+                //only show the played heroes in the dropdownlist
+                if (mapHeroIDName == null) {
+                    getPlayedHeroesAndGameModes();
+                } else if (mapHeroIDName.size() < 1) {
+                    getPlayedHeroesAndGameModes();
+                }
+
+                spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), (HashMap<String, String>) mapGameModeIDName.clone()));
+                //spinnerGameModes.setSelection(0,false); itemselected won't fire on first load with this
+                spinnerGameModes.setOnItemSelectedListener(this);
+
+                //if there was a savedState, set spinner selection
+                if (gameModeSelection >= 0) {
+                    spinnerGameModes.setSelection(gameModeSelection);
+                }
+            }
+        }
         MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
         if (spinHeroes != null) {
             spinHeroes.setVisible(true);
@@ -259,12 +285,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
                 //only show the played heroes in the dropdownlist
                 if (mapHeroIDName == null) {
-                    System.out.println("1");
                     getPlayedHeroesAndGameModes();
                 } else if (mapHeroIDName.size() < 1) {
-                    System.out.println("2");
                     getPlayedHeroesAndGameModes();
                 }
+
                 spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), (HashMap<String, String>) mapHeroIDName.clone()));
                 spinnerHeroes.setOnItemSelectedListener(this);
 
@@ -274,21 +299,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 }
             }
         }
-        MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
-        if (spinGameModes != null) {
-            spinGameModes.setVisible(true);
-            spinnerGameModes = (Spinner) spinGameModes.getActionView();
-            if (spinnerGameModes != null) {
 
-                spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), (HashMap<String, String>) mapGameModeIDName.clone()));
-                spinnerGameModes.setOnItemSelectedListener(this);
-
-                //if there was a savedState, set spinner selection
-                if (gameModeSelection >= 0) {
-                    spinnerGameModes.setSelection(gameModeSelection);
-                }
-            }
-        }
     }
 
 
@@ -297,26 +308,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         System.out.println("onItemSelected");
 
         switch (parent.getId()) {
-            case R.id.spinHeroes:
-                HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
-                heroID = adapter.getIDForPosition(position);
-                heroSelection = spinnerHeroes.getSelectedItemPosition();
-
-                //don't reload matches for a reorientation
-                if (!comesFromInstanceStateHeroes) {
-                    updateMatches();
-                }
-
-
-                comesFromInstanceStateHeroes = false;
-                //display the new data
-                if (numbersCount > 0) {
-                    updateVisuals();
-                }
-                numbersCount++;
-
-
-                break;
             case R.id.spinGameModes:
                 GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
                 gameModeID = gAdapter.getIDForPosition(position);
@@ -324,7 +315,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
                 //don't reload matches for a reorientation
                 if (!comesFromInstanceStateGameModes) {
-                    updateMatches();
+                    if (!wentToDetails) {
+                        updateMatches();
+                    }
                 }
 
 
@@ -335,6 +328,30 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 numbersCount++;
 
                 break;
+            case R.id.spinHeroes:
+                HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
+                heroID = adapter.getIDForPosition(position);
+                heroSelection = spinnerHeroes.getSelectedItemPosition();
+
+                //don't reload matches for a reorientation
+                if (!comesFromInstanceStateHeroes) {
+                    if (!wentToDetails) {
+                        updateMatches();
+                    }
+                }
+                System.out.println("setting wenttodetails to false");
+                wentToDetails = false;
+
+                comesFromInstanceStateHeroes = false;
+                //display the new data
+                if (numbersCount > 0) {
+                    updateVisuals();
+                }
+                numbersCount++;
+
+
+                break;
+
             default:
                 break;
         }
@@ -396,6 +413,10 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     /*Sets textfields, charts, graphs,... with the stored data*/
     private void updateVisuals() {
         System.out.println("updateVisuals");
+
+        layStatsHeroes.setVisibility(View.GONE);
+        layStatsGameModes.setVisibility(View.GONE);
+
 
         //neither selected, get statsrecords for all games
         if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
@@ -462,46 +483,55 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.txtStatsLongestGame:
                 if (Integer.parseInt(longestGameID) > 0) {
                     match = mds.getMatchByID(longestGameID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostKills:
                 if (Integer.parseInt(mostKillsID) > 0) {
                     match = mds.getMatchByID(mostKillsID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostDeaths:
                 if (Integer.parseInt(mostDeathsID) > 0) {
                     match = mds.getMatchByID(mostDeathsID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostAssists:
                 if (Integer.parseInt(mostAssistsID) > 0) {
                     match = mds.getMatchByID(mostAssistsID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostLastHits:
                 if (Integer.parseInt(mostLastHitsID) > 0) {
                     match = mds.getMatchByID(mostLastHitsID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostDenies:
                 if (Integer.parseInt(mostDeniesID) > 0) {
                     match = mds.getMatchByID(mostDeniesID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostHeroDamage:
                 if (Integer.parseInt(mostHeroDamageID) > 0) {
                     match = mds.getMatchByID(mostHeroDamageID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostGPM:
                 if (Integer.parseInt(mostGPMID) > 0) {
                     match = mds.getMatchByID(mostGPMID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostXPM:
                 if (Integer.parseInt(mostXPMID) > 0) {
                     match = mds.getMatchByID(mostXPMID);
+                    wentToDetails = true;
                 }
                 break;
             case R.id.btnStatsHelp:
@@ -512,7 +542,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
 
         if (match != null) {
-
             Fragment fragment = new MatchDetailFragment();
 
             FragmentManager fm = getFragmentManager();
@@ -555,7 +584,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         averageGPM = 0;
         averageXPM = 0;
 
-        //todo: most hero damage, tower damage, hero healing
+        //todo: most tower damage, hero healing
 
         //reset records
         longestGame = -1L;

@@ -210,27 +210,28 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_1()) + "_lg", "drawable", getActivity().getPackageName()));
+            imgItem.setContentDescription(ItemList.getItem((player.getItem_1())));
 
             //setItemImage(imgItem, player.getItem_1());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_2()) + "_lg", "drawable", getActivity().getPackageName()));
-
+            imgItem.setContentDescription(ItemList.getItem((player.getItem_2())));
             //setItemImage(imgItem, player.getItem_2());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_3()) + "_lg", "drawable", getActivity().getPackageName()));
-
+            imgItem.setContentDescription(ItemList.getItem((player.getItem_3())));
             //setItemImage(imgItem, player.getItem_3());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_4()) + "_lg", "drawable", getActivity().getPackageName()));
-
+            imgItem.setContentDescription(ItemList.getItem((player.getItem_4())));
             //setItemImage(imgItem, player.getItem_4());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_5()) + "_lg", "drawable", getActivity().getPackageName()));
-
+            imgItem.setContentDescription(ItemList.getItem((player.getItem_5())));
             //setItemImage(imgItem, player.getItem_5());
 
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
