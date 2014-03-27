@@ -391,7 +391,7 @@ public class MatchesDataSource {
     }
 
     /*Only gets matches used in statistics!*/
-    public ArrayList<DetailMatchLite> getAllStatRecords() {
+    public ArrayList<DetailMatchLite> getAllDetailMatchesLite() {
         open();
         ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +

@@ -43,14 +43,16 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: be.simonraes.dotadata" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Statistics state.&#10;&#10;Update matches will no longer execute when coming back from details screen. Fixed barchart showing when not needed when going back.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDatabase.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDatabase.java" />
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Recent games performance improvement.&#10;&#10;Recent games list now uses DetailMatchLite objects for faster loading.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseStatsLoader.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DatabaseStatsLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DatabaseStatsLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Dota Data.iml" afterPath="$PROJECT_DIR$/Dota Data.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/stats_layout.xml" afterPath="$PROJECT_DIR$/res/layout/stats_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -120,35 +122,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RecentGamesFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.16831683" vertical-offset="1071" max-vertical-offset="3655">
-              <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-              <folding>
-                <element signature="e#1328#1345#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="561">
+              <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatabaseMatchLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java">
+      <file leaf-file-name="DrawerController.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-              <folding>
-                <element signature="e#1263#1280#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RecentGamesAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.4973404" vertical-offset="0" max-vertical-offset="3400">
+              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -177,24 +165,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" />
-        <option value="$PROJECT_DIR$/res/layout-large/matchdetails_layout.xml" />
-        <option value="$PROJECT_DIR$/res/layout-small/matchdetails_layout.xml" />
-        <option value="$PROJECT_DIR$/res/layout-small/matches_list_row.xml" />
-        <option value="$PROJECT_DIR$/res/layout/add_user_layout.xml" />
-        <option value="$PROJECT_DIR$/res/layout/about_layout.xml" />
-        <option value="$PROJECT_DIR$/res/layout/manage_users_row.xml" />
-        <option value="$PROJECT_DIR$/res/layout-small/matches_list_layout.xml" />
-        <option value="$PROJECT_DIR$/res/layout-small/manage_users_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/HistoryMatchParser.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/proguard-project.txt" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/HeroStats.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/ManageUsersFragment.java" />
-        <option value="$PROJECT_DIR$/res/menu/actionbar_menu.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HeroesAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/SpinnerAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/SpinnerDotaAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/StatsRecord.java" />
@@ -215,19 +185,37 @@
         <option value="$PROJECT_DIR$/res/drawable-hdpi/draw_button_record.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/GameModes.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DetailMatchLite.java" />
-        <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HeroSpinnerAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/GameModeSpinnerAdapter.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/DatabaseStatsLoader.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDatabase.java" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseStatsLoader.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/StatsPagerAdapter.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/PagerTest.java" />
+        <option value="$PROJECT_DIR$/res/layout/indicator.xml" />
+        <option value="$PROJECT_DIR$/res/layout/layout_one.xml" />
+        <option value="$PROJECT_DIR$/res/layout/layout_two.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LayoutOne.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/LayoutTwo.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/ViewPagerAdapter.java" />
+        <option value="$PROJECT_DIR$/res/layout/pager_test_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/PagerTestFragment.java" />
+        <option value="$PROJECT_DIR$/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/res/layout/editor.xml" />
+        <option value="$PROJECT_DIR$/res/layout/pager.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/pagertest/SampleAdapter.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/pagertest/EditorFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/pagertest/PagerFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
       </list>
     </option>
   </component>
@@ -490,6 +478,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="historyloading" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="fragment" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -512,7 +522,51 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="delegates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dotadata" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="async" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -574,6 +628,88 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Dota-Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -595,11 +731,11 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="LayoutCode.rearrangeEntriesXML" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../graphs/HoloGraphLibrary" />
+    <property name="last_opened_file_path" value="C:/Program Files/Android SDK/sdk/extras/android/support/v13/android-support-v13.jar!/" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="315" />
     <property name="ExportedModule" value="Dota Data" />
     <property name="ExportedApkPath" value="C:\Users\Simon\Desktop\Dota Data\Dota Data.apk" />
@@ -614,11 +750,11 @@
       <recent name="adapter" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Simon Raes\IdeaProjects\Dota-Data\libs" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\src\be\simonraes\dotadata\holograph" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\libs" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\res\layout-small" />
-      <recent name="C:\Users\Simon\Desktop\Dota Data\res\layout-large" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="be.simonraes.dotadata.interfaces" />
@@ -627,6 +763,10 @@
       <recent name="interfaces" />
       <recent name="fragment" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="be.simonraes.dotadata" />
+      <recent name="" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Simon\Desktop\Dota Data\res\drawable-hdpi" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\.idea\libraries" />
@@ -634,18 +774,8 @@
       <recent name="C:\Users\Simon\Desktop\Dota Data\res\layout" />
       <recent name="C:\Users\Simon\Desktop\Dota Data\res\drawable-ldpi" />
     </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="be.simonraes.dotadata" />
-      <recent name="" />
-    </key>
   </component>
   <component name="RunManager" selected="Android Application.Dota Data">
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <method />
-    </configuration>
     <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
       <module name="" />
       <setting name="path" value="" />
@@ -653,6 +783,12 @@
       <setting name="params" value="" />
       <setting name="workDir" value="file://$PROJECT_DIR$" />
       <setting name="debug" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -699,6 +835,19 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -724,19 +873,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1066,7 +1202,11 @@
       <created>1395915940851</created>
       <updated>1395915940851</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Recent games performance improvement.&#10;&#10;Recent games list now uses DetailMatchLite objects for faster loading.">
+      <created>1395937196846</created>
+      <updated>1395937196846</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1105,20 +1245,20 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22941822" sideWeight="0.519536" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20721272" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27628636" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27628636" sideWeight="0.56845236" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12751678" sideWeight="0.56845236" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40939596" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20721272" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55369127" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6454139" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2869353" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2818792" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28540066" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1140,7 +1280,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Recent games fragment no longer opens on every orientation. Replaced serializable with parcelable in all detailmatch classes." />
     <MESSAGE value="Fixed recent games fragment losing listcontent after 2 orientations on the matchdetails screen. Made list footer non clickable." />
     <MESSAGE value="Made &quot;download complete&quot; notification clickable, also removes notification from status bar." />
     <MESSAGE value="Added note functionality. Made HistoryMatch classes implement parcelable instead of serializable." />
@@ -1165,7 +1304,8 @@
     <MESSAGE value="Statistics backstack state.&#10;&#10;Now preserves spinner positions and matches arraylist." />
     <MESSAGE value="Statistics state.&#10;&#10;More fixes to save statistics screen state. Changes to Numbers layout." />
     <MESSAGE value="Statistics state.&#10;&#10;Update matches will no longer execute when coming back from details screen. Fixed barchart showing when not needed when going back." />
-    <option name="LAST_COMMIT_MESSAGE" value="Statistics state.&#10;&#10;Update matches will no longer execute when coming back from details screen. Fixed barchart showing when not needed when going back." />
+    <MESSAGE value="Recent games performance improvement.&#10;&#10;Recent games list now uses DetailMatchLite objects for faster loading." />
+    <option name="LAST_COMMIT_MESSAGE" value="Recent games performance improvement.&#10;&#10;Recent games list now uses DetailMatchLite objects for faster loading." />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1176,112 +1316,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4018" max-vertical-offset="13056">
-          <caret line="300" column="0" selection-start-line="300" selection-start-column="0" selection-end-line="300" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4981" max-vertical-offset="11101">
-          <caret line="293" column="38" selection-start-line="293" selection-start-column="38" selection-end-line="293" selection-end-column="38" />
-          <folding>
-            <element signature="e#11501#11518#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2958" max-vertical-offset="4063">
-          <caret line="174" column="33" selection-start-line="174" selection-start-column="33" selection-end-line="174" selection-end-column="33" />
-          <folding>
-            <element signature="e#1328#1345#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="4488">
-          <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4528" max-vertical-offset="13056">
-          <caret line="292" column="0" selection-start-line="292" selection-start-column="0" selection-end-line="292" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4981" max-vertical-offset="11101">
-          <caret line="293" column="38" selection-start-line="293" selection-start-column="38" selection-end-line="293" selection-end-column="38" />
-          <folding>
-            <element signature="e#11501#11518#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2958" max-vertical-offset="4063">
-          <caret line="174" column="33" selection-start-line="174" selection-start-column="33" selection-end-line="174" selection-end-column="33" />
-          <folding>
-            <element signature="e#1328#1345#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="4488">
-          <caret line="26" column="66" selection-start-line="26" selection-start-column="66" selection-end-line="26" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/InternetChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26666668" vertical-offset="340" max-vertical-offset="1139">
-          <caret line="34" column="66" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33285713" vertical-offset="702" max-vertical-offset="5440">
-          <caret line="62" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/PieGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2924">
-          <caret line="44" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/BarGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2796" max-vertical-offset="4403">
-          <caret line="118" column="36" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/Bar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1377">
@@ -1290,14 +1324,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout-large/matchdetails_player_row.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8052373" vertical-offset="596" max-vertical-offset="1207">
           <caret line="64" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AboutFragment.java">
@@ -1308,14 +1342,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/add_user_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.0454545" vertical-offset="2023" max-vertical-offset="2771">
           <caret line="29" column="36" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java">
@@ -1326,14 +1360,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout-large/manage_users_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13403417" vertical-offset="0" max-vertical-offset="761">
           <caret line="6" column="75" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
@@ -1344,25 +1378,25 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/drawer_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.84" vertical-offset="0" max-vertical-offset="527">
           <caret line="13" column="34" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/hero_picker_row.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/hero_picker_row.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.72" vertical-offset="0" max-vertical-offset="272">
           <caret line="4" column="49" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/dotadata_sm.png">
@@ -1422,14 +1456,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout-large/matchdetails_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.64491653" vertical-offset="612" max-vertical-offset="3468">
           <caret line="61" column="12" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java">
@@ -1450,26 +1484,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="4505">
           <caret line="6" column="74" selection-start-line="6" selection-start-column="74" selection-end-line="6" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <caret line="22" column="53" selection-start-line="22" selection-start-column="53" selection-end-line="22" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.296296" vertical-offset="855" max-vertical-offset="5049">
-          <caret line="73" column="57" selection-start-line="73" selection-start-column="57" selection-end-line="73" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1487,14 +1501,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="3383">
-          <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/GameModes.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.08015769" vertical-offset="1401" max-vertical-offset="2839">
@@ -1503,19 +1509,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6206" max-vertical-offset="13617">
-          <caret line="417" column="49" selection-start-line="417" selection-start-column="49" selection-end-line="417" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.67017084" vertical-offset="0" max-vertical-offset="761">
           <caret line="42" column="16" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1531,7 +1528,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48416886" vertical-offset="194" max-vertical-offset="952">
           <caret line="34" column="62" selection-start-line="34" selection-start-column="62" selection-end-line="34" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1539,7 +1535,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.65912765" vertical-offset="0" max-vertical-offset="782">
           <caret line="24" column="2" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1551,41 +1546,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java">
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.14068966" vertical-offset="0" max-vertical-offset="3638">
+          <caret line="26" column="53" selection-start-line="26" selection-start-column="53" selection-end-line="26" selection-end-column="53" />
           <folding>
-            <element signature="e#1263#1280#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.090759" vertical-offset="682" max-vertical-offset="12546">
-          <caret line="90" column="11" selection-start-line="90" selection-start-column="11" selection-end-line="90" selection-end-column="11" />
-          <folding>
-            <element signature="e#11501#11518#0" expanded="true" />
+            <element signature="e#1382#1399#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
+        <state vertical-scroll-proportion="0.06910569" vertical-offset="0" max-vertical-offset="1717">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java">
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseStatsLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.16831683" vertical-offset="1071" max-vertical-offset="3655">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <caret line="10" column="65" selection-start-line="10" selection-start-column="65" selection-end-line="10" selection-end-column="65" />
           <folding>
-            <element signature="e#1328#1345#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponsePlayerSummary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16124661" vertical-offset="0" max-vertical-offset="738">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6185" max-vertical-offset="12546">
+          <caret line="393" column="61" selection-start-line="393" selection-start-column="61" selection-end-line="393" selection-end-column="61" />
+          <folding>
+            <element signature="e#11502#11519#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="36" column="9" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
+          <folding>
+            <element signature="e#1263#1280#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1326">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1096#1113#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="45.892857" vertical-offset="4447" max-vertical-offset="14569">
+          <caret line="186" column="37" selection-start-line="186" selection-start-column="37" selection-end-line="186" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.851851" vertical-offset="0" max-vertical-offset="5066">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
+          <caret line="26" column="12" selection-start-line="26" selection-start-column="12" selection-end-line="26" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4973404" vertical-offset="0" max-vertical-offset="3400">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1641,7 +1702,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Android|Dota Data</last-edited>
+          <last-edited>Dota Data</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

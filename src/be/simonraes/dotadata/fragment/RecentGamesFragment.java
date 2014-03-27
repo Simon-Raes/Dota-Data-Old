@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Simon on 18/02/14.
+ * Displays list of played games for the active user.
  */
 public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, ASyncResponseDatabase, ASyncResponseHistoryLoader {
 
@@ -65,7 +66,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                         }
                     }).show();
         } else {
-            //force onCreateOptionsMenu to be called
             setHasOptionsMenu(true);
 
             if (savedInstanceState == null) {
@@ -74,7 +74,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     loadMatchesFromDatabase();
                 }
             } else {
-                //list state has been saved before, load that state
+                //load previous list from savedState
                 matches = savedInstanceState.getParcelableArrayList("matches");
             }
 
@@ -100,36 +100,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         outState.putParcelableArrayList("matches", matches);
     }
 
-
-    //Detect click on match in list
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
-
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
-
-        Fragment fragment = new MatchDetailFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
-
-        //hacky way to set UP arrow in actionbar of matchdetails screen
-        if (((DrawerController) getActivity()) != null) {
-            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        }
-
-        //send object to fragment
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
-        fragment.setArguments(bundle);
-
-        transaction.addToBackStack(null).commit();
-    }
-
-    //create options menu
+    //Setup actionbar
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -145,7 +116,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         }
     }
 
-    //use options menu
+    //Actionbar button clicked
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -179,6 +150,34 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             //list already contains matches, get the next 50
             loader.execute(matches.get(matches.size() - 1).getMatch_id());
         }
+    }
+
+    //Detect click on match in list
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
+
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
+
+        Fragment fragment = new MatchDetailFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.content_frame, fragment);
+
+        //hacky way to set UP arrow in actionbar of matchdetails screen
+        if (((DrawerController) getActivity()) != null) {
+            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+        }
+
+        //send object to fragment
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
+        fragment.setArguments(bundle);
+
+        transaction.addToBackStack(null).commit();
     }
 
     @Override

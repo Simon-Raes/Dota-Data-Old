@@ -35,11 +35,6 @@ public class DatabaseMatchLoader extends AsyncTask<String, Integer, ArrayList<De
         } else {
             matchesLite = mds.get50LiteMatchesStartingFromID(params[0]);
         }
-
-        System.out.println("got lite matches ");
-        for (DetailMatchLite match : matchesLite) {
-            System.out.println(HeroList.getHeroName(match.getHero_id()));
-        }
         return matchesLite;
     }
 

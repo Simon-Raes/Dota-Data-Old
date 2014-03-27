@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -15,7 +16,9 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
 import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
+import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
+import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.holograph.Bar;
 import be.simonraes.dotadata.holograph.BarGraph;
@@ -32,7 +35,7 @@ import java.util.*;
  * Created by Simon on 14/02/14.
  * Creates the layout for stats and calculates stats
  */
-public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, ASyncResponseStatsLoader {
 
     private ScrollView scrollStats;
     private ProgressBar progressStats;
@@ -212,6 +215,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         gameModeID = "-1";
         heroID = "-1";
 
+
         return view;
     }
 
@@ -323,7 +327,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
                 comesFromInstanceStateGameModes = false;
                 if (numbersCount > 0) {
-                    updateVisuals();
+                    if (matches != null) {
+                        if (matches.size() > 0) {
+                            updateVisuals();
+                        }
+                    }
                 }
                 numbersCount++;
 
@@ -345,7 +353,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 comesFromInstanceStateHeroes = false;
                 //display the new data
                 if (numbersCount > 0) {
-                    updateVisuals();
+                    if (matches != null) {
+                        if (matches.size() > 0) {
+                            updateVisuals();
+                        }
+                    }
                 }
                 numbersCount++;
 
@@ -363,12 +375,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
         mapHeroIDName = new HashMap<String, String>();
         mapGameModeIDName = new HashMap<String, String>();
-        for (DetailMatchLite rec : mds.getAllStatRecords()) {
+        for (DetailMatchLite rec : mds.getAllDetailMatchesLite()) {
             mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
             mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
         }
         System.out.println("made new heroes map: " + mapHeroIDName.size());
-
 
 
     }
@@ -392,22 +403,31 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
 
-        //neither selected, get statsrecords for all games
-        if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
-            matches = mds.getAllStatRecords();
-        }
-        //only gamemode selected
-        else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
-            matches = mds.getAllStatRecordsForGameMode(gameModeID);
-        }
-        //only hero selected
-        else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
-            matches = mds.getAllStatRecordsForHero(heroID);
-        }
-        //both selected
-        else {
-            matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
-        }
+
+        //todo: test
+
+        StatsMatchesLoader sml = new StatsMatchesLoader(this, getActivity());
+//        if(sml.getStatus()!= AsyncTask.Status.RUNNING ){
+        sml.execute(gameModeID, heroID);
+//        }
+
+
+//        //neither selected, get statsrecords for all games
+//        if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
+//            matches = mds.getAllDetailMatchesLite();
+//        }
+//        //only gamemode selected
+//        else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
+//            matches = mds.getAllStatRecordsForGameMode(gameModeID);
+//        }
+//        //only hero selected
+//        else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
+//            matches = mds.getAllStatRecordsForHero(heroID);
+//        }
+//        //both selected
+//        else {
+//            matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
+//        }
     }
 
     /*Sets textfields, charts, graphs,... with the stored data*/
@@ -824,4 +844,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             Toast.makeText(getActivity(), points.get(index).getName(), Toast.LENGTH_SHORT).show();
         }
     };
+
+    //got matches from database
+    @Override
+    public void processFinish(ArrayList<DetailMatchLite> result) {
+        matches = result;
+        updateVisuals();
+    }
 }
