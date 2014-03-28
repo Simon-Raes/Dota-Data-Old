@@ -46,7 +46,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private View view;
     private LinearLayout layStatsGameModes, layStatsHeroes, layStatsRecords, layStatsNumbers, layStatsNoGames;
 
-    private boolean comesFromInstanceStateHeroes, comesFromInstanceStateGameModes;
+//    private boolean comesFromInstanceStateHeroes, comesFromInstanceStateGameModes;
 
     private int numbersCount = 0;
 
@@ -61,7 +61,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private HashMap<String, Integer> heroesMap; //contains played heroes, count
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
 
-    private boolean wentToDetails;
+//    private boolean wentToDetails;
 
 
     private TextView
@@ -137,8 +137,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         if (savedInstanceState != null) {
             System.out.println("come from state");
             // wentToDetails = false;
-            comesFromInstanceStateHeroes = true;
-            comesFromInstanceStateGameModes = true;
+//            comesFromInstanceStateHeroes = true;
+//            comesFromInstanceStateGameModes = true;
             gameModeSelection = savedInstanceState.getInt("gameModeSelection");
             heroSelection = savedInstanceState.getInt("heroSelection");
             matches = savedInstanceState.getParcelableArrayList("matches");
@@ -147,8 +147,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 //            countUpdate = 2;
         } else {
             System.out.println("come not from state");
-            comesFromInstanceStateHeroes = false;
-            comesFromInstanceStateGameModes = false;
+//            comesFromInstanceStateHeroes = false;
+//            comesFromInstanceStateGameModes = false;
             gameModeSelection = -1;
             heroSelection = -1;
         }
@@ -215,6 +215,14 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         gameModeID = "-1";
         heroID = "-1";
 
+        if (matches == null) {
+            updateMatches();
+        } else if (matches.size() < 1) {
+            updateMatches();
+        } else {
+            updateVisuals();
+        }
+
 
         return view;
     }
@@ -233,8 +241,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         outState.putInt("gameModeSelection", gameModeSelection);
         System.out.println("put gamemodeselection " + gameModeSelection);
         outState.putInt("heroSelection", heroSelection);
-        outState.putBoolean("comesFromInstanceStateHeroes", comesFromInstanceStateHeroes);
-        outState.putBoolean("comesFromInstanceStateGameModes", comesFromInstanceStateGameModes);
+//        outState.putBoolean("comesFromInstanceStateHeroes", comesFromInstanceStateHeroes);
+//        outState.putBoolean("comesFromInstanceStateGameModes", comesFromInstanceStateGameModes);
         outState.putParcelableArrayList("matches", matches);
         outState.putSerializable("mapHeroes", mapHeroIDName);
         outState.putSerializable("mapGameModes", mapGameModeIDName);
@@ -272,7 +280,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 }
 
                 spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), (HashMap<String, String>) mapGameModeIDName.clone()));
-                //spinnerGameModes.setSelection(0,false); itemselected won't fire on first load with this
+                spinnerGameModes.setSelection(0, false); //itemselected won't fire on first load with this
                 spinnerGameModes.setOnItemSelectedListener(this);
 
                 //if there was a savedState, set spinner selection
@@ -295,6 +303,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 }
 
                 spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), (HashMap<String, String>) mapHeroIDName.clone()));
+                spinnerHeroes.setSelection(0, false); //itemselected won't fire on first load with this
                 spinnerHeroes.setOnItemSelectedListener(this);
 
                 //if there was a savedState, set spinner selection
@@ -313,19 +322,22 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         switch (parent.getId()) {
             case R.id.spinGameModes:
+                System.out.println("gamemode selected");
+
                 GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
                 gameModeID = gAdapter.getIDForPosition(position);
                 gameModeSelection = spinnerGameModes.getSelectedItemPosition();
 
+
                 //don't reload matches for a reorientation
-                if (!comesFromInstanceStateGameModes) {
-                    if (!wentToDetails) {
+                //if (!comesFromInstanceStateGameModes) {
+                //   if (!wentToDetails) {
                         updateMatches();
-                    }
-                }
+                //  }
+                // }
 
 
-                comesFromInstanceStateGameModes = false;
+//                comesFromInstanceStateGameModes = false;
                 if (numbersCount > 0) {
                     if (matches != null) {
                         if (matches.size() > 0) {
@@ -337,20 +349,22 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
                 break;
             case R.id.spinHeroes:
+                System.out.println("hero selected");
+
                 HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
                 heroID = adapter.getIDForPosition(position);
                 heroSelection = spinnerHeroes.getSelectedItemPosition();
 
                 //don't reload matches for a reorientation
-                if (!comesFromInstanceStateHeroes) {
-                    if (!wentToDetails) {
+                // if (!comesFromInstanceStateHeroes) {
+                //    if(!wentToDetails) {
                         updateMatches();
-                    }
-                }
-                System.out.println("setting wenttodetails to false");
-                wentToDetails = false;
+                //    }
+                //  }
 
-                comesFromInstanceStateHeroes = false;
+//                wentToDetails = false;
+//
+//                comesFromInstanceStateHeroes = false;
                 //display the new data
                 if (numbersCount > 0) {
                     if (matches != null) {
@@ -393,6 +407,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         scrollStats.setVisibility(View.GONE);
         progressStats.setVisibility(View.VISIBLE);
+        layStatsNoGames.setVisibility(View.GONE);
 
         //initializing the spinners calls the itemSelected method, this counter makes sure this query is only called once when opening the screen
 
@@ -503,55 +518,55 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.txtStatsLongestGame:
                 if (Integer.parseInt(longestGameID) > 0) {
                     match = mds.getMatchByID(longestGameID);
-                    wentToDetails = true;
+//                    wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostKills:
                 if (Integer.parseInt(mostKillsID) > 0) {
                     match = mds.getMatchByID(mostKillsID);
-                    wentToDetails = true;
+                    //wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostDeaths:
                 if (Integer.parseInt(mostDeathsID) > 0) {
                     match = mds.getMatchByID(mostDeathsID);
-                    wentToDetails = true;
+                    //wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostAssists:
                 if (Integer.parseInt(mostAssistsID) > 0) {
                     match = mds.getMatchByID(mostAssistsID);
-                    wentToDetails = true;
+                    //  wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostLastHits:
                 if (Integer.parseInt(mostLastHitsID) > 0) {
                     match = mds.getMatchByID(mostLastHitsID);
-                    wentToDetails = true;
+                    //  wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostDenies:
                 if (Integer.parseInt(mostDeniesID) > 0) {
                     match = mds.getMatchByID(mostDeniesID);
-                    wentToDetails = true;
+                    //   wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostHeroDamage:
                 if (Integer.parseInt(mostHeroDamageID) > 0) {
                     match = mds.getMatchByID(mostHeroDamageID);
-                    wentToDetails = true;
+                    //   wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostGPM:
                 if (Integer.parseInt(mostGPMID) > 0) {
                     match = mds.getMatchByID(mostGPMID);
-                    wentToDetails = true;
+                    // wentToDetails = true;
                 }
                 break;
             case R.id.txtStatsMostXPM:
                 if (Integer.parseInt(mostXPMID) > 0) {
                     match = mds.getMatchByID(mostXPMID);
-                    wentToDetails = true;
+                    //   wentToDetails = true;
                 }
                 break;
             case R.id.btnStatsHelp:
