@@ -11,6 +11,7 @@ import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.UsersAdapter;
 import be.simonraes.dotadata.database.UsersDataSource;
+import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
 
 import java.util.ArrayList;
@@ -48,6 +49,15 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
             PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
             //Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_SHORT).show();
+
+            //todo: this shouldn't be here
+            //update the playedheroes/gamemodes maps for this user
+            PlayedHeroesMapper.clearInstance();
+            PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
+            if (phm.getMaps().getPlayedHeroes().size() < 1) {
+                phm.execute();
+            }
+
             lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
         }

@@ -15,6 +15,7 @@ import android.widget.ListView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.fragment.*;
+import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.OrientationHelper;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener {
@@ -71,6 +72,16 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setAdapter(new DrawerAdapter(this, listContent));
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+
+
+        //todo: test
+        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
+        if (phm.getMaps().getPlayedHeroes().size() < 1) {
+            phm.execute();
+        }
+
+
+
 
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();

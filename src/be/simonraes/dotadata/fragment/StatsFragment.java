@@ -25,6 +25,7 @@ import be.simonraes.dotadata.holograph.BarGraph;
 import be.simonraes.dotadata.holograph.PieGraph;
 import be.simonraes.dotadata.holograph.PieSlice;
 import be.simonraes.dotadata.statistics.DetailMatchLite;
+import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
@@ -46,7 +47,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private View view;
     private LinearLayout layStatsGameModes, layStatsHeroes, layStatsRecords, layStatsNumbers, layStatsNoGames;
 
-//    private boolean comesFromInstanceStateHeroes, comesFromInstanceStateGameModes;
 
     private int numbersCount = 0;
 
@@ -60,8 +60,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private HashMap<String, String> mapGameModeIDName; //contains played gamemodesIDs, gamemodenames
     private HashMap<String, Integer> heroesMap; //contains played heroes, count
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
-
-//    private boolean wentToDetails;
 
 
     private TextView
@@ -209,7 +207,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         layStatsRecords = (LinearLayout) view.findViewById(R.id.layStatsRecords);
         layStatsNoGames = (LinearLayout) view.findViewById(R.id.layStatsNoGames);
 
-//        countUpdate = 0;
 
         //ID of the active item in the spinners
         gameModeID = "-1";
@@ -241,8 +238,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         outState.putInt("gameModeSelection", gameModeSelection);
         System.out.println("put gamemodeselection " + gameModeSelection);
         outState.putInt("heroSelection", heroSelection);
-//        outState.putBoolean("comesFromInstanceStateHeroes", comesFromInstanceStateHeroes);
-//        outState.putBoolean("comesFromInstanceStateGameModes", comesFromInstanceStateGameModes);
         outState.putParcelableArrayList("matches", matches);
         outState.putSerializable("mapHeroes", mapHeroIDName);
         outState.putSerializable("mapGameModes", mapGameModeIDName);
@@ -328,24 +323,14 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 gameModeID = gAdapter.getIDForPosition(position);
                 gameModeSelection = spinnerGameModes.getSelectedItemPosition();
 
+                updateMatches();
 
-                //don't reload matches for a reorientation
-                //if (!comesFromInstanceStateGameModes) {
-                //   if (!wentToDetails) {
-                        updateMatches();
-                //  }
-                // }
-
-
-//                comesFromInstanceStateGameModes = false;
-                if (numbersCount > 0) {
-                    if (matches != null) {
-                        if (matches.size() > 0) {
-                            updateVisuals();
-                        }
+                if (matches != null) {
+                    if (matches.size() > 0) {
+                        updateVisuals();
                     }
                 }
-                numbersCount++;
+
 
                 break;
             case R.id.spinHeroes:
@@ -355,25 +340,13 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 heroID = adapter.getIDForPosition(position);
                 heroSelection = spinnerHeroes.getSelectedItemPosition();
 
-                //don't reload matches for a reorientation
-                // if (!comesFromInstanceStateHeroes) {
-                //    if(!wentToDetails) {
-                        updateMatches();
-                //    }
-                //  }
+                updateMatches();
 
-//                wentToDetails = false;
-//
-//                comesFromInstanceStateHeroes = false;
-                //display the new data
-                if (numbersCount > 0) {
-                    if (matches != null) {
-                        if (matches.size() > 0) {
-                            updateVisuals();
-                        }
+                if (matches != null) {
+                    if (matches.size() > 0) {
+                        updateVisuals();
                     }
                 }
-                numbersCount++;
 
 
                 break;
@@ -383,19 +356,33 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
     }
 
+    //todo: this in background thread?
     private void getPlayedHeroesAndGameModes() {
         System.out.println("getPlayedHeroesAndGameModes");
 
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-        mapHeroIDName = new HashMap<String, String>();
-        mapGameModeIDName = new HashMap<String, String>();
-        for (DetailMatchLite rec : mds.getAllDetailMatchesLite()) {
-            mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
-            mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
+        scrollStats.setVisibility(View.GONE);
+        layStatsNoGames.setVisibility(View.GONE);
+        layStatsGameModes.setVisibility(View.GONE);
+        layStatsHeroes.setVisibility(View.GONE);
+        progressStats.setVisibility(View.VISIBLE);
+
+
+        //todo: test
+        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
+        mapHeroIDName = phm.getMaps().getPlayedHeroes();
+        mapGameModeIDName = phm.getMaps().getPlayedGameModes();
+
+
+        if (mapHeroIDName == null || mapGameModeIDName == null) {
+            System.out.println("this should never execute");
+            MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+            mapHeroIDName = new HashMap<String, String>();
+            mapGameModeIDName = new HashMap<String, String>();
+            for (DetailMatchLite rec : mds.getAllDetailMatchesLite()) {
+                mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
+                mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
+            }
         }
-        System.out.println("made new heroes map: " + mapHeroIDName.size());
-
-
     }
 
 
@@ -403,46 +390,15 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     /*Gets new data for the selected filters*/
     private void updateMatches() {
         System.out.println("updateMatches");
-        //System.out.println("matches size: "+matches.size());
 
         scrollStats.setVisibility(View.GONE);
-        progressStats.setVisibility(View.VISIBLE);
         layStatsNoGames.setVisibility(View.GONE);
-
-        //initializing the spinners calls the itemSelected method, this counter makes sure this query is only called once when opening the screen
-
-        System.out.println("inside count>2");
-
         layStatsGameModes.setVisibility(View.GONE);
         layStatsHeroes.setVisibility(View.GONE);
-
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-
-
-        //todo: test
+        progressStats.setVisibility(View.VISIBLE);
 
         StatsMatchesLoader sml = new StatsMatchesLoader(this, getActivity());
-//        if(sml.getStatus()!= AsyncTask.Status.RUNNING ){
         sml.execute(gameModeID, heroID);
-//        }
-
-
-//        //neither selected, get statsrecords for all games
-//        if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
-//            matches = mds.getAllDetailMatchesLite();
-//        }
-//        //only gamemode selected
-//        else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
-//            matches = mds.getAllStatRecordsForGameMode(gameModeID);
-//        }
-//        //only hero selected
-//        else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
-//            matches = mds.getAllStatRecordsForHero(heroID);
-//        }
-//        //both selected
-//        else {
-//            matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
-//        }
     }
 
     /*Sets textfields, charts, graphs,... with the stored data*/
