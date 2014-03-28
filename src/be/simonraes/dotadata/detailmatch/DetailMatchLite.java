@@ -1,10 +1,10 @@
-package be.simonraes.dotadata.statistics;
+package be.simonraes.dotadata.detailmatch;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Combination of matchdetails and playerinfo, contains the info for stats
+ * Combination of matchdetails and playerinfo, used for getting stats and creating the listview items
  * Created by Simon on 23/03/14.
  */
 public class DetailMatchLite implements Parcelable {

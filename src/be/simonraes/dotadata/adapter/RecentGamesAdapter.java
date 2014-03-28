@@ -9,10 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.statistics.DetailMatchLite;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
+
 import java.util.ArrayList;
 
 

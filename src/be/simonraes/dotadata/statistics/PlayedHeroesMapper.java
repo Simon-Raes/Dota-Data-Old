@@ -4,12 +4,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Used to load a hashmap of played heroes. Loading this in the background when the app starts prevents the app from freezing when opening the stats screen the first time.

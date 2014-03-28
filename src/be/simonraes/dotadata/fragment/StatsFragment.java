@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -24,7 +23,7 @@ import be.simonraes.dotadata.holograph.Bar;
 import be.simonraes.dotadata.holograph.BarGraph;
 import be.simonraes.dotadata.holograph.PieGraph;
 import be.simonraes.dotadata.holograph.PieSlice;
-import be.simonraes.dotadata.statistics.DetailMatchLite;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
@@ -413,6 +412,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
             if (matches.size() > 0) {
                 btnStatsHelp.setVisibility(View.VISIBLE);
+                System.out.println(gameModeID);
                 setNumbers();
                 setGameModesGraph();
                 setHeroesGraph();
@@ -717,6 +717,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private void setGameModesGraph() {
         System.out.println("setGameModesGraph");
 
+
         layStatsGameModes.setVisibility(View.VISIBLE);
         LinearLayout layLegend = (LinearLayout) view.findViewById(R.id.layPieLegend);
         layLegend.removeAllViews();
@@ -748,7 +749,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 txtLegend.setTextColor(sliceColor);
                 layLegend.addView(txtLegend);
             }
-        }
+            }
+
     }
 
     private void setHeroesGraph() {

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
-import be.simonraes.dotadata.statistics.DetailMatchLite;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.HeroStats;
 
 import java.util.ArrayList;

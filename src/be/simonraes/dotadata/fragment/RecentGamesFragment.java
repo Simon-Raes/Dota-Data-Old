@@ -15,7 +15,7 @@ import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
-import be.simonraes.dotadata.statistics.DetailMatchLite;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
 import be.simonraes.dotadata.util.Preferencess;
@@ -51,6 +51,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
 
         getActivity().setTitle("Recent games");
+
+        //update active drawer item
+        ((DrawerController) getActivity()).setActiveDrawerItem(1);
 
         if (Preferencess.getAccountID(getActivity()).equals("")) {
 

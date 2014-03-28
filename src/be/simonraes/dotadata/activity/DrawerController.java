@@ -81,8 +81,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         }
 
 
-
-
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
@@ -116,6 +114,10 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
                 break;
         }
+    }
+
+    public void setActiveDrawerItem(int position) {
+        drawerList.setItemChecked(position, true);
     }
 
 

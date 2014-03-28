@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.delegates;
 
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.statistics.DetailMatchLite;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 
 import java.util.ArrayList;
 

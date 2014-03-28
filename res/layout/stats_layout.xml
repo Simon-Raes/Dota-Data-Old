@@ -215,7 +215,7 @@
                         android:text="Highest XPM"/>
             </LinearLayout>
 
-
+            <!-- Gamemodes PieChart card -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:layout_marginLeft="20dp"
                           android:layout_marginRight="20dp"
@@ -243,9 +243,9 @@
                                                               android:layout_toLeftOf="@id/layPieLegend"
                                                               android:id="@+id/pieGameModes"/>
                 </RelativeLayout>
-
-
             </LinearLayout>
+
+            <!-- Heroes graph-->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:layout_marginLeft="20dp"
                           android:layout_marginRight="20dp"
@@ -261,10 +261,10 @@
                 <be.simonraes.dotadata.holograph.BarGraph android:layout_width="fill_parent"
                                                           android:layout_height="300dp"
                                                           android:id="@+id/barHeroes"/>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
     <!-- loadingindicator -->
     <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"

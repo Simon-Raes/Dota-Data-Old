@@ -7,8 +7,8 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.UsersAdapter;
 import be.simonraes.dotadata.database.UsersDataSource;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
@@ -54,11 +54,14 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
             //update the playedheroes/gamemodes maps for this user
             PlayedHeroesMapper.clearInstance();
             PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
+
             if (phm.getMaps().getPlayedHeroes().size() < 1) {
                 phm.execute();
             }
 
             lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
+            //update active drawer item
+            ((DrawerController) getActivity()).setActiveDrawerItem(1);
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
         }
     }

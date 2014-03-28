@@ -5,8 +5,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
-import be.simonraes.dotadata.statistics.DetailMatchLite;
-import be.simonraes.dotadata.util.HeroList;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 
 import java.util.ArrayList;
 
