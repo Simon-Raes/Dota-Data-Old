@@ -95,23 +95,21 @@ public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHis
                         .setTitle("Delete " + finalUser.getName() + "?")
                         .setMessage("Really delete this user and all their matches?")
                         .setCancelable(false)
-                        .setIcon(R.drawable.dotadata_sm)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                removeUserFromList(finalUser.getAccount_id());
+                                        removeUserFromList(finalUser.getAccount_id());
 
-                                MatchesDataSource mds = new MatchesDataSource(context, finalUser.getAccount_id());
-                                //only delete matches, other users might have the same matches and want to keep their playersinmatches records
-                                mds.deleteUserMatches();
+                                        MatchesDataSource mds = new MatchesDataSource(context, finalUser.getAccount_id());
+                                        //only delete matches, other users might have the same matches and want to keep their playersinmatches records
+                                        mds.deleteUserMatches();
 
-                                UsersDataSource uds = new UsersDataSource(context);
-                                uds.deleteUserByID(finalUser.getAccount_id());
+                                        UsersDataSource uds = new UsersDataSource(context);
+                                        uds.deleteUserByID(finalUser.getAccount_id());
 
-                                Toast.makeText(context, "User removed.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
+                                        Toast.makeText(context, "User removed.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                         )
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

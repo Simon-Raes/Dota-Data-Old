@@ -41,19 +41,19 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
 
         //neither selected, get statsrecords for all games
         if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
-            matches = mds.getAllDetailMatchesLite();
+            matches = mds.getAllRealDetailMatchesLite();
         }
         //only gamemode selected
         else if (Integer.parseInt(gameModeID) > 0 && Integer.parseInt(heroID) < 1) {
-            matches = mds.getAllStatRecordsForGameMode(gameModeID);
+            matches = mds.getAllRealDetailMatchesLiteForGameMode(gameModeID);
         }
         //only hero selected
         else if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) > 0) {
-            matches = mds.getAllStatRecordsForHero(heroID);
+            matches = mds.getAllRealDetailMatchesLiteForHero(heroID);
         }
         //both selected
         else {
-            matches = mds.getAllStatRecordsForHeroAndGameMode(heroID, gameModeID);
+            matches = mds.getAllRealDetailMatchesLiteForHeroAndGameMode(heroID, gameModeID);
         }
 
         System.out.println("async found x matches " + matches.size());

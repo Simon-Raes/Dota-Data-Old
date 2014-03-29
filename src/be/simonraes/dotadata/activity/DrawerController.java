@@ -136,8 +136,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-
         if (drawerLayout.isDrawerOpen(drawerList)) {
 
 

@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -22,6 +20,7 @@ import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.parser.VanityResolverParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
+import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.InternetCheck;
@@ -57,9 +56,40 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         btnHelpIDName = (Button) view.findViewById(R.id.btnHelpIDName);
         btnHelpIDName.setOnClickListener(this);
 
-        etxtProfileNumber = (EditText) view.findViewById(R.id.txtHelpProfileNumber);
-        etxtIDName = (EditText) view.findViewById(R.id.txtHelpIDName);
         etxtDotabuff = (EditText) view.findViewById(R.id.txtHelpDotabuff);
+        etxtDotabuff.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    dotaBuffEntered();
+                    return true;
+                }
+                return false;
+            }
+        });
+        etxtProfileNumber = (EditText) view.findViewById(R.id.txtHelpProfileNumber);
+        etxtProfileNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    profileNumberEntered();
+                    return true;
+                }
+                return false;
+            }
+        });
+        etxtIDName = (EditText) view.findViewById(R.id.txtHelpIDName);
+        etxtIDName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    profileVanityEntered();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         TextView txtDotabuffLink = (TextView) view.findViewById(R.id.txtAccountIDDBExample);
         txtDotabuffLink.setText(Html.fromHtml("Example: http://dotabuff.com/players/<b>6133547</b>"));
@@ -84,47 +114,63 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         switch (v.getId()) {
 
             case R.id.btnHelpDotabuff:
-                if (InternetCheck.isOnline(getActivity())) {
-                    if (!etxtDotabuff.getText().equals("")) {
-                        saveDotaID(etxtDotabuff.getText().toString());
-                    } else {
-                        saveDotaID("0");
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
-                }
+                dotaBuffEntered();
                 break;
 
             case R.id.btnHelpProfileNumber:
-
-                if (InternetCheck.isOnline(getActivity())) {
-                    if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
-                        saveDotaID(Conversions.community64IDToDota64ID(etxtProfileNumber.getText().toString()));
-                    } else {
-                        saveDotaID("0");
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
-                }
+                profileNumberEntered();
                 break;
 
             case R.id.btnHelpIDName:
-
-                if (InternetCheck.isOnline(getActivity())) {
-                    if (!etxtIDName.getText().toString().equals("") && etxtIDName.getText().toString() != null) {
-                        VanityResolverParser parser = new VanityResolverParser(this);
-                        parser.execute(etxtIDName.getText().toString());
-                    } else {
-                        saveDotaID("0");
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
-                }
+                profileVanityEntered();
                 break;
 
             default:
                 break;
         }
+    }
+
+    private void dotaBuffEntered() {
+        if (InternetCheck.isOnline(getActivity())) {
+            if (!etxtDotabuff.getText().equals("")) {
+                saveDotaID(etxtDotabuff.getText().toString());
+            } else {
+                saveDotaID("0");
+            }
+        } else {
+            Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+        }
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(etxtDotabuff.getWindowToken(), 0);
+    }
+
+    private void profileNumberEntered() {
+        if (InternetCheck.isOnline(getActivity())) {
+            if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
+                saveDotaID(Conversions.community64IDToDota64ID(etxtProfileNumber.getText().toString()));
+            } else {
+                saveDotaID("0");
+            }
+        } else {
+            Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+        }
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(etxtProfileNumber.getWindowToken(), 0);
+    }
+
+    private void profileVanityEntered() {
+        if (InternetCheck.isOnline(getActivity())) {
+            if (!etxtIDName.getText().toString().equals("") && etxtIDName.getText().toString() != null) {
+                VanityResolverParser parser = new VanityResolverParser(this);
+                parser.execute(etxtIDName.getText().toString());
+            } else {
+                saveDotaID("0");
+            }
+        } else {
+            Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+        }
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(etxtIDName.getWindowToken(), 0);
     }
 
     @Override
@@ -162,9 +208,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
             UsersDataSource uds = new UsersDataSource(getActivity());
             User testUser = uds.getUserByID(userAccountID);
             if (testUser.getAccount_id() != null && !testUser.getAccount_id().equals("")) {
-                System.out.println("user is not null (is in db), switching");
-                //just switch user instead of downloading
-                Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_LONG).show();
+
+                //user already saved, just switch user instead of downloading
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", testUser.getAccount_id()).commit();
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
             } else {
@@ -192,20 +238,19 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
                         .setCancelable(false)
                                 //.setIcon(R.drawable.dotadata_sm)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                                    public void onClick(DialogInterface dialog, int which) {
 
 
-                                //everything is good, save user account id and user
-                                UsersDataSource uds = new UsersDataSource(getActivity());
-                                User user = new User(userAccountID, finalResult.getPlayers().getPlayers().get(0).getSteamid(), finalResult.getPlayers().getPlayers().get(0).getPersonaname(), finalResult.getPlayers().getPlayers().get(0).getAvatarmedium());
-                                uds.saveUser(user);
-                                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", userAccountID).commit();
+//                                //everything is good, save user account id and user
+                                        UsersDataSource uds = new UsersDataSource(getActivity());
+                                        User user = new User(userAccountID, finalResult.getPlayers().getPlayers().get(0).getSteamid(), finalResult.getPlayers().getPlayers().get(0).getPersonaname(), finalResult.getPlayers().getPlayers().get(0).getAvatarmedium());
+//                                uds.saveUser(user);
+//                                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", userAccountID).commit();
 
-                                //start download
-                                startDownload();
-                            }
-                        }
-
+                                        //start download
+                                        startDownload(user);
+                                    }
+                                }
                         )
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -222,14 +267,22 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     }
 
     //start historyloader
-    private void startDownload() {
-        HistoryLoader loader = new HistoryLoader(getActivity(), this);
+    private void startDownload(User user) {
+        HistoryLoader loader = new HistoryLoader(getActivity(), this, user);
         loader.firstDownload();
     }
 
     //result from historyloader
     @Override
     public void processFinish(boolean foundGames) {
+
+        //todo: this shouldn't be here
+        //update the playedheroes/gamemodes maps for this new user
+        PlayedHeroesMapper.clearInstance();
+        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
+        if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
+            phm.execute();
+        }
         OrientationHelper.unlockOrientation(getActivity());
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/Gainsboro">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_marginLeft="20dp"
+                  android:layout_marginRight="20dp"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginBottom="5dp"
+                  android:orientation="vertical"
+                  android:background="@drawable/bg_card">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Contact"/>
+        <View style="@style/Divider"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:autoLink="email"
+                  android:text="Feedback, bug reports, suggestions,... welcome at simonraes@gmail.com"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_marginLeft="20dp"
+                  android:layout_marginRight="20dp"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginBottom="5dp"
+                  android:orientation="vertical"
+                  android:background="@drawable/bg_card">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Used libraries"/>
+        <View style="@style/DrawerDivider"
+              android:layout_marginTop="10dp"/>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:id="@+id/btnAboutLibraryJackson"
+                android:gravity="left|center_vertical"
+                android:background="@drawable/draw_button_record"
+                android:text="Jackson"/>
+        <View style="@style/DrawerDivider"/>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:id="@+id/btnAboutLibraryHoloGraph"
+                android:gravity="left|center_vertical"
+                android:background="@drawable/draw_button_record"
+                android:text="HoloGraphLibrary"/>
+        <View style="@style/DrawerDivider"/>
+        <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:id="@+id/btnAboutLibraryUIL"
+                android:gravity="left|center_vertical"
+                android:background="@drawable/draw_button_record"
+                android:text="Universal Image Loader for Android"/>
+
+    </LinearLayout>
+</LinearLayout>

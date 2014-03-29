@@ -55,9 +55,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private ProgressDialog introDialog;
     private ProgressDialog progressDialog;
 
-    public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate) { //
-        this.accountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
+    private User user;
 
+
+    public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate, User user) { //
+        //this.accountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
+        this.user = user;
+        this.accountID = user.getAccount_id();
 
         this.delegate = delegate;
         this.context = context;
@@ -91,7 +95,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         //get the most recent match from the database
         UsersDataSource uds = new UsersDataSource(context);
-        User user = uds.getUserByID(accountID);
+        if (user == null) {
+            System.out.println("loaded user with id " + accountID);
+            user = uds.getUserByID(accountID);
+        }
+
 
         latestSavedMatchID = user.getLast_saved_match();
         System.out.println("last saved match ID = " + user.getLast_saved_match());
@@ -111,7 +119,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     @Override
     public void processFinish(Boolean result) {
 
-
         if (result) {
             //start parser
             parser = new HistoryMatchParser(this);
@@ -129,8 +136,36 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
         // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
 
+        //check if user is sharing his history
+        if (result.getRecentGames().getStatusDetail() != null) {
+            if (introDialog.isShowing()) {
+                introDialog.dismiss();
+            }
+            new AlertDialog.Builder(context)
+                    .setTitle("No games found")
+                    .setMessage("This user is not sharing his match history or has not yet played any games.")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
 
-        if (result.getRecentGames().getMatches().size() > 0) {
+                        }
+                    })
+                    .show();
+            //delete user from database
+//            //todo: don't save him to db/sharedprefs until we're sure we can get games
+//            UsersDataSource uds = new UsersDataSource(context);
+//            uds.deleteUserByID(accountID);
+//            ArrayList<User> users = uds.getAllUsers();
+//            if(users.size()>0){
+//                PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", users.get(0).getAccount_id()).commit();
+//            } else {
+//                PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", "0").commit();
+//            }
+        } else if (result.getRecentGames().getMatches().size() > 0) {
+
+
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", accountID).commit();
+
+
             if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
                 //last match id of received results is older than latest saved match, saved matchID is in this set of results, this is the last needed set
 
@@ -184,7 +219,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             }
 
             progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Updating match history");
+            progressDialog.setTitle("Downloading match history");
             if (firstTimeSetup) {
                 //only show this message for the initial download
                 progressDialog.setMessage("Your Dota 2 match history is now downloading. Your games and statistics will be available once the download completes.");
@@ -218,7 +253,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
 
-        progressDialog.setProgress(result.size());
+
+        progressDialog.setProgress(result.size() + 1);
         progressDialog.setMessage("Saving.");
 
         //save players and (if needed) picks/bans to database
@@ -266,11 +302,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         pbds.savePicksBansList(picksBansList);
 
 
-        //keep track of the last saved match for this user
+        //everything is good, save user account id and user
         UsersDataSource uds = new UsersDataSource(context);
-        User user = uds.getUserByID(accountID);
-        user.setLast_saved_match(result.get(0).getMatch_id());
-        uds.saveUser(user);
+        //keep track of the last saved match for this user
+        //User user = uds.getUserByID(accountID);new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar())
+        User usera = new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar());
+        usera.setLast_saved_match(result.get(0).getMatch_id());
+        uds.saveUser(usera);
 
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
@@ -292,5 +330,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         //alert delegate that all matches have been downloaded
         delegate.processFinish(true);
+
     }
 }

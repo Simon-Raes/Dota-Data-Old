@@ -171,8 +171,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             //start parser to get player's name
             if (InternetCheck.isOnline(getActivity())) {
-                PlayerSummaryParser parser = new PlayerSummaryParser(this);
-                parser.execute(player.getAccount_id());
+                if (player.getAccount_id().equals("4294967295")) {
+                    txtPlayerName.setText("Anonymous");
+                } else {
+                    PlayerSummaryParser parser = new PlayerSummaryParser(this);
+                    parser.execute(player.getAccount_id());
+                }
             }
 
 
@@ -331,144 +335,190 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (twrRadiant.isTopT1()) {
             View towerRadiantTopT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantTopT1.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.38), 0, 0);
-            layDetailsMinimap.addView(towerRadiantTopT1);
+            if (towerRadiantTopT1 != null) {
+                towerRadiantTopT1.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.38), 0, 0);
+                layDetailsMinimap.addView(towerRadiantTopT1);
+            }
         }
 
         if (twrRadiant.isTopT2()) {
             View towerRadiantTopT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantTopT2.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.55), 0, 0);
-            layDetailsMinimap.addView(towerRadiantTopT2);
+            if (towerRadiantTopT2 != null) {
+                towerRadiantTopT2.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.55), 0, 0);
+                layDetailsMinimap.addView(towerRadiantTopT2);
+            }
         }
 
         if (twrRadiant.isTopT3()) {
             View towerRadiantTopT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantTopT3.setPadding((int) Math.round(x * 0.075), (int) Math.round(y * 0.7), 0, 0);
-            layDetailsMinimap.addView(towerRadiantTopT3);
+            if (towerRadiantTopT3 != null) {
+                towerRadiantTopT3.setPadding((int) Math.round(x * 0.075), (int) Math.round(y * 0.7), 0, 0);
+                layDetailsMinimap.addView(towerRadiantTopT3);
+            }
         }
 
         if (twrRadiant.isMidT1()) {
             View towerRadiantMidT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantMidT1.setPadding((int) Math.round(x * 0.40), (int) Math.round(y * 0.58), 0, 0);
-            layDetailsMinimap.addView(towerRadiantMidT1);
+            if (towerRadiantMidT1 != null) {
+                towerRadiantMidT1.setPadding((int) Math.round(x * 0.40), (int) Math.round(y * 0.58), 0, 0);
+                layDetailsMinimap.addView(towerRadiantMidT1);
+            }
         }
 
         if (twrRadiant.isMidT2()) {
             View towerRadiantMidT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantMidT2.setPadding((int) Math.round(x * 0.28), (int) Math.round(y * 0.66), 0, 0);
-            layDetailsMinimap.addView(towerRadiantMidT2);
+            if (towerRadiantMidT2 != null) {
+                towerRadiantMidT2.setPadding((int) Math.round(x * 0.28), (int) Math.round(y * 0.66), 0, 0);
+                layDetailsMinimap.addView(towerRadiantMidT2);
+            }
         }
 
         if (twrRadiant.isMidT3()) {
             View towerRadiantMidT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantMidT3.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.75), 0, 0);
-            layDetailsMinimap.addView(towerRadiantMidT3);
+            if (towerRadiantMidT3 != null) {
+                towerRadiantMidT3.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.75), 0, 0);
+                layDetailsMinimap.addView(towerRadiantMidT3);
+            }
         }
 
         if (twrRadiant.isBotT1()) {
             View towerRadiantBotT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantBotT1.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.87), 0, 0);
-            layDetailsMinimap.addView(towerRadiantBotT1);
+            if (towerRadiantBotT1 != null) {
+                towerRadiantBotT1.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.87), 0, 0);
+                layDetailsMinimap.addView(towerRadiantBotT1);
+            }
+
         }
         if (twrRadiant.isBotT2()) {
             View towerRadiantBotT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantBotT2.setPadding((int) Math.round(x * 0.47), (int) Math.round(y * 0.88), 0, 0);
-            layDetailsMinimap.addView(towerRadiantBotT2);
+            if (towerRadiantBotT2 != null) {
+                towerRadiantBotT2.setPadding((int) Math.round(x * 0.47), (int) Math.round(y * 0.88), 0, 0);
+                layDetailsMinimap.addView(towerRadiantBotT2);
+            }
+
         }
         if (twrRadiant.isBotT3()) {
             View towerRadiantBotT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantBotT3.setPadding((int) Math.round(x * 0.25), (int) Math.round(y * 0.88), 0, 0);
-            layDetailsMinimap.addView(towerRadiantBotT3);
+            if (towerRadiantBotT3 != null) {
+                towerRadiantBotT3.setPadding((int) Math.round(x * 0.25), (int) Math.round(y * 0.88), 0, 0);
+                layDetailsMinimap.addView(towerRadiantBotT3);
+            }
         }
         if (twrRadiant.isTopT4()) {
             View towerRadiantTopT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantTopT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
-            layDetailsMinimap.addView(towerRadiantTopT4);
+            if (towerRadiantTopT4 != null) {
+                towerRadiantTopT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
+                layDetailsMinimap.addView(towerRadiantTopT4);
+            }
         }
         if (twrRadiant.isBotT4()) {
             View towerRadiantBotT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
 
-            towerRadiantBotT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
-            layDetailsMinimap.addView(towerRadiantBotT4);
+            if (towerRadiantBotT4 != null) {
+                towerRadiantBotT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
+                layDetailsMinimap.addView(towerRadiantBotT4);
+            }
         }
 
 
         if (twrDire.isTopT1()) {
             View towerDireTopT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireTopT1.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.12), 0, 0);
-            layDetailsMinimap.addView(towerDireTopT1);
+            if (towerDireTopT1 != null) {
+                towerDireTopT1.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.12), 0, 0);
+                layDetailsMinimap.addView(towerDireTopT1);
+            }
         }
         if (twrDire.isTopT2()) {
             View towerDireTopT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireTopT2.setPadding((int) Math.round(x * 0.48), (int) Math.round(y * 0.12), 0, 0);
-            layDetailsMinimap.addView(towerDireTopT2);
+            if (towerDireTopT2 != null) {
+                towerDireTopT2.setPadding((int) Math.round(x * 0.48), (int) Math.round(y * 0.12), 0, 0);
+                layDetailsMinimap.addView(towerDireTopT2);
+            }
         }
         if (twrDire.isTopT3()) {
             View towerDireTopT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireTopT3.setPadding((int) Math.round(x * 0.70), (int) Math.round(y * 0.13), 0, 0);
-            layDetailsMinimap.addView(towerDireTopT3);
+            if (towerDireTopT3 != null) {
+                towerDireTopT3.setPadding((int) Math.round(x * 0.70), (int) Math.round(y * 0.13), 0, 0);
+                layDetailsMinimap.addView(towerDireTopT3);
+            }
         }
 
         if (twrDire.isMidT1()) {
             View towerDireMidT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireMidT1.setPadding((int) Math.round(x * 0.54), (int) Math.round(y * 0.48), 0, 0);
-            layDetailsMinimap.addView(towerDireMidT1);
+            if (towerDireMidT1 != null) {
+                towerDireMidT1.setPadding((int) Math.round(x * 0.54), (int) Math.round(y * 0.48), 0, 0);
+                layDetailsMinimap.addView(towerDireMidT1);
+            }
         }
         if (twrDire.isMidT2()) {
             View towerDireMidT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireMidT2.setPadding((int) Math.round(x * 0.63), (int) Math.round(y * 0.35), 0, 0);
-            layDetailsMinimap.addView(towerDireMidT2);
+            if (towerDireMidT2 != null) {
+                towerDireMidT2.setPadding((int) Math.round(x * 0.63), (int) Math.round(y * 0.35), 0, 0);
+                layDetailsMinimap.addView(towerDireMidT2);
+            }
         }
         if (twrDire.isMidT3()) {
             View towerDireMidT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireMidT3.setPadding((int) Math.round(x * 0.74), (int) Math.round(y * 0.26), 0, 0);
-            layDetailsMinimap.addView(towerDireMidT3);
+            if (towerDireMidT3 != null) {
+                towerDireMidT3.setPadding((int) Math.round(x * 0.74), (int) Math.round(y * 0.26), 0, 0);
+                layDetailsMinimap.addView(towerDireMidT3);
+            }
         }
 
         if (twrDire.isBotT1()) {
             View towerDireBotT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireBotT1.setPadding((int) Math.round(x * 0.85), (int) Math.round(y * 0.62), 0, 0);
-            layDetailsMinimap.addView(towerDireBotT1);
+            if (towerDireBotT1 != null) {
+                towerDireBotT1.setPadding((int) Math.round(x * 0.85), (int) Math.round(y * 0.62), 0, 0);
+                layDetailsMinimap.addView(towerDireBotT1);
+            }
         }
         if (twrDire.isBotT2()) {
             View towerDireBotT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireBotT2.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.49), 0, 0);
-            layDetailsMinimap.addView(towerDireBotT2);
+            if (towerDireBotT2 != null) {
+                towerDireBotT2.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.49), 0, 0);
+                layDetailsMinimap.addView(towerDireBotT2);
+            }
         }
         if (twrDire.isBotT3()) {
             View towerDireBotT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireBotT3.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.31), 0, 0);
-            layDetailsMinimap.addView(towerDireBotT3);
+            if (towerDireBotT3 != null) {
+                towerDireBotT3.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.31), 0, 0);
+                layDetailsMinimap.addView(towerDireBotT3);
+            }
         }
         if (twrDire.isTopT4()) {
             View towerDireTopT4 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireTopT4.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.18), 0, 0);
-            layDetailsMinimap.addView(towerDireTopT4);
+            if (towerDireTopT4 != null) {
+                towerDireTopT4.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.18), 0, 0);
+                layDetailsMinimap.addView(towerDireTopT4);
+            }
         }
         if (twrDire.isBotT4()) {
             View towerDireBotT4 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
 
-            towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
-            layDetailsMinimap.addView(towerDireBotT4);
+            if (towerDireBotT4 != null) {
+                towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
+                layDetailsMinimap.addView(towerDireBotT4);
+            }
         }
 
 
@@ -502,7 +552,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getActivity().onBackPressed();
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
                 return true;
             case R.id.btnNote:
                 noteDialog();
@@ -539,14 +591,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (result.getPlayers() != null) {
             if (result.getPlayers().getPlayers().size() < 1) {
                 for (TextView textView : playerNames) {
-                    if (textView.getText().equals("4294967295")) {
-                        textView.setText("Anonymous");
+                    if (textView.getText() != null) {
+                        if (textView.getText().equals("4294967295")) {
+                            textView.setText("Anonymous");
+                        }
                     }
                 }
             } else {
                 for (TextView textView : playerNames) {
-                    if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
-                        textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                    if (textView.getText() != null) {
+                        if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                            textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                        }
                     }
                 }
             }

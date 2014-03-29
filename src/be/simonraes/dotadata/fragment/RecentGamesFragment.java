@@ -61,7 +61,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     .setTitle("Welcome!")
                     .setCancelable(false)
                     .setMessage("Your Dota 2 account ID is required before your matches can be downloaded. Hit 'Ok' to get started.")
-                    .setIcon(R.drawable.dotadata_sm)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -127,7 +126,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                 //only start download if it isn't already downloading
                 if (InternetCheck.isOnline(getActivity())) {
                     OrientationHelper.lockOrientation(getActivity());
-                    HistoryLoader loader = new HistoryLoader(getActivity(), this);
+                    HistoryLoader loader = new HistoryLoader(getActivity(), this, PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
                     loader.updateHistory();
                 } else {
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();

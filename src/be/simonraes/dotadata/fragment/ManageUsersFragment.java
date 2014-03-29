@@ -30,6 +30,10 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         lvUsers = (ListView) view.findViewById(R.id.lvSelectUser);
 
         getActivity().setTitle("Manage users");
+        setHasOptionsMenu(true);
+
+        //update active drawer item
+        ((DrawerController) getActivity()).setActiveDrawerItem(0);
 
         Button btnNewUser = (Button) view.findViewById(R.id.btnSelectUserNew);
         btnNewUser.setOnClickListener(this);
@@ -45,25 +49,25 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //removed check, doesn't let you switch to user you just update using the list-button (user's ID is set as active)
+//        if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
         //set app-wide account ID to this user
-        if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
-            //Toast.makeText(getActivity(), "Switched user.", Toast.LENGTH_SHORT).show();
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
 
-            //todo: this shouldn't be here
-            //update the playedheroes/gamemodes maps for this user
-            PlayedHeroesMapper.clearInstance();
-            PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
-
-            if (phm.getMaps().getPlayedHeroes().size() < 1) {
-                phm.execute();
-            }
-
-            lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
-            //update active drawer item
-            ((DrawerController) getActivity()).setActiveDrawerItem(1);
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+        //todo: this shouldn't be here
+        //update the playedheroes/gamemodes maps for this user
+        PlayedHeroesMapper.clearInstance();
+        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
+        if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
+            phm.execute();
         }
+
+        lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
+        //update active drawer item
+        ((DrawerController) getActivity()).setActiveDrawerItem(1);
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+//        }
     }
 
     @Override
@@ -82,6 +86,14 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         MenuItem btnNote = menu.findItem(R.id.btnNote);
         if (btnNote != null) {
             btnNote.setVisible(false);
+        }
+        MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
+        if (spinHeroes != null) {
+            spinHeroes.setVisible(false);
+        }
+        MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
+        if (spinGameModes != null) {
+            spinGameModes.setVisible(false);
         }
     }
 

@@ -83,7 +83,6 @@ public class PlayersInMatchesDataSource {
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_HERO_HEALING, player.getHero_healing());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_LEVEL, player.getLevel());
 
-        System.out.println("saving player record: " + player.getAccount_id() + player.getMatchID() + player.getPlayer_slot());
         database.insertWithOnConflict(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 

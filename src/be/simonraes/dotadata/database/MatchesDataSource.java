@@ -132,7 +132,6 @@ public class MatchesDataSource {
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, match.getNote());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER, match.getUser());
 
-        System.out.println("saving match " + match.getKey());
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
@@ -148,91 +147,91 @@ public class MatchesDataSource {
     }
 
 
-    public ArrayList<DetailMatch> getAllMatches() {
-
-        ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
-        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
-        open();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "user = ?", new String[]{user_accountID}, null, null, "match_id DESC", null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            DetailMatch detailMatch = cursorToDetailMatch(cursor);
-
-
-            //test get players for all matches
-            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
-            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
-            cursorPlayers.moveToFirst();
-
-            while (!cursorPlayers.isAfterLast()) {
-                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
-                players.add(detailPlayer);
-                cursorPlayers.moveToNext();
-            }
-            cursorPlayers.close();
-            detailMatch.setPlayers(players);
-
-            matches.add(detailMatch);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        close();
-        return matches;
-    }
-
-
-    public ArrayList<DetailMatch> get50MatchesStartingAtMatchID(String matchID) {
-
-        ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
-        open();
-        Cursor cursor;
-        if (matchID != null && !matchID.equals("")) {
-            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id < ? AND user = ?", new String[]{matchID, user_accountID}, null, null, "match_id DESC", "50");
-        } else {
-            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "user = ?", new String[]{user_accountID}, null, null, "match_id DESC", "50");
-        }
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            DetailMatch detailMatch = cursorToDetailMatch(cursor);
-
-            //get players for all matches
-            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
-            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
-            cursorPlayers.moveToFirst();
-            while (!cursorPlayers.isAfterLast()) {
-                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
-                players.add(detailPlayer);
-                cursorPlayers.moveToNext();
-            }
-            cursorPlayers.close();
-            detailMatch.setPlayers(players);
+//    public ArrayList<DetailMatch> getAllMatches() {
+//
+//        ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
+//        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
+//        open();
+//        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "user = ?", new String[]{user_accountID}, null, null, "match_id DESC", null);
+//
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            DetailMatch detailMatch = cursorToDetailMatch(cursor);
+//
+//
+//            //test get players for all matches
+//            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
+//            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+//            cursorPlayers.moveToFirst();
+//
+//            while (!cursorPlayers.isAfterLast()) {
+//                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+//                players.add(detailPlayer);
+//                cursorPlayers.moveToNext();
+//            }
+//            cursorPlayers.close();
+//            detailMatch.setPlayers(players);
+//
+//            matches.add(detailMatch);
+//            cursor.moveToNext();
+//        }
+//        // Make sure to close the cursor
+//        cursor.close();
+//        close();
+//        return matches;
+//    }
 
 
-            //get picks/bans for all matches
-            Cursor cursorPicksBans = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
-            ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
-            PicksBansDataSource pbds = new PicksBansDataSource(context);
-            cursorPicksBans.moveToFirst();
-            while (!cursorPicksBans.isAfterLast()) {
-                PicksBans picksBans = pbds.cursorToPicksBans(cursorPicksBans);
-                picksBansList.add(picksBans);
-                cursorPicksBans.moveToNext();
-            }
-            cursorPicksBans.close();
-            detailMatch.setPicks_bans(picksBansList);
-
-
-            matches.add(detailMatch);
-            cursor.moveToNext();
-        }
-        // Make sure to close the cursor
-        cursor.close();
-        close();
-        return matches;
-    }
+//    public ArrayList<DetailMatch> get50MatchesStartingAtMatchID(String matchID) {
+//
+//        ArrayList<DetailMatch> matches = new ArrayList<DetailMatch>();
+//        open();
+//        Cursor cursor;
+//        if (matchID != null && !matchID.equals("")) {
+//            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id < ? AND user = ?", new String[]{matchID, user_accountID}, null, null, "match_id DESC", "50");
+//        } else {
+//            cursor = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "user = ?", new String[]{user_accountID}, null, null, "match_id DESC", "50");
+//        }
+//
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            DetailMatch detailMatch = cursorToDetailMatch(cursor);
+//
+//            //get players for all matches
+//            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
+//            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+//            cursorPlayers.moveToFirst();
+//            while (!cursorPlayers.isAfterLast()) {
+//                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+//                players.add(detailPlayer);
+//                cursorPlayers.moveToNext();
+//            }
+//            cursorPlayers.close();
+//            detailMatch.setPlayers(players);
+//
+//
+//            //get picks/bans for all matches
+//            Cursor cursorPicksBans = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{detailMatch.getMatch_id()}, null, null, null, null);
+//            ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
+//            PicksBansDataSource pbds = new PicksBansDataSource(context);
+//            cursorPicksBans.moveToFirst();
+//            while (!cursorPicksBans.isAfterLast()) {
+//                PicksBans picksBans = pbds.cursorToPicksBans(cursorPicksBans);
+//                picksBansList.add(picksBans);
+//                cursorPicksBans.moveToNext();
+//            }
+//            cursorPicksBans.close();
+//            detailMatch.setPicks_bans(picksBansList);
+//
+//
+//            matches.add(detailMatch);
+//            cursor.moveToNext();
+//        }
+//        // Make sure to close the cursor
+//        cursor.close();
+//        close();
+//        return matches;
+//    }
 
     public ArrayList<DetailMatchLite> get50LiteMatchesStartingFromID(String matchID) {
         ArrayList<DetailMatchLite> matches = new ArrayList<DetailMatchLite>();
@@ -391,7 +390,7 @@ public class MatchesDataSource {
     }
 
     /*Only gets matches used in statistics!*/
-    public ArrayList<DetailMatchLite> getAllDetailMatchesLite() {
+    public ArrayList<DetailMatchLite> getAllRealDetailMatchesLite() {
         open();
         ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +
@@ -448,7 +447,8 @@ public class MatchesDataSource {
         return records;
     }
 
-    public ArrayList<DetailMatchLite> getAllStatRecordsForHero(String heroID) {
+    /*Gets ALL matches, also those for greeviling, diretide,...!*/
+    public ArrayList<DetailMatchLite> getAllDetailMatchesLite() {
         open();
         ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +
@@ -487,6 +487,64 @@ public class MatchesDataSource {
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
                 "WHERE account_id = ? " +
+                "AND user = ?;", new String[]{user_accountID, user_accountID});
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            records.add(cursorToDetailMatchLite(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        close();
+
+        return records;
+    }
+
+
+    public ArrayList<DetailMatchLite> getAllRealDetailMatchesLiteForHero(String heroID) {
+        open();
+        ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
+        Cursor cursor = database.rawQuery("SELECT " +
+                "radiant_win," +
+                "duration," +
+                "start_time, " +
+                "matches.match_id," +
+                "lobby_type," +
+                "game_mode," +
+                "user_win," +
+                "favourite," +
+                "note," +
+                "account_id," +
+                "hero_id," +
+                "item_0," +
+                "item_1," +
+                "item_2," +
+                "item_3," +
+                "item_4," +
+                "item_5," +
+                "kills," +
+                "deaths," +
+                "assists," +
+                "leaver_status," +
+                "gold," +
+                "last_hits," +
+                "denies," +
+                "gold_per_min," +
+                "xp_per_min," +
+                "gold_spent," +
+                "hero_damage," +
+                "tower_damage," +
+                "hero_healing," +
+                "level " +
+                "FROM players_in_matches " +
+                "JOIN matches " +
+                "ON matches.match_id = players_in_matches.match_id " +
+                "WHERE account_id = ? " +
+                "AND game_mode != 0 " +
+                "AND game_mode != 6 " +
+                "AND game_mode != 7 " +
+                "AND game_mode != 9 " +
+                "AND game_mode != 10 " +
+                "AND game_mode != 15 " +
                 "AND user = ? " +
                 "AND hero_id = ?;", new String[]{user_accountID, user_accountID, heroID});
         cursor.moveToFirst();
@@ -500,7 +558,7 @@ public class MatchesDataSource {
         return records;
     }
 
-    public ArrayList<DetailMatchLite> getAllStatRecordsForGameMode(String gameModeID) {
+    public ArrayList<DetailMatchLite> getAllRealDetailMatchesLiteForGameMode(String gameModeID) {
         open();
         ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +
@@ -552,7 +610,7 @@ public class MatchesDataSource {
         return records;
     }
 
-    public ArrayList<DetailMatchLite> getAllStatRecordsForHeroAndGameMode(String heroID, String gameModeID) {
+    public ArrayList<DetailMatchLite> getAllRealDetailMatchesLiteForHeroAndGameMode(String heroID, String gameModeID) {
         open();
         ArrayList<DetailMatchLite> records = new ArrayList<DetailMatchLite>();
         Cursor cursor = database.rawQuery("SELECT " +

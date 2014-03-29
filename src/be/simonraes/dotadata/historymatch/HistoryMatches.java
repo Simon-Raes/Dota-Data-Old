@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class HistoryMatches implements Parcelable {
 
     private String status;
+    private String statusDetail; //will be filled with an error message when a player has not enabled match sharing
     private String num_results;
     private String total_results;
     private String results_remaining;
@@ -22,7 +23,7 @@ public class HistoryMatches implements Parcelable {
     @JsonProperty("matches")
     private ArrayList<HistoryMatch> matches = new ArrayList<HistoryMatch>();
 
-    public HistoryMatches(){
+    public HistoryMatches() {
 
     }
 
@@ -32,6 +33,14 @@ public class HistoryMatches implements Parcelable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStatusDetail() {
+        return statusDetail;
+    }
+
+    public void setStatusDetail(String statusDetail) {
+        this.statusDetail = statusDetail;
     }
 
     public String getNum_results() {

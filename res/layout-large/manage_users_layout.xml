@@ -18,7 +18,7 @@
 
         <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                 android:id="@+id/btnSelectUserNew"
-                android:background="@null"
+                android:background="@drawable/draw_button_record"
                 android:text="Add new user"/>
     </LinearLayout>
 

@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -28,6 +29,7 @@ import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
+import be.simonraes.dotadata.util.OrientationHelper;
 
 import java.util.*;
 
@@ -89,6 +91,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             btnStatsMostXPM;
     private ImageButton btnStatsHelp;
 
+    private StatsMatchesLoader sml;
+    private boolean wentToDetailsHeroes, wentToDetailsGameModes;
+
     //numbers
     private double gamesPlayed = 0;
     private double gamesWon = 0;
@@ -121,11 +126,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private int mostXPM = 0;
     private String mostXPMID;
 
+    //selected index in the spinner
     private int heroSelection, gameModeSelection;
 
-    private String gameModeID;
-    private String heroID;
-
+    //ID of the selected item in the spinner
+    private String gameModeID, heroID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,14 +138,17 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         if (savedInstanceState != null) {
             System.out.println("come from state");
-            // wentToDetails = false;
+            wentToDetailsHeroes = false;
 //            comesFromInstanceStateHeroes = true;
 //            comesFromInstanceStateGameModes = true;
+
             gameModeSelection = savedInstanceState.getInt("gameModeSelection");
             heroSelection = savedInstanceState.getInt("heroSelection");
             matches = savedInstanceState.getParcelableArrayList("matches");
             mapHeroIDName = (HashMap<String, String>) savedInstanceState.getSerializable("mapHeroes");
             mapGameModeIDName = (HashMap<String, String>) savedInstanceState.getSerializable("mapGameModes");
+            gameModeID = savedInstanceState.getString("gameModeID");
+            heroID = savedInstanceState.getString("heroID");
 //            countUpdate = 2;
         } else {
             System.out.println("come not from state");
@@ -148,6 +156,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 //            comesFromInstanceStateGameModes = false;
             gameModeSelection = -1;
             heroSelection = -1;
+            //ID of the active item in the spinners
+            gameModeID = "-1";
+            heroID = "-1";
         }
     }
 
@@ -207,10 +218,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         layStatsNoGames = (LinearLayout) view.findViewById(R.id.layStatsNoGames);
 
 
-        //ID of the active item in the spinners
-        gameModeID = "-1";
-        heroID = "-1";
-
         if (matches == null) {
             updateMatches();
         } else if (matches.size() < 1) {
@@ -240,6 +247,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         outState.putParcelableArrayList("matches", matches);
         outState.putSerializable("mapHeroes", mapHeroIDName);
         outState.putSerializable("mapGameModes", mapGameModeIDName);
+        outState.putString("gameModeID", gameModeID);
+        outState.putString("heroID", heroID);
     }
 
     @Override
@@ -281,6 +290,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 if (gameModeSelection >= 0) {
                     spinnerGameModes.setSelection(gameModeSelection);
                 }
+                //gameModeID = Integer.toString(spinnerGameModes.getSelectedItemPosition());
             }
         }
         MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
@@ -304,7 +314,15 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 if (heroSelection >= 0) {
                     spinnerHeroes.setSelection(heroSelection);
                 }
+                //heroID = Integer.toString(spinnerHeroes.getSelectedItemPosition());
+
             }
+        }
+        if (spinnerHeroes.getSelectedItemPosition() == 0) {
+            wentToDetailsHeroes = false;
+        }
+        if (spinnerGameModes.getSelectedItemPosition() == 0) {
+            wentToDetailsGameModes = false;
         }
 
     }
@@ -322,11 +340,30 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 gameModeID = gAdapter.getIDForPosition(position);
                 gameModeSelection = spinnerGameModes.getSelectedItemPosition();
 
-                updateMatches();
+                //don't update matches if user is coming back from matchDetails page
+                if (!wentToDetailsGameModes) {
+                    if (sml != null) {
+                        if (sml.getStatus() != AsyncTask.Status.RUNNING) {
+                            updateMatches();
+                        }
+                    } else {
+                        updateMatches();
+                    }
+
+                }
+                wentToDetailsGameModes = false;
 
                 if (matches != null) {
                     if (matches.size() > 0) {
-                        updateVisuals();
+                        if (sml != null) {
+                            if (sml.getStatus() != AsyncTask.Status.RUNNING) {
+                                updateVisuals();
+                            }
+                        } else {
+                            updateVisuals();
+                        }
+
+
                     }
                 }
 
@@ -339,11 +376,27 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 heroID = adapter.getIDForPosition(position);
                 heroSelection = spinnerHeroes.getSelectedItemPosition();
 
-                updateMatches();
+                //don't update matches if user is coming back from matchDetails page
+                if (!wentToDetailsHeroes) {
+                    if (sml != null) {
+                        if (sml.getStatus() != AsyncTask.Status.RUNNING) {
+                            updateMatches();
+                        }
+                    } else {
+                        updateMatches();
+                    }
+                }
+                wentToDetailsHeroes = false;
 
                 if (matches != null) {
                     if (matches.size() > 0) {
-                        updateVisuals();
+                        if (sml != null) {
+                            if (sml.getStatus() != AsyncTask.Status.RUNNING) {
+                                updateVisuals();
+                            }
+                        } else {
+                            updateVisuals();
+                        }
                     }
                 }
 
@@ -368,16 +421,16 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         //todo: test
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
-        mapHeroIDName = phm.getMaps().getPlayedHeroes();
-        mapGameModeIDName = phm.getMaps().getPlayedGameModes();
+        mapHeroIDName = PlayedHeroesMapper.getMaps().getPlayedHeroes();
+        mapGameModeIDName = PlayedHeroesMapper.getMaps().getPlayedGameModes();
 
 
         if (mapHeroIDName == null || mapGameModeIDName == null) {
-            System.out.println("this should never execute");
+            System.out.println("map empty for some reason");
             MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
             mapHeroIDName = new HashMap<String, String>();
             mapGameModeIDName = new HashMap<String, String>();
-            for (DetailMatchLite rec : mds.getAllDetailMatchesLite()) {
+            for (DetailMatchLite rec : mds.getAllRealDetailMatchesLite()) {
                 mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
                 mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
             }
@@ -390,13 +443,17 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private void updateMatches() {
         System.out.println("updateMatches");
 
+        //lock orientation during loading
+        OrientationHelper.lockOrientation(getActivity());
+
         scrollStats.setVisibility(View.GONE);
         layStatsNoGames.setVisibility(View.GONE);
         layStatsGameModes.setVisibility(View.GONE);
         layStatsHeroes.setVisibility(View.GONE);
         progressStats.setVisibility(View.VISIBLE);
 
-        StatsMatchesLoader sml = new StatsMatchesLoader(this, getActivity());
+        sml = new StatsMatchesLoader(this, getActivity());
+        System.out.println("starting updateMatches for gamemodeID, heroID " + gameModeID + " " + heroID);
         sml.execute(gameModeID, heroID);
     }
 
@@ -412,7 +469,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         if (Integer.parseInt(gameModeID) < 1 && Integer.parseInt(heroID) < 1) {
             if (matches.size() > 0) {
                 btnStatsHelp.setVisibility(View.VISIBLE);
-                System.out.println(gameModeID);
                 setNumbers();
                 setGameModesGraph();
                 setHeroesGraph();
@@ -456,6 +512,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         //show view, hide loading indicator
         scrollStats.setVisibility(View.VISIBLE);
         progressStats.setVisibility(View.GONE);
+
+        //unlock orientation
+        OrientationHelper.unlockOrientation(getActivity());
     }
 
     @Override
@@ -474,55 +533,72 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.txtStatsLongestGame:
                 if (Integer.parseInt(longestGameID) > 0) {
                     match = mds.getMatchByID(longestGameID);
-//                    wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
                 }
                 break;
             case R.id.txtStatsMostKills:
                 if (Integer.parseInt(mostKillsID) > 0) {
                     match = mds.getMatchByID(mostKillsID);
-                    //wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostDeaths:
                 if (Integer.parseInt(mostDeathsID) > 0) {
                     match = mds.getMatchByID(mostDeathsID);
-                    //wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostAssists:
                 if (Integer.parseInt(mostAssistsID) > 0) {
                     match = mds.getMatchByID(mostAssistsID);
-                    //  wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostLastHits:
                 if (Integer.parseInt(mostLastHitsID) > 0) {
                     match = mds.getMatchByID(mostLastHitsID);
-                    //  wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostDenies:
                 if (Integer.parseInt(mostDeniesID) > 0) {
                     match = mds.getMatchByID(mostDeniesID);
-                    //   wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostHeroDamage:
                 if (Integer.parseInt(mostHeroDamageID) > 0) {
                     match = mds.getMatchByID(mostHeroDamageID);
-                    //   wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostGPM:
                 if (Integer.parseInt(mostGPMID) > 0) {
                     match = mds.getMatchByID(mostGPMID);
-                    // wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.txtStatsMostXPM:
                 if (Integer.parseInt(mostXPMID) > 0) {
                     match = mds.getMatchByID(mostXPMID);
-                    //   wentToDetails = true;
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+
                 }
                 break;
             case R.id.btnStatsHelp:
@@ -718,7 +794,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         System.out.println("setGameModesGraph");
 
 
-        layStatsGameModes.setVisibility(View.VISIBLE);
         LinearLayout layLegend = (LinearLayout) view.findViewById(R.id.layPieLegend);
         layLegend.removeAllViews();
 
@@ -749,7 +824,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 txtLegend.setTextColor(sliceColor);
                 layLegend.addView(txtLegend);
             }
-            }
+        }
+        layStatsGameModes.setVisibility(View.VISIBLE);
 
     }
 
@@ -757,7 +833,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         System.out.println("setHeroesGraph");
         //System.out.println("matches size: "+matches.size());
 
-        layStatsHeroes.setVisibility(View.VISIBLE);
+
         barGraph = (BarGraph) view.findViewById(R.id.barHeroes);
         barGraph.setOnBarClickedListener(barHandler);
 
@@ -784,6 +860,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         }
         barGraph.setBars(points);
+        layStatsHeroes.setVisibility(View.VISIBLE);
     }
 
 

@@ -43,7 +43,7 @@ public class UsersDataSource {
     }
 
     public void saveUser(User user) {
-
+        System.out.println("saved user " + user.getName() + "with last game " + user.getLast_saved_match());
         ContentValues values = new ContentValues();
 
         values.put(MySQLiteHelper.TABLE_USERS_ACCOUNT_ID, user.getAccount_id());
