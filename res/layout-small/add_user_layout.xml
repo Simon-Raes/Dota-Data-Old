@@ -28,7 +28,7 @@
                       android:text="Enter your information in one of the fields below and hit 'Go' to start downloading your Dota 2 match history. \n\nYour matches and statistics will be available once the download is finished."/>
         </LinearLayout>
 
-
+        <!-- Dotabuff card -->
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
@@ -73,6 +73,52 @@
         </RelativeLayout>
 
 
+        <!-- Vanity url card -->
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/bg_card_small">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpIDTitle"
+                      android:text="Using a custom Steam community URL"/>
+
+            <View style="@style/Divider"
+                  android:id="@+id/divHelpIDTitle"
+                  android:layout_below="@id/txtHelpIDTitle"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpIDContent"
+                      android:layout_below="@id/divHelpIDTitle"
+                      android:text="Enter your Steam community vanity url name to convert it to your Dota Account ID."/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtHelpIDExample"
+                      android:layout_below="@id/txtHelpIDContent"
+                      android:layout_centerHorizontal="true"
+                      android:paddingTop="10dp"
+                      android:paddingBottom="10dp"
+                      android:layout_gravity="center"
+                      android:text="http://steamcommunity.com/id/Voshond"/>
+
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_below="@id/txtHelpIDExample"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/btnHelpIDName"
+                    android:background="@drawable/draw_button_record"
+
+                    android:text="Go"/>
+
+            <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:layout_below="@id/txtHelpIDExample"
+                      android:layout_toLeftOf="@id/btnHelpIDName"
+                      android:id="@+id/txtHelpIDName"
+                      android:inputType="text"
+                      android:imeOptions="actionDone"/>
+
+        </RelativeLayout>
+        <!-- Community URL card -->
         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
@@ -90,7 +136,7 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpProfileContent"
                       android:layout_below="@+id/divHelpProfileTitle"
-                      android:text="Enter your Steam community profile number to convert it to your Dota Account ID. (Note: see below if you have a vanity url.)"/>
+                      android:text="Enter your Steam community profile number to convert it to your Dota Account ID."/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpProfileExample"
@@ -116,50 +162,6 @@
                       android:imeOptions="actionDone"/>
 
 
-        </RelativeLayout>
-
-
-        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@drawable/bg_card_small">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtHelpIDTitle"
-                      android:text="Using a custom Steam community URL"/>
-
-            <View style="@style/Divider"
-                  android:id="@+id/divHelpIDTitle"
-                  android:layout_below="@id/txtHelpIDTitle"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtHelpIDContent"
-                      android:layout_below="@id/divHelpIDTitle"
-                      android:text="Enter your Steam community vanity url name to convert it to your Dota Account ID."/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtHelpIDExample"
-                      android:layout_below="@id/txtHelpIDContent"
-                      android:layout_centerHorizontal="true"
-                      android:paddingBottom="10dp"
-                      android:layout_gravity="center"
-                      android:text="http://steamcommunity.com/id/Voshond"/>
-
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_below="@id/txtHelpIDExample"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/btnHelpIDName"
-                    android:background="@drawable/draw_button_record"
-
-                    android:text="Go"/>
-
-            <EditText android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:layout_below="@id/txtHelpIDExample"
-                      android:layout_toLeftOf="@id/btnHelpIDName"
-                      android:id="@+id/txtHelpIDName"
-                      android:inputType="text"
-                      android:imeOptions="actionDone"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
+import be.simonraes.dotadata.database.MatchesDataSource;
+import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
 import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.OrientationHelper;
@@ -73,12 +75,16 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
-
-        //todo: test
+        //start loading the content of the statistics spinners
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
         if (phm.getMaps().getPlayedHeroes().size() < 1) {
             phm.execute();
         }
+
+        MatchesDataSource mds = new MatchesDataSource(this, "0");
+        System.out.println(mds.getNumberOfRecords());
+        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(this);
+        System.out.println(pimds.getNumberOfRecords());
 
 
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {

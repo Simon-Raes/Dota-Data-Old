@@ -21,6 +21,7 @@ public class PicksBansDataSource {
     private Context context;
 
     private String[] picksBansColumns = {
+            MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_KEY,
             MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_MATCH_ID,
             MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_IS_PICK,
             MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_HERO_ID,
@@ -45,6 +46,7 @@ public class PicksBansDataSource {
 
         ContentValues values = new ContentValues();
 
+        values.put(MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_KEY, picksBans.getMatch_id() + picksBans.getOrder()); //unique primary key
         values.put(MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_MATCH_ID, picksBans.getMatch_id());
         values.put(MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_IS_PICK, String.valueOf(picksBans.isIs_pick())); //store boolean as string
         values.put(MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_HERO_ID, picksBans.getHero_id());
@@ -93,7 +95,6 @@ public class PicksBansDataSource {
         picksBans.setHero_id(cursor.getString(2));
         picksBans.setTeam(cursor.getString(3));
         picksBans.setOrder(cursor.getString(4));
-
 
         return picksBans;
     }

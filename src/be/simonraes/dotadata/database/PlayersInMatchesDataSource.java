@@ -57,7 +57,7 @@ public class PlayersInMatchesDataSource {
 
     public void savePlayer(DetailPlayer player) {
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID, player.getAccount_id() + player.getMatchID() + player.getPlayer_slot());
+        values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID, player.getMatchID() + player.getAccount_id() + player.getPlayer_slot()); //need all 3 to be unique (anons in match have same accountID-
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_ACCOUNTID, player.getAccount_id());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_MATCHID, player.getMatchID());
         values.put(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES_COLUMN_PLAYER_SLOT, player.getPlayer_slot());
@@ -117,6 +117,17 @@ public class PlayersInMatchesDataSource {
         cursor.close();
         close();
         return players;
+    }
+
+    public int getNumberOfRecords() {
+        open();
+        Cursor cursor = database.rawQuery("select count(*) from players_in_matches", null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        close();
+        return count;
+
     }
 
 //    public boolean recordExists(DetailPlayer player, String MatchID) {

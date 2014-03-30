@@ -22,11 +22,11 @@ public class UsersDataSource {
 
 
     private String[] usersColumns = {
-            MySQLiteHelper.TABLE_USERS_ACCOUNT_ID,
-            MySQLiteHelper.TABLE_USERS_STEAM_ID,
-            MySQLiteHelper.TABLE_USERS_NAME,
-            MySQLiteHelper.TABLE_USERS_AVATAR,
-            MySQLiteHelper.TABLE_USERS_LAST_SAVED_MATCH
+            MySQLiteHelper.TABLE_USERS_COLUMN_ACCOUNT_ID,
+            MySQLiteHelper.TABLE_USERS_COLUMN_STEAM_ID,
+            MySQLiteHelper.TABLE_USERS_COLUMN_NAME,
+            MySQLiteHelper.TABLE_USERS_COLUMN_AVATAR,
+            MySQLiteHelper.TABLE_USERS_COLUMN_LAST_SAVED_MATCH
     };
 
     public UsersDataSource(Context context) {
@@ -46,11 +46,11 @@ public class UsersDataSource {
         System.out.println("saved user " + user.getName() + "with last game " + user.getLast_saved_match());
         ContentValues values = new ContentValues();
 
-        values.put(MySQLiteHelper.TABLE_USERS_ACCOUNT_ID, user.getAccount_id());
-        values.put(MySQLiteHelper.TABLE_USERS_STEAM_ID, user.getSteam_id());
-        values.put(MySQLiteHelper.TABLE_USERS_NAME, user.getName());
-        values.put(MySQLiteHelper.TABLE_USERS_AVATAR, user.getAvatar());
-        values.put(MySQLiteHelper.TABLE_USERS_LAST_SAVED_MATCH, user.getLast_saved_match());
+        values.put(MySQLiteHelper.TABLE_USERS_COLUMN_ACCOUNT_ID, user.getAccount_id());
+        values.put(MySQLiteHelper.TABLE_USERS_COLUMN_STEAM_ID, user.getSteam_id());
+        values.put(MySQLiteHelper.TABLE_USERS_COLUMN_NAME, user.getName());
+        values.put(MySQLiteHelper.TABLE_USERS_COLUMN_AVATAR, user.getAvatar());
+        values.put(MySQLiteHelper.TABLE_USERS_COLUMN_LAST_SAVED_MATCH, user.getLast_saved_match());
 
         open();
         database.insertWithOnConflict(MySQLiteHelper.TABLE_USERS, null, values, SQLiteDatabase.CONFLICT_REPLACE);

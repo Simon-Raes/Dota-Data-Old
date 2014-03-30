@@ -19,6 +19,7 @@ import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesDataSource;
+import be.simonraes.dotadata.database.MatchesExtrasDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
@@ -111,7 +112,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
-        if (match.isUser_win()) {
+        if (match.getExtras().isUser_win()) {
             txtVictoryDefeat.setText("Victory");
             txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
         } else {
@@ -121,11 +122,11 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
 
         //note layout
-        if (match.getNote() != null && !match.getNote().equals("") && !match.getNote().equals("null")) {
+        if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
             RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
             layNote.setVisibility(View.VISIBLE);
             TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
-            txtNote.setText(match.getNote());
+            txtNote.setText(match.getExtras().getNote());
             ImageButton btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
             btnDeleteNote.setOnClickListener(this);
         }
@@ -537,7 +538,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
         if (btnFavourite != null) {
-            if (match.isFavourite()) {
+            if (match.getExtras().isFavourite()) {
                 btnFavourite.setIcon(R.drawable.ic_action_important_color);
             } else {
                 btnFavourite.setIcon(R.drawable.ic_action_not_important);
@@ -560,11 +561,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 noteDialog();
                 return true;
             case R.id.btnFavourite:
-                MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-                match.setFavourite(!match.isFavourite());
-                //todo: fix database so 1 match can be added (single add method doesn't have database open(),close())
-                mds.saveDetailMatches(new ArrayList<DetailMatch>(Arrays.asList(match)));
-                if (match.isFavourite()) {
+                //MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+                match.getExtras().setFavourite(!match.getExtras().isFavourite());
+                //mds.saveDetailMatches(new ArrayList<DetailMatch>(Arrays.asList(match)));
+                MatchesExtrasDataSource meds = new MatchesExtrasDataSource(getActivity());
+                meds.updateMatchesExtras(match.getExtras());
+                if (match.getExtras().isFavourite()) {
                     Toast.makeText(getActivity(), "Added match to favourites", Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_action_important_color);
                 } else {
@@ -618,8 +620,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         final EditText input = new EditText(getActivity());
         input.setLines(6);
         input.setMinLines(3);
-        if (match.getNote() != null && !match.getNote().equals("") && !match.getNote().equals("null")) {
-            input.setText(match.getNote());
+        if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
+            input.setText(match.getExtras().getNote());
         } else {
             input.setText("");
         }
@@ -646,11 +648,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     }
 
     private void saveNote(String text) {
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
-        match.setNote(text);
-        mds.open();
-        mds.saveDetailMatch(match);
-        mds.close();
+        // MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        match.getExtras().setNote(text);
+//        mds.open();
+//        mds.saveDetailMatch(match);
+//        mds.close();
+        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(getActivity());
+        meds.updateMatchesExtras(match.getExtras());
         if (text.equals("")) {
             Toast.makeText(getActivity(), "Note removed", Toast.LENGTH_SHORT).show();
         } else {

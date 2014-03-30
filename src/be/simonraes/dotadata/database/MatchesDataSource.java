@@ -5,10 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
-import be.simonraes.dotadata.detailmatch.PicksBans;
-import be.simonraes.dotadata.detailmatch.DetailMatchLite;
+import be.simonraes.dotadata.detailmatch.*;
 import be.simonraes.dotadata.statistics.HeroStats;
 
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ public class MatchesDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] matchesColumns = {
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_KEY,
+//            MySQLiteHelper.TABLE_MATCHES_COLUMN_KEY,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_RADIANT_WIN,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME,
@@ -43,10 +40,11 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_MATCHES_COLUMN_POSITIVE_VOTES,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_NEGATIVE_VOTES,
             MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE,
-            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER};
+//            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN,
+//            MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE,
+//            MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE,
+//            MySQLiteHelper.TABLE_MATCHES_COLUMN_USER
+    };
 
 
     //todo: need middle layer/class so this can be removed
@@ -86,6 +84,15 @@ public class MatchesDataSource {
             MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_ORDER
     };
 
+    private String[] matchesExtrasColumns = {
+            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_KEY,
+            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_MATCH_ID,
+            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID,
+            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN,
+            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_NOTE,
+            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_FAVOURITE
+    };
+
     private String user_accountID;
 
     public MatchesDataSource(Context context, String user_accountID) {
@@ -109,7 +116,7 @@ public class MatchesDataSource {
         String radiantWinForTable = String.valueOf(match.getRadiant_win());
 
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_KEY, match.getKey());
+//        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_KEY, match.getKey());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_RADIANT_WIN, radiantWinForTable);
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_DURATION, match.getDuration());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_START_TIME, match.getStart_time());
@@ -127,10 +134,10 @@ public class MatchesDataSource {
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_POSITIVE_VOTES, match.getPositive_votes());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NEGATIVE_VOTES, match.getNegative_votes());
         values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_GAME_MODE, match.getGame_mode());
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN, String.valueOf(match.isUser_win()));
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE, String.valueOf(match.isFavourite()));
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, match.getNote());
-        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER, match.getUser());
+//        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER_WIN, String.valueOf(match.isUser_win()));
+//        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_FAVOURITE, String.valueOf(match.isFavourite()));
+//        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_NOTE, match.getNote());
+//        values.put(MySQLiteHelper.TABLE_MATCHES_COLUMN_USER, match.getUser());
 
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
@@ -245,10 +252,10 @@ public class MatchesDataSource {
                     "matches.match_id," +
                     "lobby_type," +
                     "game_mode," +
-                    "user_win," +
-                    "favourite," +
-                    "note," +
-                    "account_id," +
+                    "matches_extras.user_win," +
+                    "matches_extras.favourite," +
+                    "matches_extras.note," +
+                    "matches_extras.account_id," +
                     "hero_id," +
                     "item_0," +
                     "item_1," +
@@ -273,11 +280,13 @@ public class MatchesDataSource {
                     "FROM players_in_matches " +
                     "JOIN matches " +
                     "ON matches.match_id = players_in_matches.match_id " +
-                    "WHERE account_id = ? " +
+                    "JOIN matches_extras " +
+                    "ON matches_extras.match_id = matches.match_id  " +
+                    "WHERE players_in_matches.account_id = ? " +
+                    "AND matches_extras.account_id = ?" +
                     "AND players_in_matches.match_id < ? " +
-                    "AND user = ? " +
                     "ORDER BY players_in_matches.match_id DESC " +
-                    "LIMIT 50;", new String[]{user_accountID, matchID, user_accountID});
+                    "LIMIT 50;", new String[]{user_accountID, user_accountID, matchID}); //, user_accountID
         } else {
             cursor = database.rawQuery("SELECT " +
                     "radiant_win," +
@@ -286,10 +295,10 @@ public class MatchesDataSource {
                     "matches.match_id," +
                     "lobby_type," +
                     "game_mode," +
-                    "user_win," +
-                    "favourite," +
-                    "note," +
-                    "account_id," +
+                    "matches_extras.user_win," +
+                    "matches_extras.favourite," +
+                    "matches_extras.note," +
+                    "players_in_matches.account_id," +
                     "hero_id," +
                     "item_0," +
                     "item_1," +
@@ -314,10 +323,12 @@ public class MatchesDataSource {
                     "FROM players_in_matches " +
                     "JOIN matches " +
                     "ON matches.match_id = players_in_matches.match_id " +
-                    "WHERE account_id = ? " +
-                    "AND user = ? " +
+                    "JOIN matches_extras " +
+                    "ON matches_extras.match_id = matches.match_id  " +
+                    "WHERE players_in_matches.account_id = ? " +
+                    "AND matches_extras.account_id = ?" +
                     "ORDER BY players_in_matches.match_id DESC " +
-                    "LIMIT 50;", new String[]{user_accountID, user_accountID});
+                    "LIMIT 50;", new String[]{user_accountID, user_accountID}); //, new String[]{user_accountID, user_accountID}
         }
 
         cursor.moveToFirst();
@@ -337,39 +348,43 @@ public class MatchesDataSource {
     public DetailMatch getMatchByID(String matchID) {
         DetailMatch dmb = new DetailMatch();
         open();
-        Cursor cs = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id = " + matchID + " AND user = " + user_accountID, null, null, null, null);
+        Cursor cs = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id = " + matchID, null, null, null, null); // + " AND user = " + user_accountID
         cs.moveToFirst();
-        while (!cs.isAfterLast()) {
-            dmb = cursorToDetailMatch(cs);
+        dmb = cursorToDetailMatch(cs);
 
-            //get players for all matches
-            Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
-            ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
-            cursorPlayers.moveToFirst();
-            while (!cursorPlayers.isAfterLast()) {
-                DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
-                players.add(detailPlayer);
-                cursorPlayers.moveToNext();
-            }
-            cursorPlayers.close();
-            dmb.setPlayers(players);
-
-
-            //get picks/bans for all matches
-            Cursor cursorPicksBans = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
-            ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
-            PicksBansDataSource pbds = new PicksBansDataSource(context);
-            cursorPicksBans.moveToFirst();
-            while (!cursorPicksBans.isAfterLast()) {
-                PicksBans picksBans = pbds.cursorToPicksBans(cursorPicksBans);
-                picksBansList.add(picksBans);
-                cursorPicksBans.moveToNext();
-            }
-            cursorPicksBans.close();
-            dmb.setPicks_bans(picksBansList);
-
-            cs.moveToNext();
+        //get players for the match
+        Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
+        ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+        cursorPlayers.moveToFirst();
+        while (!cursorPlayers.isAfterLast()) {
+            DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+            players.add(detailPlayer);
+            cursorPlayers.moveToNext();
         }
+        cursorPlayers.close();
+        dmb.setPlayers(players);
+
+
+        //get picks/bans for the match
+        Cursor cursorPicksBans = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
+        ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
+        PicksBansDataSource pbds = new PicksBansDataSource(context);
+        cursorPicksBans.moveToFirst();
+        while (!cursorPicksBans.isAfterLast()) {
+            PicksBans picksBans = pbds.cursorToPicksBans(cursorPicksBans);
+            picksBansList.add(picksBans);
+            cursorPicksBans.moveToNext();
+        }
+        cursorPicksBans.close();
+        dmb.setPicks_bans(picksBansList);
+
+        //get extras for match + active user
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES_EXTRAS, matchesExtrasColumns, "key = ?", new String[]{dmb.getMatch_id() + user_accountID}, null, null, null, null);
+        cursor.moveToFirst();
+        DetailMatchExtras extras = cursorToDetailMatchExtras(cursor);
+        cursor.close();
+        dmb.setExtras(extras);
+
         cs.close();
         close();
         return dmb;
@@ -400,10 +415,10 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "user_win," +
-                "favourite," +
-                "note," +
-                "account_id," +
+                "matches_extras.user_win," +
+                "matches_extras.favourite," +
+                "matches_extras.note," +
+                "players_in_matches.account_id," +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -428,14 +443,19 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "WHERE account_id = ? " +
+                "JOIN matches_extras " +
+                "ON matches_extras.match_id = matches.match_id  " +
+                "WHERE players_in_matches.account_id = ? " +
+                "AND matches_extras.account_id = ?" +
                 "AND game_mode != 0 " +
                 "AND game_mode != 6 " +
                 "AND game_mode != 7 " +
                 "AND game_mode != 9 " +
                 "AND game_mode != 10 " +
-                "AND game_mode != 15 " +
-                "AND user = ?;", new String[]{user_accountID, user_accountID});
+                "AND game_mode != 15 "
+                //+
+                //"AND user = ?;"
+                , new String[]{user_accountID, user_accountID}); //user_accountID
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -458,10 +478,10 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "user_win," +
-                "favourite," +
-                "note," +
-                "account_id," +
+                "matches_extras.user_win," +
+                "matches_extras.favourite," +
+                "matches_extras.note," +
+                "players_in_matches.account_id," +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -486,8 +506,11 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "WHERE account_id = ? " +
-                "AND user = ?;", new String[]{user_accountID, user_accountID});
+                "JOIN matches_extras " +
+                "ON matches_extras.match_id = matches.match_id  " +
+                "WHERE players_in_matches.account_id = ? " +
+                "AND matches_extras.account_id = ?"
+                , new String[]{user_accountID, user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -510,10 +533,10 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "user_win," +
-                "favourite," +
-                "note," +
-                "account_id," +
+                "matches_extras.user_win," +
+                "matches_extras.favourite," +
+                "matches_extras.note," +
+                "players_in_matches.account_id," +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -538,15 +561,18 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "WHERE account_id = ? " +
+                "JOIN matches_extras " +
+                "ON matches_extras.match_id = matches.match_id  " +
+                "WHERE players_in_matches.account_id = ? " +
+                "AND matches_extras.account_id = ?" +
                 "AND game_mode != 0 " +
                 "AND game_mode != 6 " +
                 "AND game_mode != 7 " +
                 "AND game_mode != 9 " +
                 "AND game_mode != 10 " +
                 "AND game_mode != 15 " +
-                "AND user = ? " +
-                "AND hero_id = ?;", new String[]{user_accountID, user_accountID, heroID});
+                // "AND user = ? " +
+                "AND hero_id = ?;", new String[]{user_accountID, user_accountID, heroID}); // user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -568,10 +594,10 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "user_win," +
-                "favourite," +
-                "note," +
-                "account_id," +
+                "matches_extras.user_win," +
+                "matches_extras.favourite," +
+                "matches_extras.note," +
+                "players_in_matches.account_id," +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -596,9 +622,12 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "WHERE account_id = ? " +
-                "AND user = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, gameModeID});
+                "JOIN matches_extras " +
+                "ON matches_extras.match_id = matches.match_id  " +
+                "WHERE players_in_matches.account_id = ? " +
+                "AND matches_extras.account_id = ?" +
+                // "AND user = ? " +
+                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, gameModeID}); //user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -620,10 +649,10 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "user_win," +
-                "favourite," +
-                "note," +
-                "account_id," +
+                "matches_extras.user_win," +
+                "matches_extras.favourite," +
+                "matches_extras.note," +
+                "players_in_matches.account_id," +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -648,10 +677,13 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "WHERE account_id = ? " +
-                "AND user = ? " +
+                "JOIN matches_extras " +
+                "ON matches_extras.match_id = matches.match_id  " +
+                "WHERE players_in_matches.account_id = ? " +
+                "AND matches_extras.account_id = ?" +
+                // "AND user = ? " +
                 "AND hero_id = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, heroID, gameModeID});
+                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, heroID, gameModeID}); //user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -666,28 +698,28 @@ public class MatchesDataSource {
     private DetailMatch cursorToDetailMatch(Cursor cursor) {
         DetailMatch detailMatch = new DetailMatch();
 
-        detailMatch.setKey(cursor.getString(0));
-        detailMatch.setRadiant_win(Boolean.parseBoolean(cursor.getString(1)));
-        detailMatch.setDuration(cursor.getString(2));
-        detailMatch.setStart_time(cursor.getString(3));
-        detailMatch.setMatch_id(Integer.toString(cursor.getInt(4)));
-        detailMatch.setMatch_seq_num(cursor.getString(5));
-        detailMatch.setTower_status_radiant(cursor.getString(6));
-        detailMatch.setTower_status_dire(cursor.getString(7));
-        detailMatch.setBarracks_status_radiant(cursor.getString(8));
-        detailMatch.setBarracks_status_dire(cursor.getString(9));
-        detailMatch.setCluster(cursor.getString(10));
-        detailMatch.setFirst_blood_time(cursor.getString(11));
-        detailMatch.setLobby_type(cursor.getString(12));
-        detailMatch.setHuman_players(cursor.getString(13));
-        detailMatch.setLeagueid(cursor.getString(14));
-        detailMatch.setPositive_votes(cursor.getString(15));
-        detailMatch.setNegative_votes(cursor.getString(16));
-        detailMatch.setGame_mode(cursor.getString(17));
-        detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(18)));
-        detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(19)));
-        detailMatch.setNote(cursor.getString(20));
-        detailMatch.setUser(cursor.getString(21));
+//        detailMatch.setKey(cursor.getString(0));
+        detailMatch.setRadiant_win(Boolean.parseBoolean(cursor.getString(0)));
+        detailMatch.setDuration(cursor.getString(1));
+        detailMatch.setStart_time(cursor.getString(2));
+        detailMatch.setMatch_id(Integer.toString(cursor.getInt(3)));
+        detailMatch.setMatch_seq_num(cursor.getString(4));
+        detailMatch.setTower_status_radiant(cursor.getString(5));
+        detailMatch.setTower_status_dire(cursor.getString(6));
+        detailMatch.setBarracks_status_radiant(cursor.getString(7));
+        detailMatch.setBarracks_status_dire(cursor.getString(8));
+        detailMatch.setCluster(cursor.getString(9));
+        detailMatch.setFirst_blood_time(cursor.getString(10));
+        detailMatch.setLobby_type(cursor.getString(11));
+        detailMatch.setHuman_players(cursor.getString(12));
+        detailMatch.setLeagueid(cursor.getString(13));
+        detailMatch.setPositive_votes(cursor.getString(14));
+        detailMatch.setNegative_votes(cursor.getString(15));
+        detailMatch.setGame_mode(cursor.getString(16));
+//        detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(18)));
+//        detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(19)));
+//        detailMatch.setNote(cursor.getString(20));
+//        detailMatch.setUser(cursor.getString(21));
 
         return detailMatch;
     }
@@ -777,6 +809,19 @@ public class MatchesDataSource {
         return record;
     }
 
+    private DetailMatchExtras cursorToDetailMatchExtras(Cursor cursor) {
+        DetailMatchExtras extras = new DetailMatchExtras();
+
+        //no need to fetch key (0)
+        extras.setMatch_id(cursor.getString(1));
+        extras.setAccount_id(cursor.getString(2));
+        extras.setUser_win(Boolean.parseBoolean(cursor.getString(3)));
+        extras.setNote(cursor.getString(4));
+        extras.setFavourite(Boolean.parseBoolean(cursor.getString(5)));
+
+        return extras;
+    }
+
     public int getNumberOfRecords() {
         open();
         Cursor cursor = database.rawQuery("select count(*) from matches", null);
@@ -787,19 +832,23 @@ public class MatchesDataSource {
         return count;
 
     }
-
-    public void deleteLatestMatch() {
-        String matchID = getLatestMatch().getMatch_id();
-        open();
-        database.delete(MySQLiteHelper.TABLE_MATCHES, "match_id = ?", new String[]{matchID});
-        database.delete(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, "match_id = ?", new String[]{matchID});
-        database.delete(MySQLiteHelper.TABLE_PICKS_BANS, "match_id = ?", new String[]{matchID});
-        close();
-    }
+//
+//    public void deleteLatestMatch() {
+//        String matchID = getLatestMatch().getMatch_id();
+//        open();
+//        database.delete(MySQLiteHelper.TABLE_MATCHES, "match_id = ?", new String[]{matchID});
+//        database.delete(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, "match_id = ?", new String[]{matchID});
+//        database.delete(MySQLiteHelper.TABLE_PICKS_BANS, "match_id = ?", new String[]{matchID});
+//        close();
+//    }
 
     public void deleteUserMatches() {
         open();
-        database.delete(MySQLiteHelper.TABLE_MATCHES, "user = ?", new String[]{user_accountID});
+
+        //database.delete(MySQLiteHelper.TABLE_MATCHES, "user = ?", new String[]{user_accountID});
+
+        //only delete his extras since matches are shared between all users
+        database.delete(MySQLiteHelper.TABLE_MATCHES_EXTRAS, "account_id = ?", new String[]{user_accountID});
         close();
     }
 }
