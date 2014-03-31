@@ -85,10 +85,10 @@ public class MatchesDataSource {
     };
 
     private String[] matchesExtrasColumns = {
-            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_KEY,
+            //MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_KEY,
             MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_MATCH_ID,
-            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID,
-            MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN,
+            //MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID,
+            //MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN,
             MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_NOTE,
             MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_FAVOURITE
     };
@@ -252,10 +252,11 @@ public class MatchesDataSource {
                     "matches.match_id," +
                     "lobby_type," +
                     "game_mode," +
-                    "matches_extras.user_win," +
+                    //"matches_extras.user_win," +
                     "matches_extras.favourite," +
                     "matches_extras.note," +
-                    "matches_extras.account_id," +
+                    "players_in_matches.account_id," +
+                    "player_slot, " +
                     "hero_id," +
                     "item_0," +
                     "item_1," +
@@ -280,13 +281,13 @@ public class MatchesDataSource {
                     "FROM players_in_matches " +
                     "JOIN matches " +
                     "ON matches.match_id = players_in_matches.match_id " +
-                    "JOIN matches_extras " +
+                    "LEFT JOIN matches_extras " +
                     "ON matches_extras.match_id = matches.match_id  " +
                     "WHERE players_in_matches.account_id = ? " +
-                    "AND matches_extras.account_id = ?" +
+                    //"AND matches_extras.account_id = ?" +
                     "AND players_in_matches.match_id < ? " +
                     "ORDER BY players_in_matches.match_id DESC " +
-                    "LIMIT 50;", new String[]{user_accountID, user_accountID, matchID}); //, user_accountID
+                    "LIMIT 50;", new String[]{user_accountID, matchID}); //, user_accountID
         } else {
             cursor = database.rawQuery("SELECT " +
                     "radiant_win," +
@@ -295,10 +296,11 @@ public class MatchesDataSource {
                     "matches.match_id," +
                     "lobby_type," +
                     "game_mode," +
-                    "matches_extras.user_win," +
+                    // "matches_extras.user_win," +
                     "matches_extras.favourite," +
                     "matches_extras.note," +
                     "players_in_matches.account_id," +
+                    "player_slot, " +
                     "hero_id," +
                     "item_0," +
                     "item_1," +
@@ -323,12 +325,12 @@ public class MatchesDataSource {
                     "FROM players_in_matches " +
                     "JOIN matches " +
                     "ON matches.match_id = players_in_matches.match_id " +
-                    "JOIN matches_extras " +
+                    "LEFT JOIN matches_extras " +
                     "ON matches_extras.match_id = matches.match_id  " +
                     "WHERE players_in_matches.account_id = ? " +
-                    "AND matches_extras.account_id = ?" +
+                    //"AND matches_extras.account_id = ?" +
                     "ORDER BY players_in_matches.match_id DESC " +
-                    "LIMIT 50;", new String[]{user_accountID, user_accountID}); //, new String[]{user_accountID, user_accountID}
+                    "LIMIT 50;", new String[]{user_accountID}); //, new String[]{user_accountID, user_accountID}
         }
 
         cursor.moveToFirst();
@@ -358,6 +360,15 @@ public class MatchesDataSource {
         cursorPlayers.moveToFirst();
         while (!cursorPlayers.isAfterLast()) {
             DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+
+            //todo: re-enable this when the ability_upgrades visuals have been implemented
+            //disabled for now to speed up loading
+
+//            //get the player's upgrades
+//            AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
+//            detailPlayer.setAbilityupgrades(auds.getAbilityUpgradesForPlayerInMatch(matchID, detailPlayer.getPlayer_slot()));
+
+            //store the player
             players.add(detailPlayer);
             cursorPlayers.moveToNext();
         }
@@ -378,9 +389,14 @@ public class MatchesDataSource {
         cursorPicksBans.close();
         dmb.setPicks_bans(picksBansList);
 
-        //get extras for match + active user
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES_EXTRAS, matchesExtrasColumns, "key = ?", new String[]{dmb.getMatch_id() + user_accountID}, null, null, null, null);
-        cursor.moveToFirst();
+        //get extras for match
+        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(context);
+        dmb.setExtras(meds.getDetailMatchExtrasForMatch(dmb.getMatch_id()));
+        System.out.println("loaded extras into match " + dmb.getExtras().getMatch_id());
+
+
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_MATCHES_EXTRAS, matchesExtrasColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
+
         DetailMatchExtras extras = cursorToDetailMatchExtras(cursor);
         cursor.close();
         dmb.setExtras(extras);
@@ -415,10 +431,11 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "matches_extras.user_win," +
+                // "matches_extras.user_win," +
                 "matches_extras.favourite," +
                 "matches_extras.note," +
                 "players_in_matches.account_id," +
+                "player_slot, " +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -443,10 +460,10 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "JOIN matches_extras " +
+                "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
                 "WHERE players_in_matches.account_id = ? " +
-                "AND matches_extras.account_id = ?" +
+                //"AND matches_extras.account_id = ?" +
                 "AND game_mode != 0 " +
                 "AND game_mode != 6 " +
                 "AND game_mode != 7 " +
@@ -455,7 +472,7 @@ public class MatchesDataSource {
                 "AND game_mode != 15 "
                 //+
                 //"AND user = ?;"
-                , new String[]{user_accountID, user_accountID}); //user_accountID
+                , new String[]{user_accountID}); //user_accountID
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -478,10 +495,11 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "matches_extras.user_win," +
+                //  "matches_extras.user_win," +
                 "matches_extras.favourite," +
                 "matches_extras.note," +
                 "players_in_matches.account_id," +
+                "player_slot, " +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -506,11 +524,11 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "JOIN matches_extras " +
+                "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
-                "WHERE players_in_matches.account_id = ? " +
-                "AND matches_extras.account_id = ?"
-                , new String[]{user_accountID, user_accountID});
+                "WHERE players_in_matches.account_id = ? "
+                //"AND matches_extras.account_id = ?"
+                , new String[]{user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -533,10 +551,11 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "matches_extras.user_win," +
+                //  "matches_extras.user_win," +
                 "matches_extras.favourite," +
                 "matches_extras.note," +
                 "players_in_matches.account_id," +
+                "player_slot, " +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -561,10 +580,10 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "JOIN matches_extras " +
+                "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
                 "WHERE players_in_matches.account_id = ? " +
-                "AND matches_extras.account_id = ?" +
+                //"AND matches_extras.account_id = ?" +
                 "AND game_mode != 0 " +
                 "AND game_mode != 6 " +
                 "AND game_mode != 7 " +
@@ -572,7 +591,7 @@ public class MatchesDataSource {
                 "AND game_mode != 10 " +
                 "AND game_mode != 15 " +
                 // "AND user = ? " +
-                "AND hero_id = ?;", new String[]{user_accountID, user_accountID, heroID}); // user_accountID,
+                "AND hero_id = ?;", new String[]{user_accountID, heroID}); // user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -594,10 +613,11 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "matches_extras.user_win," +
+                //  "matches_extras.user_win," +
                 "matches_extras.favourite," +
                 "matches_extras.note," +
                 "players_in_matches.account_id," +
+                "player_slot, " +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -622,12 +642,12 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "JOIN matches_extras " +
+                "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
                 "WHERE players_in_matches.account_id = ? " +
-                "AND matches_extras.account_id = ?" +
+                //"AND matches_extras.account_id = ?" +
                 // "AND user = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, gameModeID}); //user_accountID,
+                "AND game_mode = ?;", new String[]{user_accountID, gameModeID}); //user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -649,10 +669,12 @@ public class MatchesDataSource {
                 "matches.match_id," +
                 "lobby_type," +
                 "game_mode," +
-                "matches_extras.user_win," +
+                //  "matches_extras.user_win," +
                 "matches_extras.favourite," +
                 "matches_extras.note," +
                 "players_in_matches.account_id," +
+                "players_in_matches.account_id," +
+                "player_slot, " +
                 "hero_id," +
                 "item_0," +
                 "item_1," +
@@ -677,13 +699,13 @@ public class MatchesDataSource {
                 "FROM players_in_matches " +
                 "JOIN matches " +
                 "ON matches.match_id = players_in_matches.match_id " +
-                "JOIN matches_extras " +
+                "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
                 "WHERE players_in_matches.account_id = ? " +
-                "AND matches_extras.account_id = ?" +
+                //"AND matches_extras.account_id = ?" +
                 // "AND user = ? " +
                 "AND hero_id = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, user_accountID, heroID, gameModeID}); //user_accountID,
+                "AND game_mode = ?;", new String[]{user_accountID, heroID, gameModeID}); //user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -697,75 +719,78 @@ public class MatchesDataSource {
 
     private DetailMatch cursorToDetailMatch(Cursor cursor) {
         DetailMatch detailMatch = new DetailMatch();
+        if (cursor != null) {
 
 //        detailMatch.setKey(cursor.getString(0));
-        detailMatch.setRadiant_win(Boolean.parseBoolean(cursor.getString(0)));
-        detailMatch.setDuration(cursor.getString(1));
-        detailMatch.setStart_time(cursor.getString(2));
-        detailMatch.setMatch_id(Integer.toString(cursor.getInt(3)));
-        detailMatch.setMatch_seq_num(cursor.getString(4));
-        detailMatch.setTower_status_radiant(cursor.getString(5));
-        detailMatch.setTower_status_dire(cursor.getString(6));
-        detailMatch.setBarracks_status_radiant(cursor.getString(7));
-        detailMatch.setBarracks_status_dire(cursor.getString(8));
-        detailMatch.setCluster(cursor.getString(9));
-        detailMatch.setFirst_blood_time(cursor.getString(10));
-        detailMatch.setLobby_type(cursor.getString(11));
-        detailMatch.setHuman_players(cursor.getString(12));
-        detailMatch.setLeagueid(cursor.getString(13));
-        detailMatch.setPositive_votes(cursor.getString(14));
-        detailMatch.setNegative_votes(cursor.getString(15));
-        detailMatch.setGame_mode(cursor.getString(16));
+            detailMatch.setRadiant_win(Boolean.parseBoolean(cursor.getString(0)));
+            detailMatch.setDuration(cursor.getString(1));
+            detailMatch.setStart_time(cursor.getString(2));
+            detailMatch.setMatch_id(Integer.toString(cursor.getInt(3)));
+            detailMatch.setMatch_seq_num(cursor.getString(4));
+            detailMatch.setTower_status_radiant(cursor.getString(5));
+            detailMatch.setTower_status_dire(cursor.getString(6));
+            detailMatch.setBarracks_status_radiant(cursor.getString(7));
+            detailMatch.setBarracks_status_dire(cursor.getString(8));
+            detailMatch.setCluster(cursor.getString(9));
+            detailMatch.setFirst_blood_time(cursor.getString(10));
+            detailMatch.setLobby_type(cursor.getString(11));
+            detailMatch.setHuman_players(cursor.getString(12));
+            detailMatch.setLeagueid(cursor.getString(13));
+            detailMatch.setPositive_votes(cursor.getString(14));
+            detailMatch.setNegative_votes(cursor.getString(15));
+            detailMatch.setGame_mode(cursor.getString(16));
 //        detailMatch.setUser_win(Boolean.parseBoolean(cursor.getString(18)));
 //        detailMatch.setFavourite(Boolean.parseBoolean(cursor.getString(19)));
 //        detailMatch.setNote(cursor.getString(20));
 //        detailMatch.setUser(cursor.getString(21));
-
+        }
         return detailMatch;
     }
 
-    private HeroStats cursorToHeroStats(Cursor cursor) {
-        HeroStats heroStats = new HeroStats();
-
-        heroStats.setNumberOfGames(cursor.getInt(0));
-        heroStats.setWins(cursor.getInt(1));
-        heroStats.setLosses(cursor.getInt(2));
-        heroStats.setLongestMatch(cursor.getInt(3));
-
-        return heroStats;
-    }
+//    private HeroStats cursorToHeroStats(Cursor cursor) {
+//        HeroStats heroStats = new HeroStats();
+//        if( cursor != null && cursor.moveToFirst() ) {
+//
+//            heroStats.setNumberOfGames(cursor.getInt(0));
+//            heroStats.setWins(cursor.getInt(1));
+//            heroStats.setLosses(cursor.getInt(2));
+//            heroStats.setLongestMatch(cursor.getInt(3));
+//        }
+//        return heroStats;
+//    }
 
 
     //test for players in matches all
     private DetailPlayer cursorToDetailHeroBag(Cursor cursor) {
         DetailPlayer player = new DetailPlayer();
+        if (cursor != null) {
 
-        //pim - column 0
-        player.setAccount_id(cursor.getString(1));
-        player.setMatchID(cursor.getString(2));
-        player.setPlayer_slot(cursor.getString(3));
-        player.setHero_id(cursor.getString(4));
-        player.setItem_0(cursor.getString(5));
-        player.setItem_1(cursor.getString(6));
-        player.setItem_2(cursor.getString(7));
-        player.setItem_3(cursor.getString(8));
-        player.setItem_4(cursor.getString(9));
-        player.setItem_5(cursor.getString(10));
-        player.setKills(cursor.getString(11));
-        player.setDeaths(cursor.getString(12));
-        player.setAssists(cursor.getString(13));
-        player.setLeaver_status(cursor.getString(14));
-        player.setGold(cursor.getString(15));
-        player.setLast_hits(cursor.getString(16));
-        player.setDenies(cursor.getString(17));
-        player.setGold_per_min(cursor.getString(18));
-        player.setXp_per_min(cursor.getString(19));
-        player.setGold_spent(cursor.getString(20));
-        player.setHero_damage(cursor.getString(21));
-        player.setTower_damage(cursor.getString(22));
-        player.setHero_healing(cursor.getString(23));
-        player.setLevel(cursor.getString(24));
-
+            //pim - column 0
+            player.setAccount_id(cursor.getString(1));
+            player.setMatchID(cursor.getString(2));
+            player.setPlayer_slot(cursor.getString(3));
+            player.setHero_id(cursor.getString(4));
+            player.setItem_0(cursor.getString(5));
+            player.setItem_1(cursor.getString(6));
+            player.setItem_2(cursor.getString(7));
+            player.setItem_3(cursor.getString(8));
+            player.setItem_4(cursor.getString(9));
+            player.setItem_5(cursor.getString(10));
+            player.setKills(cursor.getString(11));
+            player.setDeaths(cursor.getString(12));
+            player.setAssists(cursor.getString(13));
+            player.setLeaver_status(cursor.getString(14));
+            player.setGold(cursor.getString(15));
+            player.setLast_hits(cursor.getString(16));
+            player.setDenies(cursor.getString(17));
+            player.setGold_per_min(cursor.getString(18));
+            player.setXp_per_min(cursor.getString(19));
+            player.setGold_spent(cursor.getString(20));
+            player.setHero_damage(cursor.getString(21));
+            player.setTower_damage(cursor.getString(22));
+            player.setHero_healing(cursor.getString(23));
+            player.setLevel(cursor.getString(24));
+        }
         return player;
     }
 
@@ -773,38 +798,68 @@ public class MatchesDataSource {
         DetailMatchLite record = new DetailMatchLite();
 
         //START TIME OOK NODIG VOOR HISTORY GRAPH DINGEN
+        if (cursor != null) {
 
-        record.setRadiant_win(Boolean.parseBoolean(cursor.getString(0)));
-        record.setDuration(cursor.getString(1));
-        record.setStart_time(cursor.getString(2));
-        record.setMatch_id(cursor.getString(3));
-        record.setLobby_type(cursor.getString(4));
-        record.setGame_mode(cursor.getString(5));
-        record.setUser_win(Boolean.parseBoolean(cursor.getString(6)));
-        record.setFavourite(Boolean.parseBoolean(cursor.getString(7)));
+
+            record.setRadiant_win(Boolean.parseBoolean(cursor.getString(0)));
+            record.setDuration(cursor.getString(1));
+            record.setStart_time(cursor.getString(2));
+            record.setMatch_id(cursor.getString(3));
+            record.setLobby_type(cursor.getString(4));
+            record.setGame_mode(cursor.getString(5));
+            //record.setUser_win(Boolean.parseBoolean(cursor.getString(6)));
+            record.setFavourite(Boolean.parseBoolean(cursor.getString(6)));
+            record.setNote(cursor.getString(7));
+            record.setAccount_id(cursor.getString(8));
+            record.setPlayer_slot(cursor.getString(9));
+            record.setHero_id(cursor.getString(10));
+            record.setItem_0(cursor.getString(11));
+            record.setItem_1(cursor.getString(12));
+            record.setItem_2(cursor.getString(13));
+            record.setItem_3(cursor.getString(14));
+            record.setItem_4(cursor.getString(15));
+            record.setItem_5(cursor.getString(16));
+            record.setKills(cursor.getString(17));
+            record.setDeaths(cursor.getString(18));
+            record.setAssists(cursor.getString(19));
+            record.setLeaver_status(cursor.getString(20));
+            record.setGold(cursor.getString(21));
+            record.setLast_hits(cursor.getString(22));
+            record.setDenies(cursor.getString(23));
+            record.setGold_per_min(cursor.getString(24));
+            record.setXp_per_min(cursor.getString(25));
+            record.setGold_spent(cursor.getString(26));
+            record.setHero_damage(cursor.getString(27));
+            record.setTower_damage(cursor.getString(28));
+            record.setHero_healing(cursor.getString(29));
+            record.setLevel(cursor.getString(30));
+
+        }
+        /*record.setFavourite(Boolean.parseBoolean(cursor.getString(7)));
         record.setNote(cursor.getString(8));
         record.setAccount_id(cursor.getString(9));
-        record.setHero_id(cursor.getString(10));
-        record.setItem_0(cursor.getString(11));
-        record.setItem_1(cursor.getString(12));
-        record.setItem_2(cursor.getString(13));
-        record.setItem_3(cursor.getString(14));
-        record.setItem_4(cursor.getString(15));
-        record.setItem_5(cursor.getString(16));
-        record.setKills(cursor.getString(17));
-        record.setDeaths(cursor.getString(18));
-        record.setAssists(cursor.getString(19));
-        record.setLeaver_status(cursor.getString(20));
-        record.setGold(cursor.getString(21));
-        record.setLast_hits(cursor.getString(22));
-        record.setDenies(cursor.getString(23));
-        record.setGold_per_min(cursor.getString(24));
-        record.setXp_per_min(cursor.getString(25));
-        record.setGold_spent(cursor.getString(26));
-        record.setHero_damage(cursor.getString(27));
-        record.setTower_damage(cursor.getString(28));
-        record.setHero_healing(cursor.getString(29));
-        record.setLevel(cursor.getString(30));
+        record.setPlayer_slot(cursor.getString(10));
+        record.setHero_id(cursor.getString(11));
+        record.setItem_0(cursor.getString(12));
+        record.setItem_1(cursor.getString(13));
+        record.setItem_2(cursor.getString(14));
+        record.setItem_3(cursor.getString(15));
+        record.setItem_4(cursor.getString(16));
+        record.setItem_5(cursor.getString(17));
+        record.setKills(cursor.getString(18));
+        record.setDeaths(cursor.getString(19));
+        record.setAssists(cursor.getString(20));
+        record.setLeaver_status(cursor.getString(21));
+        record.setGold(cursor.getString(22));
+        record.setLast_hits(cursor.getString(23));
+        record.setDenies(cursor.getString(24));
+        record.setGold_per_min(cursor.getString(25));
+        record.setXp_per_min(cursor.getString(26));
+        record.setGold_spent(cursor.getString(27));
+        record.setHero_damage(cursor.getString(28));
+        record.setTower_damage(cursor.getString(29));
+        record.setHero_healing(cursor.getString(30));
+        record.setLevel(cursor.getString(31));*/
 
         return record;
     }
@@ -812,12 +867,14 @@ public class MatchesDataSource {
     private DetailMatchExtras cursorToDetailMatchExtras(Cursor cursor) {
         DetailMatchExtras extras = new DetailMatchExtras();
 
-        //no need to fetch key (0)
-        extras.setMatch_id(cursor.getString(1));
-        extras.setAccount_id(cursor.getString(2));
-        extras.setUser_win(Boolean.parseBoolean(cursor.getString(3)));
-        extras.setNote(cursor.getString(4));
-        extras.setFavourite(Boolean.parseBoolean(cursor.getString(5)));
+        if (cursor != null && cursor.moveToFirst()) {
+            System.out.println("extra be cool");
+            extras.setMatch_id(cursor.getString(0));
+            //extras.setAccount_id(cursor.getString(2));
+            // extras.setUser_win(Boolean.parseBoolean(cursor.getString(3)));
+            extras.setNote(cursor.getString(1));
+            extras.setFavourite(Boolean.parseBoolean(cursor.getString(2)));
+        }
 
         return extras;
     }
@@ -847,8 +904,8 @@ public class MatchesDataSource {
 
         //database.delete(MySQLiteHelper.TABLE_MATCHES, "user = ?", new String[]{user_accountID});
 
-        //only delete his extras since matches are shared between all users
-        database.delete(MySQLiteHelper.TABLE_MATCHES_EXTRAS, "account_id = ?", new String[]{user_accountID});
+        //delete nothing, really
+        // database.delete(MySQLiteHelper.TABLE_MATCHES_EXTRAS, "account_id = ?", new String[]{user_accountID});
         close();
     }
 }

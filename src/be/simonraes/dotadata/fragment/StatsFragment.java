@@ -26,10 +26,7 @@ import be.simonraes.dotadata.holograph.PieGraph;
 import be.simonraes.dotadata.holograph.PieSlice;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
-import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.GameModes;
-import be.simonraes.dotadata.util.HeroList;
-import be.simonraes.dotadata.util.OrientationHelper;
+import be.simonraes.dotadata.util.*;
 
 import java.util.*;
 
@@ -685,66 +682,74 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
 
         //calculate new values
-        for (DetailMatchLite rec : matches) {
+        for (DetailMatchLite matchLite : matches) {
             //numbers
             gamesPlayed++;
-            if (rec.isUser_win()) {
+//            if (matchLite.isUser_win()) {
+//                gamesWon++;
+//            } else {
+//                gamesLost++;
+//            }
+
+            if (MatchUtils.isUser_win(matchLite)) {
                 gamesWon++;
+
             } else {
                 gamesLost++;
             }
-            totalDuration += Double.parseDouble(rec.getDuration());
-            totalKills += Double.parseDouble(rec.getKills());
-            totalDeaths += Double.parseDouble(rec.getDeaths());
-            totalAssists += Double.parseDouble(rec.getAssists());
-            totalGPM += Double.parseDouble(rec.getGold_per_min());
-            totalXPM += Double.parseDouble(rec.getXp_per_min());
+
+            totalDuration += Double.parseDouble(matchLite.getDuration());
+            totalKills += Double.parseDouble(matchLite.getKills());
+            totalDeaths += Double.parseDouble(matchLite.getDeaths());
+            totalAssists += Double.parseDouble(matchLite.getAssists());
+            totalGPM += Double.parseDouble(matchLite.getGold_per_min());
+            totalXPM += Double.parseDouble(matchLite.getXp_per_min());
 
 
             //records
-            if (Long.parseLong(rec.getDuration()) > longestGame) {
-                longestGame = Long.parseLong(rec.getDuration());
-                longestGameID = rec.getMatch_id();
+            if (Long.parseLong(matchLite.getDuration()) > longestGame) {
+                longestGame = Long.parseLong(matchLite.getDuration());
+                longestGameID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getKills()) > mostKills) {
-                mostKills = Integer.parseInt(rec.getKills());
-                mostKillsID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getKills()) > mostKills) {
+                mostKills = Integer.parseInt(matchLite.getKills());
+                mostKillsID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getDeaths()) > mostDeaths) {
-                mostDeaths = Integer.parseInt(rec.getDeaths());
-                mostDeathsID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getDeaths()) > mostDeaths) {
+                mostDeaths = Integer.parseInt(matchLite.getDeaths());
+                mostDeathsID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getAssists()) > mostAssists) {
-                mostAssists = Integer.parseInt(rec.getAssists());
-                mostAssistsID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getAssists()) > mostAssists) {
+                mostAssists = Integer.parseInt(matchLite.getAssists());
+                mostAssistsID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getLast_hits()) > mostLastHits) {
-                mostLastHits = Integer.parseInt(rec.getLast_hits());
-                mostLastHitsID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getLast_hits()) > mostLastHits) {
+                mostLastHits = Integer.parseInt(matchLite.getLast_hits());
+                mostLastHitsID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getDenies()) > mostDenies) {
-                mostDenies = Integer.parseInt(rec.getDenies());
-                mostDeniesID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getDenies()) > mostDenies) {
+                mostDenies = Integer.parseInt(matchLite.getDenies());
+                mostDeniesID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getGold()) > mostHeroDamage) {
-                mostHeroDamage = Integer.parseInt(rec.getHero_damage());
-                mostHeroDamageID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getGold()) > mostHeroDamage) {
+                mostHeroDamage = Integer.parseInt(matchLite.getHero_damage());
+                mostHeroDamageID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getGold_per_min()) > mostGPM) {
-                mostGPM = Integer.parseInt(rec.getGold_per_min());
-                mostGPMID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getGold_per_min()) > mostGPM) {
+                mostGPM = Integer.parseInt(matchLite.getGold_per_min());
+                mostGPMID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(rec.getXp_per_min()) > mostXPM) {
-                mostXPM = Integer.parseInt(rec.getXp_per_min());
-                mostXPMID = rec.getMatch_id();
+            if (Integer.parseInt(matchLite.getXp_per_min()) > mostXPM) {
+                mostXPM = Integer.parseInt(matchLite.getXp_per_min());
+                mostXPMID = matchLite.getMatch_id();
             }
-            if (gameModesMap.get(GameModes.getGameMode(rec.getGame_mode())) != null) {
-                int prevValue = gameModesMap.get(GameModes.getGameMode(rec.getGame_mode()));
-                gameModesMap.put(GameModes.getGameMode(rec.getGame_mode()), prevValue + 1);
+            if (gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode())) != null) {
+                int prevValue = gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode()));
+                gameModesMap.put(GameModes.getGameMode(matchLite.getGame_mode()), prevValue + 1);
             }
-            if (heroesMap.get(HeroList.getHeroName(rec.getHero_id())) != null) {
-                int prevValue = heroesMap.get(HeroList.getHeroName(rec.getHero_id()));
-                heroesMap.put(HeroList.getHeroName(rec.getHero_id()), prevValue + 1);
+            if (heroesMap.get(HeroList.getHeroName(matchLite.getHero_id())) != null) {
+                int prevValue = heroesMap.get(HeroList.getHeroName(matchLite.getHero_id()));
+                heroesMap.put(HeroList.getHeroName(matchLite.getHero_id()), prevValue + 1);
             }
         }
 

@@ -12,6 +12,7 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.GameModes;
+import be.simonraes.dotadata.util.MatchUtils;
 import be.simonraes.dotadata.util.HeroList;
 
 import java.util.ArrayList;
@@ -73,8 +74,16 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
             viewholder.imgFavourite.setVisibility(View.GONE);
         }
 
-        //set victory or defeat text
-        if (match.isUser_win()) {
+//        //set victory or defeat text
+//        if (match.isUser_win()) {
+//            viewholder.txtVictoryLoss.setText("Victory");
+//            viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
+//        } else {
+//            viewholder.txtVictoryLoss.setText("Defeat");
+//            viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
+//        }
+
+        if (MatchUtils.isUser_win(match)) {
             viewholder.txtVictoryLoss.setText("Victory");
             viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
         } else {

@@ -18,10 +18,7 @@ import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.delegates.ASyncResponseInternet;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailMatchExtras;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
-import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.detailmatch.*;
 import be.simonraes.dotadata.fragment.ManageUsersFragment;
 import be.simonraes.dotadata.fragment.RecentGamesFragment;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
@@ -212,9 +209,17 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (goToDetailParser) {
             //got all historymatches
 
-            if (introDialog.isShowing()) {
-                introDialog.dismiss();
+            try {
+                if (introDialog != null) {
+                    if (introDialog.isShowing()) {
+                        introDialog.dismiss();
+                    }
+                }
+            } catch (Exception e) {
+                //todo: find better solution
+                //app crashes when rotating during introdialog
             }
+
 
             progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Downloading match history");
@@ -245,6 +250,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     @Override
     public void processUpdate(Integer[] progress) {
         progressDialog.setProgress(progress[0]);
+
+        //let user know the app is still working (saving to db)
+        if (progress[0] >= matches.size() - 1) {
+            progressDialog.setMessage("Saving...");
+        }
     }
 
     /*Finished parsing detailmatches, Save detailmatches to database*/
@@ -258,32 +268,39 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //save players and (if needed) picks/bans to database
         ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
         ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
-        ArrayList<DetailMatchExtras> extrasList = new ArrayList<DetailMatchExtras>();
+//        ArrayList<DetailMatchExtras> extrasList = new ArrayList<DetailMatchExtras>();
+        ArrayList<AbilityUpgrades> abilityUpgradesList = new ArrayList<AbilityUpgrades>();
 
         for (DetailMatch match : result) {
             //get victory or loss
             for (DetailPlayer player : match.getPlayers()) {
-                if (player.getAccount_id() != null) {
-                    if (player.getAccount_id().equals(accountID)) {
-                        //set victory/loss here while we have the user's player info
-                        if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
-                            //player won
-                            System.out.println("set match won");
-                            match.getExtras().setUser_win(true);
-                        } else {
-                            System.out.println("set match lost");
-                            match.getExtras().setUser_win(false);
-                        }
-                        //set user account_id in extras
-                        match.getExtras().setMatch_id(match.getMatch_id());
-                        match.getExtras().setAccount_id(accountID);
-                        //add extras to arraylist, will be used to batch store all extras
-                        extrasList.add(match.getExtras());
-                    }
-                }
+//                if (player.getAccount_id() != null) {
+//                    if (player.getAccount_id().equals(accountID)) {
+//                        //set victory/loss here while we have the user's player info
+//                        if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
+//                            //player won
+//                            System.out.println("set match won");
+////                            match.getExtras().setUser_win(true);
+//                        } else {
+//                            System.out.println("set match lost");
+////                            match.getExtras().setUser_win(false);
+//                        }
+//                        //set user account_id in extras
+////                        match.getExtras().setMatch_id(match.getMatch_id());
+////                        match.getExtras().setAccount_id(accountID);
+//                        //add extras to arraylist, will be used to batch store all extras
+////                        extrasList.add(match.getExtras());
+//                    }
+//                }
                 //get players
                 player.setMatchID(match.getMatch_id());
                 players.add(player);
+                //get abilityupgrades and prep them
+                for (AbilityUpgrades au : player.getAbilityupgrades()) {
+                    au.setMatch_id(match.getMatch_id());
+                    au.setPlayer_slot(player.getPlayer_slot());
+                    abilityUpgradesList.add(au);
+                }
             }
             //get picksbans
             if (match.getPicks_bans().size() > 0) {
@@ -292,7 +309,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                     picksBansList.add(picksBans);
                 }
             }
-            match.getExtras().setAccount_id(accountID);
+            //match.getExtras().setAccount_id(accountID);
         }
 
         //save matches to database
@@ -310,10 +327,14 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         System.out.println("saving x picksbans " + picksBansList.size());
         pbds.savePicksBansList(picksBansList);
 
+        //save ability upgrades
+        AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
+        auds.saveAbilityUpgradesList(abilityUpgradesList);
+
         //save extras
-        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(context);
-        System.out.println("saving x extras " + extrasList.size());
-        meds.saveMatchesExtrasList(extrasList);
+//        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(context);
+//        System.out.println("saving x extras " + extrasList.size());
+//        meds.saveMatchesExtrasList(extrasList);
 
 
 

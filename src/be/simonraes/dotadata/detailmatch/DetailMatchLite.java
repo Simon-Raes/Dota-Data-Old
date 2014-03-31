@@ -22,6 +22,7 @@ public class DetailMatchLite implements Parcelable {
 
     //player_in_match values
     private String account_id;
+    private String player_slot;
     private String hero_id;
     private String item_0;
     private String item_1;
@@ -127,6 +128,14 @@ public class DetailMatchLite implements Parcelable {
 
     public void setAccount_id(String account_id) {
         this.account_id = account_id;
+    }
+
+    public String getPlayer_slot() {
+        return player_slot;
+    }
+
+    public void setPlayer_slot(String player_slot) {
+        this.player_slot = player_slot;
     }
 
     public String getHero_id() {
@@ -317,6 +326,7 @@ public class DetailMatchLite implements Parcelable {
         dest.writeString(note);
 
         dest.writeString(account_id);
+        dest.writeString(player_slot);
         dest.writeString(hero_id);
         dest.writeString(item_0);
         dest.writeString(item_1);
@@ -352,6 +362,7 @@ public class DetailMatchLite implements Parcelable {
         note = pc.readString();
 
         account_id = pc.readString();
+        player_slot = pc.readString();
         hero_id = pc.readString();
         item_0 = pc.readString();
         item_1 = pc.readString();

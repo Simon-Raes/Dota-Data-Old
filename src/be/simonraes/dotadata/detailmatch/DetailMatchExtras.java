@@ -10,8 +10,8 @@ import android.os.Parcelable;
 public class DetailMatchExtras implements Parcelable {
 
     private String match_id;
-    private String account_id;
-    private boolean user_win;
+    // private String account_id;
+    // private boolean user_win;
     private String note;
     private boolean favourite;
 
@@ -26,21 +26,21 @@ public class DetailMatchExtras implements Parcelable {
         this.match_id = match_id;
     }
 
-    public String getAccount_id() {
-        return account_id;
-    }
-
-    public void setAccount_id(String account_id) {
-        this.account_id = account_id;
-    }
-
-    public boolean isUser_win() {
-        return user_win;
-    }
-
-    public void setUser_win(boolean user_win) {
-        this.user_win = user_win;
-    }
+//    public String getAccount_id() {
+//        return account_id;
+//    }
+//
+//    public void setAccount_id(String account_id) {
+//        this.account_id = account_id;
+//    }
+//
+//    public boolean isUser_win() {
+//        return user_win;
+//    }
+//
+//    public void setUser_win(boolean user_win) {
+//        this.user_win = user_win;
+//    }
 
     public String getNote() {
         return note;
@@ -69,8 +69,8 @@ public class DetailMatchExtras implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeString(match_id);
-        dest.writeString(account_id);
-        dest.writeInt(user_win ? 1 : 0);
+        //dest.writeString(account_id);
+        // dest.writeInt(user_win ? 1 : 0);
         dest.writeString(note);
         dest.writeInt(favourite ? 1 : 0);
 
@@ -79,8 +79,8 @@ public class DetailMatchExtras implements Parcelable {
     public DetailMatchExtras(Parcel pc) {
 
         match_id = pc.readString();
-        account_id = pc.readString();
-        user_win = (pc.readInt() == 1);
+        // account_id = pc.readString();
+        // user_win = (pc.readInt() == 1);
         note = pc.readString();
         favourite = (pc.readInt() == 1);
     }

@@ -89,13 +89,14 @@ public class PicksBansDataSource {
 
     public PicksBans cursorToPicksBans(Cursor cursor) {
         PicksBans picksBans = new PicksBans();
+        if (cursor != null) {
 
-        picksBans.setMatch_id(cursor.getString(0));
-        picksBans.setIs_pick(Boolean.parseBoolean(cursor.getString(1)));
-        picksBans.setHero_id(cursor.getString(2));
-        picksBans.setTeam(cursor.getString(3));
-        picksBans.setOrder(cursor.getString(4));
-
+            picksBans.setMatch_id(cursor.getString(0));
+            picksBans.setIs_pick(Boolean.parseBoolean(cursor.getString(1)));
+            picksBans.setHero_id(cursor.getString(2));
+            picksBans.setTeam(cursor.getString(3));
+            picksBans.setOrder(cursor.getString(4));
+        }
         return picksBans;
     }
 }

@@ -3,6 +3,7 @@ package be.simonraes.dotadata.activity;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -78,13 +79,15 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         //start loading the content of the statistics spinners
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
         if (phm.getMaps().getPlayedHeroes().size() < 1) {
-            phm.execute();
+            if (phm.getStatus() != AsyncTask.Status.RUNNING) {
+                phm.execute();
+            }
         }
 
-        MatchesDataSource mds = new MatchesDataSource(this, "0");
-        System.out.println(mds.getNumberOfRecords());
-        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(this);
-        System.out.println(pimds.getNumberOfRecords());
+//        MatchesDataSource mds = new MatchesDataSource(this, "0");
+//        System.out.println(mds.getNumberOfRecords());
+//        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(this);
+//        System.out.println(pimds.getNumberOfRecords());
 
 
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {

@@ -3,6 +3,7 @@ package be.simonraes.dotadata.fragment;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,12 +16,14 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.MatchesExtrasDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
+import be.simonraes.dotadata.detailmatch.AbilityUpgrades;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
@@ -56,6 +59,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     private DetailMatch match;
 
+    private ImageButton btnDeleteNote;
+
     private FrameLayout layDetailsMinimap;
 
 
@@ -86,6 +91,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
 
+
         //holder?
 
         //Match info
@@ -112,7 +118,15 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
-        if (match.getExtras().isUser_win()) {
+//        if (match.getExtras().isUser_win()) {
+//            txtVictoryDefeat.setText("Victory");
+//            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+//        } else {
+//            txtVictoryDefeat.setText("Defeat");
+//            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+//        }
+
+        if (MatchUtils.isUser_win(match, PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
             txtVictoryDefeat.setText("Victory");
             txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
         } else {
@@ -120,14 +134,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
         }
 
-
         //note layout
         if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
             RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
             layNote.setVisibility(View.VISIBLE);
             TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
             txtNote.setText(match.getExtras().getNote());
-            ImageButton btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
+            btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
             btnDeleteNote.setOnClickListener(this);
         }
 
@@ -635,6 +648,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveNote(input.getText().toString());
+                //hide keyboard
+                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(input.getWindowToken(), 0);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -650,6 +665,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private void saveNote(String text) {
         // MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
         match.getExtras().setNote(text);
+        match.getExtras().setMatch_id((match.getMatch_id()));
 //        mds.open();
 //        mds.saveDetailMatch(match);
 //        mds.close();
@@ -661,7 +677,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             Toast.makeText(getActivity(), "Note saved", Toast.LENGTH_SHORT).show();
         }
 
+
+        System.out.println(match.getExtras().getNote());
+        System.out.println(match.getExtras().getMatch_id());
+
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
 
         transaction.remove(this);
         transaction.replace(R.id.content_frame, this).commit();
@@ -794,8 +816,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         switch (v.getId()) {
             case R.id.btnDetailDeleteNote:
                 saveNote("");
-//                //hide keyboard
-                //((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnDetailDeleteNote.getWindowToken(), 0);
                 break;
             default:
                 break;

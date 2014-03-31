@@ -12,12 +12,31 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AbilityUpgrades implements Parcelable {
 
+    private String key;
+    private String match_id; //part of db key
+    private String player_slot;   //part of db key
     private String ability;
     private String time;
-    private String level;
+    private String level; //part of db key
 
     public AbilityUpgrades(){
 
+    }
+
+    public String getMatch_id() {
+        return match_id;
+    }
+
+    public void setMatch_id(String match_id) {
+        this.match_id = match_id;
+    }
+
+    public String getPlayer_slot() {
+        return player_slot;
+    }
+
+    public void setPlayer_slot(String player_slot) {
+        this.player_slot = player_slot;
     }
 
     public String getAbility() {
@@ -53,12 +72,16 @@ public class AbilityUpgrades implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(match_id);
+        dest.writeString(player_slot);
         dest.writeString(ability);
         dest.writeString(time);
         dest.writeString(level);
     }
 
     public AbilityUpgrades(Parcel pc) {
+        match_id = pc.readString();
+        player_slot = pc.readString();
         ability = pc.readString();
         time = pc.readString();
         level = pc.readString();

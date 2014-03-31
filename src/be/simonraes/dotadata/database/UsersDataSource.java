@@ -35,7 +35,10 @@ public class UsersDataSource {
     }
 
     public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        if (dbHelper != null) {
+            database = dbHelper.getWritableDatabase();
+        }
+
     }
 
     public void close() {
@@ -97,13 +100,14 @@ public class UsersDataSource {
 
     public User cursorToUser(Cursor cursor) {
         User thisUser = new User();
+        if (cursor != null) {
 
-        thisUser.setAccount_id(cursor.getString(0));
-        thisUser.setSteam_id(cursor.getString(1));
-        thisUser.setName(cursor.getString(2));
-        thisUser.setAvatar(cursor.getString(3));
-        thisUser.setLast_saved_match(cursor.getString(4));
-
+            thisUser.setAccount_id(cursor.getString(0));
+            thisUser.setSteam_id(cursor.getString(1));
+            thisUser.setName(cursor.getString(2));
+            thisUser.setAvatar(cursor.getString(3));
+            thisUser.setLast_saved_match(cursor.getString(4));
+        }
         return thisUser;
     }
 

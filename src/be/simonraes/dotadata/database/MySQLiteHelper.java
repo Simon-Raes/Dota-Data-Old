@@ -80,12 +80,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_USERS_COLUMN_LAST_SAVED_MATCH = "last_saved_match";
 
     public static final String TABLE_MATCHES_EXTRAS = "matches_extras";
-    public static final String TABLE_MATCHES_EXTRAS_COLUMN_KEY = "key";
     public static final String TABLE_MATCHES_EXTRAS_COLUMN_MATCH_ID = "match_id";
-    public static final String TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID = "account_id";
-    public static final String TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN = "user_win";
     public static final String TABLE_MATCHES_EXTRAS_COLUMN_NOTE = "note";
     public static final String TABLE_MATCHES_EXTRAS_COLUMN_FAVOURITE = "favourite";
+
+    public static final String TABLE_ABILITY_UPGRADES = "ability_upgrades";
+    public static final String TABLE_ABILITY_UPGRADES_COLUMN_KEY = "key";
+    public static final String TABLE_ABILITY_UPGRADES_COLUMN_MATCH_ID = "match_id";
+    public static final String TABLE_ABILITY_UPGRADES_COLUMN_PLAYER_SLOT = "player_slot"; //can't tie to account_id, anonymous accounts have same id
+    public static final String TABLE_ABILITY_UPGRADES_COLUMN_ABILITY = "ability";
+    public static final String TABLE_ABILITY_UPGRADES_COLUMN_TIME = "time";
+    public static final String TABLE_ABILITY_UPGRADES_COLUMN_LEVEL = "level";
+
 
     private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches( radiant_win text, " +
             "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
@@ -102,8 +108,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_USERS = "create table IF NOT EXISTS users(account_id text primary key, steam_id text, name text, avatar text, last_saved_match text);";
 
-    private static final String CREATE_TABLE_MATCHES_EXTRAS = "create table IF NOT EXISTS matches_extras(key text primary key, match_id text, account_id text, user_win text, note text, favourite text);";
+    private static final String CREATE_TABLE_MATCHES_EXTRAS = "create table IF NOT EXISTS matches_extras(match_id text primary key, note text, favourite text);";
 
+    private static final String CREATE_TABLE_ABILITY_UPGRADES = "create table IF NOT EXISTS ability_upgrades(key text primary key, match_id text, player_slot text, ability text, time text, level text);";
 //    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
 
 //    private static final String CREATE_TABLE_FRIENDS = "create table IF NOT EXISTS friends(steam_id64 integer primary key, accountid integer);";
@@ -123,6 +130,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_TABLE_PICKS_BANS);
         database.execSQL(CREATE_TABLE_USERS);
         database.execSQL(CREATE_TABLE_MATCHES_EXTRAS);
+        database.execSQL(CREATE_TABLE_ABILITY_UPGRADES);
         //database.execSQL(CREATE_TABLE_PLAYERS);
         //database.execSQL(CREATE_TABLE_FRIENDS);
     }
