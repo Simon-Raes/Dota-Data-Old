@@ -50,79 +50,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="VERSION 2.0&#10;&#10;Version submitted to Play store on 01/04/2014.&#10;&#10;Fixed dialog-related crash when rotating device during download of historymatches. Fixed crash on HTC devices.&#10;Fixed incorrect columns when getting stats for hero+gamemode.&#10;Layout changes: spinner rows and stats:numbers. Code cleanup in all classes. Delete unused classes (mostly liveleague stuff).">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/gamemode_picker_row.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/gamemode_picker_row_selected.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/hero_picker_row_selected.xml" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\adapter\LiveLeagueGamesAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\delegates\ASyncResponseLeagueListing.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\delegates\ASyncResponseLiveLeague.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\delegates\ASyncResponseRemoteStorage.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\delegates\ASyncResponseTeamLogo.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\fragment\LiveLeagueGameFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\fragment\LiveLeagueGamesFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\leaguelisting\League.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\leaguelisting\LeagueListingContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\leaguelisting\Leagues.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\liveleaguegame\LiveLeagueContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\liveleaguegame\LiveLeagueMatch.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\liveleaguegame\LiveLeagueMatches.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\liveleaguegame\LiveLeaguePlayer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\liveleaguegame\LiveLeagueTeam.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\parser\LeagueListingParser.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\parser\LiveLeagueMatchParser.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\parser\SteamRemoteStorageParser.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\statistics\DatabaseStatsLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\teamlogo\TeamLogo.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\teamlogo\TeamLogoContainer.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Simon Raes\IdeaProjects\Dota-Data\src\be\simonraes\dotadata\util\Preferencess.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/AppPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDetailList.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseDetailList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseHistoryLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/delegates/ASyncResponseHistoryLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/AbilityUpgradesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/AbilityUpgradesDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/AddUserFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/BarGraph.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/BarGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/DatabaseMatchLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatchExtras.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailMatchExtras.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchesParser.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/DetailMatchesParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/application/DotaDataApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DrawerAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/DrawerAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/GameModeSpinnerAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/GameModeSpinnerAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/GameModes.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/GameModes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/HeroList.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/HeroList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HeroSpinnerAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/HeroSpinnerAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryContainer.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historyloading/HistoryLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryMatch.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryMatch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryMatches.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryMatches.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryPlayer.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/historymatch/HistoryPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/ManageUsersFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/ManageUsersFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesExtrasDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesExtrasDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/MySQLiteHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PicksBansDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PicksBansDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/PlayedHeroesMapper.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/PlayedHeroesMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/playersummary/PlayerSummaryContainer.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/playersummary/PlayerSummaryContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/PlayerSummaryParser.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/PlayerSummaryParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/PlayersInMatchesDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/RecentGamesAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/SettingsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/TowerStatus.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/TowerStatus.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/adapter/UsersAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/UsersDataSource.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/database/UsersDataSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/VanityResolverParser.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/parser/VanityResolverParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/hero_picker_row.xml" afterPath="$PROJECT_DIR$/res/layout/hero_picker_row.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-large/matchdetails_player_row.xml" afterPath="$PROJECT_DIR$/res/layout-large/matchdetails_player_row.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-small/matchdetails_player_row.xml" afterPath="$PROJECT_DIR$/res/layout-small/matchdetails_player_row.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-large/stats_layout.xml" afterPath="$PROJECT_DIR$/res/layout-large/stats_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-small/stats_layout.xml" afterPath="$PROJECT_DIR$/res/layout-small/stats_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -1564,7 +1491,11 @@
       <created>1396297956966</created>
       <updated>1396297956966</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="VERSION 2.0&#10;&#10;Version submitted to Play store on 01/04/2014.&#10;&#10;Fixed dialog-related crash when rotating device during download of historymatches. Fixed crash on HTC devices.&#10;Fixed incorrect columns when getting stats for hero+gamemode.&#10;Layout changes: spinner rows and stats:numbers. Code cleanup in all classes. Delete unused classes (mostly liveleague stuff).">
+      <created>1396382541593</created>
+      <updated>1396382541593</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1589,7 +1520,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21140939" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
