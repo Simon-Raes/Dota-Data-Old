@@ -2,6 +2,7 @@ package be.simonraes.dotadata.util;
 
 /**
  * Created by Simon on 8/02/14.
+ * Contains the status of the map (towers and barracks) for a team
  */
 public class TowerStatus {
     boolean topT1, topT2, topT3, midT1, midT2, midT3, botT1, botT2, botT3, topT4, botT4;

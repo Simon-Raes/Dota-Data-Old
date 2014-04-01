@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
 
 import java.util.ArrayList;
@@ -70,21 +68,6 @@ public class PicksBansDataSource {
         }
 
         close();
-    }
-
-    public ArrayList<PicksBans> getAllPicksBansForMatch(String matchID) {
-        open();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{matchID}, null, null, null, null);
-        ArrayList<PicksBans> picksBansList = new ArrayList();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            PicksBans picksBans = cursorToPicksBans(cursor);
-            picksBansList.add(picksBans);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        close();
-        return picksBansList;
     }
 
     public PicksBans cursorToPicksBans(Cursor cursor) {

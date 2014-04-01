@@ -3,7 +3,6 @@ package be.simonraes.dotadata.playersummary;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
 
 /**
  * Created by Simon on 19/02/14.

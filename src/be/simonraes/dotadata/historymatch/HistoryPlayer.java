@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.Serializable;
 
 /**
  * Created by Simon on 30/01/14.
@@ -16,7 +15,7 @@ public class HistoryPlayer implements Parcelable {
     private String player_slot;
     private String hero_id;
 
-    public HistoryPlayer(){
+    public HistoryPlayer() {
 
     }
 

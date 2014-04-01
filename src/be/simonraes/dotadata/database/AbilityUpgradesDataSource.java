@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.AbilityUpgrades;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
-import be.simonraes.dotadata.detailmatch.PicksBans;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,6 @@ public class AbilityUpgradesDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private Context context;
 
     private String[] abilityUpgradeColumns = {
             MySQLiteHelper.TABLE_ABILITY_UPGRADES_COLUMN_KEY,
@@ -30,7 +27,6 @@ public class AbilityUpgradesDataSource {
     };
 
     public AbilityUpgradesDataSource(Context context) {
-        this.context = context;
         dbHelper = new MySQLiteHelper(context);
     }
 
@@ -75,7 +71,6 @@ public class AbilityUpgradesDataSource {
 
     public ArrayList<AbilityUpgrades> getAbilityUpgradesForPlayerInMatch(String match_id, String player_slot) {
         open();
-
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_ABILITY_UPGRADES, abilityUpgradeColumns, "match_id = ? AND player_slot = ?", new String[]{match_id, player_slot}, null, null, null, null);
         ArrayList<AbilityUpgrades> abilityUpgradeses = new ArrayList();

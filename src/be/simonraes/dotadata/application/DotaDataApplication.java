@@ -2,9 +2,7 @@ package be.simonraes.dotadata.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
 import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;

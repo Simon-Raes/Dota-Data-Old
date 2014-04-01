@@ -2,10 +2,10 @@ package be.simonraes.dotadata.historyloading;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
+import be.simonraes.dotadata.util.AppPreferences;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class DatabaseMatchLoader extends AsyncTask<String, Integer, ArrayList<De
 
     @Override
     protected ArrayList<DetailMatchLite> doInBackground(String... params) {
-        MatchesDataSource mds = new MatchesDataSource(context, PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
         ArrayList<DetailMatchLite> matchesLite = new ArrayList<DetailMatchLite>();
 
         if (params.length < 1) {

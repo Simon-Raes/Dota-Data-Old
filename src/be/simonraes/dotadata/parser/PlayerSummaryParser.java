@@ -2,7 +2,6 @@ package be.simonraes.dotadata.parser;
 
 import android.os.AsyncTask;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
-import be.simonraes.dotadata.liveleaguegame.LiveLeagueContainer;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.Conversions;
 import com.fasterxml.jackson.core.JsonParseException;

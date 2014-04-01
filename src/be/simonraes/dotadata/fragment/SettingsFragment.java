@@ -4,15 +4,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import be.simonraes.dotadata.R;
 
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 
 /**
  * Created by Simon on 7/02/14.
@@ -25,7 +20,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         setHasOptionsMenu(true);
 
         getActivity().setTitle("Settings");
-
 
         addPreferencesFromResource(R.xml.preferences);
 

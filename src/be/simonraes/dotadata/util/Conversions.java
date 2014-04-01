@@ -31,26 +31,6 @@ public class Conversions {
     public static String secondsToTime(String matchDuration) {
         long iSeconds = Long.parseLong(matchDuration);
         long millis = iSeconds * 1000;
-//        String seconds;
-//        if (iSeconds < 10) {
-//            seconds = "0" + Integer.toString(iSeconds);
-//        } else {
-//            seconds = Integer.toString(iSeconds);
-//        }
-//        String minutes = Integer.toString(Integer.parseInt(matchDuration) / 60);
-//        String hours =
-//        return minutes + ":" + seconds;
-
-
-//        int hours = iSeconds / 3600,
-//                remainder = iSeconds % 3600,
-//                minutes = remainder / 60,
-//                seconds = remainder % 60;
-//
-//        return ((hours < 10 ? "0" : "") + hours
-//                + ":" + (minutes < 10 ? "0" : "") + minutes
-//                + ":" + (seconds < 10 ? "0" : "") + seconds);
-
 
         long lhours = TimeUnit.MILLISECONDS.toHours(millis);
         long lminutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(lhours);
@@ -76,14 +56,6 @@ public class Conversions {
         }
 
         return hours + ":" + minutes + ":" + seconds;
-
-
-//        return String.format("%d:%d:%d",
-//                TimeUnit.MILLISECONDS.toHours(millis),
-//                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-//                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))))
-//        );
-
     }
 
     public static String leagueTitleToString(String rawLeague) {
@@ -128,13 +100,10 @@ public class Conversions {
         } catch (NumberFormatException ex) {
             accountID = 0L;
         } finally {
-            //todo: needs a better check to see if number matches an account
-
             if (accountID < 0) {
                 return "0";
             } else {
                 return Long.toString(accountID);
-
             }
         }
     }
@@ -145,38 +114,6 @@ public class Conversions {
     public static TowerStatus towerStatusFromString(String status) {
         String bin = binaryTo16String(status);
         return generateTowerStatus(bin);
-    }
-
-    //todo: remove duplicate stringbuilder code
-    public static TowerStatus radiantTowerStatusFromTeamString(String status) {
-
-        String radiantCode = binaryTo32String(status).substring(21, 32);
-
-        if (radiantCode.length() < 16) {
-            StringBuilder builder;
-            while (radiantCode.length() < 16) {
-                builder = new StringBuilder(radiantCode);
-                radiantCode = builder.insert(0, "0").toString();
-            }
-        }
-
-
-        return generateTowerStatus(radiantCode);
-    }
-
-    public static TowerStatus direTowerStatusFromTeamString(String status) {
-        String direCode = binaryTo32String(status).substring(10, 21);
-
-        if (direCode.length() < 16) {
-            StringBuilder builder;
-            while (direCode.length() < 16) {
-                builder = new StringBuilder(direCode);
-                direCode = builder.insert(0, "0").toString();
-            }
-        }
-
-
-        return generateTowerStatus(direCode);
     }
 
 

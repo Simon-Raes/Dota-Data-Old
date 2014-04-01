@@ -1,31 +1,22 @@
 package be.simonraes.dotadata.historyloading;
 
 import android.app.AlertDialog;
-import android.app.Notification;
-//import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.preference.PreferenceManager;
-//import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
-import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.*;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 import be.simonraes.dotadata.detailmatch.*;
-import be.simonraes.dotadata.fragment.ManageUsersFragment;
-import be.simonraes.dotadata.fragment.RecentGamesFragment;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
 import be.simonraes.dotadata.parser.DetailMatchesParser;
 import be.simonraes.dotadata.parser.HistoryMatchParser;
 import be.simonraes.dotadata.user.User;
+import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.InternetChecker;
 
 import java.util.ArrayList;
@@ -47,14 +38,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     private boolean goToDetailParser;
     private boolean firstTimeSetup;
 
-    private ProgressDialog introDialog;
+    public static ProgressDialog introDialog;
     private ProgressDialog progressDialog;
 
     private User user;
 
 
     public HistoryLoader(Context context, ASyncResponseHistoryLoader delegate, User user) { //
-        //this.accountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
         this.user = user;
         this.accountID = user.getAccount_id();
 
@@ -145,20 +135,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                         }
                     })
                     .show();
-            //delete user from database
-//            //todo: don't save him to db/sharedprefs until we're sure we can get games
-//            UsersDataSource uds = new UsersDataSource(context);
-//            uds.deleteUserByID(accountID);
-//            ArrayList<User> users = uds.getAllUsers();
-//            if(users.size()>0){
-//                PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", users.get(0).getAccount_id()).commit();
-//            } else {
-//                PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", "0").commit();
-//            }
+
         } else if (result.getRecentGames().getMatches().size() > 0) {
 
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", accountID).commit();
+            AppPreferences.putAccountID(context, accountID);
 
 
             if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
@@ -177,8 +158,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
                 if (recentMatches.size() == 0) {
                     //latest downloaded match was the same as the latest saved match, no games were played since last download
                     Toast.makeText(context, "No new games found.", Toast.LENGTH_SHORT).show();
-                    if (introDialog.isShowing()) {
-                        introDialog.dismiss();
+                    if (introDialog != null) {
+                        if (introDialog.isShowing()) {
+                            introDialog.dismiss();
+                        }
                     }
                     goToDetailParser = false;
                     delegate.processFinish(false);
@@ -209,15 +192,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         if (goToDetailParser) {
             //got all historymatches
 
-            try {
-                if (introDialog != null) {
-                    if (introDialog.isShowing()) {
-                        introDialog.dismiss();
-                    }
+
+            if (introDialog != null) {
+                if (introDialog.isShowing()) {
+                    introDialog.dismiss();
                 }
-            } catch (Exception e) {
-                //todo: find better solution
-                //app crashes when rotating during introdialog
             }
 
 
@@ -253,6 +232,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
         //let user know the app is still working (saving to db)
         if (progress[0] >= matches.size() - 1) {
+            progressDialog.setProgress(matches.size());
             progressDialog.setMessage("Saving...");
         }
     }
@@ -272,29 +252,13 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         ArrayList<AbilityUpgrades> abilityUpgradesList = new ArrayList<AbilityUpgrades>();
 
         for (DetailMatch match : result) {
-            //get victory or loss
+            //get players
             for (DetailPlayer player : match.getPlayers()) {
-//                if (player.getAccount_id() != null) {
-//                    if (player.getAccount_id().equals(accountID)) {
-//                        //set victory/loss here while we have the user's player info
-//                        if ((Integer.parseInt(player.getPlayer_slot()) < 100 && match.getRadiant_win()) || (Integer.parseInt(player.getPlayer_slot()) > 100 && !match.getRadiant_win())) {
-//                            //player won
-//                            System.out.println("set match won");
-////                            match.getExtras().setUser_win(true);
-//                        } else {
-//                            System.out.println("set match lost");
-////                            match.getExtras().setUser_win(false);
-//                        }
-//                        //set user account_id in extras
-////                        match.getExtras().setMatch_id(match.getMatch_id());
-////                        match.getExtras().setAccount_id(accountID);
-//                        //add extras to arraylist, will be used to batch store all extras
-////                        extrasList.add(match.getExtras());
-//                    }
-//                }
-                //get players
+
+
                 player.setMatchID(match.getMatch_id());
                 players.add(player);
+
                 //get abilityupgrades and prep them
                 for (AbilityUpgrades au : player.getAbilityupgrades()) {
                     au.setMatch_id(match.getMatch_id());
@@ -337,7 +301,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 //        meds.saveMatchesExtrasList(extrasList);
 
 
-
         //everything is good, save user account id and user
         UsersDataSource uds = new UsersDataSource(context);
         //keep track of the last saved match for this user
@@ -368,4 +331,5 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         delegate.processFinish(true);
 
     }
+
 }

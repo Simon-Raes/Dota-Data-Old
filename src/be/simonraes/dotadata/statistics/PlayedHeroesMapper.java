@@ -2,9 +2,9 @@ package be.simonraes.dotadata.statistics;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
+import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
 
@@ -42,10 +42,18 @@ public class PlayedHeroesMapper extends AsyncTask<String, Integer, PlayedHeroesA
 
     @Override
     protected PlayedHeroesAndGameModes doInBackground(String... params) {
-        MatchesDataSource mds = new MatchesDataSource(context, PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
 
         for (DetailMatchLite rec : mds.getAllDetailMatchesLite()) {
-            maps.getPlayedHeroes().put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
+            //don't store "unknown hero"
+            try {
+                if (Integer.parseInt(rec.getHero_id()) > 0) {
+                    maps.getPlayedHeroes().put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
+                }
+            } catch (NumberFormatException ex) {
+                //hero_id did not contain a number, no need to add anything to the playedHeroesList
+            }
+
             maps.getPlayedGameModes().put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
         }
         return maps;

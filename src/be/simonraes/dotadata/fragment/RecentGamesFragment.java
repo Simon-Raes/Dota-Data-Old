@@ -3,7 +3,6 @@ package be.simonraes.dotadata.fragment;
 import android.app.*;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -16,9 +15,9 @@ import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
+import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
-import be.simonraes.dotadata.util.Preferencess;
 
 import java.util.ArrayList;
 
@@ -55,7 +54,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         //update active drawer item
         ((DrawerController) getActivity()).setActiveDrawerItem(1);
 
-        if (Preferencess.getAccountID(getActivity()).equals("")) {
+        if (AppPreferences.getAccountID(getActivity()).equals("")) {
 
             new AlertDialog.Builder(getActivity())
                     .setTitle("Welcome!")
@@ -126,7 +125,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                 //only start download if it isn't already downloading
                 if (InternetCheck.isOnline(getActivity())) {
                     OrientationHelper.lockOrientation(getActivity());
-                    HistoryLoader loader = new HistoryLoader(getActivity(), this, PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+                    HistoryLoader loader = new HistoryLoader(getActivity(), this, AppPreferences.getAccountID(getActivity()));
                     loader.updateHistory();
                 } else {
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
@@ -160,7 +159,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
         DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
 
         Fragment fragment = new MatchDetailFragment();
@@ -170,7 +169,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         transaction.replace(R.id.content_frame, fragment);
 
         //hacky way to set UP arrow in actionbar of matchdetails screen
-        if (((DrawerController) getActivity()) != null) {
+        if (getActivity() != null) {
             ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
         }
 

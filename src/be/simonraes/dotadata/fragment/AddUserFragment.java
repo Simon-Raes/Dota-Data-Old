@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
@@ -22,6 +21,7 @@ import be.simonraes.dotadata.parser.VanityResolverParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
+import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
@@ -210,7 +210,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
             if (testUser.getAccount_id() != null && !testUser.getAccount_id().equals("")) {
 
                 //user already saved, just switch user instead of downloading
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", testUser.getAccount_id()).commit();
+                AppPreferences.putAccountID(getActivity(), testUser.getAccount_id());
+
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
             } else {

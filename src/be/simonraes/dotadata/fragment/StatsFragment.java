@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.view.*;
 import android.widget.*;
@@ -45,10 +44,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private View view;
     private LinearLayout layStatsGameModes, layStatsHeroes, layStatsRecords, layStatsNumbers, layStatsNoGames;
 
-
-    private int numbersCount = 0;
-
-
     private PieGraph pieGraph;
     private BarGraph barGraph;
     private ArrayList<Bar> points;
@@ -58,7 +53,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private HashMap<String, String> mapGameModeIDName; //contains played gamemodesIDs, gamemodenames
     private HashMap<String, Integer> heroesMap; //contains played heroes, count
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
-
 
     private TextView
             txtStatsGamesPlayed,
@@ -287,7 +281,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 if (gameModeSelection >= 0) {
                     spinnerGameModes.setSelection(gameModeSelection);
                 }
-                //gameModeID = Integer.toString(spinnerGameModes.getSelectedItemPosition());
             }
         }
         MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
@@ -311,7 +304,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 if (heroSelection >= 0) {
                     spinnerHeroes.setSelection(heroSelection);
                 }
-                //heroID = Integer.toString(spinnerHeroes.getSelectedItemPosition());
 
             }
         }
@@ -409,11 +401,21 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private void getPlayedHeroesAndGameModes() {
         System.out.println("getPlayedHeroesAndGameModes");
 
-        scrollStats.setVisibility(View.GONE);
-        layStatsNoGames.setVisibility(View.GONE);
-        layStatsGameModes.setVisibility(View.GONE);
-        layStatsHeroes.setVisibility(View.GONE);
-        progressStats.setVisibility(View.VISIBLE);
+        if (scrollStats != null) {
+            scrollStats.setVisibility(View.GONE);
+        }
+        if (layStatsNoGames != null) {
+            layStatsNoGames.setVisibility(View.GONE);
+        }
+        if (layStatsGameModes != null) {
+            layStatsGameModes.setVisibility(View.GONE);
+        }
+        if (layStatsHeroes != null) {
+            layStatsHeroes.setVisibility(View.GONE);
+        }
+        if (progressStats != null) {
+            progressStats.setVisibility(View.VISIBLE);
+        }
 
 
         //todo: test
@@ -424,7 +426,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         if (mapHeroIDName == null || mapGameModeIDName == null) {
             System.out.println("map empty for some reason");
-            MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+            MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
             mapHeroIDName = new HashMap<String, String>();
             mapGameModeIDName = new HashMap<String, String>();
             for (DetailMatchLite rec : mds.getAllRealDetailMatchesLite()) {
@@ -438,7 +440,6 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     //todo: put this in background thread
     /*Gets new data for the selected filters*/
     private void updateMatches() {
-        System.out.println("updateMatches");
 
         //lock orientation during loading
         OrientationHelper.lockOrientation(getActivity());
@@ -450,13 +451,11 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         progressStats.setVisibility(View.VISIBLE);
 
         sml = new StatsMatchesLoader(this, getActivity());
-        System.out.println("starting updateMatches for gamemodeID, heroID " + gameModeID + " " + heroID);
         sml.execute(gameModeID, heroID);
     }
 
     /*Sets textfields, charts, graphs,... with the stored data*/
     private void updateVisuals() {
-        System.out.println("updateVisuals");
 
         layStatsHeroes.setVisibility(View.GONE);
         layStatsGameModes.setVisibility(View.GONE);
@@ -524,7 +523,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         System.out.println("onClick");
 
         DetailMatch match = null;
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
 
         switch (v.getId()) {
             case R.id.txtStatsLongestGame:

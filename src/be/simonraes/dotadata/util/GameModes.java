@@ -145,6 +145,72 @@ public class GameModes {
         return gameMode;
     }
 
+
+    public static String getGameModeAbbreviation(String number) {
+
+        String gameModeAbbreviation = "?";
+
+        if (number.equals("0")) {
+            gameModeAbbreviation = "?"; //DOTA_GAMEMODE_NONE
+        }
+        if (number.equals("1")) {
+            gameModeAbbreviation = "AP";
+        }
+        if (number.equals("2")) {
+            gameModeAbbreviation = "CM";
+        }
+        if (number.equals("3")) {
+            gameModeAbbreviation = "RD";
+        }
+        if (number.equals("4")) {
+            gameModeAbbreviation = "SD";
+        }
+        if (number.equals("5")) {
+            gameModeAbbreviation = "AR";
+        }
+        if (number.equals("6")) {
+            gameModeAbbreviation = "Intro";
+        }
+        if (number.equals("7")) {
+            gameModeAbbreviation = "DT";
+        }
+        if (number.equals("8")) {
+            gameModeAbbreviation = "RCM";
+        }
+        if (number.equals("9")) {
+            gameModeAbbreviation = "G";
+        }
+        if (number.equals("10")) {
+            gameModeAbbreviation = "Tut";
+        }
+        if (number.equals("11")) {
+            gameModeAbbreviation = "MO";
+        }
+        if (number.equals("12")) {
+            gameModeAbbreviation = "LP";
+        }
+        if (number.equals("13")) {
+            gameModeAbbreviation = "LHP";
+        }
+        if (number.equals("14")) {
+            gameModeAbbreviation = "CP";
+        }
+        if (number.equals("15")) {
+            gameModeAbbreviation = "CG";
+        }
+        if (number.equals("16")) {
+            gameModeAbbreviation = "CD";
+        }
+        if (number.equals("17")) {
+            gameModeAbbreviation = "BD";
+        }
+        if (number.equals("18")) {
+            gameModeAbbreviation = "AD";
+        }
+
+        return gameModeAbbreviation;
+    }
+
     public static HashMap<String, String> getLobbyTypes() {
         if (lobbyTypes.size() < 1) {
             initLobbyTypesHashMap();

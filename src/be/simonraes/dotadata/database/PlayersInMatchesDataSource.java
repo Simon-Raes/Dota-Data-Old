@@ -2,7 +2,6 @@ package be.simonraes.dotadata.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
@@ -101,75 +100,5 @@ public class PlayersInMatchesDataSource {
 
         close();
     }
-
-    public ArrayList<DetailPlayer> getAllPlayersInMatch(String matchID) {
-
-        System.out.println("match id for players is " + matchID);
-        open();
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ? AND account_id = ?", new String[]{matchID, "6133547"}, null, null, null, null);
-        ArrayList<DetailPlayer> players = new ArrayList();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            DetailPlayer dhb = cursorToDetailHeroBag(cursor);
-            players.add(dhb);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        close();
-        return players;
-    }
-
-    public int getNumberOfRecords() {
-        open();
-        Cursor cursor = database.rawQuery("select count(*) from players_in_matches", null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        close();
-        return count;
-
-    }
-
-//    public boolean recordExists(DetailPlayer player, String MatchID) {
-//        String localKey = player.getAccount_id() + MatchID + player.getPlayer_slot();
-//        Cursor cursor = database.rawQuery("select 1 from player_in_match where pim_id = ?", new String[]{localKey});
-//        boolean exists = (cursor.getCount() > 0);
-//        cursor.close();
-//        return exists;
-//    }
-
-    private DetailPlayer cursorToDetailHeroBag(Cursor cursor) {
-        DetailPlayer player = new DetailPlayer();
-        if (cursor != null) {
-
-            player.setAccount_id(cursor.getString(1));
-            //pim?
-            //matchID
-            player.setPlayer_slot(cursor.getString(3));
-            player.setHero_id(cursor.getString(4));
-            player.setItem_0(cursor.getString(5));
-            player.setItem_1(cursor.getString(6));
-            player.setItem_2(cursor.getString(7));
-            player.setItem_3(cursor.getString(8));
-            player.setItem_4(cursor.getString(9));
-            player.setItem_5(cursor.getString(10));
-            player.setKills(cursor.getString(11));
-            player.setDeaths(cursor.getString(12));
-            player.setAssists(cursor.getString(13));
-            player.setLeaver_status(cursor.getString(14));
-            player.setGold(cursor.getString(15));
-            player.setLast_hits(cursor.getString(16));
-            player.setDenies(cursor.getString(17));
-            player.setGold_per_min(cursor.getString(18));
-            player.setXp_per_min(cursor.getString(19));
-            player.setGold_spent(cursor.getString(20));
-            player.setHero_damage(cursor.getString(21));
-            player.setTower_damage(cursor.getString(22));
-            player.setHero_healing(cursor.getString(23));
-            player.setLevel(cursor.getString(24));
-        }
-        return player;
-    }
-
 
 }

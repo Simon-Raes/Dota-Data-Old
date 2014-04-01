@@ -2,7 +2,6 @@ package be.simonraes.dotadata.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,6 +12,7 @@ import be.simonraes.dotadata.adapter.UsersAdapter;
 import be.simonraes.dotadata.database.UsersDataSource;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
+import be.simonraes.dotadata.util.AppPreferences;
 
 import java.util.ArrayList;
 
@@ -50,10 +50,11 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //removed check, doesn't let you switch to user you just update using the list-button (user's ID is set as active)
+        //removed check to fix bug where it doesn't let you switch to the user you just updated using the list-button (user's ID is set as active)
 //        if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
+
         //set app-wide account ID to this user
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", users.get(position).getAccount_id()).commit();
+        AppPreferences.putAccountID(getActivity(), users.get(position).getAccount_id());
 
         //todo: this shouldn't be here
         //update the playedheroes/gamemodes maps for this user

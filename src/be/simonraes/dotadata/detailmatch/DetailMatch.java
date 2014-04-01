@@ -2,7 +2,6 @@ package be.simonraes.dotadata.detailmatch;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.simonraes.dotadata.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 public class DetailMatch implements Parcelable {
 
     //all games
-//    private String key; //for database
     @JsonProperty("players")
     private ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
     private boolean radiant_win;
@@ -37,7 +35,6 @@ public class DetailMatch implements Parcelable {
     private String negative_votes;
     private String game_mode;
 
-
     //ranked games
     private String radiant_guild_id;
     private String radiant_guild_name;
@@ -56,11 +53,7 @@ public class DetailMatch implements Parcelable {
     private String dire_logo;
     private String dire_team_complete;
 
-    //features
-//    private boolean user_win; //extra database field
-//    private boolean favourite; //option to add a match to your favourites
-//    private String note; //custom note you can attach to a match
-//    private String user; //account_id of the user that downloaded+saved this match
+    //extras
     DetailMatchExtras extras;
 
     public DetailMatch() {

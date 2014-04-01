@@ -2,14 +2,15 @@ package be.simonraes.dotadata.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
+import be.simonraes.dotadata.util.AppPreferences;
 
 import java.util.ArrayList;
 
 /**
+ * Loads all needed games from the database to calculate the statistics
  * Created by Simon Raes on 27/03/2014.
  */
 public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<DetailMatchLite>> {
@@ -26,7 +27,7 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
     @Override
     protected ArrayList<DetailMatchLite> doInBackground(String... params) {
 
-        MatchesDataSource mds = new MatchesDataSource(context, PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
         ArrayList<DetailMatchLite> matches = new ArrayList<DetailMatchLite>();
 
         String gameModeID = params[0];
@@ -64,8 +65,6 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
     @Override
     protected void onPostExecute(ArrayList<DetailMatchLite> detailMatches) {
         super.onPostExecute(detailMatches);
-
-
         delegate.processFinish(detailMatches);
     }
 }

@@ -15,9 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
-import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.database.PlayersInMatchesDataSource;
 import be.simonraes.dotadata.fragment.*;
+import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.OrientationHelper;
 
@@ -28,27 +27,19 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
 
-    private boolean appLaunch = true;
-    private String previousActionBarTitle;
-
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.drawer_layout);
 
         mTitle = mDrawerTitle = getTitle();
 
         listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics"};
 
-//        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics", "divider LEAGUE GAMES", "Live league games",
-//                "Upcoming league games", "divider FANTASY LEAGUE", "Fantasy League"};
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
@@ -76,19 +67,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
 
-        //start loading the content of the statistics spinners
+        //start loading the content of the statistics spinners here so it's already ready when the user opens the stats screen
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
         if (phm.getMaps().getPlayedHeroes().size() < 1) {
             if (phm.getStatus() != AsyncTask.Status.RUNNING) {
                 phm.execute();
             }
         }
-
-//        MatchesDataSource mds = new MatchesDataSource(this, "0");
-//        System.out.println(mds.getNumberOfRecords());
-//        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(this);
-//        System.out.println(pimds.getNumberOfRecords());
-
 
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -125,6 +110,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         }
     }
 
+    /**
+     * Sets the selected list item in the drawer (visual indicator only)
+     */
     public void setActiveDrawerItem(int position) {
         drawerList.setItemChecked(position, true);
     }
@@ -189,7 +177,6 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             return true;
         }
 
-
         switch (item.getItemId()) {
             case R.id.btnManageUsers:
                 drawerToggle.setDrawerIndicatorEnabled(true);
@@ -209,7 +196,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
     }
 
-    //used for setting drawer icon in actionbar
+    //Sets the drawer icon in the actionbar title
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -227,5 +214,11 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     protected void onDestroy() {
         super.onDestroy();
         OrientationHelper.unlockOrientation(this);
+        //remove the dialog on rotation, prevents 'not attached to window manager' error
+        if (HistoryLoader.introDialog != null) {
+            if (HistoryLoader.introDialog.isShowing()) {
+                HistoryLoader.introDialog.dismiss();
+            }
+        }
     }
 }

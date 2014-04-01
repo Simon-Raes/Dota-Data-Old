@@ -38,7 +38,6 @@ public class UsersDataSource {
         if (dbHelper != null) {
             database = dbHelper.getWritableDatabase();
         }
-
     }
 
     public void close() {

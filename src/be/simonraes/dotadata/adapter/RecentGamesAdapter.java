@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +24,14 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
 
     private Context context;
     private ArrayList<DetailMatchLite> matches;
-    private String prefAccountID;
+    //private String prefAccountID;
 
     public RecentGamesAdapter(Context context, ArrayList<DetailMatchLite> objects) {
         super(context, R.layout.matches_list_row, objects);
         this.context = context;
         this.matches = objects;
 
-        prefAccountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
+        // prefAccountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
     }
 
     @Override
@@ -74,15 +73,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
             viewholder.imgFavourite.setVisibility(View.GONE);
         }
 
-//        //set victory or defeat text
-//        if (match.isUser_win()) {
-//            viewholder.txtVictoryLoss.setText("Victory");
-//            viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
-//        } else {
-//            viewholder.txtVictoryLoss.setText("Defeat");
-//            viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
-//        }
-
         if (MatchUtils.isUser_win(match)) {
             viewholder.txtVictoryLoss.setText("Victory");
             viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
@@ -90,7 +80,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
             viewholder.txtVictoryLoss.setText("Defeat");
             viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
         }
-
 
         return view;
     }

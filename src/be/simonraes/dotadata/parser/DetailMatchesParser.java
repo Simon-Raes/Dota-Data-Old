@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.parser;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.delegates.ASyncResponseDetail;
 import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.detailmatch.DetailMatch;

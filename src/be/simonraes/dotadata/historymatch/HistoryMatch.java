@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class HistoryMatch implements Parcelable {
     @JsonProperty("players")
     private List<HistoryPlayer> players = new ArrayList<HistoryPlayer>();
 
-    public HistoryMatch(){
+    public HistoryMatch() {
 
     }
 

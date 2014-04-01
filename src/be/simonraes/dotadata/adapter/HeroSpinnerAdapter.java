@@ -69,7 +69,7 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.hero_picker_row, null);
+            convertView = mInflater.inflate(R.layout.hero_picker_row_selected, null);
 
             imageLoader = ImageLoader.getInstance();
             animateFirstListener = new AnimateFirstDisplayListenerToo();

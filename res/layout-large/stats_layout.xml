@@ -24,6 +24,7 @@
                           android:layout_marginBottom="5dp"
                           android:id="@+id/layStatsNumbers"
                           android:background="@drawable/bg_card">
+                <!-- Header -->
                 <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                                 android:id="@+id/layStatsNumbersHeader">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -38,112 +39,135 @@
                                  android:scaleType="centerCrop"
                                  android:src="@drawable/ic_action_help"/>
                 </RelativeLayout>
+
                 <View style="@style/Divider"/>
 
+                <!-- Content -->
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                              android:orientation="vertical">
+                    <!-- Content top -->
+                    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-                    <!-- Left side -->
-                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_weight="1"
-                                  android:gravity="center"
-                                  android:orientation="vertical"
-                                  android:layout_centerHorizontal="true"
-                                  android:layout_alignParentLeft="true">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsGamesPlayed"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Games played"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsGamesWon"
-                                  android:gravity="center_horizontal"
-                                  android:lines="2"
-                                  android:text="Games won"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsGamesLost"
-                                  android:gravity="center_horizontal"
-                                  android:layout_alignParentRight="true"
-                                  android:lines="2"
-                                  android:text="Games lost"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsWinrate"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Winrate"/>
+                        <!-- Left side -->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_weight="1"
+                                      android:gravity="center"
+                                      android:orientation="vertical"
+                                      android:layout_centerHorizontal="true"
+                                      android:layout_alignParentLeft="true">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsGamesPlayed"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Games played"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsGamesWon"
+                                      android:gravity="center_horizontal"
+                                      android:lines="2"
+                                      android:text="Games won"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsGamesLost"
+                                      android:gravity="center_horizontal"
+                                      android:layout_alignParentRight="true"
+                                      android:lines="2"
+                                      android:text="Games lost"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsWinrate"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Winrate"/>
+                        </LinearLayout>
 
-                        <View style="@style/DrawerDivider"
-                              android:layout_marginTop="3dp"/>
+                        <!-- Right side -->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_weight="1"
+                                      android:orientation="vertical"
+                                      android:gravity="center"
+                                      android:layout_centerHorizontal="true"
+                                      android:layout_alignParentRight="true">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsTotalDuration"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Total gametime"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsAverageDuration"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:layout_alignParentRight="true"
+                                      android:text="Average duration"/>
 
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsTotalKills"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Total kills"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_centerHorizontal="true"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:id="@+id/txtStatsTotalDeaths"
-                                  android:text="Total deaths"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:id="@+id/txtStatsTotalAssists"
-                                  android:text="Total assists"/>
+                            <View style="@style/DrawerDivider"/>
+
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsAverageGPM"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Average GPM"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsAverageXPM"
+                                      android:layout_alignParentRight="true"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Average XPM"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Right side -->
-                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_weight="1"
-                                  android:orientation="vertical"
-                                  android:gravity="center"
-                                  android:layout_centerHorizontal="true"
-                                  android:layout_alignParentRight="true">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsTotalDuration"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Total gametime"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsAverageDuration"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:layout_alignParentRight="true"
-                                  android:text="Average duration"/>
+                    <!--divider-->
+                    <View style="@style/Divider"/>
 
-                        <View style="@style/DrawerDivider"/>
+                    <!-- Content bottom -->
+                    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+                        <!-- Left side -->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_weight="1"
+                                      android:gravity="center"
+                                      android:orientation="vertical"
+                                      android:layout_centerHorizontal="true"
+                                      android:layout_alignParentLeft="true">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsTotalKills"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Total kills"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_centerHorizontal="true"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:id="@+id/txtStatsTotalDeaths"
+                                      android:text="Total deaths"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:id="@+id/txtStatsTotalAssists"
+                                      android:text="Total assists"/>
+                        </LinearLayout>
 
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsAverageGPM"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Average GPM"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsAverageXPM"
-                                  android:layout_alignParentRight="true"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Average XPM"/>
-
-                        <View style="@style/DrawerDivider"/>
-
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsAverageKills"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Average kills"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsAverageDeaths"
-                                  android:layout_centerHorizontal="true"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Average deaths"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:id="@+id/txtStatsAverageAssists"
-                                  android:layout_alignParentRight="true"
-                                  android:lines="2"
-                                  android:gravity="center_horizontal"
-                                  android:text="Average assists"/>
+                        <!-- Right side -->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_weight="1"
+                                      android:orientation="vertical"
+                                      android:gravity="center"
+                                      android:layout_centerHorizontal="true"
+                                      android:layout_alignParentRight="true">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsAverageKills"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Average kills"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsAverageDeaths"
+                                      android:layout_centerHorizontal="true"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Average deaths"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:id="@+id/txtStatsAverageAssists"
+                                      android:layout_alignParentRight="true"
+                                      android:lines="2"
+                                      android:gravity="center_horizontal"
+                                      android:text="Average assists"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

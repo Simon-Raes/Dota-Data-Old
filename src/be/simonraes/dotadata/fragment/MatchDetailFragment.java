@@ -20,13 +20,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
-import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.MatchesExtrasDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
-import be.simonraes.dotadata.detailmatch.AbilityUpgrades;
-import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailPlayer;
-import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.detailmatch.*;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.*;
@@ -66,21 +62,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         inflaterB = inflater;
+        match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
+        setHasOptionsMenu(true);
 
         getActivity().setTitle("Match Details");
-        setHasOptionsMenu(true);
 
         //disable drawer icon (needed for reorientation)
         ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        //update the actionbar to show the up carat/affordance
+        //update the actionbar to show the up carat
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
         playerNames = new ArrayList<TextView>();
 
         boolean hasPicksBans = false;
@@ -90,7 +83,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 hasPicksBans = true;
             }
         }
-
 
         //holder?
 
@@ -118,15 +110,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
-//        if (match.getExtras().isUser_win()) {
-//            txtVictoryDefeat.setText("Victory");
-//            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
-//        } else {
-//            txtVictoryDefeat.setText("Defeat");
-//            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
-//        }
-
-        if (MatchUtils.isUser_win(match, PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
+        if (MatchUtils.isUser_win(match, AppPreferences.getAccountID(getActivity()))) {
             txtVictoryDefeat.setText("Victory");
             txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
         } else {
@@ -144,17 +128,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             btnDeleteNote.setOnClickListener(this);
         }
 
-
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
 
-
         imageLoader = ImageLoader.getInstance();
-
-        View playerRow;
         animateFirstListener = new AnimateFirstDisplayListenerToo();
-
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)
@@ -165,7 +144,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         int numRadiantPlayers = 0;
         int numDirePlayers = 0;
 
-
+        View playerRow;
         for (DetailPlayer player : match.getPlayers()) {
             playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
 
@@ -173,7 +152,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             //give user's row a special background color
             if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-                playerRow.setBackgroundColor(getResources().getColor(R.color.AntiqueWhite));
+                playerRow.setBackgroundColor(getResources().getColor(R.color.Gainsboro));
             }
 
             TextView txtPlayerLevel = (TextView) playerRow.findViewById(R.id.txtDetailPlayerLevel);
@@ -185,6 +164,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             //start parser to get player's name
             if (InternetCheck.isOnline(getActivity())) {
+                //no need to parse for the anonymous account
                 if (player.getAccount_id().equals("4294967295")) {
                     txtPlayerName.setText("Anonymous");
                 } else {
@@ -192,7 +172,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     parser.execute(player.getAccount_id());
                 }
             }
-
 
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
             txtPlayerKDA.setText(player.getKills() + "/" + player.getDeaths() + "/" + player.getAssists());
@@ -213,7 +192,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             ImageView imgHero = (ImageView) playerRow.findViewById(R.id.imgDetailHero);
             imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(player.getHero_id()) + "_sb.png", imgHero, options, animateFirstListener);
-            //imgHero.setImageResource(getActivity().getResources().getIdentifier(HeroList.getHeroImageName(player.getHero_id()), "drawable", getActivity().getPackageName()));            //item image loading options
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
@@ -224,33 +202,26 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_0()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_0())));
-            //setItemImage(imgItem, player.getItem_0());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_1()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_1())));
 
-            //setItemImage(imgItem, player.getItem_1());
-
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_2()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_2())));
-            //setItemImage(imgItem, player.getItem_2());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_3()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_3())));
-            //setItemImage(imgItem, player.getItem_3());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_4()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_4())));
-            //setItemImage(imgItem, player.getItem_4());
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
             imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_5()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_5())));
-            //setItemImage(imgItem, player.getItem_5());
 
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
@@ -261,7 +232,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 layPlayersDire.addView(divider);
                 numDirePlayers++;
             }
-
         }
         if (numRadiantPlayers == 0) {
             layPlayersRadiant.setVisibility(View.GONE);
@@ -271,12 +241,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             layPlayersDire.setVisibility(View.GONE);
         }
 
-
         //Picks & bans - only shown if match has picks/bans
         if (hasPicksBans) {
             LinearLayout layPicksBans = (LinearLayout) view.findViewById(R.id.layDetailPicksBans);
             layPicksBans.setVisibility(View.VISIBLE);
-
 
             for (PicksBans pb : match.getPicks_bans()) {
 
@@ -312,7 +280,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     layPicksBans.addView(layPBRight);
                 }
             }
-
         }
 
         //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
@@ -551,17 +518,17 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
         if (btnFavourite != null) {
-            if (match.getExtras().isFavourite()) {
-                btnFavourite.setIcon(R.drawable.ic_action_important_color);
-            } else {
-                btnFavourite.setIcon(R.drawable.ic_action_not_important);
+            if (match.getExtras() != null) {
+                if (match.getExtras().isFavourite()) {
+                    btnFavourite.setIcon(R.drawable.ic_action_important_color);
+                } else {
+                    btnFavourite.setIcon(R.drawable.ic_action_not_important);
+                }
             }
         }
-
     }
 
-
-    //click action bar buttson
+    //click action bar button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -574,11 +541,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 noteDialog();
                 return true;
             case R.id.btnFavourite:
-                //MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
                 match.getExtras().setFavourite(!match.getExtras().isFavourite());
-                //mds.saveDetailMatches(new ArrayList<DetailMatch>(Arrays.asList(match)));
+                match.getExtras().setMatch_id(match.getMatch_id());
+
                 MatchesExtrasDataSource meds = new MatchesExtrasDataSource(getActivity());
                 meds.updateMatchesExtras(match.getExtras());
+
                 if (match.getExtras().isFavourite()) {
                     Toast.makeText(getActivity(), "Added match to favourites", Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_action_important_color);
@@ -587,14 +555,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     item.setIcon(R.drawable.ic_action_not_important);
                 }
                 return true;
-
-
 //            case R.id.btnShare:
 //                setShareIntentImage();
 //
 //                return true;
-
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -627,7 +591,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private void noteDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add note");
-        String m_Text = "";
 
         // Set up the input
         final EditText input = new EditText(getActivity());
@@ -663,12 +626,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     }
 
     private void saveNote(String text) {
-        // MatchesDataSource mds = new MatchesDataSource(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""));
+
         match.getExtras().setNote(text);
         match.getExtras().setMatch_id((match.getMatch_id()));
-//        mds.open();
-//        mds.saveDetailMatch(match);
-//        mds.close();
+
         MatchesExtrasDataSource meds = new MatchesExtrasDataSource(getActivity());
         meds.updateMatchesExtras(match.getExtras());
         if (text.equals("")) {
@@ -677,18 +638,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             Toast.makeText(getActivity(), "Note saved", Toast.LENGTH_SHORT).show();
         }
 
-
-        System.out.println(match.getExtras().getNote());
-        System.out.println(match.getExtras().getMatch_id());
-
-
+        //reset fragment to display new Note card
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-
         transaction.remove(this);
         transaction.replace(R.id.content_frame, this).commit();
     }
 
+    /*Takes screenshot of the important views so scoreboard can be shared - WIP**/
     private void setShareIntentImage() {
         //match info
 
@@ -698,7 +654,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         Canvas viewCanvas = new Canvas(headerBitmap);
         viewInfo.draw(viewCanvas);
         //image now stored in headerBitmap
-
 
         //players
 

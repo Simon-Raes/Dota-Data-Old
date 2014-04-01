@@ -153,6 +153,7 @@ public class BarGraph extends View {
                 bar.setRegion(new Region(mRectangle.left - selectPadding, mRectangle.top - selectPadding, mRectangle.right + selectPadding, mRectangle.bottom + selectPadding));
 
                 // Draw x-axis label text
+                // todo: replace text with hero image if possible
                 if (mShowAxis) {
                     this.mPaint.setTextSize(AXIS_LABEL_FONT_SIZE * mContext.getResources().getDisplayMetrics().scaledDensity);
                     float textWidth = this.mPaint.measureText(bar.getName());

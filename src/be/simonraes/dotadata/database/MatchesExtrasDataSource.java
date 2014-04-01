@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatchExtras;
-import be.simonraes.dotadata.detailmatch.PicksBans;
 
 import java.util.ArrayList;
 
@@ -19,10 +18,7 @@ public class MatchesExtrasDataSource {
     private MySQLiteHelper dbHelper;
 
     private String[] matchesExtrasColumns = {
-            // MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_KEY,
             MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_MATCH_ID,
-            //  MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID,
-            //  MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN,
             MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_NOTE,
             MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_FAVOURITE
     };
@@ -39,15 +35,14 @@ public class MatchesExtrasDataSource {
         dbHelper.close();
     }
 
-    //used for updating a single extras object/record
+    /**
+     * Inserts or updates a single extras record
+     */
     public void updateMatchesExtras(DetailMatchExtras extras) {
         ContentValues values = new ContentValues();
 
         open();
-        //values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_KEY, extras.getMatch_id() + extras.getAccount_id());
         values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_MATCH_ID, extras.getMatch_id());
-        // values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID, extras.getAccount_id());
-        // values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN, String.valueOf(extras.isUser_win()));
         values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_NOTE, extras.getNote());
         values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_FAVOURITE, String.valueOf(extras.isFavourite()));
 
@@ -58,7 +53,9 @@ public class MatchesExtrasDataSource {
         close();
     }
 
-    //insert list of extras objects
+    /**
+     * Inserts list of extras objects
+     */
     public void saveMatchesExtrasList(ArrayList<DetailMatchExtras> extrasList) {
         open();
 
@@ -75,18 +72,16 @@ public class MatchesExtrasDataSource {
         close();
     }
 
-    //used for bulk inserting
+    /**
+     * Bulk inserts records
+     */
     public void saveMatchesExtras(DetailMatchExtras extras) {
 
         ContentValues values = new ContentValues();
-        //values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_KEY, extras.getMatch_id() + extras.getAccount_id());
         values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_MATCH_ID, extras.getMatch_id());
-        //values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_ACCOUNT_ID, extras.getAccount_id());
-        //values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_USER_WIN, String.valueOf(extras.isUser_win()));
         values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_NOTE, extras.getNote());
         values.put(MySQLiteHelper.TABLE_MATCHES_EXTRAS_COLUMN_FAVOURITE, String.valueOf(extras.isFavourite()));
 
-        //System.out.println("saved extra");
 
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES_EXTRAS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
@@ -108,8 +103,6 @@ public class MatchesExtrasDataSource {
 
         if (cursor != null && cursor.moveToFirst()) {
             extras.setMatch_id(cursor.getString(0));
-            //extras.setAccount_id(cursor.getString(2));
-            // extras.setUser_win(Boolean.parseBoolean(cursor.getString(3)));
             extras.setNote(cursor.getString(1));
             extras.setFavourite(Boolean.parseBoolean(cursor.getString(2)));
         }

@@ -1,9 +1,7 @@
 package be.simonraes.dotadata.parser;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.delegates.ASyncResponseHistory;
 import be.simonraes.dotadata.delegates.ASyncResponseVanity;
-import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.vanity.VanityContainer;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;

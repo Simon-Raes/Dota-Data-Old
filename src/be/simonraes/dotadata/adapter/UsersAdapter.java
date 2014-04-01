@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +61,8 @@ public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHis
 
         //background
         if (user != null) {
-            if (user.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", ""))) {
-                view.setBackgroundColor(context.getResources().getColor(R.color.AntiqueWhite));
+            if (user.getAccount_id().equals(AppPreferences.getAccountID(context))) {
+                view.setBackgroundColor(context.getResources().getColor(R.color.Gainsboro));
             }
         }
 
@@ -144,10 +143,12 @@ public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHis
         }
         if (users.size() > 0) {
             //put first user as active user
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", users.get(0).getAccount_id()).commit();
+            AppPreferences.putAccountID(context, users.get(0).getAccount_id());
+
         } else {
             //no users left, put empty accountid field so user will be forced to enter new account
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("be.simonraes.dotadata.accountid", "").commit();
+            AppPreferences.putAccountID(context, "");
+
         }
         notifyDataSetChanged();
     }

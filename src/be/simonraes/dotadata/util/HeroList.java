@@ -50,7 +50,7 @@ public class HeroList {
         heroes.put("39", "Queen of Pain");
         heroes.put("40", "Venomancer");
         heroes.put("41", "Faceless Void");
-        heroes.put("42", "Skeleton King");
+        heroes.put("42", "Wraith King");
         heroes.put("43", "Death Prophet");
         heroes.put("44", "Phantom Assassin");
         heroes.put("45", "Pugna");

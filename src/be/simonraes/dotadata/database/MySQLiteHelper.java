@@ -3,7 +3,6 @@ package be.simonraes.dotadata.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 /**
  * Created by Simon on 15/02/14.
@@ -14,7 +13,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_MATCHES = "matches";
-    //    public static final String TABLE_MATCHES_COLUMN_KEY = "key";
     public static final String TABLE_MATCHES_COLUMN_RADIANT_WIN = "radiant_win";
     public static final String TABLE_MATCHES_COLUMN_DURATION = "duration";
     public static final String TABLE_MATCHES_COLUMN_START_TIME = "start_time";
@@ -32,10 +30,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_MATCHES_COLUMN_POSITIVE_VOTES = "positive_votes";
     public static final String TABLE_MATCHES_COLUMN_NEGATIVE_VOTES = "negative_votes";
     public static final String TABLE_MATCHES_COLUMN_GAME_MODE = "game_mode";
-//    public static final String TABLE_MATCHES_COLUMN_USER_WIN = "user_win";
-//    public static final String TABLE_MATCHES_COLUMN_FAVOURITE = "favourite";
-//    public static final String TABLE_MATCHES_COLUMN_NOTE = "note";
-//    public static final String TABLE_MATCHES_COLUMN_USER = "user";
 
     public static final String TABLE_PLAYERS_IN_MATCHES = "players_in_matches";
     public static final String TABLE_PLAYERS_IN_MATCHES_COLUMN_PIM_ID = "pim_id"; //extra field for database key and relation
@@ -96,8 +90,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches( radiant_win text, " +
             "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
             "barracks_status_dire text, cluster text, first_blood_time text, lobby_type text, human_players text, leagueid text, " +
-            "positive_votes text, negative_votes text, game_mode text);"; //, user_win text, favourite text, note text, user text
-//key text primary key,
+            "positive_votes text, negative_votes text, game_mode text);";
 
     private static final String CREATE_TABLE_PLAYERS_IN_MATCHES = "create table IF NOT EXISTS players_in_matches (pim_id text primary key, account_id text, " +
             "match_id text, player_slot text, hero_id text, item_0 text, item_1 text, item_2 text, item_3 text, item_4 text, item_5 text, kills text, deaths text, assists text, " +
@@ -111,6 +104,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MATCHES_EXTRAS = "create table IF NOT EXISTS matches_extras(match_id text primary key, note text, favourite text);";
 
     private static final String CREATE_TABLE_ABILITY_UPGRADES = "create table IF NOT EXISTS ability_upgrades(key text primary key, match_id text, player_slot text, ability text, time text, level text);";
+
 //    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
 
 //    private static final String CREATE_TABLE_FRIENDS = "create table IF NOT EXISTS friends(steam_id64 integer primary key, accountid integer);";
@@ -131,8 +125,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_TABLE_USERS);
         database.execSQL(CREATE_TABLE_MATCHES_EXTRAS);
         database.execSQL(CREATE_TABLE_ABILITY_UPGRADES);
-        //database.execSQL(CREATE_TABLE_PLAYERS);
-        //database.execSQL(CREATE_TABLE_FRIENDS);
     }
 
     @Override
@@ -153,12 +145,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 //                if(newVersion==3){
 //
 //                    System.out.println("added dingledongle");
-//                    database.execSQL("ALTER TABLE matches ADD COLUMN dingledongle");
+//                    //////database.execSQL("ALTER TABLE matches ADD COLUMN dingledongle");
 //                    System.out.println("added dingledongle");
 //                }
-
-                //database.execSQL("ALTER TABLE matches DROP COLUMN note");
-
             default:
                 break;
         }

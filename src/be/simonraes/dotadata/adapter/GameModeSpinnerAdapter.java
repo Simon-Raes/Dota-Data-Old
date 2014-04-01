@@ -1,12 +1,14 @@
 package be.simonraes.dotadata.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.util.Conversions;
+import be.simonraes.dotadata.util.GameModes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,10 +63,37 @@ public class GameModeSpinnerAdapter extends BaseAdapter implements android.widge
     }
 
     @Override
+    /**Returns row for selected item in gamemode spinner (with an abbreviated name)*/
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView text = new TextView(context);
-        text.setTextColor(Color.BLACK);
-        text.setText(names.get(position));
-        return text;
+
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.gamemode_picker_row_selected, null);
+        }
+
+        TextView txtGameMode = (TextView) convertView.findViewById(R.id.txtPickerGameMode);
+        txtGameMode.setText(GameModes.getGameModeAbbreviation(keys.get(position)));
+        if (names.get(position).equals("Any gamemode")) {
+            txtGameMode.setText("Any");
+        }
+
+
+        return convertView;
+    }
+
+    @Override
+    /**Returns row for gamemode spinner*/
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.gamemode_picker_row, null);
+        }
+
+        TextView txtGameMode = (TextView) convertView.findViewById(R.id.txtPickerGameMode);
+        txtGameMode.setText(names.get(position));
+
+        return convertView;
     }
 }
