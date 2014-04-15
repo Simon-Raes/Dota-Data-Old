@@ -78,6 +78,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
             btnStatsMostLastHits,
             btnStatsMostDenies,
             btnStatsMostHeroDamage,
+            btnStatsMostTowerDamage,
             btnStatsMostGPM,
             btnStatsMostXPM;
     private ImageButton btnStatsHelp;
@@ -112,6 +113,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private String mostDeniesID;
     private int mostHeroDamage = 0;
     private String mostHeroDamageID;
+    private int mostTowerDamage = 0;
+    private String mostTowerDamageID;
     private int mostGPM = 0;
     private String mostGPMID;
     private int mostXPM = 0;
@@ -195,6 +198,8 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         btnStatsMostDenies.setOnClickListener(this);
         btnStatsMostHeroDamage = (Button) view.findViewById(R.id.txtStatsMostHeroDamage);
         btnStatsMostHeroDamage.setOnClickListener(this);
+        btnStatsMostTowerDamage = (Button) view.findViewById(R.id.btnStatsMostTowerDamage);
+        btnStatsMostTowerDamage.setOnClickListener(this);
         btnStatsMostGPM = (Button) view.findViewById(R.id.txtStatsMostGPM);
         btnStatsMostGPM.setOnClickListener(this);
         btnStatsMostXPM = (Button) view.findViewById(R.id.txtStatsMostXPM);
@@ -581,6 +586,13 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
                 }
                 break;
+            case R.id.btnStatsMostTowerDamage:
+                if (Integer.parseInt(mostTowerDamageID) > 0) {
+                    match = mds.getMatchByID(mostTowerDamageID);
+                    wentToDetailsHeroes = true;
+                    wentToDetailsGameModes = true;
+                }
+                break;
             case R.id.txtStatsMostGPM:
                 if (Integer.parseInt(mostGPMID) > 0) {
                     match = mds.getMatchByID(mostGPMID);
@@ -657,6 +669,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         mostLastHits = -1;
         mostDenies = -1;
         mostHeroDamage = -1;
+        mostTowerDamage = -1;
         mostGPM = -1;
         mostXPM = -1;
         longestGameID = "-1";
@@ -666,6 +679,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         mostLastHitsID = "-1";
         mostDeniesID = "-1";
         mostHeroDamageID = "-1";
+        mostTowerDamageID = "-1";
         mostGPMID = "-1";
         mostXPMID = "-1";
 
@@ -730,9 +744,13 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 mostDenies = Integer.parseInt(matchLite.getDenies());
                 mostDeniesID = matchLite.getMatch_id();
             }
-            if (Integer.parseInt(matchLite.getGold()) > mostHeroDamage) {
+            if (Integer.parseInt(matchLite.getHero_damage()) > mostHeroDamage) {
                 mostHeroDamage = Integer.parseInt(matchLite.getHero_damage());
                 mostHeroDamageID = matchLite.getMatch_id();
+            }
+            if (Integer.parseInt(matchLite.getTower_damage()) > mostTowerDamage) {
+                mostTowerDamage = Integer.parseInt(matchLite.getTower_damage());
+                mostTowerDamageID = matchLite.getMatch_id();
             }
             if (Integer.parseInt(matchLite.getGold_per_min()) > mostGPM) {
                 mostGPM = Integer.parseInt(matchLite.getGold_per_min());
@@ -742,6 +760,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
                 mostXPM = Integer.parseInt(matchLite.getXp_per_min());
                 mostXPMID = matchLite.getMatch_id();
             }
+
             if (gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode())) != null) {
                 int prevValue = gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode()));
                 gameModesMap.put(GameModes.getGameMode(matchLite.getGame_mode()), prevValue + 1);
@@ -789,6 +808,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         btnStatsMostLastHits.setText("Most last hits: " + mostLastHits);
         btnStatsMostDenies.setText("Most denies: " + mostDenies);
         btnStatsMostHeroDamage.setText("Most hero damage: " + mostHeroDamage);
+        btnStatsMostTowerDamage.setText("Most tower damage: " + mostTowerDamage);
         btnStatsMostGPM.setText("Highest GPM: " + mostGPM);
         btnStatsMostXPM.setText("Highest XPM: " + mostXPM);
 

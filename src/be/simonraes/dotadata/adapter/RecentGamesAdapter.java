@@ -9,10 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
-import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.GameModes;
-import be.simonraes.dotadata.util.MatchUtils;
-import be.simonraes.dotadata.util.HeroList;
+import be.simonraes.dotadata.util.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 
@@ -24,14 +25,26 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
 
     private Context context;
     private ArrayList<DetailMatchLite> matches;
-    //private String prefAccountID;
+
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
+    private ImageLoadingListener animateFirstListener;
 
     public RecentGamesAdapter(Context context, ArrayList<DetailMatchLite> objects) {
         super(context, R.layout.matches_list_row, objects);
         this.context = context;
         this.matches = objects;
 
-        // prefAccountID = PreferenceManager.getDefaultSharedPreferences(context).getString("be.simonraes.dotadata.accountid", "");
+        imageLoader = ImageLoader.getInstance();
+        animateFirstListener = new AnimateFirstDisplayListenerToo();
+        options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .showImageOnLoading(R.drawable.hero_loading_lg)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
     }
 
     @Override
@@ -63,7 +76,10 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
 
         viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
 
-        viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(match.getHero_id()), "drawable", context.getPackageName()));
+        //viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(match.getHero_id()), "drawable", context.getPackageName()));
+
+        imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(match.getHero_id()) + "_lg.png", viewholder.imgHero, options, animateFirstListener);
+
 
         if (match.isFavourite()) {
 

@@ -121,15 +121,28 @@ public class MatchesDataSource {
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    public void saveDetailMatches(ArrayList<DetailMatch> matches) {
+//    public void saveDetailMatches(ArrayList<DetailMatch> matches) {
+//        open();
+//        database.beginTransaction();
+//        for (DetailMatch match : matches) {
+//            saveDetailMatch(match);
+//        }
+//        database.setTransactionSuccessful();
+//        database.endTransaction();
+//        close();
+//    }
+
+
+    public boolean matchExists(String matchId) {
+        boolean exists = false;
         open();
-        database.beginTransaction();
-        for (DetailMatch match : matches) {
-            saveDetailMatch(match);
+        Cursor cursor = database.rawQuery("SELECT radiant_win FROM matches WHERE match_id = ?", new String[]{matchId});
+        if (cursor.getCount() <= 0) {
+            exists = false;
+        } else {
+            exists = true;
         }
-        database.setTransactionSuccessful();
-        database.endTransaction();
-        close();
+        return exists;
     }
 
     public ArrayList<DetailMatchLite> get50LiteMatchesStartingFromID(String matchID) {
@@ -675,7 +688,6 @@ public class MatchesDataSource {
 
         return record;
     }
-
 
 
     public void deleteUserMatches() {

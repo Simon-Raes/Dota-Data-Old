@@ -228,6 +228,12 @@
                         android:text="Most hero damage"/>
                 <View style="@style/DrawerDivider"/>
                 <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                        android:id="@+id/btnStatsMostTowerDamage"
+                        android:background="@drawable/draw_button_record"
+                        android:drawableRight="@drawable/ic_action_next_item"
+                        android:text="Most tower damage"/>
+                <View style="@style/DrawerDivider"/>
+                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
                         android:id="@+id/txtStatsMostGPM"
                         android:background="@drawable/draw_button_record"
                         android:drawableRight="@drawable/ic_action_next_item"

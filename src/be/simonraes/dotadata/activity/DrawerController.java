@@ -18,6 +18,7 @@ import be.simonraes.dotadata.adapter.DrawerAdapter;
 import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
+import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.OrientationHelper;
 
 public class DrawerController extends Activity implements ListView.OnItemClickListener {
@@ -69,11 +70,14 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         //start loading the content of the statistics spinners here so it's already ready when the user opens the stats screen
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
-        if (phm.getMaps().getPlayedHeroes().size() < 1) {
-            if (phm.getStatus() != AsyncTask.Status.RUNNING) {
-                phm.execute();
+        if (!AppPreferences.getAccountID(this).equals("0") && !AppPreferences.getAccountID(this).equals("") && AppPreferences.getAccountID(this) != null) {
+            if (phm.getMaps().getPlayedHeroes().size() < 1) {
+                if (phm.getStatus() != AsyncTask.Status.RUNNING) {
+                    phm.execute();
+                }
             }
         }
+
 
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -100,12 +104,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
             case 2:
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsFragment(), "StatsFragment").addToBackStack(null).commit();
                 break;
-//            case 3:
-//                getFragmentManager().beginTransaction().replace(R.id.content_frame, new LiveLeagueGamesFragment(), "LiveLeagueGamesFragment").addToBackStack(null).commit();
-//                break;
 
             default:
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new NYIFragment(), "NYIFragment").addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
                 break;
         }
     }

@@ -131,6 +131,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void dotaBuffEntered() {
+        OrientationHelper.lockOrientation(getActivity());
+
         if (InternetCheck.isOnline(getActivity())) {
             if (!etxtDotabuff.getText().equals("")) {
                 saveDotaID(etxtDotabuff.getText().toString());
@@ -145,6 +147,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void profileNumberEntered() {
+        OrientationHelper.lockOrientation(getActivity());
+
         if (InternetCheck.isOnline(getActivity())) {
             if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
                 saveDotaID(Conversions.community64IDToDota64ID(etxtProfileNumber.getText().toString()));
@@ -159,6 +163,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void profileVanityEntered() {
+        OrientationHelper.lockOrientation(getActivity());
+
         if (InternetCheck.isOnline(getActivity())) {
             if (!etxtIDName.getText().toString().equals("") && etxtIDName.getText().toString() != null) {
                 VanityResolverParser parser = new VanityResolverParser(this);
@@ -199,22 +205,25 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     //got player summary based on accountID
     @Override
     public void processFinish(PlayerSummaryContainer result) {
-        if (result.getPlayers().getPlayers().size() > 0) {
-
-            final PlayerSummaryContainer finalResult = result;
+        if (result.getPlayers() != null) {
 
 
-            //check if user is already in the database
-            UsersDataSource uds = new UsersDataSource(getActivity());
-            User testUser = uds.getUserByID(userAccountID);
-            if (testUser.getAccount_id() != null && !testUser.getAccount_id().equals("")) {
+            if (result.getPlayers().getPlayers().size() > 0) {
 
-                //user already saved, just switch user instead of downloading
-                AppPreferences.putAccountID(getActivity(), testUser.getAccount_id());
+                final PlayerSummaryContainer finalResult = result;
 
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
-            } else {
+                //check if user is already in the database
+                UsersDataSource uds = new UsersDataSource(getActivity());
+                User testUser = uds.getUserByID(userAccountID);
+                if (testUser.getAccount_id() != null && !testUser.getAccount_id().equals("")) {
+
+                    //user already saved, just switch user instead of downloading
+                    AppPreferences.putAccountID(getActivity(), testUser.getAccount_id());
+
+                    getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+
+                } else {
 //                View layDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_view_found_user, null);
 //                ImageView imgDialog = (ImageView) layDialog.findViewById(R.id.imgDialogFoundUser);
 //
@@ -231,39 +240,43 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 
 //                TextView txtDialog = (TextView) layDialog.findViewById(R.id.txtDialogFoundUser);
 //                txtDialog.setText("Start download for this account?");
-                new AlertDialog.Builder(getActivity())
-                        .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
-                                //todo: add user image (url is already in result object)
-                        .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
+                                    //todo: add user image (url is already in result object)
+                            .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
 //                        .setView(layDialog)
-                        .setCancelable(false)
-                                //.setIcon(R.drawable.dotadata_sm)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
+                            .setCancelable(false)
+                                    //.setIcon(R.drawable.dotadata_sm)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
 
 
 //                                //everything is good, save user account id and user
-                                        UsersDataSource uds = new UsersDataSource(getActivity());
-                                        User user = new User(userAccountID, finalResult.getPlayers().getPlayers().get(0).getSteamid(), finalResult.getPlayers().getPlayers().get(0).getPersonaname(), finalResult.getPlayers().getPlayers().get(0).getAvatarmedium());
+                                            UsersDataSource uds = new UsersDataSource(getActivity());
+                                            User user = new User(userAccountID, finalResult.getPlayers().getPlayers().get(0).getSteamid(), finalResult.getPlayers().getPlayers().get(0).getPersonaname(), finalResult.getPlayers().getPlayers().get(0).getAvatarmedium());
 //                                uds.saveUser(user);
 //                                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", userAccountID).commit();
 
-                                        //start download
-                                        startDownload(user);
+                                            //start download
+                                            startDownload(user);
+                                        }
                                     }
+                            )
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //nothing, just dismiss
+                                    OrientationHelper.unlockOrientation(getActivity());
                                 }
-                        )
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //nothing, just dismiss
-                                OrientationHelper.unlockOrientation(getActivity());
-                            }
-                        })
-                        .show();
+                            })
+                            .show();
 
+                }
+            } else {
+                Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "The Dota 2 API is currently unavailable. Please try again later.", Toast.LENGTH_LONG).show();
+
         }
     }
 

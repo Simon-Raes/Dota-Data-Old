@@ -45,23 +45,35 @@
 
     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
             >
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="53dp" android:layout_height="40dp"
                    android:id="@+id/imgItem1"
+                   android:layout_margin="1dp"
+                   android:adjustViewBounds="true"
                    android:src="@drawable/item_lg_unknown"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="53dp" android:layout_height="40dp"
                    android:id="@+id/imgItem2"
+                   android:layout_margin="1dp"
+                   android:adjustViewBounds="true"
                    android:src="@drawable/item_lg_unknown"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="53dp" android:layout_height="40dp"
                    android:id="@+id/imgItem3"
+                   android:layout_margin="1dp"
+                   android:adjustViewBounds="true"
                    android:src="@drawable/item_lg_unknown"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="53dp" android:layout_height="40dp"
                    android:id="@+id/imgItem4"
+                   android:layout_margin="1dp"
+                   android:adjustViewBounds="true"
                    android:src="@drawable/item_lg_unknown"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="53dp" android:layout_height="40dp"
                    android:id="@+id/imgItem5"
+                   android:layout_margin="1dp"
+                   android:adjustViewBounds="true"
                    android:src="@drawable/item_lg_unknown"/>
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="53dp" android:layout_height="40dp"
                    android:id="@+id/imgItem6"
+                   android:layout_margin="1dp"
+                   android:adjustViewBounds="true"
                    android:src="@drawable/item_lg_unknown"/>
     </LinearLayout>
     <!--<View style="@style/Divider"/>-->

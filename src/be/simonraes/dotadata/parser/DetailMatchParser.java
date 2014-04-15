@@ -29,9 +29,6 @@ public class DetailMatchParser extends AsyncTask<String, Void, DetailContainer> 
         ObjectMapper mapper = new ObjectMapper();
         String matchid = params[0];
 
-        //possible useful to remove response tag/object
-        //mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-
         DetailContainer container = new DetailContainer();
 
         try {

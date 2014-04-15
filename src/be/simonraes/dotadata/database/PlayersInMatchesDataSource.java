@@ -101,4 +101,14 @@ public class PlayersInMatchesDataSource {
         close();
     }
 
+    public void savePlayersNoOpen(ArrayList<DetailPlayer> players) {
+        try {
+            for (DetailPlayer player : players) {
+                savePlayer(player);
+            }
+        } finally {
+        }
+
+    }
+
 }

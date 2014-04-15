@@ -122,105 +122,125 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
 
         //check if user is sharing his history
-        if (result.getRecentGames().getStatusDetail() != null) {
-            if (introDialog.isShowing()) {
-                introDialog.dismiss();
+        if (result.getRecentGames() != null) {
+
+
+            if (result.getRecentGames().getStatusDetail() != null) {
+                if (introDialog.isShowing()) {
+                    introDialog.dismiss();
+                }
+                new AlertDialog.Builder(context)
+                        .setTitle("No games found")
+                        .setMessage("This user is not sharing his match history or has not yet played any games.")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+            } else if (result.getRecentGames().getMatches().size() > 0) {
+
+
+                AppPreferences.putAccountID(context, accountID);
+
+
+                if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
+                    //last match id of received results is older than latest saved match, saved matchID is in this set of results, this is the last needed set
+
+                    goToDetailParser = true;
+
+                    ArrayList<HistoryMatch> recentMatches = new ArrayList<HistoryMatch>();
+                    //only keep the newer matches, discard the rest
+                    for (HistoryMatch match : result.getRecentGames().getMatches()) {
+                        if (Integer.parseInt(match.getMatch_id()) > Integer.parseInt(latestSavedMatchID)) {
+                            recentMatches.add(match);
+                        }
+                    }
+
+                    if (recentMatches.size() == 0) {
+                        //latest downloaded match was the same as the latest saved match, no games were played since last download
+                        Toast.makeText(context, "No new games found.", Toast.LENGTH_SHORT).show();
+                        if (introDialog != null) {
+                            if (introDialog.isShowing()) {
+                                introDialog.dismiss();
+                            }
+                        }
+                        goToDetailParser = false;
+                        delegate.processFinish(false);
+                    }
+
+                    matches.addAll(recentMatches);
+
+                } else {
+                    //stored matchID is not in this set, download the next one
+                    goToDetailParser = false;
+
+                    matches.addAll(result.getRecentGames().getMatches());
+                    //start parser for next page of results
+                    parser = new HistoryMatchParser(this);
+
+                    int iNextMatchID = Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) - 1;
+                    String nextMatchID = Integer.toString(iNextMatchID);
+
+                    parser.execute(accountID, nextMatchID);
+                }
+
+            } else {
+                //latest set contained no matches, end of history reached, send matches to detailparser
+                goToDetailParser = true;
             }
+
+
+            if (goToDetailParser) {
+                //got all historymatches
+
+
+                if (introDialog != null) {
+                    if (introDialog.isShowing()) {
+                        introDialog.dismiss();
+                    }
+                }
+
+
+                progressDialog = new ProgressDialog(context);
+                progressDialog.setTitle("Downloading match history");
+                if (firstTimeSetup) {
+                    //only show this message for the initial download
+                    progressDialog.setMessage("Your Dota 2 match history is now downloading. Your games and statistics will be available once the download completes.");
+                }
+                progressDialog.setProgressPercentFormat(null);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setMax(matches.size());
+                progressDialog.setProgress(0);
+                progressDialog.setCancelable(false);
+                progressDialog.setIndeterminate(false);
+                progressDialog.show();
+
+                String[] matchIDs = new String[matches.size()];
+
+                for (int i = 0; i < matches.size(); i++) {
+                    matchIDs[i] = matches.get(i).getMatch_id();
+                }
+                DetailMatchesParser parser = new DetailMatchesParser(this, context, accountID);
+                parser.execute(matchIDs);
+            }
+        } else {
+            //API must be offline, alert user
+            //todo: better title/text
             new AlertDialog.Builder(context)
-                    .setTitle("No games found")
-                    .setMessage("This user is not sharing his match history or has not yet played any games.")
+                    .setTitle("WebAPI offline")
+                    .setMessage("The Dota 2 API is currently unavailable. Please try again later.")
+                    .setCancelable(false)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
                     })
                     .show();
-
-        } else if (result.getRecentGames().getMatches().size() > 0) {
-
-
-            AppPreferences.putAccountID(context, accountID);
-
-
-            if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
-                //last match id of received results is older than latest saved match, saved matchID is in this set of results, this is the last needed set
-
-                goToDetailParser = true;
-
-                ArrayList<HistoryMatch> recentMatches = new ArrayList<HistoryMatch>();
-                //only keep the newer matches, discard the rest
-                for (HistoryMatch match : result.getRecentGames().getMatches()) {
-                    if (Integer.parseInt(match.getMatch_id()) > Integer.parseInt(latestSavedMatchID)) {
-                        recentMatches.add(match);
-                    }
-                }
-
-                if (recentMatches.size() == 0) {
-                    //latest downloaded match was the same as the latest saved match, no games were played since last download
-                    Toast.makeText(context, "No new games found.", Toast.LENGTH_SHORT).show();
-                    if (introDialog != null) {
-                        if (introDialog.isShowing()) {
-                            introDialog.dismiss();
-                        }
-                    }
-                    goToDetailParser = false;
-                    delegate.processFinish(false);
-                }
-
-                matches.addAll(recentMatches);
-
-            } else {
-                //stored matchID is not in this set, download the next one
-                goToDetailParser = false;
-
-                matches.addAll(result.getRecentGames().getMatches());
-                //start parser for next page of results
-                parser = new HistoryMatchParser(this);
-
-                int iNextMatchID = Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) - 1;
-                String nextMatchID = Integer.toString(iNextMatchID);
-
-                parser.execute(accountID, nextMatchID);
+            if (introDialog.isShowing()) {
+                introDialog.dismiss();
             }
-
-        } else {
-            //latest set contained no matches, end of history reached, send matches to detailparser
-            goToDetailParser = true;
-        }
-
-
-        if (goToDetailParser) {
-            //got all historymatches
-
-
-            if (introDialog != null) {
-                if (introDialog.isShowing()) {
-                    introDialog.dismiss();
-                }
-            }
-
-
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setTitle("Downloading match history");
-            if (firstTimeSetup) {
-                //only show this message for the initial download
-                progressDialog.setMessage("Your Dota 2 match history is now downloading. Your games and statistics will be available once the download completes.");
-            }
-            progressDialog.setProgressPercentFormat(null);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.setMax(matches.size());
-            progressDialog.setProgress(0);
-            progressDialog.setCancelable(false);
-            progressDialog.setIndeterminate(false);
-            progressDialog.show();
-
-            String[] matchIDs = new String[matches.size()];
-
-            for (int i = 0; i < matches.size(); i++) {
-                matchIDs[i] = matches.get(i).getMatch_id();
-            }
-            DetailMatchesParser parser = new DetailMatchesParser(this);
-            parser.execute(matchIDs);
         }
     }
 
@@ -230,70 +250,73 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     public void processUpdate(Integer[] progress) {
         progressDialog.setProgress(progress[0]);
 
-        //let user know the app is still working (saving to db)
-        if (progress[0] >= matches.size() - 1) {
-            progressDialog.setProgress(matches.size());
-            progressDialog.setMessage("Saving...");
-        }
+//        //let user know the app is still working (saving to db)
+//        if (progress[0] >= matches.size() - 1) {
+//            progressDialog.setProgress(matches.size());
+//            progressDialog.setMessage("Saving...");
+//        }
     }
 
     /*Finished parsing detailmatches, Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
 
-
-        progressDialog.setProgress(result.size() + 1);
-        progressDialog.setMessage("Saving.");
-
-        //save players and (if needed) picks/bans to database
-        ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
-        ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
-//        ArrayList<DetailMatchExtras> extrasList = new ArrayList<DetailMatchExtras>();
-        ArrayList<AbilityUpgrades> abilityUpgradesList = new ArrayList<AbilityUpgrades>();
-
-        for (DetailMatch match : result) {
-            //get players
-            for (DetailPlayer player : match.getPlayers()) {
+//        progressDialog.setProgress(result.size() + 1);
+//        progressDialog.setMessage("Saving.");
 
 
-                player.setMatchID(match.getMatch_id());
-                players.add(player);
+        //now saves during download
 
-                //get abilityupgrades and prep them
-                for (AbilityUpgrades au : player.getAbilityupgrades()) {
-                    au.setMatch_id(match.getMatch_id());
-                    au.setPlayer_slot(player.getPlayer_slot());
-                    abilityUpgradesList.add(au);
-                }
-            }
-            //get picksbans
-            if (match.getPicks_bans().size() > 0) {
-                for (PicksBans picksBans : match.getPicks_bans()) {
-                    picksBans.setMatch_id(match.getMatch_id());
-                    picksBansList.add(picksBans);
-                }
-            }
-            //match.getExtras().setAccount_id(accountID);
-        }
 
-        //save matches to database
-        MatchesDataSource mds = new MatchesDataSource(context, accountID);
-        System.out.println("sving x matches " + result.size());
-        mds.saveDetailMatches(result);
-
-        //save players
-        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
-        System.out.println("saving x players " + players.size());
-        pimds.savePlayers(players);
-
-        //save picksbans
-        PicksBansDataSource pbds = new PicksBansDataSource(context);
-        System.out.println("saving x picksbans " + picksBansList.size());
-        pbds.savePicksBansList(picksBansList);
-
-        //save ability upgrades
-        AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
-        auds.saveAbilityUpgradesList(abilityUpgradesList);
+//        //save players and (if needed) picks/bans to database
+//        ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+//        ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
+////        ArrayList<DetailMatchExtras> extrasList = new ArrayList<DetailMatchExtras>();
+//        ArrayList<AbilityUpgrades> abilityUpgradesList = new ArrayList<AbilityUpgrades>();
+//
+//        for (DetailMatch match : result) {
+//            //get players
+//            for (DetailPlayer player : match.getPlayers()) {
+//
+//
+//                player.setMatchID(match.getMatch_id());
+//                players.add(player);
+//
+//                //get abilityupgrades and prep them
+//                for (AbilityUpgrades au : player.getAbilityupgrades()) {
+//                    au.setMatch_id(match.getMatch_id());
+//                    au.setPlayer_slot(player.getPlayer_slot());
+//                    abilityUpgradesList.add(au);
+//                }
+//            }
+//            //get picksbans
+//            if (match.getPicks_bans().size() > 0) {
+//                for (PicksBans picksBans : match.getPicks_bans()) {
+//                    picksBans.setMatch_id(match.getMatch_id());
+//                    picksBansList.add(picksBans);
+//                }
+//            }
+//            //match.getExtras().setAccount_id(accountID);
+//        }
+//
+//        //save matches to database
+//        MatchesDataSource mds = new MatchesDataSource(context, accountID);
+//        System.out.println("sving x matches " + result.size());
+//        mds.saveDetailMatches(result);
+//
+//        //save players
+//        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
+//        System.out.println("saving x players " + players.size());
+//        pimds.savePlayers(players);
+//
+//        //save picksbans
+//        PicksBansDataSource pbds = new PicksBansDataSource(context);
+//        System.out.println("saving x picksbans " + picksBansList.size());
+//        pbds.savePicksBansList(picksBansList);
+//
+//        //save ability upgrades
+//        AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
+//        auds.saveAbilityUpgradesList(abilityUpgradesList);
 
         //save extras
 //        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(context);
@@ -306,7 +329,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //keep track of the last saved match for this user
         //User user = uds.getUserByID(accountID);new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar())
         User usera = new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar());
-        usera.setLast_saved_match(result.get(0).getMatch_id());
+        usera.setLast_saved_match(matches.get(0).getMatch_id());
         uds.saveUser(usera);
 
         if (progressDialog.isShowing()) {

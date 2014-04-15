@@ -70,6 +70,17 @@ public class PicksBansDataSource {
         close();
     }
 
+    public void savePicksBansListNoOpen(ArrayList<PicksBans> picksBansList) {
+
+        try {
+            for (PicksBans picksBans : picksBansList) {
+                savePicksBans(picksBans);
+            }
+        } finally {
+        }
+
+    }
+
     public PicksBans cursorToPicksBans(Cursor cursor) {
         PicksBans picksBans = new PicksBans();
         if (cursor != null) {

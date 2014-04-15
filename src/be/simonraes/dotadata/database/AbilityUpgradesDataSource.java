@@ -69,6 +69,17 @@ public class AbilityUpgradesDataSource {
         close();
     }
 
+    public void saveAbilityUpgradesListNoOpen(ArrayList<AbilityUpgrades> abilityUpgradesList) {
+
+        try {
+            for (AbilityUpgrades abilityUpgrades : abilityUpgradesList) {
+                saveAbilityUpgrades(abilityUpgrades);
+            }
+        } finally {
+        }
+
+    }
+
     public ArrayList<AbilityUpgrades> getAbilityUpgradesForPlayerInMatch(String match_id, String player_slot) {
         open();
 

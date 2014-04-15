@@ -151,8 +151,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             View divider = inflater.inflate(R.layout.divider, null);
 
             //give user's row a special background color
-            if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-                playerRow.setBackgroundColor(getResources().getColor(R.color.Gainsboro));
+            if (player.getAccount_id() != null) {
+                if (player.getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
+                    if (playerRow != null) {
+                        playerRow.setBackgroundColor(getResources().getColor(R.color.LighterSteelBlue));
+                    }
+                }
             }
 
             TextView txtPlayerLevel = (TextView) playerRow.findViewById(R.id.txtDetailPlayerLevel);
@@ -195,33 +199,66 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
+                    .cacheOnDisc(true)
                     .showImageOnLoading(R.drawable.item_lg_unknown)
+                    .showImageOnFail(R.drawable.item_lg_unknown)
                     .build();
 
 
             ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
-            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_0()) + "_lg", "drawable", getActivity().getPackageName()));
+//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_0()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_0())));
+            if (player.getItem_0().equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_0()) + "_lg.png", imgItem, options, animateFirstListener);
+            }
+
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
-            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_1()) + "_lg", "drawable", getActivity().getPackageName()));
+//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_1()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_1())));
+            if (player.getItem_1().equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_1()) + "_lg.png", imgItem, options, animateFirstListener);
+            }
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
-            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_2()) + "_lg", "drawable", getActivity().getPackageName()));
+//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_2()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_2())));
+            if (player.getItem_2().equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_2()) + "_lg.png", imgItem, options, animateFirstListener);
+            }
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
-            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_3()) + "_lg", "drawable", getActivity().getPackageName()));
+//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_3()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_3())));
+            if (player.getItem_3().equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_3()) + "_lg.png", imgItem, options, animateFirstListener);
+            }
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
-            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_4()) + "_lg", "drawable", getActivity().getPackageName()));
+//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_4()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_4())));
+            if (player.getItem_4().equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_4()) + "_lg.png", imgItem, options, animateFirstListener);
+            }
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
-            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_5()) + "_lg", "drawable", getActivity().getPackageName()));
+//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_5()) + "_lg", "drawable", getActivity().getPackageName()));
             imgItem.setContentDescription(ItemList.getItem((player.getItem_5())));
+            if (player.getItem_5().equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_5()) + "_lg.png", imgItem, options, animateFirstListener);
+            }
 
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
