@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
@@ -25,7 +24,6 @@ import be.simonraes.dotadata.util.GameModes;
 import be.simonraes.dotadata.util.HeroList;
 import be.simonraes.dotadata.util.OrientationHelper;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -55,7 +53,7 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
     long lastUpdate = 0;
 
-    StatsNumbersForPagerFragment statsFrag;
+    StatsNumbersFragment statsFrag;
     StatsMatchesFragment matchFrag;
 
 
@@ -225,10 +223,10 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                         if (matches.size() > 0) {
                             if (sml != null) {
                                 if (sml.getStatus() != AsyncTask.Status.RUNNING) {
-                                    ((StatsNumbersForPagerFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
+                                    ((StatsNumbersFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
                                 }
                             } else {
-                                ((StatsNumbersForPagerFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
+                                ((StatsNumbersFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
                             }
 
 
@@ -261,10 +259,10 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                         if (matches.size() > 0) {
                             if (sml != null) {
                                 if (sml.getStatus() != AsyncTask.Status.RUNNING) {
-                                    ((StatsNumbersForPagerFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
+                                    ((StatsNumbersFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
                                 }
                             } else {
-                                ((StatsNumbersForPagerFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
+                                ((StatsNumbersFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
                             }
                         }
                     }
@@ -319,8 +317,8 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
         if (mPagerAdapter != null) {
             if (((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0) != null) {
-                ((StatsNumbersForPagerFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).setMatches(result, gameModeID, heroID);
-                ((StatsNumbersForPagerFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
+                ((StatsNumbersFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).setMatches(result, gameModeID, heroID);
+                ((StatsNumbersFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(0)).updateVisuals();
             }
             if (((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(1) != null) {
                 ((StatsMatchesFragment) ((ScreenSlidePagerAdapter) mPagerAdapter).getRegisteredFragment(1)).setMatches(result);
@@ -345,7 +343,7 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new StatsNumbersForPagerFragment();
+                    return new StatsNumbersFragment();
                 case 1:
                     return new StatsMatchesFragment();
                 default:

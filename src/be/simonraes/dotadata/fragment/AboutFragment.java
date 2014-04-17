@@ -1,11 +1,14 @@
 package be.simonraes.dotadata.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
@@ -17,29 +20,30 @@ import be.simonraes.dotadata.activity.DrawerController;
 public class AboutFragment extends Fragment implements View.OnClickListener {
 
     private Button btnJackson, btnHoloGraph, btnUIL;
+    private View fragView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.about_layout, container, false);
+        fragView = inflater.inflate(R.layout.about_layout, container, false);
 
         //todo: make overscrollable, add ogre magi
-//        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAbout);
-//        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+        ScrollView scrollView = (ScrollView) fragView.findViewById(R.id.scrollAbout);
+        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
 
         getActivity().setTitle("About");
         //update active drawer item
         ((DrawerController) getActivity()).setActiveDrawerItem(0);
 
-        btnJackson = (Button) view.findViewById(R.id.btnAboutLibraryJackson);
+        btnJackson = (Button) fragView.findViewById(R.id.btnAboutLibraryJackson);
         btnJackson.setOnClickListener(this);
-        btnHoloGraph = (Button) view.findViewById(R.id.btnAboutLibraryHoloGraph);
+        btnHoloGraph = (Button) fragView.findViewById(R.id.btnAboutLibraryHoloGraph);
         btnHoloGraph.setOnClickListener(this);
-        btnUIL = (Button) view.findViewById(R.id.btnAboutLibraryUIL);
+        btnUIL = (Button) fragView.findViewById(R.id.btnAboutLibraryUIL);
         btnUIL.setOnClickListener(this);
 
         setHasOptionsMenu(true);
 
-        return view;
+        return fragView;
     }
 
     @Override
@@ -70,6 +74,18 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btnAbout:
+                //user pressed About button while already on About, SHOW OGRE MAGI!
+                crossFadeToOgre();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         Intent browserIntent;
         switch (view.getId()) {
@@ -88,5 +104,30 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+
     }
+
+    private void crossFadeToOgre() {
+        // Set the content view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+
+        int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_longAnimTime);
+
+
+        ImageView ogre = (ImageView) fragView.findViewById(R.id.aboutOgre);
+
+        ogre.setAlpha(0f);
+        ogre.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        ogre.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+
+    }
+
+
 }

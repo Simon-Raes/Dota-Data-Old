@@ -191,18 +191,30 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
             case R.id.btnManageUsers:
                 drawerToggle.setDrawerIndicatorEnabled(true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ManageUsersFragment(), "ManageUsersFragment").addToBackStack(null).commit();
-                break;
+                return true;
 
-
+            //let aboutFragment handle this button if it is visible
             case R.id.btnAbout:
-                drawerToggle.setDrawerIndicatorEnabled(true);
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
-                break;
+                AboutFragment myFragment = (AboutFragment) getSupportFragmentManager().findFragmentByTag("AboutFragment");
+                if (myFragment != null) {
+                    if (myFragment.isVisible()) {
+                        return false;
+                    } else {
+                        drawerToggle.setDrawerIndicatorEnabled(true);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
+                        return true;
+                    }
+                } else {
+                    drawerToggle.setDrawerIndicatorEnabled(true);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
+                    return true;
+                }
+
 
             default:
                 return super.onOptionsItemSelected(item);
         }
-        return true;
+        //return true;
 
     }
 

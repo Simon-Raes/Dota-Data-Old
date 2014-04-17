@@ -44,9 +44,6 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
         }
 
 
-        //test commit delete this
-
-
         try {
 
             container = mapper.readValue(new URL(parseURL), HistoryContainer.class);

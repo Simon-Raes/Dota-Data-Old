@@ -37,7 +37,7 @@ import java.util.*;
  * Created by Simon on 14/02/14.
  * Creates the layout for stats and calculates stats
  */
-public class StatsNumbersForPagerFragment extends Fragment implements View.OnClickListener, ASyncResponseStatsLoader {
+public class StatsNumbersFragment extends Fragment implements View.OnClickListener, ASyncResponseStatsLoader {
 
     private ScrollView scrollStats;
     private ProgressBar progressStats;
