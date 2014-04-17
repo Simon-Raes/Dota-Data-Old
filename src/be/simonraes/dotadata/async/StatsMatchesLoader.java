@@ -33,6 +33,8 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
         String gameModeID = params[0];
         String heroID = params[1];
 
+        System.out.println("starting db load");
+
         if (gameModeID == null || gameModeID == "") {
             gameModeID = "-1";
         }

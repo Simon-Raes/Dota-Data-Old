@@ -88,12 +88,11 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
             //must be hidden again because this view can be re-used for other (non-favourited) matches
             viewholder.imgFavourite.setVisibility(View.GONE);
         }
+        viewholder.txtVictoryLoss.setText(match.getKills() + "/" + match.getDeaths() + "/" + match.getAssists());
 
         if (MatchUtils.isUser_win(match)) {
-            viewholder.txtVictoryLoss.setText("Victory");
             viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.ForestGreen));
         } else {
-            viewholder.txtVictoryLoss.setText("Defeat");
             viewholder.txtVictoryLoss.setTextColor(context.getResources().getColor(R.color.Crimson));
         }
 

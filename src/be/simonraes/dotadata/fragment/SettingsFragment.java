@@ -7,6 +7,7 @@ import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import be.simonraes.dotadata.R;
+import android.support.v4.app.Fragment;
 
 
 /**

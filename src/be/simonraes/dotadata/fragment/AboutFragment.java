@@ -1,16 +1,18 @@
 package be.simonraes.dotadata.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ScrollView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 
 /**
  * Created by Simon on 28/02/14.
+ * Fragment with info about the app.
  */
 public class AboutFragment extends Fragment implements View.OnClickListener {
 
@@ -19,6 +21,10 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.about_layout, container, false);
+
+        //todo: make overscrollable, add ogre magi
+//        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAbout);
+//        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
 
         getActivity().setTitle("About");
         //update active drawer item

@@ -1,11 +1,10 @@
 package be.simonraes.dotadata.activity;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.Menu;
@@ -21,10 +20,10 @@ import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.OrientationHelper;
 
-public class DrawerController extends Activity implements ListView.OnItemClickListener {
+public class DrawerController extends FragmentActivity implements ListView.OnItemClickListener {
 
     private String listContent[];
-    private DrawerLayout drawerLayout;
+    public DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -32,7 +31,7 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     private CharSequence mDrawerTitle;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
 
@@ -60,8 +59,10 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         };
         drawerLayout.setDrawerListener(drawerToggle);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+        }
 
         drawerList = (ListView) findViewById(R.id.left_drawer);
         drawerList.setAdapter(new DrawerAdapter(this, listContent));
@@ -80,8 +81,9 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
 
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, new RecentGamesFragment()).commit();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
+
         }
     }
 
@@ -89,6 +91,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("appLaunch", false);
+    }
+
+    //disable activity switch animation
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -99,14 +108,14 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
 
         switch (position) {
             case 1:
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
                 break;
             case 2:
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsFragment(), "StatsFragment").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsPagerFragment()).addToBackStack(null).commit();
                 break;
 
             default:
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
                 break;
         }
     }
@@ -181,13 +190,13 @@ public class DrawerController extends Activity implements ListView.OnItemClickLi
         switch (item.getItemId()) {
             case R.id.btnManageUsers:
                 drawerToggle.setDrawerIndicatorEnabled(true);
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new ManageUsersFragment(), "ManageUsersFragment").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ManageUsersFragment(), "ManageUsersFragment").addToBackStack(null).commit();
                 break;
 
 
             case R.id.btnAbout:
                 drawerToggle.setDrawerIndicatorEnabled(true);
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
                 break;
 
             default:

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.Conversions;
+import be.simonraes.dotadata.util.InternetCheck;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +31,6 @@ public class PlayerSummaryParser extends AsyncTask<String, Void, PlayerSummaryCo
         String steamID = "";
         if (params.length > 0) {
             steamID = Conversions.dotaIDToCommunityID(params[0]);
-//            System.out.println("steam id = "+steamID);
         }
 
         PlayerSummaryContainer container = new PlayerSummaryContainer();
@@ -46,7 +46,7 @@ public class PlayerSummaryParser extends AsyncTask<String, Void, PlayerSummaryCo
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        System.out.println(container.getPlayers().getPlayers().size());
+
         return container;
     }
 

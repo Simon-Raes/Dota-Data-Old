@@ -1,8 +1,9 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
+import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.database.MatchesExtrasDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.*;
@@ -52,6 +54,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private ImageLoadingListener animateFirstListener;
 
     private ArrayList<TextView> playerNames;
+    private ArrayList<PlayerSummaryParser> parsers;
 
     private DetailMatch match;
 
@@ -70,11 +73,15 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         getActivity().setTitle("Match Details");
 
         //disable drawer icon (needed for reorientation)
-        ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        //update the actionbar to show the up carat
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getActivity() instanceof DrawerController) {
+            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+            //update the actionbar to show the up carat
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
 
         playerNames = new ArrayList<TextView>();
+        parsers = new ArrayList<PlayerSummaryParser>();
 
         boolean hasPicksBans = false;
 
@@ -174,6 +181,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 } else {
                     PlayerSummaryParser parser = new PlayerSummaryParser(this);
                     parser.execute(player.getAccount_id());
+                    parsers.add(parser);
                 }
             }
 
@@ -325,6 +333,21 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         return view;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //cancel any active asynctask
+        //this way other asynctasks in the app don't have to wait until these finish (or time out)
+        if (parsers != null) {
+            if (parsers.size() > 0) {
+                for (PlayerSummaryParser parser : parsers) {
+                    parser.cancel(true);
+                }
+            }
+        }
+    }
+
 
     //Add towers and barracks to minimap
     @Override
@@ -604,25 +627,30 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     //received names of players
     @Override
     public void processFinish(PlayerSummaryContainer result) {
-        if (result.getPlayers() != null) {
-            if (result.getPlayers().getPlayers().size() < 1) {
-                for (TextView textView : playerNames) {
-                    if (textView.getText() != null) {
-                        if (textView.getText().equals("4294967295")) {
-                            textView.setText("Anonymous");
+        if (result != null) {
+            if (result.getPlayers() != null) {
+                if (result.getPlayers().getPlayers().size() < 1) {
+                    for (TextView textView : playerNames) {
+                        if (textView.getText() != null) {
+                            if (textView.getText().equals("4294967295")) {
+                                textView.setText("Anonymous");
+                            }
                         }
                     }
-                }
-            } else {
-                for (TextView textView : playerNames) {
-                    if (textView.getText() != null) {
-                        if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
-                            textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                } else {
+                    for (TextView textView : playerNames) {
+                        if (textView.getText() != null) {
+                            if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                                textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                            }
                         }
                     }
                 }
             }
+        } else {
+            //this means the connection timed out, do nothing
         }
+
     }
 
     private void noteDialog() {
@@ -675,10 +703,19 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             Toast.makeText(getActivity(), "Note saved", Toast.LENGTH_SHORT).show();
         }
 
-        //reset fragment to display new Note card
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        //replace the fragment to make the note appear
+        //todo: fix bug where back button no longer works after adding a note and then rotating the device
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment = new MatchDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
+        fragment.setArguments(bundle);
         transaction.remove(this);
-        transaction.replace(R.id.content_frame, this).commit();
+        transaction.replace(R.id.content_frame, fragment);
+        transaction.commit();
+
     }
 
     /*Takes screenshot of the important views so scoreboard can be shared - WIP**/

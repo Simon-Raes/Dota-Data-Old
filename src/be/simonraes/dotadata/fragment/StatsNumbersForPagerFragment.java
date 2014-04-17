@@ -1,29 +1,33 @@
 package be.simonraes.dotadata.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
+import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
 import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.holograph.Bar;
 import be.simonraes.dotadata.holograph.BarGraph;
 import be.simonraes.dotadata.holograph.PieGraph;
 import be.simonraes.dotadata.holograph.PieSlice;
-import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.*;
 
@@ -33,10 +37,12 @@ import java.util.*;
  * Created by Simon on 14/02/14.
  * Creates the layout for stats and calculates stats
  */
-public class StatsFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, ASyncResponseStatsLoader {
+public class StatsNumbersForPagerFragment extends Fragment implements View.OnClickListener, ASyncResponseStatsLoader {
 
     private ScrollView scrollStats;
     private ProgressBar progressStats;
+
+    private int mShortAnimationDuration;
 
     private Spinner spinnerHeroes;
     private Spinner spinnerGameModes;
@@ -84,7 +90,9 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private ImageButton btnStatsHelp;
 
     private StatsMatchesLoader sml;
-    private boolean wentToDetailsHeroes, wentToDetailsGameModes;
+    //    private boolean wentToDetailsHeroes, wentToDetailsGameModes;
+    //public boolean wentToDetails;
+    long lastUpdate = 0;
 
     //numbers
     private double gamesPlayed = 0;
@@ -120,52 +128,30 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     private int mostXPM = 0;
     private String mostXPMID;
 
-    //selected index in the spinner
-    private int heroSelection, gameModeSelection;
 
-    //ID of the selected item in the spinner
+    //
+//    //ID of the selected item in the spinner
     private String gameModeID, heroID;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            System.out.println("come from state");
-            wentToDetailsHeroes = false;
-//            comesFromInstanceStateHeroes = true;
-//            comesFromInstanceStateGameModes = true;
-
-            gameModeSelection = savedInstanceState.getInt("gameModeSelection");
-            heroSelection = savedInstanceState.getInt("heroSelection");
-            matches = savedInstanceState.getParcelableArrayList("matches");
-            mapHeroIDName = (HashMap<String, String>) savedInstanceState.getSerializable("mapHeroes");
-            mapGameModeIDName = (HashMap<String, String>) savedInstanceState.getSerializable("mapGameModes");
-            gameModeID = savedInstanceState.getString("gameModeID");
-            heroID = savedInstanceState.getString("heroID");
-//            countUpdate = 2;
-        } else {
-            System.out.println("come not from state");
-//            comesFromInstanceStateHeroes = false;
-//            comesFromInstanceStateGameModes = false;
-            gameModeSelection = -1;
-            heroSelection = -1;
-            //ID of the active item in the spinners
-            gameModeID = "-1";
-            heroID = "-1";
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("oncreateview");
         this.view = inflater.inflate(R.layout.stats_layout, null);
 
-        getActivity().setTitle("Statistics");
-        setHasOptionsMenu(true);
+
+        //optionsmenu only gets created on second call for some reason, so call it both here and in the containing view pager fragment
+        //fixes problem where spinners only show up after rotating the screen
+        super.setHasOptionsMenu(true);
+
 
         scrollStats = (ScrollView) view.findViewById(R.id.svStats);
         progressStats = (ProgressBar) view.findViewById(R.id.pbStats);
+
+        crossFadeToLoading();
+
+//        scrollStats.setVisibility(View.GONE);
+//        progressStats.setVisibility(View.VISIBLE);
 
         //numbers
         txtStatsGamesPlayed = (TextView) view.findViewById(R.id.txtStatsGamesPlayed);
@@ -214,253 +200,22 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         layStatsNoGames = (LinearLayout) view.findViewById(R.id.layStatsNoGames);
 
 
-        if (matches == null) {
-            updateMatches();
-        } else if (matches.size() < 1) {
-            updateMatches();
-        } else {
-            updateVisuals();
-        }
+        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
 
         return view;
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        System.out.println("onSaveInstanceState");
-
-        super.onSaveInstanceState(outState);
-        outState.putInt("gameModeSelection", gameModeSelection);
-        System.out.println("put gamemodeselection " + gameModeSelection);
-        outState.putInt("heroSelection", heroSelection);
-        outState.putParcelableArrayList("matches", matches);
-        outState.putSerializable("mapHeroes", mapHeroIDName);
-        outState.putSerializable("mapGameModes", mapGameModeIDName);
-        outState.putString("gameModeID", gameModeID);
-        outState.putString("heroID", heroID);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        System.out.println("onCreateOptionsMenu");
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.actionbar_menu, menu);
-
-        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
-        if (btnRefresh != null) {
-            btnRefresh.setVisible(false);
-        }
-        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
-        if (btnFavourite != null) {
-            btnFavourite.setVisible(false);
-        }
-        MenuItem btnNote = menu.findItem(R.id.btnNote);
-        if (btnNote != null) {
-            btnNote.setVisible(false);
-        }
-        MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
-        if (spinGameModes != null) {
-            spinGameModes.setVisible(true);
-            spinnerGameModes = (Spinner) spinGameModes.getActionView();
-            if (spinnerGameModes != null) {
-
-                //only show the played heroes in the dropdownlist
-                if (mapHeroIDName == null) {
-                    getPlayedHeroesAndGameModes();
-                } else if (mapHeroIDName.size() < 1) {
-                    getPlayedHeroesAndGameModes();
-                }
-
-                spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), (HashMap<String, String>) mapGameModeIDName.clone()));
-                spinnerGameModes.setSelection(0, false); //itemselected won't fire on first load with this
-                spinnerGameModes.setOnItemSelectedListener(this);
-
-                //if there was a savedState, set spinner selection
-                if (gameModeSelection >= 0) {
-                    spinnerGameModes.setSelection(gameModeSelection);
-                }
-            }
-        }
-        MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
-        if (spinHeroes != null) {
-            spinHeroes.setVisible(true);
-            spinnerHeroes = (Spinner) spinHeroes.getActionView();
-            if (spinnerHeroes != null) {
-
-                //only show the played heroes in the dropdownlist
-                if (mapHeroIDName == null) {
-                    getPlayedHeroesAndGameModes();
-                } else if (mapHeroIDName.size() < 1) {
-                    getPlayedHeroesAndGameModes();
-                }
-
-                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), (HashMap<String, String>) mapHeroIDName.clone()));
-                spinnerHeroes.setSelection(0, false); //itemselected won't fire on first load with this
-                spinnerHeroes.setOnItemSelectedListener(this);
-
-                //if there was a savedState, set spinner selection
-                if (heroSelection >= 0) {
-                    spinnerHeroes.setSelection(heroSelection);
-                }
-
-            }
-        }
-        if (spinnerHeroes.getSelectedItemPosition() == 0) {
-            wentToDetailsHeroes = false;
-        }
-        if (spinnerGameModes.getSelectedItemPosition() == 0) {
-            wentToDetailsGameModes = false;
-        }
-
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("onItemSelected");
-
-        switch (parent.getId()) {
-            case R.id.spinGameModes:
-                System.out.println("gamemode selected");
-
-                GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
-                gameModeID = gAdapter.getIDForPosition(position);
-                gameModeSelection = spinnerGameModes.getSelectedItemPosition();
-
-                //don't update matches if user is coming back from matchDetails page
-                if (!wentToDetailsGameModes) {
-                    if (sml != null) {
-                        if (sml.getStatus() != AsyncTask.Status.RUNNING) {
-                            updateMatches();
-                        }
-                    } else {
-                        updateMatches();
-                    }
-
-                }
-                wentToDetailsGameModes = false;
-
-                if (matches != null) {
-                    if (matches.size() > 0) {
-                        if (sml != null) {
-                            if (sml.getStatus() != AsyncTask.Status.RUNNING) {
-                                updateVisuals();
-                            }
-                        } else {
-                            updateVisuals();
-                        }
-
-
-                    }
-                }
-
-
-                break;
-            case R.id.spinHeroes:
-                System.out.println("hero selected");
-
-                HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
-                heroID = adapter.getIDForPosition(position);
-                heroSelection = spinnerHeroes.getSelectedItemPosition();
-
-                //don't update matches if user is coming back from matchDetails page
-                if (!wentToDetailsHeroes) {
-                    if (sml != null) {
-                        if (sml.getStatus() != AsyncTask.Status.RUNNING) {
-                            updateMatches();
-                        }
-                    } else {
-                        updateMatches();
-                    }
-                }
-                wentToDetailsHeroes = false;
-
-                if (matches != null) {
-                    if (matches.size() > 0) {
-                        if (sml != null) {
-                            if (sml.getStatus() != AsyncTask.Status.RUNNING) {
-                                updateVisuals();
-                            }
-                        } else {
-                            updateVisuals();
-                        }
-                    }
-                }
-
-
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    //todo: this in background thread?
-    private void getPlayedHeroesAndGameModes() {
-        System.out.println("getPlayedHeroesAndGameModes");
-
-        if (scrollStats != null) {
-            scrollStats.setVisibility(View.GONE);
-        }
-        if (layStatsNoGames != null) {
-            layStatsNoGames.setVisibility(View.GONE);
-        }
-        if (layStatsGameModes != null) {
-            layStatsGameModes.setVisibility(View.GONE);
-        }
-        if (layStatsHeroes != null) {
-            layStatsHeroes.setVisibility(View.GONE);
-        }
-        if (progressStats != null) {
-            progressStats.setVisibility(View.VISIBLE);
-        }
-
-
-        //todo: test
-        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
-        mapHeroIDName = PlayedHeroesMapper.getMaps().getPlayedHeroes();
-        mapGameModeIDName = PlayedHeroesMapper.getMaps().getPlayedGameModes();
-
-
-        if (mapHeroIDName == null || mapGameModeIDName == null) {
-            System.out.println("map empty for some reason");
-            MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
-            mapHeroIDName = new HashMap<String, String>();
-            mapGameModeIDName = new HashMap<String, String>();
-            for (DetailMatchLite rec : mds.getAllRealDetailMatchesLite()) {
-                mapHeroIDName.put(rec.getHero_id(), HeroList.getHeroName(rec.getHero_id()));
-                mapGameModeIDName.put(rec.getGame_mode(), GameModes.getGameMode(rec.getGame_mode()));
-            }
-        }
-    }
-
-
-    //todo: put this in background thread
-    /*Gets new data for the selected filters*/
-    private void updateMatches() {
-
-        //lock orientation during loading
-        OrientationHelper.lockOrientation(getActivity());
-
-        scrollStats.setVisibility(View.GONE);
-        layStatsNoGames.setVisibility(View.GONE);
-        layStatsGameModes.setVisibility(View.GONE);
-        layStatsHeroes.setVisibility(View.GONE);
-        progressStats.setVisibility(View.VISIBLE);
-
-        sml = new StatsMatchesLoader(this, getActivity());
-        sml.execute(gameModeID, heroID);
+    public void setMatches(ArrayList<DetailMatchLite> matches, String gameModeID, String heroID) {
+        this.matches = matches;
+        this.gameModeID = gameModeID;
+        this.heroID = heroID;
     }
 
     /*Sets textfields, charts, graphs,... with the stored data*/
-    private void updateVisuals() {
+    public void updateVisuals() {
+
+        crossFadeToLoading();
 
         layStatsHeroes.setVisibility(View.GONE);
         layStatsGameModes.setVisibility(View.GONE);
@@ -511,17 +266,12 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
 
         //show view, hide loading indicator
-        scrollStats.setVisibility(View.VISIBLE);
-        progressStats.setVisibility(View.GONE);
+        crossFadeToStats();
 
         //unlock orientation
         OrientationHelper.unlockOrientation(getActivity());
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -529,84 +279,56 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
 
         DetailMatch match = null;
         MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
-
+        System.out.println("went to details TRUE");
         switch (v.getId()) {
             case R.id.txtStatsLongestGame:
                 if (Integer.parseInt(longestGameID) > 0) {
                     match = mds.getMatchByID(longestGameID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
                 }
                 break;
             case R.id.txtStatsMostKills:
                 if (Integer.parseInt(mostKillsID) > 0) {
                     match = mds.getMatchByID(mostKillsID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.txtStatsMostDeaths:
                 if (Integer.parseInt(mostDeathsID) > 0) {
                     match = mds.getMatchByID(mostDeathsID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.txtStatsMostAssists:
                 if (Integer.parseInt(mostAssistsID) > 0) {
                     match = mds.getMatchByID(mostAssistsID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.txtStatsMostLastHits:
                 if (Integer.parseInt(mostLastHitsID) > 0) {
                     match = mds.getMatchByID(mostLastHitsID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.txtStatsMostDenies:
                 if (Integer.parseInt(mostDeniesID) > 0) {
                     match = mds.getMatchByID(mostDeniesID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.txtStatsMostHeroDamage:
                 if (Integer.parseInt(mostHeroDamageID) > 0) {
                     match = mds.getMatchByID(mostHeroDamageID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.btnStatsMostTowerDamage:
                 if (Integer.parseInt(mostTowerDamageID) > 0) {
                     match = mds.getMatchByID(mostTowerDamageID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
                 }
                 break;
             case R.id.txtStatsMostGPM:
                 if (Integer.parseInt(mostGPMID) > 0) {
                     match = mds.getMatchByID(mostGPMID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.txtStatsMostXPM:
                 if (Integer.parseInt(mostXPMID) > 0) {
                     match = mds.getMatchByID(mostXPMID);
-                    wentToDetailsHeroes = true;
-                    wentToDetailsGameModes = true;
-
                 }
                 break;
             case R.id.btnStatsHelp:
@@ -617,23 +339,13 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         }
 
         if (match != null) {
-            Fragment fragment = new MatchDetailFragment();
 
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content_frame, fragment);
+            //launch this as a new activity so the state in the stats screen is easier to preserve
 
-            //hacky way to set UP arrow in actionbar of matchdetails screen
-            if (((DrawerController) getActivity()) != null) {
-                ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-            }
-
-            //send object to fragment
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
-            fragment.setArguments(bundle);
-
-            transaction.addToBackStack(null).commit();
+            Intent intent = new Intent(getActivity(), MatchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("match", match);
+            startActivity(intent);
         }
     }
 
@@ -659,7 +371,7 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
         averageGPM = 0;
         averageXPM = 0;
 
-        //todo: most tower damage, hero healing
+        //todo: hero healing
 
         //reset records
         longestGame = -1L;
@@ -924,5 +636,65 @@ public class StatsFragment extends Fragment implements AdapterView.OnItemSelecte
     public void processFinish(ArrayList<DetailMatchLite> result) {
         matches = result;
         updateVisuals();
+
+        //((StatsPagerFragment) getParentFragment()).setMatches(matches);
+
+    }
+
+
+    private void crossFadeToStats() {
+        // Set the content view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        scrollStats.setAlpha(0f);
+        scrollStats.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        scrollStats.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+        // Animate the loading view to 0% opacity. After the animation ends,
+        // set its visibility to GONE as an optimization step (it won't
+        // participate in layout passes, etc.)
+        progressStats.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        progressStats.setVisibility(View.GONE);
+                    }
+                });
+
+    }
+
+    private void crossFadeToLoading() {
+        // Set the content view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        progressStats.setAlpha(0f);
+        progressStats.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        progressStats.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+        // Animate the loading view to 0% opacity. After the animation ends,
+        // set its visibility to GONE as an optimization step (it won't
+        // participate in layout passes, etc.)
+        scrollStats.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        scrollStats.setVisibility(View.GONE);
+                    }
+                });
+
     }
 }

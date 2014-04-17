@@ -1,12 +1,19 @@
 package be.simonraes.dotadata.fragment;
 
-import android.app.*;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
+import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
@@ -18,6 +25,8 @@ import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
+import android.support.v4.app.Fragment;
+
 
 import java.util.ArrayList;
 
@@ -28,9 +37,13 @@ import java.util.ArrayList;
 public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, ASyncResponseDatabase, ASyncResponseHistoryLoader {
 
     private ListView lvRecentGames;
+    private ProgressBar pbRecentGames;
+
+    private int mShortAnimationDuration;
+
     private RecentGamesAdapter listAdapter;
     private ArrayList<DetailMatchLite> matches = new ArrayList<DetailMatchLite>();
-    private ProgressBar pbRecentGames;
+
     private View footerView;
 
     @Override
@@ -52,7 +65,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         getActivity().setTitle("Recent games");
 
         //update active drawer item
-        ((DrawerController) getActivity()).setActiveDrawerItem(1);
+        if (getActivity() instanceof DrawerController) {
+            ((DrawerController) getActivity()).setActiveDrawerItem(1);
+        }
 
         if (AppPreferences.getAccountID(getActivity()).equals("")) {
 
@@ -91,6 +106,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             lvRecentGames.setOnItemClickListener(this);
             lvRecentGames.setOnScrollListener(this);
         }
+
+        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
 
         return view;
     }
@@ -138,7 +156,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void loadMatchesFromDatabase() {
-        //todo: only load the necessary values for this list, not the full match object/record
 
         DatabaseMatchLoader loader = new DatabaseMatchLoader(this, getActivity());
 
@@ -146,6 +163,8 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             //list doesn't contain any matches yet, get 50 most recent
             pbRecentGames.setVisibility(View.VISIBLE);
             lvRecentGames.setVisibility(View.GONE);
+
+//            crossFadeToLoading();
             loader.execute();
         } else {
             //list already contains matches, get the next 50
@@ -157,28 +176,37 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+//        DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
+//
+//        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
+//        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
+//
+//        Fragment fragment = new MatchDetailFragment();
+//        FragmentManager fm = getActivity().getSupportFragmentManager();
+//        FragmentTransaction transaction = fm.beginTransaction();
+//        transaction.replace(R.id.content_frame, fragment);
+//
+//        //hacky way to set UP arrow in actionbar of matchdetails screen
+//        if (getActivity() != null) {
+//            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
+//        }
+//
+//        //send object to fragment
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
+//        fragment.setArguments(bundle);
+//
+//        transaction.addToBackStack(null).commit();
+
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
         MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
         DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
 
-        Fragment fragment = new MatchDetailFragment();
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
-
-        //hacky way to set UP arrow in actionbar of matchdetails screen
-        if (getActivity() != null) {
-            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-        }
-
-        //send object to fragment
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
-        fragment.setArguments(bundle);
-
-        transaction.addToBackStack(null).commit();
+        Intent intent = new Intent(getActivity(), MatchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("match", match);
+        startActivity(intent);
     }
 
     @Override
@@ -216,6 +244,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         pbRecentGames.setVisibility(View.GONE);
         lvRecentGames.setVisibility(View.VISIBLE);
+//        crossFadeToStats();
     }
 
 
@@ -228,4 +257,61 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         }
         OrientationHelper.unlockOrientation(getActivity());
     }
+
+
+//    private void crossFadeToStats(){
+//        // Set the content view to 0% opacity but visible, so that it is visible
+//        // (but fully transparent) during the animation.
+//        lvRecentGames.setAlpha(0f);
+//        lvRecentGames.setVisibility(View.VISIBLE);
+//
+//        // Animate the content view to 100% opacity, and clear any animation
+//        // listener set on the view.
+//        lvRecentGames.animate()
+//                .alpha(1f)
+//                .setDuration(mShortAnimationDuration)
+//                .setListener(null);
+//
+//        // Animate the loading view to 0% opacity. After the animation ends,
+//        // set its visibility to GONE as an optimization step (it won't
+//        // participate in layout passes, etc.)
+//        pbRecentGames.animate()
+//                .alpha(0f)
+//                .setDuration(mShortAnimationDuration)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        pbRecentGames.setVisibility(View.GONE);
+//                    }
+//                });
+//
+//    }
+//
+//    private void crossFadeToLoading(){
+//        // Set the content view to 0% opacity but visible, so that it is visible
+//        // (but fully transparent) during the animation.
+//        lvRecentGames.setAlpha(0f);
+//        lvRecentGames.setVisibility(View.VISIBLE);
+//
+//        // Animate the content view to 100% opacity, and clear any animation
+//        // listener set on the view.
+//        lvRecentGames.animate()
+//                .alpha(1f)
+//                .setDuration(mShortAnimationDuration)
+//                .setListener(null);
+//
+//        // Animate the loading view to 0% opacity. After the animation ends,
+//        // set its visibility to GONE as an optimization step (it won't
+//        // participate in layout passes, etc.)
+//        pbRecentGames.animate()
+//                .alpha(0f)
+//                .setDuration(mShortAnimationDuration)
+//                .setListener(new AnimatorListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        pbRecentGames.setVisibility(View.GONE);
+//                    }
+//                });
+//
+//    }
 }

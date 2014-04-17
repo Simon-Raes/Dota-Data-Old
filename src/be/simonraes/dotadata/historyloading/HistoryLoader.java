@@ -124,7 +124,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //check if user is sharing his history
         if (result.getRecentGames() != null) {
 
-
             if (result.getRecentGames().getStatusDetail() != null) {
                 if (introDialog.isShowing()) {
                     introDialog.dismiss();
@@ -141,9 +140,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
             } else if (result.getRecentGames().getMatches().size() > 0) {
 
-
                 AppPreferences.putAccountID(context, accountID);
-
 
                 if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
                     //last match id of received results is older than latest saved match, saved matchID is in this set of results, this is the last needed set
@@ -250,78 +247,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     public void processUpdate(Integer[] progress) {
         progressDialog.setProgress(progress[0]);
 
-//        //let user know the app is still working (saving to db)
-//        if (progress[0] >= matches.size() - 1) {
-//            progressDialog.setProgress(matches.size());
-//            progressDialog.setMessage("Saving...");
-//        }
     }
 
     /*Finished parsing detailmatches, Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
-
-//        progressDialog.setProgress(result.size() + 1);
-//        progressDialog.setMessage("Saving.");
-
-
-        //now saves during download
-
-
-//        //save players and (if needed) picks/bans to database
-//        ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
-//        ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
-////        ArrayList<DetailMatchExtras> extrasList = new ArrayList<DetailMatchExtras>();
-//        ArrayList<AbilityUpgrades> abilityUpgradesList = new ArrayList<AbilityUpgrades>();
-//
-//        for (DetailMatch match : result) {
-//            //get players
-//            for (DetailPlayer player : match.getPlayers()) {
-//
-//
-//                player.setMatchID(match.getMatch_id());
-//                players.add(player);
-//
-//                //get abilityupgrades and prep them
-//                for (AbilityUpgrades au : player.getAbilityupgrades()) {
-//                    au.setMatch_id(match.getMatch_id());
-//                    au.setPlayer_slot(player.getPlayer_slot());
-//                    abilityUpgradesList.add(au);
-//                }
-//            }
-//            //get picksbans
-//            if (match.getPicks_bans().size() > 0) {
-//                for (PicksBans picksBans : match.getPicks_bans()) {
-//                    picksBans.setMatch_id(match.getMatch_id());
-//                    picksBansList.add(picksBans);
-//                }
-//            }
-//            //match.getExtras().setAccount_id(accountID);
-//        }
-//
-//        //save matches to database
-//        MatchesDataSource mds = new MatchesDataSource(context, accountID);
-//        System.out.println("sving x matches " + result.size());
-//        mds.saveDetailMatches(result);
-//
-//        //save players
-//        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
-//        System.out.println("saving x players " + players.size());
-//        pimds.savePlayers(players);
-//
-//        //save picksbans
-//        PicksBansDataSource pbds = new PicksBansDataSource(context);
-//        System.out.println("saving x picksbans " + picksBansList.size());
-//        pbds.savePicksBansList(picksBansList);
-//
-//        //save ability upgrades
-//        AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
-//        auds.saveAbilityUpgradesList(abilityUpgradesList);
-
-        //save extras
-//        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(context);
-//        System.out.println("saving x extras " + extrasList.size());
-//        meds.saveMatchesExtrasList(extrasList);
 
 
         //everything is good, save user account id and user

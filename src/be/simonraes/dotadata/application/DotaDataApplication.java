@@ -35,10 +35,10 @@ public class DotaDataApplication extends Application {
                 //.threadPriority(Thread.NORM_PRIORITY - 2)
                 .threadPoolSize(10)
                 .discCache(new FileCountLimitedDiscCache(cacheDir, new Md5FileNameGenerator(), 1000))
-                        //.discCacheFileNameGenerator(new HashCodeFileNameGenerator())
                 .denyCacheImageMultipleSizesInMemory()
                 .tasksProcessingOrder(QueueProcessingType.FIFO)
-                .writeDebugLogs()
+
+                        //.writeDebugLogs()
                 .build();
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config);
