@@ -176,28 +176,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//        DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
-//
-//        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
-//        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
-//
-//        Fragment fragment = new MatchDetailFragment();
-//        FragmentManager fm = getActivity().getSupportFragmentManager();
-//        FragmentTransaction transaction = fm.beginTransaction();
-//        transaction.replace(R.id.content_frame, fragment);
-//
-//        //hacky way to set UP arrow in actionbar of matchdetails screen
-//        if (getActivity() != null) {
-//            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
-//        }
-//
-//        //send object to fragment
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable("be.simonraes.dotadata.detailmatch", match);
-//        fragment.setArguments(bundle);
-//
-//        transaction.addToBackStack(null).commit();
-
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
         MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
@@ -244,7 +222,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         pbRecentGames.setVisibility(View.GONE);
         lvRecentGames.setVisibility(View.VISIBLE);
-//        crossFadeToStats();
     }
 
 
@@ -259,59 +236,4 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
 
-//    private void crossFadeToStats(){
-//        // Set the content view to 0% opacity but visible, so that it is visible
-//        // (but fully transparent) during the animation.
-//        lvRecentGames.setAlpha(0f);
-//        lvRecentGames.setVisibility(View.VISIBLE);
-//
-//        // Animate the content view to 100% opacity, and clear any animation
-//        // listener set on the view.
-//        lvRecentGames.animate()
-//                .alpha(1f)
-//                .setDuration(mShortAnimationDuration)
-//                .setListener(null);
-//
-//        // Animate the loading view to 0% opacity. After the animation ends,
-//        // set its visibility to GONE as an optimization step (it won't
-//        // participate in layout passes, etc.)
-//        pbRecentGames.animate()
-//                .alpha(0f)
-//                .setDuration(mShortAnimationDuration)
-//                .setListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        pbRecentGames.setVisibility(View.GONE);
-//                    }
-//                });
-//
-//    }
-//
-//    private void crossFadeToLoading(){
-//        // Set the content view to 0% opacity but visible, so that it is visible
-//        // (but fully transparent) during the animation.
-//        lvRecentGames.setAlpha(0f);
-//        lvRecentGames.setVisibility(View.VISIBLE);
-//
-//        // Animate the content view to 100% opacity, and clear any animation
-//        // listener set on the view.
-//        lvRecentGames.animate()
-//                .alpha(1f)
-//                .setDuration(mShortAnimationDuration)
-//                .setListener(null);
-//
-//        // Animate the loading view to 0% opacity. After the animation ends,
-//        // set its visibility to GONE as an optimization step (it won't
-//        // participate in layout passes, etc.)
-//        pbRecentGames.animate()
-//                .alpha(0f)
-//                .setDuration(mShortAnimationDuration)
-//                .setListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        pbRecentGames.setVisibility(View.GONE);
-//                    }
-//                });
-//
-//    }
 }

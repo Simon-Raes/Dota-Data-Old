@@ -1,6 +1,7 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.AlertDialog;
+import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -55,6 +56,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     private ArrayList<TextView> playerNames;
     private ArrayList<PlayerSummaryParser> parsers;
+    private ArrayList<ImageView> playerAvatars;
 
     private DetailMatch match;
 
@@ -82,6 +84,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         playerNames = new ArrayList<TextView>();
         parsers = new ArrayList<PlayerSummaryParser>();
+        playerAvatars = new ArrayList<ImageView>();
 
         boolean hasPicksBans = false;
 
@@ -166,24 +169,42 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 }
             }
 
+            //hero level
             TextView txtPlayerLevel = (TextView) playerRow.findViewById(R.id.txtDetailPlayerLevel);
             txtPlayerLevel.setText(player.getLevel());
 
+            //player name
             TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
-            txtPlayerName.setText(player.getAccount_id());
-            playerNames.add(txtPlayerName);
+            if (txtPlayerName != null) {
+                if (player.getLeaver_status().equals("2")) {
+                    txtPlayerName.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+                }
+                txtPlayerName.setText(player.getAccount_id());
+                playerNames.add(txtPlayerName);
 
-            //start parser to get player's name
-            if (InternetCheck.isOnline(getActivity())) {
-                //no need to parse for the anonymous account
-                if (player.getAccount_id().equals("4294967295")) {
-                    txtPlayerName.setText("Anonymous");
-                } else {
-                    PlayerSummaryParser parser = new PlayerSummaryParser(this);
-                    parser.execute(player.getAccount_id());
-                    parsers.add(parser);
+                //start parser to get player's name
+                if (InternetCheck.isOnline(getActivity())) {
+                    //no need to parse for the anonymous account
+                    if (player.getAccount_id().equals("4294967295")) {
+                        txtPlayerName.setText("Anonymous");
+                    } else {
+                        PlayerSummaryParser parser = new PlayerSummaryParser(this);
+                        parser.execute(player.getAccount_id());
+                        parsers.add(parser);
+                    }
                 }
             }
+
+
+            //player avatar
+            ImageView imgPlayerAvatar = (ImageView) playerRow.findViewById(R.id.imgDetailPlayer);
+            if (imgPlayerAvatar != null) {
+                imgPlayerAvatar.setTag(player.getAccount_id());
+                playerAvatars.add(imgPlayerAvatar);
+            }
+
+
+
 
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
             txtPlayerKDA.setText(player.getKills() + "/" + player.getDeaths() + "/" + player.getAssists());
@@ -214,66 +235,62 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
 
             ImageView imgItem = (ImageView) playerRow.findViewById(R.id.imgItem1);
-//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_0()) + "_lg", "drawable", getActivity().getPackageName()));
-            imgItem.setContentDescription(ItemList.getItem((player.getItem_0())));
-            if (player.getItem_0().equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_0()) + "_lg.png", imgItem, options, animateFirstListener);
-            }
-
+            setItemImage(imgItem, (player.getItem_0()));
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem2);
-//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_1()) + "_lg", "drawable", getActivity().getPackageName()));
-            imgItem.setContentDescription(ItemList.getItem((player.getItem_1())));
-            if (player.getItem_1().equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_1()) + "_lg.png", imgItem, options, animateFirstListener);
-            }
+            setItemImage(imgItem, (player.getItem_1()));
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem3);
-//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_2()) + "_lg", "drawable", getActivity().getPackageName()));
-            imgItem.setContentDescription(ItemList.getItem((player.getItem_2())));
-            if (player.getItem_2().equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_2()) + "_lg.png", imgItem, options, animateFirstListener);
-            }
+            setItemImage(imgItem, (player.getItem_2()));
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem4);
-//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_3()) + "_lg", "drawable", getActivity().getPackageName()));
-            imgItem.setContentDescription(ItemList.getItem((player.getItem_3())));
-            if (player.getItem_3().equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_3()) + "_lg.png", imgItem, options, animateFirstListener);
-            }
+            setItemImage(imgItem, (player.getItem_3()));
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem5);
-//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_4()) + "_lg", "drawable", getActivity().getPackageName()));
-            imgItem.setContentDescription(ItemList.getItem((player.getItem_4())));
-            if (player.getItem_4().equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_4()) + "_lg.png", imgItem, options, animateFirstListener);
-            }
+            setItemImage(imgItem, (player.getItem_4()));
 
             imgItem = (ImageView) playerRow.findViewById(R.id.imgItem6);
-//            imgItem.setImageResource(getActivity().getResources().getIdentifier(ItemList.getItem(player.getItem_5()) + "_lg", "drawable", getActivity().getPackageName()));
-            imgItem.setContentDescription(ItemList.getItem((player.getItem_5())));
-            if (player.getItem_5().equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(player.getItem_5()) + "_lg.png", imgItem, options, animateFirstListener);
+            setItemImage(imgItem, (player.getItem_5()));
+
+            //Additional units (Lone Druid bear) items
+            View bearRow = null;
+
+            if (player.getAdditional_units().size() > 0) {
+                bearRow = inflater.inflate(R.layout.bear_items_row, null);
+                if (bearRow != null) {
+                    imgItem = (ImageView) bearRow.findViewById(R.id.imgItem1);
+                    setItemImage(imgItem, player.getAdditional_units().get(0).getItem_0());
+
+                    imgItem = (ImageView) bearRow.findViewById(R.id.imgItem2);
+                    setItemImage(imgItem, player.getAdditional_units().get(0).getItem_1());
+
+                    imgItem = (ImageView) bearRow.findViewById(R.id.imgItem3);
+                    setItemImage(imgItem, player.getAdditional_units().get(0).getItem_2());
+
+                    imgItem = (ImageView) bearRow.findViewById(R.id.imgItem4);
+                    setItemImage(imgItem, player.getAdditional_units().get(0).getItem_3());
+
+                    imgItem = (ImageView) bearRow.findViewById(R.id.imgItem5);
+                    setItemImage(imgItem, player.getAdditional_units().get(0).getItem_4());
+
+                    imgItem = (ImageView) bearRow.findViewById(R.id.imgItem6);
+                    setItemImage(imgItem, player.getAdditional_units().get(0).getItem_5());
+                }
             }
+
 
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
+                if (bearRow != null) {
+                    layPlayersRadiant.addView(bearRow);
+                }
                 layPlayersRadiant.addView(divider);
                 numRadiantPlayers++;
             } else {
                 layPlayersDire.addView(playerRow);
+                if (bearRow != null) {
+                    layPlayersDire.addView(bearRow);
+                }
                 layPlayersDire.addView(divider);
                 numDirePlayers++;
             }
@@ -345,6 +362,15 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     parser.cancel(true);
                 }
             }
+        }
+    }
+
+    private void setItemImage(ImageView imgItem, String item_id) {
+        imgItem.setContentDescription(ItemList.getItem(item_id));
+        if (item_id.equals("0")) {
+            imgItem.setImageResource(R.drawable.emptyitembg_lg);
+        } else {
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(item_id) + "_lg.png", imgItem, options, animateFirstListener);
         }
     }
 
@@ -642,6 +668,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                         if (textView.getText() != null) {
                             if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
                                 textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
+                            }
+                        }
+                    }
+                    for (ImageView imgView : playerAvatars) {
+                        if (imgView.getTag() != null) {
+                            if (imgView.getTag().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                                imageLoader.displayImage(result.getPlayers().getPlayers().get(0).getAvatar(), imgView, options, animateFirstListener);
                             }
                         }
                     }

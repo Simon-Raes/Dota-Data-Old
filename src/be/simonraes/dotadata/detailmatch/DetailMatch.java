@@ -53,20 +53,13 @@ public class DetailMatch implements Parcelable {
     private String dire_logo;
     private String dire_team_complete;
 
+
     //extras
     DetailMatchExtras extras;
 
     public DetailMatch() {
         extras = new DetailMatchExtras();
     }
-
-//    public String getKey() {
-//        return match_id + user;
-//    }
-//
-//    public void setKey(String key) {
-//        this.key = key;
-//    }
 
     public boolean getRadiant_win() {
         return radiant_win;
@@ -272,14 +265,6 @@ public class DetailMatch implements Parcelable {
         this.dire_guild_logo = dire_guild_logo;
     }
 
-//    public boolean isUser_win() {
-//        return user_win;
-//    }
-//
-//    public void setUser_win(boolean user_win) {
-//        this.user_win = user_win;
-//    }
-
     public String getRadiant_name() {
         return radiant_name;
     }
@@ -328,30 +313,6 @@ public class DetailMatch implements Parcelable {
         this.dire_team_complete = dire_team_complete;
     }
 
-//    public boolean isFavourite() {
-//        return favourite;
-//    }
-//
-//    public void setFavourite(boolean favourite) {
-//        this.favourite = favourite;
-//    }
-//
-//    public String getNote() {
-//        return note;
-//    }
-//
-//    public void setNote(String note) {
-//        this.note = note;
-//    }
-//
-//    public String getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(String user) {
-//        this.user = user;
-//    }
-
     public DetailMatchExtras getExtras() {
         return extras;
     }
@@ -359,6 +320,7 @@ public class DetailMatch implements Parcelable {
     public void setExtras(DetailMatchExtras extras) {
         this.extras = extras;
     }
+
 
     //parcelable code
 
@@ -405,12 +367,8 @@ public class DetailMatch implements Parcelable {
         dest.writeString(dire_logo);
         dest.writeString(dire_team_complete);
 
-//        dest.writeInt(user_win ? 1 : 0);
-//        dest.writeInt(favourite ? 1 : 0);
-//        dest.writeString(note);
 
         dest.writeParcelable(extras, 0);
-
     }
 
     public DetailMatch(Parcel pc) {
@@ -450,9 +408,6 @@ public class DetailMatch implements Parcelable {
         dire_logo = pc.readString();
         dire_team_complete = pc.readString();
 
-//        user_win = (pc.readInt() == 1);
-//        favourite = (pc.readInt() == 1);
-//        note = pc.readString();
 
         extras = pc.readParcelable(DetailMatchExtras.class.getClassLoader());
     }

@@ -114,17 +114,28 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_longAnimTime);
 
 
-        ImageView ogre = (ImageView) fragView.findViewById(R.id.aboutOgre);
+        final ImageView ogre = (ImageView) fragView.findViewById(R.id.aboutOgre);
 
-        ogre.setAlpha(0f);
-        ogre.setVisibility(View.VISIBLE);
-
-        // Animate the content view to 100% opacity, and clear any animation
-        // listener set on the view.
-        ogre.animate()
-                .alpha(1f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(null);
+        if (ogre != null) {
+            if (ogre.getVisibility() == View.GONE) {
+                ogre.setAlpha(0f);
+                ogre.setVisibility(View.VISIBLE);
+                ogre.animate()
+                        .alpha(1f)
+                        .setDuration(mShortAnimationDuration)
+                        .setListener(null);
+            } else {
+                ogre.animate()
+                        .alpha(0f)
+                        .setDuration(mShortAnimationDuration)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                ogre.setVisibility(View.GONE);
+                            }
+                        });
+            }
+        }
 
 
     }

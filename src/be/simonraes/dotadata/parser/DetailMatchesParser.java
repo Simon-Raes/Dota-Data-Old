@@ -44,14 +44,10 @@ public class DetailMatchesParser extends AsyncTask<String, Integer, ArrayList<De
             try {
                 //only download match if it's not in the database
                 if (!matchesDataSource.matchExists(params[i])) {
-                    System.out.println("detailmatchparser: downloading match " + params[i]);
                     container = mapper.readValue(new URL("https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=EB5773FAAF039592D9383FA104EEA55D&match_id=" + params[i]), DetailContainer.class);
 
                     //save match here
                     matchesService.saveSingleMatch(container.detailMatch);
-                } else {
-                    System.out.println("detailmatchparser: DO NOT NEED TO DOWNLOAD " + params[i]);
-
                 }
 
                 //detailMatches.add(container.getDetailMatch());

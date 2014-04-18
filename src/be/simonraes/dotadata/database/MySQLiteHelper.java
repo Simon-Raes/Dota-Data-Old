@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "be.simonraes.dotadata.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_MATCHES = "matches";
     public static final String TABLE_MATCHES_COLUMN_RADIANT_WIN = "radiant_win";
@@ -86,6 +86,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_ABILITY_UPGRADES_COLUMN_TIME = "time";
     public static final String TABLE_ABILITY_UPGRADES_COLUMN_LEVEL = "level";
 
+    public static final String TABLE_ADDITIONAL_UNITS = "additional_units";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_KEY = "key";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_MATCH_ID = "match_id";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_PLAYER_SLOT = "player_slot";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_UNIT_NAME = "unit_name";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_0 = "item_0";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_1 = "item_1";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_2 = "item_2";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_3 = "item_3";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_4 = "item_4";
+    public static final String TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_5 = "item_5";
 
     private static final String CREATE_TABLE_MATCHES = "create table IF NOT EXISTS matches( radiant_win text, " +
             "duration text, start_time text, match_id integer primary key, match_seq_num text, tower_status_radiant text, tower_status_dire text, barracks_status_radiant text," +
@@ -104,6 +115,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MATCHES_EXTRAS = "create table IF NOT EXISTS matches_extras(match_id text primary key, note text, favourite text);";
 
     private static final String CREATE_TABLE_ABILITY_UPGRADES = "create table IF NOT EXISTS ability_upgrades(key text primary key, match_id text, player_slot text, ability text, time text, level text);";
+
+    private static final String CREATE_TABLE_ADDITIONAL_UNITS = "create table IF NOT EXISTS additional_units(key text primary key, match_id text, player_slot text, unit_name text, item_0 text, item_1 text, item_2 text, item_3 text, item_4 text, item_5 text);";
 
 //    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
 
@@ -125,6 +138,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_TABLE_USERS);
         database.execSQL(CREATE_TABLE_MATCHES_EXTRAS);
         database.execSQL(CREATE_TABLE_ABILITY_UPGRADES);
+        //Added in version 3:
+        database.execSQL(CREATE_TABLE_ADDITIONAL_UNITS);
     }
 
     @Override
@@ -141,13 +156,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 database.execSQL(CREATE_TABLE_MATCHES_EXTRAS);
                 break;
             case 2:
-                //use the real systems starting at version 2 (alter table, etc..)
-//                if(newVersion==3){
-//
-//                    System.out.println("added dingledongle");
-//                    //////database.execSQL("ALTER TABLE matches ADD COLUMN dingledongle");
-//                    System.out.println("added dingledongle");
-//                }
+                if (newVersion == 3) {
+                    //version 3 added the Additional_units table (lone druid bear items)
+                    System.out.println("CREATING TABLE ADDITIONAL UNITS");
+                    database.execSQL(CREATE_TABLE_ADDITIONAL_UNITS);
+                    System.out.println("CREATED TABLE ADDITIONAL UNITS");
+                }
+
             default:
                 break;
         }

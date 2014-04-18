@@ -43,7 +43,60 @@
                         android:text="Universal Image Loader for Android"/>
             </LinearLayout>
 
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
 
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginBottom="5dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/bg_card">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Changelog"/>
+                <View style="@style/DrawerDivider"
+                      android:layout_marginTop="10dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textStyle="bold" android:paddingTop="10dp"
+                          android:text="Version 2.5 (18/04/2014)"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* The application now stores and displays the items on Lone Druid's bear. This will only work for matches downloaded after this update."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* The scoreboard now indicates when a player abandoned the game."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Added player avatars to the scoreboard."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Added changelog."/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textStyle="bold" android:paddingTop="10dp"
+                          android:text="Version 2.4 (17/04/2014)"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Additions: "/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* The statistics screen now shows a list of all matches that fit the search criteria."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* The list of recent games now shows the K/D/A score."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Fixes:"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Fixed an issue where a slow internet connection could cause delays in other parts of the application."/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textStyle="bold" android:paddingTop="10dp"
+                          android:text="Version 2.3 (14/04/2014)"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Downloaded matches will no longer be re-downloaded when adding a new user that also participated in those matches."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Reduced app filesize."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Added 'Most tower damage' statistic."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Fixed incorrect 'Most hero damage' statistic."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Added extra checks to see if the Dota 2 API is available."/>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"

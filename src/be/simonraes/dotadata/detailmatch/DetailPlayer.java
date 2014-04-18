@@ -43,6 +43,8 @@ public class DetailPlayer implements Parcelable {
     @JsonProperty("ability_upgrades")
     private ArrayList<AbilityUpgrades> abilityupgrades = new ArrayList<AbilityUpgrades>();
 
+    @JsonProperty("additional_units")
+    private ArrayList<AdditionalUnits> additional_units = new ArrayList<AdditionalUnits>();
 
     public DetailPlayer() {
 
@@ -256,6 +258,14 @@ public class DetailPlayer implements Parcelable {
         this.abilityupgrades = abilityupgrades;
     }
 
+    public ArrayList<AdditionalUnits> getAdditional_units() {
+        return additional_units;
+    }
+
+    public void setAdditional_units(ArrayList<AdditionalUnits> additional_units) {
+        this.additional_units = additional_units;
+    }
+
     //parcelable code
 
     @Override
@@ -291,6 +301,7 @@ public class DetailPlayer implements Parcelable {
         dest.writeString(hero_healing);
         dest.writeString(level);
         dest.writeTypedList(abilityupgrades);
+        dest.writeTypedList(additional_units);
     }
 
     public DetailPlayer(Parcel pc) {
@@ -320,6 +331,7 @@ public class DetailPlayer implements Parcelable {
         hero_healing = pc.readString();
         level = pc.readString();
         pc.readTypedList(abilityupgrades, AbilityUpgrades.CREATOR);
+        pc.readTypedList(additional_units, AdditionalUnits.CREATOR);
     }
 
     public static final Parcelable.Creator<DetailPlayer> CREATOR = new

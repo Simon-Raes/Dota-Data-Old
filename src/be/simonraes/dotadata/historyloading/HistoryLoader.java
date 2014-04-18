@@ -81,13 +81,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //get the most recent match from the database
         UsersDataSource uds = new UsersDataSource(context);
         if (user == null) {
-            System.out.println("loaded user with id " + accountID);
             user = uds.getUserByID(accountID);
         }
 
-
         latestSavedMatchID = user.getLast_saved_match();
-        System.out.println("last saved match ID = " + user.getLast_saved_match());
         if (latestSavedMatchID == null) {
             latestSavedMatchID = "0";
         }
@@ -121,9 +118,10 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
         // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
 
-        //check if user is sharing his history
+
         if (result.getRecentGames() != null) {
 
+            //check if user is sharing his history
             if (result.getRecentGames().getStatusDetail() != null) {
                 if (introDialog.isShowing()) {
                     introDialog.dismiss();
@@ -192,13 +190,11 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             if (goToDetailParser) {
                 //got all historymatches
 
-
                 if (introDialog != null) {
                     if (introDialog.isShowing()) {
                         introDialog.dismiss();
                     }
                 }
-
 
                 progressDialog = new ProgressDialog(context);
                 progressDialog.setTitle("Downloading match history");
@@ -224,7 +220,6 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             }
         } else {
             //API must be offline, alert user
-            //todo: better title/text
             new AlertDialog.Builder(context)
                     .setTitle("WebAPI offline")
                     .setMessage("The Dota 2 API is currently unavailable. Please try again later.")

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Simon Raes on 14/04/2014.
+ * Class used for saving DetailMatches
  */
 public class MatchesService {
 
@@ -181,14 +182,32 @@ public class MatchesService {
         database.insertWithOnConflict(MySQLiteHelper.TABLE_ABILITY_UPGRADES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
+    public void saveAdditionalUnits(AdditionalUnits additionalUnits) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_KEY, additionalUnits.getMatch_id() + additionalUnits.getPlayer_slot());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_MATCH_ID, additionalUnits.getMatch_id());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_PLAYER_SLOT, additionalUnits.getPlayer_slot());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_UNIT_NAME, additionalUnits.getUnitname());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_0, additionalUnits.getItem_0());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_1, additionalUnits.getItem_1());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_2, additionalUnits.getItem_2());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_3, additionalUnits.getItem_3());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_4, additionalUnits.getItem_4());
+        values.put(MySQLiteHelper.TABLE_ADDITIONAL_UNITS_COLUMN_ITEM_5, additionalUnits.getItem_5());
+
+        database.insertWithOnConflict(MySQLiteHelper.TABLE_ADDITIONAL_UNITS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
     public void saveSingleMatch(DetailMatch match) {
         open();
         database.beginTransaction();
-        System.out.println("matchesservice: saving match " + match.getMatch_id());
 
         ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
         ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
         ArrayList<AbilityUpgrades> abilityUpgradesList = new ArrayList<AbilityUpgrades>();
+        ArrayList<AdditionalUnits> additionalUnitsList = new ArrayList<AdditionalUnits>();
 
         for (DetailPlayer player : match.getPlayers()) {
             player.setMatchID(match.getMatch_id());
@@ -200,6 +219,15 @@ public class MatchesService {
                 au.setPlayer_slot(player.getPlayer_slot());
                 abilityUpgradesList.add(au);
             }
+
+            //get additional units
+            if (player.getAdditional_units().size() > 0) {
+                for (AdditionalUnits unit : player.getAdditional_units()) {
+                    unit.setMatch_id(match.getMatch_id());
+                    unit.setPlayer_slot(player.getPlayer_slot());
+                    additionalUnitsList.add(unit);
+                }
+            }
         }
         //get picksbans
         if (match.getPicks_bans().size() > 0) {
@@ -208,35 +236,40 @@ public class MatchesService {
                 picksBansList.add(picksBans);
             }
         }
+
+
+        //save match
         saveDetailMatch(match);
 
         //save players
-//        PlayersInMatchesDataSource pimds = new PlayersInMatchesDataSource(context);
-//        pimds.savePlayersNoOpen(players);
         for (DetailPlayer player : players) {
             savePlayer(player);
         }
 
         //save picksbans
-//        PicksBansDataSource pbds = new PicksBansDataSource(context);
-//        pbds.savePicksBansListNoOpen(picksBansList);
         for (PicksBans picksBans : picksBansList) {
             savePicksBans(picksBans);
         }
 
         //save ability upgrades
-//        AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
-//        auds.saveAbilityUpgradesListNoOpen(abilityUpgradesList);
         for (AbilityUpgrades abilityUpgrades : abilityUpgradesList) {
             saveAbilityUpgrades(abilityUpgrades);
         }
 
+        //save additional units
+        for (AdditionalUnits unit : additionalUnitsList) {
+            saveAdditionalUnits(unit);
+        }
+
+
         database.setTransactionSuccessful();
         database.endTransaction();
-        System.out.println("saved match ");
         close();
     }
 
+    /**
+     * No longer used, matches save 1 by 1 now
+     */
     public void saveDetailMatches(ArrayList<DetailMatch> matches) {
         open();
         database.beginTransaction();

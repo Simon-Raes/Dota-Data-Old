@@ -268,6 +268,10 @@ public class MatchesDataSource {
 //            AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
 //            detailPlayer.setAbilityupgrades(auds.getAbilityUpgradesForPlayerInMatch(matchID, detailPlayer.getPlayer_slot()));
 
+            //get the additional units
+            AdditionalUnitsDataSource addds = new AdditionalUnitsDataSource(context);
+            detailPlayer.setAdditional_units(addds.getAdditionalUnitsForPlayerInMatch(database, detailPlayer.getPlayer_slot(), matchID));
+
             //store the player
             players.add(detailPlayer);
             cursorPlayers.moveToNext();
