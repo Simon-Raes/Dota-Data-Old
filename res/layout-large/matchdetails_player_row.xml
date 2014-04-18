@@ -29,7 +29,7 @@
                   android:id="@+id/txtDetailPlayerName"
                   android:layout_toLeftOf="@id/imgDetailPlayer"
                   android:paddingRight="10dp"
-                  android:maxLength="20"
+                  android:maxLength="25"
                   android:layout_centerVertical="true"
                   android:text="player name"/>
     </RelativeLayout>

@@ -42,6 +42,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     private int mShortAnimationDuration;
 
     private RecentGamesAdapter listAdapter;
+
     private ArrayList<DetailMatchLite> matches = new ArrayList<DetailMatchLite>();
 
     private View footerView;
@@ -66,7 +67,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         //update active drawer item
         if (getActivity() instanceof DrawerController) {
-            ((DrawerController) getActivity()).setActiveDrawerItem(1);
+            ((DrawerController) getActivity()).setActiveDrawerItem(5);
         }
 
         if (AppPreferences.getAccountID(getActivity()).equals("")) {
@@ -77,7 +78,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     .setMessage("Your Dota 2 account ID is required before your matches can be downloaded. Hit 'Ok' to get started.")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-
                             getFragmentManager().beginTransaction().replace(R.id.content_frame, new AddUserFragment()).commit();
                         }
                     }).show();
@@ -210,7 +210,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         if (detailMatches.size() == 0) {
             if (matches.size() == 0) {
                 //database didn't contain any matches
-                Toast.makeText(getActivity(), "No games found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "No games found.", Toast.LENGTH_SHORT).show();
             } else {
                 //reached last game, remove list loading footer
                 lvRecentGames.removeFooterView(footerView);

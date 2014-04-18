@@ -37,7 +37,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
 
         mTitle = mDrawerTitle = getTitle();
 
-        listContent = new String[]{"divider MY GAMES", "Recent Games", "Statistics"};
+        listContent = new String[]{"divider GAMES", "Recent Games", "divider STATISTICS", "Statistics", "Graphs", "Winrate"};
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
@@ -110,10 +110,15 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
             case 1:
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
                 break;
-            case 2:
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsPagerFragment()).addToBackStack(null).commit();
+            case 3:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new StatsPagerFragment(), "StatsPagerFragment").addToBackStack(null).commit();
                 break;
-
+            case 4:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new GraphFragment(), "GraphFragment").addToBackStack(null).commit();
+                break;
+            case 5:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new WinrateFragment(), "WinrateFragment").addToBackStack(null).commit();
+                break;
             default:
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
                 break;
