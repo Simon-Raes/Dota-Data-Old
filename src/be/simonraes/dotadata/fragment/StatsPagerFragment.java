@@ -12,23 +12,24 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
 import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
+import be.simonraes.dotadata.adapter.ScreenSlidePagerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
-import be.simonraes.dotadata.util.AppPreferences;
-import be.simonraes.dotadata.util.GameModes;
-import be.simonraes.dotadata.util.HeroList;
-import be.simonraes.dotadata.util.OrientationHelper;
+import be.simonraes.dotadata.util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Simon Raes on 16/04/2014.
+ * Disastrous code ahead.
  */
 public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSelectedListener, ASyncResponseStatsLoader {
 
@@ -38,6 +39,8 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
     private int heroSelection, gameModeSelection;
     //ID of the selected item in the spinner
     private String gameModeID, heroID;
+    //will be filled with Hero Index if this page got opened by clicking on a hero in the heroes list
+    private int pos;
 
     private ArrayList<DetailMatchLite> matches;
     private HashMap<String, Integer> gameModesMap; //contains played gamemodes, count
@@ -45,17 +48,12 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
     private HashMap<String, Integer> heroesMap; //contains played heroes, count
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
 
-    private static final int NUM_PAGES = 2;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
     private StatsMatchesLoader sml;
 
     long lastUpdate = 0;
-
-    StatsNumbersFragment statsFrag;
-    StatsMatchesFragment matchFrag;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,20 +90,34 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(1);
+        setHasOptionsMenu(true);
+
+        //update active drawer item
+        if (getActivity() instanceof DrawerController) {
+            ((DrawerController) getActivity()).setActiveDrawerItem(3);
+
+            //make actionbar show drawer icon
+            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+            //update the actionbar to show the up carat
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         getActivity().setTitle("Statistics");
 
-//        if (matches == null) {
+        Bundle extras = getArguments();
+
+        if (extras != null) {
+            if (extras.containsKey("hero_id")) {
+                //set active hero
+                System.out.println("pages extras not null");
+                heroID = extras.getString("hero_id");
+                //only do this once so the screen doesn't reset back to the passed in value when rotating
+                extras.remove("hero_id");
+            }
+        }
+
         updateMatches();
-//        }
 
-
-        //update here on first load of the page
-//        if (gameModeID.equals("-1") && heroID.equals("-1")) {
-//            updateMatches();
-//        }
-
-        setHasOptionsMenu(true);
         return view;
     }
 
@@ -156,7 +168,7 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
                 spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), (HashMap<String, String>) mapGameModeIDName.clone()));
-                spinnerGameModes.setSelection(0, false); //itemselected won't fire on first load with this
+//                spinnerGameModes.setSelection(0, false); //itemselected won't fire on first load with this
                 spinnerGameModes.setOnItemSelectedListener(this);
 
                 //if there was a savedState, set spinner selection
@@ -177,15 +189,23 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                 } else if (mapHeroIDName.size() < 1) {
                     getPlayedHeroesAndGameModes();
                 }
-
-                spinnerHeroes.setAdapter(new HeroSpinnerAdapter(getActivity(), (HashMap<String, String>) mapHeroIDName.clone()));
-                spinnerHeroes.setSelection(0, false); //itemselected won't fire on first load with this
+                HeroSpinnerAdapter adapter = new HeroSpinnerAdapter(getActivity(), (HashMap<String, String>) mapHeroIDName.clone());
+                spinnerHeroes.setAdapter(adapter);
+//                spinnerHeroes.setSelection(0, false); //itemselected won't fire on first load with this
                 spinnerHeroes.setOnItemSelectedListener(this);
 
                 //if there was a savedState, set spinner selection
                 if (heroSelection >= 0) {
                     spinnerHeroes.setSelection(heroSelection);
+                    System.out.println("set selection herSelection: " + heroSelection);
                 }
+                if (Integer.parseInt(heroID) > 0) {
+                    pos = adapter.getPositionForId(heroID);
+                    System.out.println("hero " + heroID + " is at position " + pos);
+                    spinnerHeroes.setSelection(pos, false);
+                    System.out.println("set selection pos: " + pos);
+                }
+
 
             }
         }
@@ -326,64 +346,5 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         }
     }
 
-
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
-    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
-
-        SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new StatsNumbersFragment();
-                case 1:
-                    return new StatsMatchesFragment();
-                default:
-                    return new StatsMatchesFragment();
-            }
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Stats";
-                case 1:
-                    return "Matches";
-                default:
-                    return "error";
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            Fragment fragment = (Fragment) super.instantiateItem(container, position);
-            registeredFragments.put(position, fragment);
-            return fragment;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            registeredFragments.remove(position);
-            super.destroyItem(container, position, object);
-        }
-
-        public Fragment getRegisteredFragment(int position) {
-            return registeredFragments.get(position);
-        }
-    }
 
 }

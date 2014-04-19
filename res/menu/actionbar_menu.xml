@@ -10,6 +10,11 @@
           android:orderInCategory="0"
           android:visible="false"
           android:actionViewClass="android.widget.Spinner"/>
+    <item android:id="@+id/spinRanking"
+          android:showAsAction="always"
+          android:orderInCategory="0"
+          android:visible="false"
+          android:actionViewClass="android.widget.Spinner"/>
 
     <item android:id="@+id/btnNote"
           android:icon="@drawable/ic_action_edit"

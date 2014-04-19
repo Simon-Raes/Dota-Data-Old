@@ -26,12 +26,9 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragView = inflater.inflate(R.layout.about_layout, container, false);
 
-        //todo: make overscrollable, add ogre magi
-        ScrollView scrollView = (ScrollView) fragView.findViewById(R.id.scrollAbout);
-        scrollView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
-
         getActivity().setTitle("About");
-        //update active drawer item
+
+        //update active drawer item (0 = this screen has no drawer item)
         ((DrawerController) getActivity()).setActiveDrawerItem(0);
 
         btnJackson = (Button) fragView.findViewById(R.id.btnAboutLibraryJackson);

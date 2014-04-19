@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Simon Raes on 18/04/2014.
  */
-public class WinrateAdapter extends ArrayAdapter<HeroStats> {
+public class HeroStatsWinrateAdapter extends ArrayAdapter<HeroStats> {
 
     private Context context;
     private ArrayList<HeroStats> heroes;
@@ -27,7 +27,7 @@ public class WinrateAdapter extends ArrayAdapter<HeroStats> {
     private DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener;
 
-    public WinrateAdapter(Context context, ArrayList<HeroStats> objects) {
+    public HeroStatsWinrateAdapter(Context context, ArrayList<HeroStats> objects) {
         super(context, R.layout.winrate_hero_row, objects);
         this.context = context;
         this.heroes = objects;
@@ -67,6 +67,7 @@ public class WinrateAdapter extends ArrayAdapter<HeroStats> {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, heroStats.getWins());
         viewholder.layWin.setLayoutParams(param);
+        viewholder.layWin.setBackgroundColor(context.getResources().getColor(R.color.LightYellowGreen));
         param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, heroStats.getLosses());
@@ -74,8 +75,8 @@ public class WinrateAdapter extends ArrayAdapter<HeroStats> {
 
         imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(heroStats.getHero_id()) + "_lg.png", viewholder.imgHero, options, animateFirstListener);
 
-        viewholder.txtHero.setText(Double.toString(Conversions.roundDouble(heroStats.getWinrate(), 2)) + "%");
-        viewholder.txtHeroTwo.setText(heroStats.getNumberOfGames() + " games");
+        viewholder.txtHero.setText("Winrate: " + Double.toString(Conversions.roundDouble(heroStats.getWinrate(), 2)) + "%");
+        viewholder.txtHeroTwo.setText("Games: " + heroStats.getNumberOfGames());
 
         return view;
     }

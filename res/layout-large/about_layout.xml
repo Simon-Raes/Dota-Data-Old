@@ -58,6 +58,22 @@
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:textStyle="bold" android:paddingTop="10dp"
+                          android:text="Version 2.6 (20/04/2014)"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Additions:"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Heroes screen: Shows a list of your played heroes and is sortable on 'Games played' and 'Winrate'."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Search screen: Lets you search any game on MatchID. Can display games that fall outside of the 500 games window."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="Fixes:"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Fixed Meepo having 2 inventories on the scoreboard."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:text="* Fixed the navigation drawer button sometimes getting stuck in the wrong state."/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textStyle="bold" android:paddingTop="10dp"
                           android:text="Version 2.5 (18/04/2014)"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="* The application now stores and displays the items on Lone Druid's bear. This will only work for matches downloaded after this update."/>

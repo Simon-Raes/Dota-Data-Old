@@ -204,8 +204,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
 
 
-
-
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
             txtPlayerKDA.setText(player.getKills() + "/" + player.getDeaths() + "/" + player.getAssists());
 
@@ -255,7 +253,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             //Additional units (Lone Druid bear) items
             View bearRow = null;
 
-            if (player.getAdditional_units().size() > 0) {
+            //Also checks if the hero isn't meepo (bug in match data, meepo shouldn't have additional units)
+            if (player.getAdditional_units().size() > 0 && !player.getHero_id().equals("82")) {
                 bearRow = inflater.inflate(R.layout.bear_items_row, null);
                 if (bearRow != null) {
                     imgItem = (ImageView) bearRow.findViewById(R.id.imgItem1);
@@ -366,11 +365,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     }
 
     private void setItemImage(ImageView imgItem, String item_id) {
-        imgItem.setContentDescription(ItemList.getItem(item_id));
-        if (item_id.equals("0")) {
-            imgItem.setImageResource(R.drawable.emptyitembg_lg);
-        } else {
-            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(item_id) + "_lg.png", imgItem, options, animateFirstListener);
+
+        if (imgItem != null) {
+            imgItem.setContentDescription(ItemList.getItem(item_id));
+            if (item_id.equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(item_id) + "_lg.png", imgItem, options, animateFirstListener);
+            }
         }
     }
 

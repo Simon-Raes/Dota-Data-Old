@@ -128,21 +128,19 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private int mostXPM = 0;
     private String mostXPMID;
 
-
-    //
-//    //ID of the selected item in the spinner
+    //    //ID of the selected item in the spinner
     private String gameModeID, heroID;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("oncreateview");
+        System.out.println("oncreateview statsnumbersfragment");
         this.view = inflater.inflate(R.layout.stats_layout, null);
 
 
         //optionsmenu only gets created on second call for some reason, so call it both here and in the containing view pager fragment
         //fixes problem where spinners only show up after rotating the screen
-        super.setHasOptionsMenu(true);
+        //super.setHasOptionsMenu(true);
 
 
         scrollStats = (ScrollView) view.findViewById(R.id.svStats);
@@ -200,7 +198,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         layStatsNoGames = (LinearLayout) view.findViewById(R.id.layStatsNoGames);
 
 
-        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
 
         return view;

@@ -38,6 +38,7 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
         context = ctx;
 
         spinnerContent = Conversions.sortHashMapByValues(content);
+
         names = new ArrayList<String>(spinnerContent.values());
         names.add(0, "Any hero");
         keys = new ArrayList<String>(spinnerContent.keySet());
@@ -61,6 +62,10 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
 
     public String getIDForPosition(int position) {
         return keys.get(position);
+    }
+
+    public int getPositionForId(String id) {
+        return keys.indexOf(id);
     }
 
     @Override

@@ -189,7 +189,7 @@ public class MatchesDataSource {
                     "ON matches_extras.match_id = matches.match_id  " +
                     "WHERE players_in_matches.account_id = ? " +
                     "AND players_in_matches.match_id < ? " +
-                    "ORDER BY players_in_matches.match_id DESC " +
+                    "ORDER BY matches.match_id DESC " +
                     "LIMIT 50;", new String[]{user_accountID, matchID}); //, user_accountID
         } else {
             cursor = database.rawQuery("SELECT " +
@@ -230,7 +230,7 @@ public class MatchesDataSource {
                     "LEFT JOIN matches_extras " +
                     "ON matches_extras.match_id = matches.match_id  " +
                     "WHERE players_in_matches.account_id = ? " +
-                    "ORDER BY players_in_matches.match_id DESC " +
+                    "ORDER BY matches.match_id DESC " +
                     "LIMIT 50;", new String[]{user_accountID}); //, new String[]{user_accountID, user_accountID}
         }
 

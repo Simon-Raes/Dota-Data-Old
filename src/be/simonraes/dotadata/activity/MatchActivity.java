@@ -41,12 +41,10 @@ public class MatchActivity extends DrawerController {
         Intent intent = getIntent();
         DetailMatch match = (DetailMatch) intent.getParcelableExtra("match");
 
-
         Fragment fragment = new MatchDetailFragment();
         FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
-
 
         //send object to fragment
         Bundle bundle = new Bundle();

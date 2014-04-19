@@ -67,8 +67,14 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
         //update active drawer item
         if (getActivity() instanceof DrawerController) {
-            ((DrawerController) getActivity()).setActiveDrawerItem(5);
+            ((DrawerController) getActivity()).setActiveDrawerItem(1);
+
+            //make actionbar show drawer icon
+            ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+            //update the actionbar to show the up carat
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
 
         if (AppPreferences.getAccountID(getActivity()).equals("")) {
 
