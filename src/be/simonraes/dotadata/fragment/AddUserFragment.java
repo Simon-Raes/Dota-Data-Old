@@ -57,32 +57,46 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         btnHelpIDName.setOnClickListener(this);
 
         etxtDotabuff = (EditText) view.findViewById(R.id.txtHelpDotabuff);
+        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        etxtDotabuff.setOnFocusChangeListener(new onFocusListener());
         etxtDotabuff.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etxtDotabuff.getWindowToken(), 0);
+
                     dotaBuffEntered();
                     return true;
                 }
                 return false;
             }
         });
+
         etxtProfileNumber = (EditText) view.findViewById(R.id.txtHelpProfileNumber);
+        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        etxtProfileNumber.setOnFocusChangeListener(new onFocusListener());
         etxtProfileNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etxtProfileNumber.getWindowToken(), 0);
+
                     profileNumberEntered();
                     return true;
                 }
                 return false;
             }
         });
+
         etxtIDName = (EditText) view.findViewById(R.id.txtHelpIDName);
+        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        etxtIDName.setOnFocusChangeListener(new onFocusListener());
         etxtIDName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etxtIDName.getWindowToken(), 0);
+
                     profileVanityEntered();
                     return true;
                 }
@@ -108,7 +122,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onClick(View v) {
         //hide keyboard
-        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(btnHelpDotabuff.getWindowToken(), 0);
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etxtDotabuff.getWindowToken(), 0);
         //lock orientation during loading/parsing
         OrientationHelper.lockOrientation(getActivity());
         switch (v.getId()) {
@@ -196,7 +210,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 
 
         } else {
-            Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Could not find Dota 2 matches for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
             OrientationHelper.unlockOrientation(getActivity());
         }
     }
@@ -207,11 +221,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
     public void processFinish(PlayerSummaryContainer result) {
         if (result.getPlayers() != null) {
 
-
             if (result.getPlayers().getPlayers().size() > 0) {
 
                 final PlayerSummaryContainer finalResult = result;
-
 
                 //check if user is already in the database
                 UsersDataSource uds = new UsersDataSource(getActivity());
@@ -297,8 +309,20 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
             phm.execute();
         }
-        OrientationHelper.unlockOrientation(getActivity());
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
 
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
+        OrientationHelper.unlockOrientation(getActivity());
+    }
+
+    private class onFocusListener implements View.OnFocusChangeListener {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus) {
+                OrientationHelper.lockOrientation(getActivity());
+            } else {
+                OrientationHelper.unlockOrientation(getActivity());
+            }
+        }
     }
 }

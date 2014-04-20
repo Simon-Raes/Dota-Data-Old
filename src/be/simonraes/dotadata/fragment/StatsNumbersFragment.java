@@ -538,25 +538,30 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         Random rnd;
         for (Map.Entry<String, Integer> entry : gameModesMap.entrySet()) {
             if (entry.getValue() > 0) {
-                //seed the random so a gamemode will always have the same color
-                rnd = new Random(entry.getKey().hashCode() + 43438); // +1 for better colors, tested 2-10 (not good)
-                int sliceColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                if (entry.getKey() != null && entry.getValue() != null) {
 
-                //add slice
-                PieSlice slice = new PieSlice();
-                slice.setColor(sliceColor);
-                slice.setValue(entry.getValue());
-                slice.setTitle(entry.getKey());
-                pieGraph.addSlice(slice);
+                    //seed the random so a gamemode will always have the same color
+                    rnd = new Random(entry.getKey().hashCode() + 43438); // +1 for better colors, tested 2-10 (not good)
+                    int sliceColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
-                //set legend
-                TextView txtLegend = new TextView(getActivity());
-                txtLegend.setLayoutParams(new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
-                txtLegend.setText(entry.getKey() + ": " + entry.getValue());
-                txtLegend.setTextColor(sliceColor);
-                layLegend.addView(txtLegend);
+                    //add slice
+                    PieSlice slice = new PieSlice();
+                    slice.setColor(sliceColor);
+                    slice.setValue(entry.getValue());
+                    slice.setTitle(entry.getKey());
+                    pieGraph.addSlice(slice);
+
+                    //set legend
+                    TextView txtLegend = new TextView(getActivity());
+                    if (txtLegend != null) {
+                        txtLegend.setLayoutParams(new ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
+                        txtLegend.setText(entry.getKey() + ": " + entry.getValue());
+                        txtLegend.setTextColor(sliceColor);
+                        layLegend.addView(txtLegend);
+                    }
+                }
             }
         }
         layStatsGameModes.setVisibility(View.VISIBLE);

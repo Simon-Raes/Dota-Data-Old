@@ -121,17 +121,6 @@ public class MatchesDataSource {
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-//    public void saveDetailMatches(ArrayList<DetailMatch> matches) {
-//        open();
-//        database.beginTransaction();
-//        for (DetailMatch match : matches) {
-//            saveDetailMatch(match);
-//        }
-//        database.setTransactionSuccessful();
-//        database.endTransaction();
-//        close();
-//    }
-
 
     public boolean matchExists(String matchId) {
         boolean exists = false;
@@ -142,6 +131,8 @@ public class MatchesDataSource {
         } else {
             exists = true;
         }
+        cursor.close();
+        close();
         return exists;
     }
 

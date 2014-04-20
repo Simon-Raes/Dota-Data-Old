@@ -119,14 +119,24 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             txtWinner.setText("Dire Victory");
         }
 
-        TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
-        if (MatchUtils.isUser_win(match, AppPreferences.getAccountID(getActivity()))) {
-            txtVictoryDefeat.setText("Victory");
-            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
-        } else {
-            txtVictoryDefeat.setText("Defeat");
-            txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+        //only set Victory / Defeat text if the active user participated in the match
+        boolean playerInMatch = false;
+        for (DetailPlayer player : match.getPlayers()) {
+            if (player.getAccount_id().equals(AppPreferences.getAccountID(getActivity()))) {
+                playerInMatch = true;
+            }
         }
+        if (playerInMatch) {
+            TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
+            if (MatchUtils.isUser_win(match, AppPreferences.getAccountID(getActivity()))) {
+                txtVictoryDefeat.setText("Victory");
+                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+            } else {
+                txtVictoryDefeat.setText("Defeat");
+                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+            }
+        }
+
 
         //note layout
         if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
@@ -326,16 +336,22 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 if (pb.getTeam().equals("0")) {
                     if (pb.isIs_pick()) {
                         txtPBLeft.setText("Pick");
+                        txtPBLeft.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
                     } else {
                         txtPBLeft.setText("Ban");
+                        txtPBLeft.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
                     }
                     imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroLeft, options, animateFirstListener);
                     layPicksBans.addView(layPBLeft);
                 } else {
                     if (pb.isIs_pick()) {
                         txtPBRight.setText("Pick");
+                        txtPBRight.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+
                     } else {
                         txtPBRight.setText("Ban");
+                        txtPBRight.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+
                     }
                     imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroRight, options, animateFirstListener);
                     layPicksBans.addView(layPBRight);

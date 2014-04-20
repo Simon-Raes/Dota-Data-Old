@@ -266,7 +266,8 @@
                                   android:id="@+id/layPieLegend"
                                   android:layout_alignParentRight="true"
                                   android:layout_centerVertical="true"
-                                  android:layout_height="wrap_content" android:orientation="vertical">
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical">
                     </LinearLayout>
                     <be.simonraes.dotadata.holograph.PieGraph android:layout_width="fill_parent"
                                                               android:layout_height="300dp"

@@ -27,7 +27,7 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtDetailVictoryDefeat"
                       android:layout_below="@id/txtDetailWinner"
-                      android:text="you won or lost"/>
+                      android:text=" "/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtDetailGameMode"
                       android:layout_below="@id/txtDetailVictoryDefeat"

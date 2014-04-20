@@ -1,15 +1,15 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.text.method.TextKeyListener;
+import android.view.*;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -47,13 +47,29 @@ public class SearchFragment extends Fragment implements View.OnClickListener, AS
         getActivity().setTitle("Search");
 
         //update active drawer item (0 = this screen has no drawer item)
-        ((DrawerController) getActivity()).setActiveDrawerItem(0);
+        ((DrawerController) getActivity()).setActiveDrawerItem(6);
+        //make sure keyboard doesn't automatically open on page load
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         txtMatch = (EditText) fragView.findViewById(R.id.txtSearchMatchID);
+        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        txtMatch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    OrientationHelper.lockOrientation(getActivity());
+                } else {
+                    OrientationHelper.unlockOrientation(getActivity());
+                }
+            }
+        });
+
+        //handle the OK button on the keyboard
         txtMatch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(txtMatch.getWindowToken(), 0);
                     searchMatch();
                     return true;
                 }
@@ -70,6 +86,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, AS
 
     @Override
     public void onClick(View view) {
+        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(txtMatch.getWindowToken(), 0);
+
         switch (view.getId()) {
             case R.id.btnSearch:
                 searchMatch();
@@ -79,8 +97,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener, AS
         }
     }
 
+
     private void searchMatch() {
-        String matchID = txtMatch.getText().toString();
+
+        String matchID = "";
+
+        if (txtMatch != null) {
+            matchID = txtMatch.getText().toString();
+        }
 
         if (matchID != null && !matchID.equals("")) {
 
@@ -97,23 +121,48 @@ public class SearchFragment extends Fragment implements View.OnClickListener, AS
                 //(users could download only their wins and skew the stats)
                 DetailMatchParser parser = new DetailMatchParser(this);
                 parser.execute(matchID);
-                //todo : should show loading dialog here
                 OrientationHelper.lockOrientation(getActivity());
-                introDialog = ProgressDialog.show(getActivity(), "", "Downloading match.", true);
+                introDialog = ProgressDialog.show(getActivity(), "", "Searching.", true);
 
             }
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.actionbar_menu, menu);
+
+        MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);
+        if (btnRefresh != null) {
+            btnRefresh.setVisible(false);
+        }
+        MenuItem btnFavourite = menu.findItem(R.id.btnFavourite);
+        if (btnFavourite != null) {
+            btnFavourite.setVisible(false);
+        }
+        MenuItem btnNote = menu.findItem(R.id.btnNote);
+        if (btnNote != null) {
+            btnNote.setVisible(false);
+        }
+        MenuItem spinHeroes = menu.findItem(R.id.spinHeroes);
+        if (spinHeroes != null) {
+            spinHeroes.setVisible(false);
+        }
+        MenuItem spinGameModes = menu.findItem(R.id.spinGameModes);
+        if (spinGameModes != null) {
+            spinGameModes.setVisible(false);
+        }
+    }
 
     @Override
     public void processFinish(DetailContainer result) {
-        OrientationHelper.unlockOrientation(getActivity());
         if (introDialog != null) {
             if (introDialog.isShowing()) {
                 introDialog.dismiss();
             }
         }
+
         if (result.getDetailMatch().getMatch_id() != null && !result.getDetailMatch().getMatch_id().equals("")) {
             DetailMatch match = result.getDetailMatch();
             Intent intent = new Intent(getActivity(), MatchActivity.class);
@@ -123,6 +172,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, AS
         } else {
             Toast.makeText(getActivity(), "No match found with that ID.", Toast.LENGTH_SHORT).show();
         }
+        OrientationHelper.unlockOrientation(getActivity());
     }
 
     @Override
