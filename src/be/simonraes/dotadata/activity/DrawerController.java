@@ -37,7 +37,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
 
         mTitle = mDrawerTitle = getTitle();
 
-        listContent = new String[]{"divider GAMES", "Recent Games", "divider STATISTICS", "Statistics", "Heroes", "divider SEARCH", "Find match"}; //"graphs"
+        listContent = new String[]{"divider GAMES", "Recent Games", "divider STATISTICS", "Statistics", "Heroes", "Graphs", "divider SEARCH", "Find match"}; //"graphs"
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
@@ -116,10 +116,10 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
             case 4:
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HeroesFragment(), "HeroesFragment").addToBackStack(null).commit();
                 break;
-//            case 5:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new GraphFragment(), "GraphFragment").addToBackStack(null).commit();
-//                break;
-            case 6:
+            case 5:
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new GraphFragment(), "GraphFragment").addToBackStack(null).commit();
+                break;
+            case 7:
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new SearchFragment(), "SearchFragment").addToBackStack(null).commit();
                 break;
             default:

@@ -141,7 +141,6 @@ public class HeroesFragment extends Fragment implements ASyncResponseStatsLoader
     @Override
     public void processFinish(ArrayList<DetailMatchLite> result) {
         heroesMap = new HashMap<String, HeroStats>();
-        System.out.println("got my tgames");
         for (DetailMatchLite match : result) {
 
             if (heroesMap.containsKey(match.getHero_id())) {

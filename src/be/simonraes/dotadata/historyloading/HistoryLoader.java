@@ -89,7 +89,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
             latestSavedMatchID = "0";
         }
 
-        introDialog = ProgressDialog.show(context, "", "Checking for new games.", true);
+        introDialog = ProgressDialog.show(context, "", "Searching for games.", true);
 
         //check if web service is available
         InternetChecker checker = new InternetChecker(this);

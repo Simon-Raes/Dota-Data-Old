@@ -50,7 +50,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //removed check to fix bug where it doesn't let you switch to the user you just updated using the list-button (user's ID is set as active)
+        //removed check to fix a bug where it wouldn't let you switch to the user you just updated using the list-button (user's ID would already be set as active)
 //        if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
 
         //set app-wide account ID to this user
