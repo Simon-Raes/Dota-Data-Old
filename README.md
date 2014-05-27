@@ -1,4 +1,4 @@
-Dota-Data
+<img src="http://i.imgur.com/KRju57J.png"></img> Dota-Data 
 =========
 
 A Dota 2 match history and statistics app for Android.
