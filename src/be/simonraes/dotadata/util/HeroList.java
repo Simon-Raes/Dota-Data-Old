@@ -7,6 +7,10 @@ public class HeroList {
     private static HashMap<String, String> heroimages = new HashMap<String, String>();
 
     //todo: get hero info from GetHeroes API and store it (in db) - needs solution for hero images
+    //heroes, id and name can be downloaded from
+    //https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key=EB5773FAAF039592D9383FA104EEA55D&language=en_us
+    //hero images can be obtained from
+    //http://cdn.dota2.com/apps/dota2/images/heroes/<name>_<suffix>
 
     private static void initHeroesHashMap() {
         heroes.put("1", "Anti-Mage");

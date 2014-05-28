@@ -54,7 +54,6 @@ public class PieGraph extends View {
 
     private boolean drawCompleted = false;
 
-
     public PieGraph(Context context) {
         super(context);
         thickness = (int) (25f * context.getResources().getDisplayMetrics().density);
