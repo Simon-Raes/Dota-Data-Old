@@ -58,7 +58,6 @@ public class BarGraph extends View {
     private OnBarClickedListener mListener;
     private Bitmap mFullImage;
     private boolean mShouldUpdate = false;
-
     private Context mContext = null;
 
     public BarGraph(Context context) {

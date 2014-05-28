@@ -33,6 +33,7 @@ public class LinePoint {
     private Region region;
     private String color;
 
+
     public LinePoint() {
     }
 

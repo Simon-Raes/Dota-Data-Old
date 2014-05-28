@@ -34,7 +34,6 @@ public class Line {
     // since this is a new addition, it has to default to false to be backwards compatible
     private boolean isUsingDips = false;
 
-
     public boolean isUsingDips() {
         return isUsingDips;
     }

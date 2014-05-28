@@ -345,7 +345,6 @@ public class LineGraph extends View {
             float maxX = getMaxLimX();
             float minX = getMinLimX();
 
-
             int lineCount = 0;
             for (Line line : lines) {
                 int count = 0;

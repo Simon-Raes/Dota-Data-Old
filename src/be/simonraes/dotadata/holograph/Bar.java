@@ -34,6 +34,7 @@ public class Bar implements Comparable<Bar> {
     private Path mPath = null;
     private Region mRegion = null;
 
+
     public int getColor() {
         return mColor;
     }
