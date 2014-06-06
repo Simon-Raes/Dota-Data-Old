@@ -346,7 +346,8 @@ public class MatchesDataSource {
                 "AND game_mode != 7 " +
                 "AND game_mode != 9 " +
                 "AND game_mode != 10 " +
-                "AND game_mode != 15 "
+                "AND game_mode != 15 " +
+                "ORDER BY matches.match_id DESC "
                 , new String[]{user_accountID}); //user_accountID
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -402,7 +403,8 @@ public class MatchesDataSource {
                 "ON matches.match_id = players_in_matches.match_id " +
                 "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
-                "WHERE players_in_matches.account_id = ? "
+                "WHERE players_in_matches.account_id = ? " +
+                "ORDER BY matches.match_id DESC "
                 , new String[]{user_accountID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -463,7 +465,9 @@ public class MatchesDataSource {
                 "AND game_mode != 9 " +
                 "AND game_mode != 10 " +
                 "AND game_mode != 15 " +
-                "AND hero_id = ?;", new String[]{user_accountID, heroID});
+                "AND hero_id = ?" +
+                "ORDER BY matches.match_id DESC "
+                , new String[]{user_accountID, heroID});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -516,7 +520,9 @@ public class MatchesDataSource {
                 "LEFT JOIN matches_extras " +
                 "ON matches_extras.match_id = matches.match_id  " +
                 "WHERE players_in_matches.account_id = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, gameModeID}); //user_accountID,
+                "AND game_mode = ?" +
+                "ORDER BY matches.match_id DESC "
+                , new String[]{user_accountID, gameModeID}); //user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
@@ -570,7 +576,9 @@ public class MatchesDataSource {
                 "ON matches_extras.match_id = matches.match_id  " +
                 "WHERE players_in_matches.account_id = ? " +
                 "AND hero_id = ? " +
-                "AND game_mode = ?;", new String[]{user_accountID, heroID, gameModeID}); //user_accountID,
+                "AND game_mode = ?" +
+                "ORDER BY matches.match_id DESC "
+                , new String[]{user_accountID, heroID, gameModeID}); //user_accountID,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             records.add(cursorToDetailMatchLite(cursor));
