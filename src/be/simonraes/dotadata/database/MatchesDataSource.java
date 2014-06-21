@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -249,6 +250,12 @@ public class MatchesDataSource {
         Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
         ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
         cursorPlayers.moveToFirst();
+
+
+        //get all ability upgrades for the match so the database doesn't have to be opened for every individual player
+        AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
+        ArrayList<AbilityUpgrades> upgradesForMatch = auds.getAbilityUpgradesForMatch(matchID);
+
         while (!cursorPlayers.isAfterLast()) {
             DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
 
@@ -258,6 +265,16 @@ public class MatchesDataSource {
 //            //get the player's upgrades
 //            AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
 //            detailPlayer.setAbilityupgrades(auds.getAbilityUpgradesForPlayerInMatch(matchID, detailPlayer.getPlayer_slot()));
+
+
+            //assign the ability upgrades to the player
+            ArrayList<AbilityUpgrades> upgradesForPlayer = new ArrayList<AbilityUpgrades>();
+            for (AbilityUpgrades abilityUpgrades : upgradesForMatch) {
+                if (abilityUpgrades.getPlayer_slot().equals(detailPlayer.getPlayer_slot())) {
+                    upgradesForPlayer.add(abilityUpgrades);
+                }
+            }
+            detailPlayer.setAbilityupgrades(upgradesForPlayer);
 
             //get the additional units
             AdditionalUnitsDataSource addds = new AdditionalUnitsDataSource(context);

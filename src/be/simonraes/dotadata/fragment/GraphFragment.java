@@ -42,7 +42,7 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftY);
         txtRightY = (TextView) view.findViewById(R.id.txtGraphRightY);
 
-        getActivity().setTitle("Graphs");
+        getActivity().setTitle("Winrate (wip)");
         setHasOptionsMenu(true);
 
         //update active drawer item
@@ -248,9 +248,7 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         maxWinrate = 50 + offset;
         minWinrate = 50 - offset;
 
-
         li.setRangeY((float) Math.floor(minWinrate), (float) Math.ceil(maxWinrate));
-
 
         txtTopX.setText(Double.toString(Math.ceil(maxWinrate)));
         txtBottomX.setText(Double.toString(Math.floor(minWinrate)));

@@ -95,6 +95,21 @@ public class AbilityUpgradesDataSource {
         return abilityUpgradeses;
     }
 
+    public ArrayList<AbilityUpgrades> getAbilityUpgradesForMatch(String match_id) {
+        open();
+
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_ABILITY_UPGRADES, abilityUpgradeColumns, "match_id = ?", new String[]{match_id}, null, null, null, null);
+        ArrayList<AbilityUpgrades> abilityUpgradeses = new ArrayList();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            abilityUpgradeses.add(cursorToAbilityUpgrades(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        close();
+        return abilityUpgradeses;
+    }
+
     private AbilityUpgrades cursorToAbilityUpgrades(Cursor cursor) {
         AbilityUpgrades au = new AbilityUpgrades();
         if (cursor != null) {

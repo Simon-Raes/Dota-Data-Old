@@ -26,8 +26,12 @@ import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.database.MatchesExtrasDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.*;
+import be.simonraes.dotadata.holograph.Line;
+import be.simonraes.dotadata.holograph.LineGraph;
+import be.simonraes.dotadata.holograph.LinePoint;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
+import be.simonraes.dotadata.statistics.TeamExperienceStats;
 import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,6 +44,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by Simon on 30/01/14.
@@ -63,6 +68,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private ImageButton btnDeleteNote;
 
     private FrameLayout layDetailsMinimap;
+
+    private LineGraph lineGraphExperienceTeams;
 
 
     @Override
@@ -358,6 +365,62 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 }
             }
         }
+
+        //experience graph
+        TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match.getPlayers());
+        System.out.println(teamExpStats.getExpRadiant());
+        System.out.println(teamExpStats.getExpDire());
+
+        lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
+        //lineGraphExperienceTeams.setOnPointClickedListener(this);
+        lineGraphExperienceTeams.setUsingDips(true);
+
+        Line lineRadiant = new Line();
+        lineRadiant.setColor(getResources().getColor(R.color.Green));
+        lineRadiant.setShowingPoints(false);
+
+        //ArrayList<LinePoint> radiantPoints = new ArrayList<LinePoint>();
+        //add 1 startpoint so the graph starts at X 0
+        for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpRadiant().entrySet()) {
+            LinePoint p;
+            p = new LinePoint();
+            p.setX(entry.getKey());
+            p.setY(entry.getValue());
+            lineRadiant.addPoint(p);
+            //radiantPoints.add(p);
+        }
+
+        Line lineDire = new Line();
+        lineDire.setColor(getResources().getColor(R.color.Orange));
+        lineDire.setShowingPoints(false);
+        //ArrayList<LinePoint> direPoints = new ArrayList<LinePoint>();
+        //add 1 startpoint so the graph starts at X 0
+        for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpDire().entrySet()) {
+            LinePoint p;
+            p = new LinePoint();
+            p.setX(entry.getKey());
+            p.setY(entry.getValue());
+            lineDire.addPoint(p);
+            //direPoints.add(p);
+        }
+
+        //todo: fix nullpointer error for matches without experience values
+
+        lineGraphExperienceTeams.addLine(lineRadiant);
+        lineGraphExperienceTeams.addLine(lineDire);
+
+        int rangeY = teamExpStats.getExpRadiant().lastEntry().getValue();
+        lineGraphExperienceTeams.setLineToFill(0);
+        if (teamExpStats.getExpDire().lastEntry().getValue() > rangeY) {
+            rangeY = teamExpStats.getExpDire().lastEntry().getValue();
+            lineGraphExperienceTeams.setLineToFill(1);
+        }
+
+
+        lineGraphExperienceTeams.setRangeY(0, rangeY);
+        lineGraphExperienceTeams.setLineToFill(1);
+
+
 
         //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
         layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
