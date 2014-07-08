@@ -7,6 +7,7 @@
 
             <corners android:radius="2dp"/>
 
+
             <solid android:color="#ccc"/>
 
         </shape>
@@ -15,16 +16,16 @@
     <item android:bottom="2dp">
         <shape android:shape="rectangle"
                android:dither="true">
-
-            <corners android:radius="2dp"/>
+            <corners android:bottomLeftRadius="2dp"
+                     android:bottomRightRadius="2dp"/>
 
             <solid android:color="@android:color/white"/>
 
             <!--padding between card border and elements in card-->
-            <padding android:left="20dp"
-                     android:right="20dp"
-                     android:top="10dp"
-                     android:bottom="10dp"/>
+            <padding android:left="7dp"
+                     android:right="7dp"
+                     android:top="7dp"
+                     android:bottom="7dp"/>
         </shape>
     </item>
 </layer-list>
