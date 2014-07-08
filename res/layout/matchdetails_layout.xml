@@ -17,19 +17,16 @@
 
         <!-- Scrollview content (must be 1 layout) -->
         <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+
                       android:orientation="vertical"
                       android:gravity="center">
 
             <!-- Match info (duration, winner,...) -->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:id="@+id/layDetailHeader"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
                           android:gravity="end"
                           android:orientation="vertical"
-                    >
+                          style="@style/CardMargin">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:id="@+id/txtDetailWinner"
                           android:textColor="@color/White"
@@ -67,10 +64,7 @@
             <!-- Note -->
             <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                             android:id="@+id/layDetailNote"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="5dp"
+                            style="@style/CardMargin"
                             android:orientation="vertical"
                             android:background="@drawable/bg_card"
                             android:visibility="gone">
@@ -99,10 +93,7 @@
                     <!-- Radiant players card-->
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                                   android:id="@+id/layDetailRadiantPlayers"
-                                  android:layout_marginLeft="20dp"
-                                  android:layout_marginRight="10dp"
-                                  android:layout_marginTop="10dp"
-                                  android:layout_marginBottom="5dp"
+                                  style="@style/CardMargin"
                                   android:orientation="vertical"
                                   android:background="@drawable/bg_card">
                         <!-- Header -->
@@ -147,10 +138,7 @@
                     <!-- Dire players card-->
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                                   android:id="@+id/layDetailDirePlayers"
-                                  android:layout_marginLeft="10dp"
-                                  android:layout_marginRight="20dp"
-                                  android:layout_marginTop="10dp"
-                                  android:layout_marginBottom="5dp"
+                                  style="@style/CardMargin"
                                   android:orientation="vertical"
                                   android:background="@drawable/bg_card">
                         <!-- Header -->
@@ -196,20 +184,14 @@
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:visibility="gone"
                           android:id="@+id/layDetailPicksBans"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
                           android:background="@drawable/bg_card">
             </LinearLayout>
 
             <!-- Experience graph (teams)-->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="300dp"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -221,10 +203,7 @@
 
             <!-- Player skillbuilds, hidden until implemented -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
                           android:visibility="gone"
                           android:background="@drawable/bg_card">
@@ -235,10 +214,7 @@
             <!-- Map: tower and barracks status -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           android:id="@+id/layDetailMapCard"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
+                          style="@style/CardMargin"
                           android:background="@drawable/bg_card"
                           android:paddingTop="20dp"
                           android:gravity="center"

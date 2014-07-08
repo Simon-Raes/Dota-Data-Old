@@ -7,19 +7,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-
             android:background="@color/Gainsboro">
-
         <LinearLayout android:layout_width="fill_parent" android:layout_height="match_parent"
                       android:orientation="vertical"
                       android:id="@+id/layScrollAboutContent">
+
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="5dp"
-                          android:layout_marginRight="5dp"
-                          android:layout_marginTop="5dp"
-                          android:layout_marginBottom="5dp"
+                          android:id="@+id/layCardAbout"
                           android:orientation="vertical"
-                          android:background="@drawable/bg_card">
+                          android:background="@drawable/bg_card"
+                          style="@style/CardMargin">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Used libraries"/>
                 <View style="@style/DrawerDivider"
@@ -41,15 +38,11 @@
                         android:gravity="left|center_vertical"
                         android:background="@drawable/draw_button_record"
                         android:text="Universal Image Loader for Android"/>
-
             </LinearLayout>
 
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
 
-                          android:layout_marginLeft="5dp"
-                          android:layout_marginRight="5dp"
-                          android:layout_marginTop="5dp"
-                          android:layout_marginBottom="5dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -85,7 +78,6 @@
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="* Added changelog."/>
 
-
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:textStyle="bold" android:paddingTop="10dp"
                           android:text="Version 2.4 (17/04/2014)"/>
@@ -115,7 +107,6 @@
                           android:text="* Added extra checks to see if the Dota 2 API is available."/>
 
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
     <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"

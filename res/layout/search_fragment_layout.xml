@@ -8,12 +8,9 @@
               android:gravity="center_vertical">
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                     android:id="@+id/layCardAbout"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card">
+                    android:background="@drawable/bg_card"
+                    style="@style/CardMargin">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/txtSearchTitle"
                   android:text="Search"/>

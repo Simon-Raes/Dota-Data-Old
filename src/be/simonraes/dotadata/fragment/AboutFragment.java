@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 

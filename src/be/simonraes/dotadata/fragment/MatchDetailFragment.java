@@ -1,10 +1,6 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.AlertDialog;
-import android.media.Image;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,16 +12,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
-import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.database.MatchesExtrasDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
-import be.simonraes.dotadata.detailmatch.*;
+import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.detailmatch.DetailPlayer;
+import be.simonraes.dotadata.detailmatch.PicksBans;
 import be.simonraes.dotadata.holograph.Line;
 import be.simonraes.dotadata.holograph.LineGraph;
 import be.simonraes.dotadata.holograph.LinePoint;
@@ -43,7 +43,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -52,7 +51,7 @@ import java.util.Map;
  */
 public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary {
 
-    private LayoutInflater inflaterB;
+    private LayoutInflater inflater;
     private View view;
 
     private ImageLoader imageLoader;
@@ -64,6 +63,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private ArrayList<ImageView> playerAvatars;
 
     private DetailMatch match;
+    private DetailPlayer activePlayer;
 
     private ImageButton btnDeleteNote;
 
@@ -75,36 +75,51 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
-        inflaterB = inflater;
+        this.inflater = inflater;
         match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
-        setHasOptionsMenu(true);
 
+        setHasOptionsMenu(true);
         getActivity().setTitle("Match Details");
 
         //disable drawer icon (needed for reorientation)
         if (getActivity() instanceof DrawerController) {
             ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(false);
             //update the actionbar to show the up carat
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            if (getActivity() != null && getActivity().getActionBar() != null) {
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
-
 
         playerNames = new ArrayList<TextView>();
         parsers = new ArrayList<PlayerSummaryParser>();
         playerAvatars = new ArrayList<ImageView>();
 
-        boolean hasPicksBans = false;
+        //todo: maybe split some of these off to fragments and/or background loading
+        setHeader();
+        setNote();
+        scrollScoreboard();
+        setScoreboard();
+        setPicksBans();
+        setGraph();
 
-        if (match != null) {
-            if (match.getPicks_bans().size() > 0) {
-                hasPicksBans = true;
-            }
+        //add team headers
+//        View radiantHeader = inflater.inflate(R.layout.match_details_players_header, null);
+//        radiantHeader.setBackgroundColor(getResources().getColor(R.color.RadiantGreen));
+//        LinearLayout layPlayersRadiantWrapper = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayersWrapper);
+//        layPlayersRadiantWrapper.addView(radiantHeader, 0);
+
+
+        //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
+        layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
+        if (layDetailsMinimap != null && layDetailsMinimap.getViewTreeObserver() != null) {
+            layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
 
-        //holder?
+        return view;
+    }
 
-        //Match info
-
+    /*Sets the textviews containing match info.*/
+    private void setHeader() {
         TextView txtMatchID = (TextView) view.findViewById(R.id.txtDetailMatchID);
         txtMatchID.setText("ID " + match.getMatch_id());
 
@@ -133,40 +148,25 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             layHeader.setGravity(Gravity.START);
             txtWinner.setText("Dire Victory");
         }
+    }
 
-        //only set Victory / Defeat text if the active user participated in the match
-        boolean playerInMatch = false;
-        for (DetailPlayer player : match.getPlayers()) {
-            if (player.getAccount_id().equals(AppPreferences.getAccountID(getActivity()))) {
-                playerInMatch = true;
-            }
+    /*Shows note if there is one.*/
+    private void setNote() {
+        if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
+            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
+            layNote.setVisibility(View.VISIBLE);
+            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
+            txtNote.setText(match.getExtras().getNote());
+            btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
+            btnDeleteNote.setOnClickListener(this);
         }
-//        if (playerInMatch) {
-//            TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
-//            if (MatchUtils.isUser_win(match, AppPreferences.getAccountID(getActivity()))) {
-//                txtVictoryDefeat.setText("Victory");
-//                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
-//            } else {
-//                txtVictoryDefeat.setText("Defeat");
-//                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
-//            }
-//        }
+    }
 
-
-        addNote();
-
-        //add team headers
-//        View radiantHeader = inflater.inflate(R.layout.match_details_players_header, null);
-//        radiantHeader.setBackgroundColor(getResources().getColor(R.color.RadiantGreen));
-//        LinearLayout layPlayersRadiantWrapper = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayersWrapper);
-//        layPlayersRadiantWrapper.addView(radiantHeader, 0);
-
-
-
+    /*Sets the info of all players (items, stats,...).*/
+    private void setScoreboard() {
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
-
 
         imageLoader = ImageLoader.getInstance();
         animateFirstListener = new AnimateFirstDisplayListenerToo();
@@ -221,14 +221,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 }
             }
 
-
             //player avatar
             ImageView imgPlayerAvatar = (ImageView) playerRow.findViewById(R.id.imgDetailPlayer);
             if (imgPlayerAvatar != null) {
                 imgPlayerAvatar.setTag(player.getAccount_id());
                 playerAvatars.add(imgPlayerAvatar);
             }
-
 
             TextView txtPlayerKDA = (TextView) playerRow.findViewById(R.id.txtDetailKDA);
             txtPlayerKDA.setText(player.getKills() + "/" + player.getDeaths() + "/" + player.getAssists());
@@ -279,9 +277,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             //Additional units (Lone Druid bear) items
             View bearRow = null;
 
-            //Also checks if the hero isn't meepo (bug in match data, meepo shouldn't have additional units)
+            //Also checks if the hero isn't Meepo (bug in match data, Meepo shouldn't have additional units)
             if (player.getAdditional_units().size() > 0 && !player.getHero_id().equals("82")) {
-                bearRow = inflater.inflate(R.layout.bear_items_row, null);
+                bearRow = inflater.inflate(R.layout.additional_units_items_row, null);
                 if (bearRow != null) {
                     imgItem = (ImageView) bearRow.findViewById(R.id.imgItem1);
                     setItemImage(imgItem, player.getAdditional_units().get(0).getItem_0());
@@ -303,7 +301,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 }
             }
 
-
+            //add player row to correct team
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
                 layPlayersRadiant.addView(playerRow);
                 if (bearRow != null) {
@@ -320,12 +318,48 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 numDirePlayers++;
             }
         }
+
+        //only show team card if it contains players
         if (numRadiantPlayers == 0) {
             layPlayersRadiant.setVisibility(View.GONE);
         }
 
         if (numDirePlayers == 0) {
             layPlayersDire.setVisibility(View.GONE);
+        }
+    }
+
+    /*Scrolls the scoreboard to the right if the player was on the Dire team.*/
+    private void scrollScoreboard() {
+        //Check if the active user participated in the match
+        activePlayer = null;
+        for (DetailPlayer p : match.getPlayers()) {
+            if (p.getAccount_id().equals(AppPreferences.getAccountID(getActivity()))) {
+                activePlayer = p;
+            }
+        }
+        //Make the scoreboard start in the correct scroll position
+        //Default if player is Radiant, scrolled to right if player is Dire.
+        if (activePlayer != null) {
+            final HorizontalScrollView scrollView = (HorizontalScrollView) view.findViewById(R.id.svMatchDetailsPlayers);
+            if (!MatchUtils.isRadiant(activePlayer))
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.scrollTo(4000, 0);
+                    }
+                });
+        }
+    }
+
+    /*Builds picks/bans view if required.*/
+    private void setPicksBans() {
+        boolean hasPicksBans = false;
+
+        if (match != null) {
+            if (match.getPicks_bans().size() > 0) {
+                hasPicksBans = true;
+            }
         }
 
         //Picks & bans - only shown if match has picks/bans
@@ -342,8 +376,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                         .imageScaleType(ImageScaleType.EXACTLY)
                         .build();
 
-                RelativeLayout layPBLeft = (RelativeLayout) inflaterB.inflate(R.layout.pickban_left, null);
-                RelativeLayout layPBRight = (RelativeLayout) inflaterB.inflate(R.layout.pickban_right, null);
+                RelativeLayout layPBLeft = (RelativeLayout) inflater.inflate(R.layout.pickban_left, null);
+                RelativeLayout layPBRight = (RelativeLayout) inflater.inflate(R.layout.pickban_right, null);
                 ImageView imgPBHeroLeft = (ImageView) layPBLeft.findViewById(R.id.imgPickBanLeft);
                 TextView txtPBLeft = (TextView) layPBLeft.findViewById(R.id.txtPickBanLeft);
                 ImageView imgPBHeroRight = (ImageView) layPBRight.findViewById(R.id.imgPickBanRight);
@@ -374,7 +408,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 }
             }
         }
+    }
 
+    /*Builds the experience graphs.*/
+    private void setGraph() {
         //experience graph
         TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match.getPlayers());
         System.out.println(teamExpStats.getExpRadiant());
@@ -425,28 +462,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             lineGraphExperienceTeams.setLineToFill(1);
         }
 
-
         lineGraphExperienceTeams.setRangeY(0, rangeY);
         lineGraphExperienceTeams.setLineToFill(1);
-
-
-
-        //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
-        layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
-        layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
-
-        return view;
     }
 
-    private void addNote() {
-        //note layout
-        if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
-            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
-            layNote.setVisibility(View.VISIBLE);
-            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
-            txtNote.setText(match.getExtras().getNote());
-            btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
-            btnDeleteNote.setOnClickListener(this);
+    private void setItemImage(ImageView imgItem, String item_id) {
+        if (imgItem != null) {
+            imgItem.setContentDescription(ItemList.getItem(item_id));
+            if (item_id.equals("0")) {
+                imgItem.setImageResource(R.drawable.emptyitembg_lg);
+            } else {
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(item_id) + "_lg.png", imgItem, options, animateFirstListener);
+            }
         }
     }
 
@@ -464,30 +491,21 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    private void setItemImage(ImageView imgItem, String item_id) {
-
-        if (imgItem != null) {
-            imgItem.setContentDescription(ItemList.getItem(item_id));
-            if (item_id.equals("0")) {
-                imgItem.setImageResource(R.drawable.emptyitembg_lg);
-            } else {
-                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/items/" + ItemList.getItem(item_id) + "_lg.png", imgItem, options, animateFirstListener);
-            }
-        }
-    }
-
-
-    //Add towers and barracks to minimap
+    /*Adds towers and barracks to minimap.*/
     @Override
     public void onGlobalLayout() {
 
         //remove listener so this method only gets called once
         //different versions depending on android version (before or after API 16)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            //noinspection deprecation
-            layDetailsMinimap.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            if (layDetailsMinimap.getViewTreeObserver() != null) {
+                //noinspection deprecation
+                layDetailsMinimap.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
         } else {
-            layDetailsMinimap.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            if (layDetailsMinimap.getViewTreeObserver() != null) {
+                layDetailsMinimap.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
         }
 
         //get minimap size
@@ -502,7 +520,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         TowerStatus twrDire = Conversions.towerStatusFromString(match.getTower_status_dire());
 
         if (twrRadiant.isTopT1()) {
-            View towerRadiantTopT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantTopT1 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantTopT1 != null) {
                 towerRadiantTopT1.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.38), 0, 0);
@@ -511,7 +529,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrRadiant.isTopT2()) {
-            View towerRadiantTopT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantTopT2 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantTopT2 != null) {
                 towerRadiantTopT2.setPadding((int) Math.round(x * 0.11), (int) Math.round(y * 0.55), 0, 0);
@@ -520,7 +538,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrRadiant.isTopT3()) {
-            View towerRadiantTopT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantTopT3 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantTopT3 != null) {
                 towerRadiantTopT3.setPadding((int) Math.round(x * 0.075), (int) Math.round(y * 0.7), 0, 0);
@@ -529,7 +547,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrRadiant.isMidT1()) {
-            View towerRadiantMidT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantMidT1 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantMidT1 != null) {
                 towerRadiantMidT1.setPadding((int) Math.round(x * 0.40), (int) Math.round(y * 0.58), 0, 0);
@@ -538,7 +556,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrRadiant.isMidT2()) {
-            View towerRadiantMidT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantMidT2 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantMidT2 != null) {
                 towerRadiantMidT2.setPadding((int) Math.round(x * 0.28), (int) Math.round(y * 0.66), 0, 0);
@@ -547,7 +565,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrRadiant.isMidT3()) {
-            View towerRadiantMidT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantMidT3 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantMidT3 != null) {
                 towerRadiantMidT3.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.75), 0, 0);
@@ -556,7 +574,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrRadiant.isBotT1()) {
-            View towerRadiantBotT1 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantBotT1 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantBotT1 != null) {
                 towerRadiantBotT1.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.87), 0, 0);
@@ -565,7 +583,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         }
         if (twrRadiant.isBotT2()) {
-            View towerRadiantBotT2 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantBotT2 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantBotT2 != null) {
                 towerRadiantBotT2.setPadding((int) Math.round(x * 0.47), (int) Math.round(y * 0.88), 0, 0);
@@ -574,7 +592,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
         }
         if (twrRadiant.isBotT3()) {
-            View towerRadiantBotT3 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantBotT3 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantBotT3 != null) {
                 towerRadiantBotT3.setPadding((int) Math.round(x * 0.25), (int) Math.round(y * 0.88), 0, 0);
@@ -582,7 +600,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrRadiant.isTopT4()) {
-            View towerRadiantTopT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantTopT4 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantTopT4 != null) {
                 towerRadiantTopT4.setPadding((int) Math.round(x * 0.13), (int) Math.round(y * 0.80), 0, 0);
@@ -590,7 +608,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrRadiant.isBotT4()) {
-            View towerRadiantBotT4 = inflaterB.inflate(R.layout.minimap_tower_radiant, null);
+            View towerRadiantBotT4 = inflater.inflate(R.layout.minimap_tower_radiant, null);
 
             if (towerRadiantBotT4 != null) {
                 towerRadiantBotT4.setPadding((int) Math.round(x * 0.15), (int) Math.round(y * 0.82), 0, 0);
@@ -600,7 +618,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
 
         if (twrDire.isTopT1()) {
-            View towerDireTopT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireTopT1 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireTopT1 != null) {
                 towerDireTopT1.setPadding((int) Math.round(x * 0.20), (int) Math.round(y * 0.12), 0, 0);
@@ -608,7 +626,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isTopT2()) {
-            View towerDireTopT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireTopT2 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireTopT2 != null) {
                 towerDireTopT2.setPadding((int) Math.round(x * 0.48), (int) Math.round(y * 0.12), 0, 0);
@@ -616,7 +634,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isTopT3()) {
-            View towerDireTopT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireTopT3 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireTopT3 != null) {
                 towerDireTopT3.setPadding((int) Math.round(x * 0.70), (int) Math.round(y * 0.13), 0, 0);
@@ -625,7 +643,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrDire.isMidT1()) {
-            View towerDireMidT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireMidT1 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireMidT1 != null) {
                 towerDireMidT1.setPadding((int) Math.round(x * 0.54), (int) Math.round(y * 0.48), 0, 0);
@@ -633,7 +651,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isMidT2()) {
-            View towerDireMidT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireMidT2 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireMidT2 != null) {
                 towerDireMidT2.setPadding((int) Math.round(x * 0.63), (int) Math.round(y * 0.35), 0, 0);
@@ -641,7 +659,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isMidT3()) {
-            View towerDireMidT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireMidT3 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireMidT3 != null) {
                 towerDireMidT3.setPadding((int) Math.round(x * 0.74), (int) Math.round(y * 0.26), 0, 0);
@@ -650,7 +668,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         if (twrDire.isBotT1()) {
-            View towerDireBotT1 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireBotT1 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireBotT1 != null) {
                 towerDireBotT1.setPadding((int) Math.round(x * 0.85), (int) Math.round(y * 0.62), 0, 0);
@@ -658,7 +676,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isBotT2()) {
-            View towerDireBotT2 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireBotT2 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireBotT2 != null) {
                 towerDireBotT2.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.49), 0, 0);
@@ -666,7 +684,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isBotT3()) {
-            View towerDireBotT3 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireBotT3 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireBotT3 != null) {
                 towerDireBotT3.setPadding((int) Math.round(x * 0.87), (int) Math.round(y * 0.31), 0, 0);
@@ -674,7 +692,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isTopT4()) {
-            View towerDireTopT4 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireTopT4 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireTopT4 != null) {
                 towerDireTopT4.setPadding((int) Math.round(x * 0.80), (int) Math.round(y * 0.18), 0, 0);
@@ -682,18 +700,16 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
         if (twrDire.isBotT4()) {
-            View towerDireBotT4 = inflaterB.inflate(R.layout.minimap_tower_dire, null);
+            View towerDireBotT4 = inflater.inflate(R.layout.minimap_tower_dire, null);
 
             if (towerDireBotT4 != null) {
                 towerDireBotT4.setPadding((int) Math.round(x * 0.82), (int) Math.round(y * 0.20), 0, 0);
                 layDetailsMinimap.addView(towerDireBotT4);
             }
         }
-
-
     }
 
-    //set action bar buttons
+    /*Sets action bar buttons.*/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -716,7 +732,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    //click action bar button
+    /*Handles action bar buttons.*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -853,7 +869,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     }
 
-    /*Takes screenshot of the important views so scoreboard can be shared - WIP**/
+    /*Takes screenshot of the important views so scoreboard can be shared - WIP*/
     private void setShareIntentImage() {
         //match info
 

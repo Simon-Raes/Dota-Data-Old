@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+        >
 
     <ImageView android:layout_width="110dp" android:layout_height="61.5dp"
                android:padding="10dp"
@@ -35,7 +36,6 @@
               android:layout_alignParentRight="true"
               android:layout_centerVertical="true"
               android:textSize="20dp"
-              android:paddingRight="10dp"
-              android:text="victory/loss"/>
+              android:paddingRight="10dp"/>
 
 </RelativeLayout>
