@@ -203,16 +203,45 @@
 
 
             <!-- Experience graph (teams)-->
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="300dp"
-                          style="@style/CardMargin"
-                          android:orientation="vertical"
-                          android:background="@drawable/bg_card">
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="200dp"
+                            style="@style/CardMargin"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="Experience graph (wip)"/>
+                          android:id="@+id/txtDetailExperience"
+                          android:text="Team experience"/>
+
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtDetailExperiencetxtDetailExperienceTextTop"
+                          android:layout_below="@id/txtDetailExperience"
+                          android:layout_alignParentRight="true"
+                          android:text="hey"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtDetailExperiencetxtDetailExperienceTextBottom"
+                          android:layout_alignParentRight="true"
+                          android:layout_alignParentBottom="true"
+                          android:text="0"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/layDetailExperienceText"
+                              android:layout_alignParentRight="true"
+                              android:layout_below="@+id/txtDetailExperiencetxtDetailExperienceTextTop"
+                              android:layout_above="@+id/txtDetailExperiencetxtDetailExperienceTextBottom">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_gravity="center"
+                              android:id="@+id/txtDetailExperiencetxtDetailExperienceTextMiddle"
+                              android:text="ho"/>
+                </LinearLayout>
+
                 <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
                                                            android:layout_height="fill_parent"
-                                                           android:id="@+id/lineGraphExperienceTeam"/>
-            </LinearLayout>
+                                                           android:id="@+id/lineGraphExperienceTeam"
+                                                           android:layout_marginRight="5dp"
+                                                           android:layout_below="@+id/txtDetailExperience"
+                                                           android:layout_toLeftOf="@+id/layDetailExperienceText"/>
+
+            </RelativeLayout>
 
             <!-- Player skillbuilds, hidden until implemented -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
