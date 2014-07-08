@@ -23,7 +23,7 @@
                           android:layout_marginBottom="5dp"
                           android:orientation="vertical"
                           android:id="@+id/layStatsNumbers"
-                          android:background="@drawable/bg_card_small">
+                          android:background="@drawable/bg_card">
 
                 <!-- Header -->
                 <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                           android:layout_marginBottom="5dp"
                           android:orientation="vertical"
                           android:id="@+id/layStatsRecords"
-                          android:background="@drawable/bg_card_small">
+                          android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Records"/>
                 <View style="@style/Divider"/>
@@ -255,7 +255,7 @@
                           android:orientation="vertical"
                           android:id="@+id/layStatsGameModes"
                           android:visibility="gone"
-                          android:background="@drawable/bg_card_small">
+                          android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Gamemodes"/>
                 <View style="@style/Divider"/>
@@ -285,7 +285,7 @@
                           android:orientation="vertical"
                           android:id="@+id/layStatsHeroes"
                           android:visibility="gone"
-                          android:background="@drawable/bg_card_small">
+                          android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Most played heroes"/>
                 <View style="@style/Divider"/>
@@ -315,7 +315,7 @@
                   android:id="@+id/layStatsNoGames"
                   android:visibility="gone"
                   android:layout_centerInParent="true"
-                  android:background="@drawable/bg_card_small">
+                  android:background="@drawable/bg_card">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal"
                   android:text="No games found for this combination."/>

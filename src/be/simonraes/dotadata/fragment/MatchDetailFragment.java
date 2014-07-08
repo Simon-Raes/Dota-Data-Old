@@ -104,8 +104,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         //holder?
 
         //Match info
+
         TextView txtMatchID = (TextView) view.findViewById(R.id.txtDetailMatchID);
-        txtMatchID.setText("Match ID: " + match.getMatch_id());
+        txtMatchID.setText("ID " + match.getMatch_id());
 
         TextView txtGameMode = (TextView) view.findViewById(R.id.txtDetailGameMode);
         txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
@@ -114,15 +115,22 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
         TextView txtDuration = (TextView) view.findViewById(R.id.txtDetailDuration);
-        txtDuration.setText("Duration: " + Conversions.secondsToTime(match.getDuration()));
+        txtDuration.setText(Conversions.secondsToTime(match.getDuration()));
 
         TextView txtDate = (TextView) view.findViewById(R.id.txtDetailDate);
         txtDate.setText(Conversions.millisToDate(match.getStart_time()));
 
+        ImageView imgBackground = (ImageView) view.findViewById(R.id.imgDetailBackground);
+        LinearLayout layHeader = (LinearLayout) view.findViewById(R.id.layDetailHeader);
         TextView txtWinner = (TextView) view.findViewById(R.id.txtDetailWinner);
         if (match.getRadiant_win()) {
+            //todo: remove unused background files (bg_radiant...
+            imgBackground.setImageResource(R.drawable.bg_radiant_2);
+            layHeader.setGravity(Gravity.END);
             txtWinner.setText("Radiant Victory");
         } else {
+            imgBackground.setImageResource(R.drawable.bg_dire_2);
+            layHeader.setGravity(Gravity.START);
             txtWinner.setText("Dire Victory");
         }
 
@@ -133,16 +141,16 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 playerInMatch = true;
             }
         }
-        if (playerInMatch) {
-            TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
-            if (MatchUtils.isUser_win(match, AppPreferences.getAccountID(getActivity()))) {
-                txtVictoryDefeat.setText("Victory");
-                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
-            } else {
-                txtVictoryDefeat.setText("Defeat");
-                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
-            }
-        }
+//        if (playerInMatch) {
+//            TextView txtVictoryDefeat = (TextView) view.findViewById(R.id.txtDetailVictoryDefeat);
+//            if (MatchUtils.isUser_win(match, AppPreferences.getAccountID(getActivity()))) {
+//                txtVictoryDefeat.setText("Victory");
+//                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+//            } else {
+//                txtVictoryDefeat.setText("Defeat");
+//                txtVictoryDefeat.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+//            }
+//        }
 
 
         addNote();

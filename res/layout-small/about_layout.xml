@@ -19,7 +19,7 @@
                           android:layout_marginTop="5dp"
                           android:layout_marginBottom="5dp"
                           android:orientation="vertical"
-                          android:background="@drawable/bg_card_small">
+                          android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Used libraries"/>
                 <View style="@style/DrawerDivider"
@@ -51,7 +51,7 @@
                           android:layout_marginTop="5dp"
                           android:layout_marginBottom="5dp"
                           android:orientation="vertical"
-                          android:background="@drawable/bg_card_small">
+                          android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="Changelog"/>
                 <View style="@style/DrawerDivider"

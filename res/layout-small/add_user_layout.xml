@@ -17,7 +17,7 @@
                       android:layout_marginTop="5dp"
                       android:layout_marginBottom="5dp"
                       android:orientation="vertical"
-                      android:background="@drawable/bg_card_small">
+                      android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="Adding a new user"/>
 
@@ -34,7 +34,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/bg_card_small">
+                        android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpDotabuffTitle"
                       android:text="Using Dotabuff"/>
@@ -79,7 +79,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/bg_card_small">
+                        android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpIDTitle"
                       android:text="Using a custom Steam community URL"/>
@@ -124,7 +124,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/bg_card_small">
+                        android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtHelpProfileTitle"
                       android:text="Using a Steam community URL"/>

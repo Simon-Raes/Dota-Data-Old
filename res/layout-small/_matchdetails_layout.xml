@@ -19,7 +19,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:orientation="vertical"
-                        android:background="@drawable/bg_card_small">
+                        android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:id="@+id/txtDetailWinner"
                       android:text="winner"/>
@@ -57,7 +57,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:orientation="vertical"
-                        android:background="@drawable/bg_card_small"
+                        android:background="@drawable/bg_card"
                         android:visibility="gone">
             <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
                          android:id="@+id/btnDetailDeleteNote"
@@ -93,7 +93,7 @@
                                   android:layout_marginTop="0dp"
                                   android:layout_marginBottom="5dp"
                                   android:orientation="vertical"
-                                  android:background="@drawable/bg_card_small">
+                                  android:background="@drawable/bg_card">
                         <!-- Header -->
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
@@ -137,7 +137,7 @@
                                   android:layout_marginTop="5dp"
                                   android:layout_marginBottom="5dp"
                                   android:orientation="vertical"
-                                  android:background="@drawable/bg_card_small">
+                                  android:background="@drawable/bg_card">
                         <!-- Header -->
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                       android:layout_marginTop="5dp"
                       android:layout_marginBottom="5dp"
                       android:orientation="vertical"
-                      android:background="@drawable/bg_card_small">
+                      android:background="@drawable/bg_card">
         </LinearLayout>
 
 
@@ -189,7 +189,7 @@
                       android:layout_marginBottom="5dp"
                       android:orientation="vertical"
                       android:visibility="gone"
-                      android:background="@drawable/bg_card_small">
+                      android:background="@drawable/bg_card">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="Skill builds (NYI)"/>
         </LinearLayout>
@@ -200,7 +200,7 @@
                       android:layout_marginRight="5dp"
                       android:layout_marginTop="5dp"
                       android:layout_marginBottom="5dp"
-                      android:background="@drawable/bg_card_small"
+                      android:background="@drawable/bg_card"
                       android:paddingTop="20dp"
                       android:gravity="center"
                       android:paddingBottom="20dp">
