@@ -130,7 +130,7 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
             statsList.get(i).setNumberOfGamesCalc(numberOfGamesCombined);
 
             //print out combined winrate
-            System.out.println(statsList.get(i).getDateString() + " - " + statsList.get(i).getWinrateCalc());
+//            System.out.println(statsList.get(i).getDateString() + " - " + statsList.get(i).getWinrateCalc());
         }
 
 

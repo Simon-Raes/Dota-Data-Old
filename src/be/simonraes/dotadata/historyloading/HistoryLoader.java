@@ -118,6 +118,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
         //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
         // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
 
+        //todo: other workaround for getting more than 500 games: hero_id parameter
+        //can return 500 games per account per hero
 
         if (result.getRecentGames() != null) {
 

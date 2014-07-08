@@ -145,19 +145,20 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
 
 
-        //note layout
-        if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
-            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
-            layNote.setVisibility(View.VISIBLE);
-            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
-            txtNote.setText(match.getExtras().getNote());
-            btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
-            btnDeleteNote.setOnClickListener(this);
-        }
+        addNote();
+
+        //add team headers
+//        View radiantHeader = inflater.inflate(R.layout.match_details_players_header, null);
+//        radiantHeader.setBackgroundColor(getResources().getColor(R.color.RadiantGreen));
+//        LinearLayout layPlayersRadiantWrapper = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayersWrapper);
+//        layPlayersRadiantWrapper.addView(radiantHeader, 0);
+
+
 
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
+
 
         imageLoader = ImageLoader.getInstance();
         animateFirstListener = new AnimateFirstDisplayListenerToo();
@@ -427,6 +428,18 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
         return view;
+    }
+
+    private void addNote() {
+        //note layout
+        if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
+            RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
+            layNote.setVisibility(View.VISIBLE);
+            TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
+            txtNote.setText(match.getExtras().getNote());
+            btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
+            btnDeleteNote.setOnClickListener(this);
+        }
     }
 
     @Override

@@ -76,79 +76,96 @@
                               android:layout_height="wrap_content"
                               android:scrollbars="none">
 
+
+            <!-- Single linearlayout containing both team cards (scrollview needs 1 child) -->
             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
 
-                <!-- Radiant players card-->
+                <!-- Wrapper layout so the header view can be added above the player info-->
                 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:id="@+id/layDetailRadiantPlayers"
-                              android:layout_marginLeft="5dp"
-                              android:layout_marginRight="3dp"
-                              android:layout_marginTop="5dp"
-                              android:layout_marginBottom="5dp"
                               android:orientation="vertical"
-                              android:background="@drawable/bg_card_small">
-                    <!-- Header -->
-                    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_alignParentLeft="true"
-                                  android:textColor="@color/DimGray"
-                                  android:textSize="12dp"
+                              android:id="@+id/layDetailRadiantPlayersWrapper">
 
-                                  android:text="K/D/A"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_centerHorizontal="true"
-                                  android:textColor="@color/DimGray"
-                                  android:textSize="12dp"
+                    <!-- Radiant players card-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layDetailRadiantPlayers"
+                                  android:layout_marginLeft="5dp"
+                                  android:layout_marginRight="3dp"
+                                  android:layout_marginTop="0dp"
+                                  android:layout_marginBottom="5dp"
+                                  android:orientation="vertical"
+                                  android:background="@drawable/bg_card_small">
+                        <!-- Header -->
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
-                                  android:text="LH/D"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_alignParentRight="true"
-                                  android:textColor="@color/DimGray"
-                                  android:textSize="12dp"
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_below="@+id/layRadiantCardHeader"
+                                      android:layout_alignParentLeft="true"
+                                      android:textColor="@color/DimGray"
+                                      android:textSize="12dp"
 
-                                  android:text="GPM/XPM"/>
-                    </RelativeLayout>
-                    <View style="@style/Divider"/>
+                                      android:text="K/D/A"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_below="@+id/layRadiantCardHeader"
 
+                                      android:layout_centerHorizontal="true"
+                                      android:textColor="@color/DimGray"
+                                      android:textSize="12dp"
+
+                                      android:text="LH/D"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_below="@+id/layRadiantCardHeader"
+
+                                      android:layout_alignParentRight="true"
+                                      android:textColor="@color/DimGray"
+                                      android:textSize="12dp"
+
+                                      android:text="GPM/XPM"/>
+                        </RelativeLayout>
+                        <View style="@style/Divider"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Dire players card-->
+                <!-- Wrapper layout so the header view can be added above the player info-->
                 <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:id="@+id/layDetailDirePlayers"
-                              android:layout_marginLeft="3dp"
-                              android:layout_marginRight="5dp"
-                              android:layout_marginTop="5dp"
-                              android:layout_marginBottom="5dp"
-                              android:orientation="vertical"
-                              android:background="@drawable/bg_card_small">
-                    <!-- Header -->
-                    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_alignParentLeft="true"
-                                  android:textColor="@color/DimGray"
-                                  android:textSize="12dp"
+                              android:id="@+id/layDetailDirePlayersWrapper">
+                    <!-- Dire players card-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layDetailDirePlayers"
+                                  android:layout_marginLeft="3dp"
+                                  android:layout_marginRight="5dp"
+                                  android:layout_marginTop="5dp"
+                                  android:layout_marginBottom="5dp"
+                                  android:orientation="vertical"
+                                  android:background="@drawable/bg_card_small">
+                        <!-- Header -->
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_alignParentLeft="true"
+                                      android:textColor="@color/DimGray"
+                                      android:textSize="12dp"
 
-                                  android:text="K/D/A"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_centerHorizontal="true"
-                                  android:textColor="@color/DimGray"
-                                  android:textSize="12dp"
+                                      android:text="K/D/A"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_centerHorizontal="true"
+                                      android:textColor="@color/DimGray"
+                                      android:textSize="12dp"
 
-                                  android:text="LH/D"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:layout_alignParentRight="true"
-                                  android:textColor="@color/DimGray"
-                                  android:textSize="12dp"
+                                      android:text="LH/D"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:layout_alignParentRight="true"
+                                      android:textColor="@color/DimGray"
+                                      android:textSize="12dp"
 
-                                  android:text="GPM/XPM"/>
-                    </RelativeLayout>
+                                      android:text="GPM/XPM"/>
+                        </RelativeLayout>
 
-                    <View style="@style/Divider"/>
+                        <View style="@style/Divider"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
             </LinearLayout>
-
         </HorizontalScrollView>
 
         <!-- Picks and bans, only shown when needed -->
