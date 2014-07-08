@@ -11,7 +11,7 @@
                android:paddingBottom="1dp"
                android:adjustViewBounds="true"/>
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:id="@+id/txtPickBanLeft"
+              android:id="@+id/txtPickBanBottom"
               android:layout_centerVertical="true"
               android:layout_toRightOf="@id/imgPickBanLeft"
               android:text="pick/ban"/>

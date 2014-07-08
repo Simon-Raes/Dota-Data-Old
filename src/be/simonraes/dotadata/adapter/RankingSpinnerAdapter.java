@@ -52,7 +52,6 @@ public class RankingSpinnerAdapter extends BaseAdapter implements android.widget
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.spinner_text_item, null);
-
         }
 
         TextView txtDropdown = (TextView) convertView.findViewById(R.id.txtSpinnerItem);

@@ -17,10 +17,7 @@
 
             <!--Numbers card-->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginBottom="5dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
                           android:id="@+id/layStatsNumbers"
                           android:background="@drawable/bg_card">
@@ -175,11 +172,8 @@
 
 
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
-                          android:layout_marginBottom="5dp"
                           android:id="@+id/layStatsRecords"
                           android:background="@drawable/bg_card">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -248,11 +242,8 @@
 
             <!-- Gamemodes PieChart card -->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
-                          android:layout_marginBottom="5dp"
                           android:id="@+id/layStatsGameModes"
                           android:visibility="gone"
                           android:background="@drawable/bg_card">
@@ -279,11 +270,8 @@
 
             <!-- Heroes graph-->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_marginLeft="20dp"
-                          android:layout_marginRight="20dp"
-                          android:layout_marginTop="10dp"
+                          style="@style/CardMargin"
                           android:orientation="vertical"
-                          android:layout_marginBottom="5dp"
                           android:id="@+id/layStatsHeroes"
                           android:visibility="gone"
                           android:background="@drawable/bg_card">
@@ -308,11 +296,8 @@
 
     <!-- No games found card -->
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:layout_marginLeft="20dp"
-                  android:layout_marginRight="20dp"
-                  android:layout_marginTop="10dp"
+                  style="@style/CardMargin"
                   android:orientation="vertical"
-                  android:layout_marginBottom="5dp"
                   android:id="@+id/layStatsNoGames"
                   android:visibility="gone"
                   android:layout_centerInParent="true"

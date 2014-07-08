@@ -186,14 +186,21 @@
 
             </HorizontalScrollView>
 
-            <!-- Picks and bans, only shown when needed -->
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:visibility="gone"
-                          android:id="@+id/layDetailPicksBans"
-                          style="@style/CardMargin"
-                          android:orientation="vertical"
-                          android:background="@drawable/bg_card">
-            </LinearLayout>
+            <HorizontalScrollView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:scrollbars="none">
+                <!-- Extra linearlayout required so full card gets shows, right side gets clipped without this LinLayout-->
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <!-- Picks and bans, only shown when needed -->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:visibility="gone"
+                                  android:id="@+id/layDetailPicksBans"
+                                  style="@style/CardMargin"
+                                  android:orientation="horizontal"
+                                  android:background="@drawable/bg_card">
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
 
             <!-- Experience graph (teams)-->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="300dp"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:orientation="vertical">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/txtPickBanTop"
+            />
+    <ImageView android:layout_width="44dp" android:layout_height="wrap_content"
+               android:id="@+id/imgPickBanRight"
+               android:paddingLeft="5dp"
+               android:paddingRight="5dp"
+               android:adjustViewBounds="true"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/txtPickBanBottom"
+            />
+</LinearLayout>

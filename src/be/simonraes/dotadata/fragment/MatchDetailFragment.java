@@ -376,36 +376,36 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                         .imageScaleType(ImageScaleType.EXACTLY)
                         .build();
 
-                RelativeLayout layPBLeft = (RelativeLayout) inflater.inflate(R.layout.pickban_left, null);
-                RelativeLayout layPBRight = (RelativeLayout) inflater.inflate(R.layout.pickban_right, null);
-                ImageView imgPBHeroLeft = (ImageView) layPBLeft.findViewById(R.id.imgPickBanLeft);
-                TextView txtPBLeft = (TextView) layPBLeft.findViewById(R.id.txtPickBanLeft);
-                ImageView imgPBHeroRight = (ImageView) layPBRight.findViewById(R.id.imgPickBanRight);
-                TextView txtPBRight = (TextView) layPBRight.findViewById(R.id.txtPickBanRight);
+//                RelativeLayout layPBLeft = (RelativeLayout) inflater.inflate(R.layout.pickban_left, null);
+                LinearLayout layPicksBansEntry = (LinearLayout) inflater.inflate(R.layout.pickban_entry, null);
+//                LinearLayout layPicksBans = view.findViewById(R.id.layDetailPicksBans);
+//                ImageView imgPBHeroLeft = (ImageView) layPBLeft.findViewById(R.id.imgPickBanLeft);
+//                TextView txtPBLeft = (TextView) layPBLeft.findViewById(R.id.txtPickBanLeft);
+                ImageView imgPBHero = (ImageView) layPicksBansEntry.findViewById(R.id.imgPickBanRight);
+                TextView txtPBTop = (TextView) layPicksBansEntry.findViewById(R.id.txtPickBanTop);
+                TextView txtPBBottom = (TextView) layPicksBansEntry.findViewById(R.id.txtPickBanBottom);
 
                 if (pb.getTeam().equals("0")) {
                     if (pb.isIs_pick()) {
-                        txtPBLeft.setText("Pick");
-                        txtPBLeft.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+                        txtPBTop.setText("Pick");
+                        txtPBTop.setTextColor(getActivity().getResources().getColor(R.color.RadiantGreen));
                     } else {
-                        txtPBLeft.setText("Ban");
-                        txtPBLeft.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
+                        txtPBTop.setText("Ban");
+                        txtPBTop.setTextColor(getActivity().getResources().getColor(R.color.DireOrange));
                     }
-                    imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroLeft, options, animateFirstListener);
-                    layPicksBans.addView(layPBLeft);
+
                 } else {
                     if (pb.isIs_pick()) {
-                        txtPBRight.setText("Pick");
-                        txtPBRight.setTextColor(getActivity().getResources().getColor(R.color.ForestGreen));
+                        txtPBBottom.setText("Pick");
+                        txtPBBottom.setTextColor(getActivity().getResources().getColor(R.color.RadiantGreen));
 
                     } else {
-                        txtPBRight.setText("Ban");
-                        txtPBRight.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
-
+                        txtPBBottom.setText("Ban");
+                        txtPBBottom.setTextColor(getActivity().getResources().getColor(R.color.DireOrange));
                     }
-                    imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHeroRight, options, animateFirstListener);
-                    layPicksBans.addView(layPBRight);
                 }
+                imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(pb.getHero_id()) + "_sb.png", imgPBHero, options, animateFirstListener);
+                layPicksBans.addView(layPicksBansEntry);
             }
         }
     }
