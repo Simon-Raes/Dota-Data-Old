@@ -10,16 +10,15 @@
                     android:paddingBottom="5dp">
         <ImageView android:layout_width="44dp" android:layout_height="24.61dp"
                    android:id="@+id/imgDetailHero"
-                   android:layout_centerVertical="true"
                    android:adjustViewBounds="true"
+                   android:layout_centerVertical="true"
                    android:layout_alignParentLeft="true"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/txtDetailPlayerLevel"
                   android:layout_toRightOf="@id/imgDetailHero"
-                  android:paddingLeft="10dp"
+                  android:paddingLeft="5dp"
                   android:layout_centerVertical="true"
                   android:text="lvl"/>
-
         <ImageView android:layout_width="25dp" android:layout_height="25dp"
                    android:id="@+id/imgDetailPlayer"
                    android:src="@drawable/unknown_avatar"
@@ -30,7 +29,7 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/txtDetailPlayerName"
                   android:maxLength="20"
-                  android:paddingRight="35dp"
+                  android:paddingRight="30dp"
                   android:layout_alignParentRight="true"
                   android:layout_centerVertical="true"
                   android:text="player name"/>

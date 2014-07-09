@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +27,7 @@ import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
+import be.simonraes.dotadata.dialog.PlayerDetailsDialog;
 import be.simonraes.dotadata.holograph.Line;
 import be.simonraes.dotadata.holograph.LineGraph;
 import be.simonraes.dotadata.holograph.LinePoint;
@@ -181,7 +183,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         int numDirePlayers = 0;
 
         View playerRow;
-        for (DetailPlayer player : match.getPlayers()) {
+        for (int i = 0; i < match.getPlayers().size(); i++) {
+            DetailPlayer player = match.getPlayers().get(i);
             playerRow = inflater.inflate(R.layout.matchdetails_player_row, null);
 
             View divider = inflater.inflate(R.layout.divider, null);
@@ -300,6 +303,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     setItemImage(imgItem, player.getAdditional_units().get(0).getItem_5());
                 }
             }
+
+            playerRow.setTag(i);
+            playerRow.setOnClickListener(this);
 
             //add player row to correct team
             if (Integer.parseInt(player.getPlayer_slot()) < 5) {
@@ -505,12 +511,11 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         super.onDestroy();
         //cancel any active asynctask
         //this way other asynctasks in the app don't have to wait until these finish (or time out)
-        if (parsers != null) {
-            if (parsers.size() > 0) {
-                for (PlayerSummaryParser parser : parsers) {
-                    parser.cancel(true);
-                }
+        if (parsers != null && parsers.size() > 0) {
+            for (PlayerSummaryParser parser : parsers) {
+                parser.cancel(true);
             }
+
         }
     }
 
@@ -1016,12 +1021,25 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public void onClick(View v) {
+        boolean deletedNote = false;
         switch (v.getId()) {
             case R.id.btnDetailDeleteNote:
+                deletedNote = true;
                 saveNote("");
                 break;
             default:
                 break;
         }
+
+        //todo: needs a better check to see if the button is one of the 10 player buttons
+        if (!deletedNote) {
+            int clickedPlayer = Integer.parseInt(v.getTag().toString());
+
+            DialogFragment detailsDialog = PlayerDetailsDialog.newInstance(match.getPlayers().get(clickedPlayer));
+            detailsDialog.show(getActivity().getSupportFragmentManager(), "d");
+        }
+
+
     }
+
 }

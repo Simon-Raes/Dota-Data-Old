@@ -6,8 +6,7 @@
                                                  android:layout_height="wrap_content"
                                                  android:id="@+id/imgDetailBackground"
                                                  android:src="@drawable/bg_radiant_2"
-                                                 android:scaleType="matrix"
-            />
+                                                 android:scaleType="matrix"/>
     <ScrollView
             android:layout_width="match_parent" android:layout_height="match_parent"
 

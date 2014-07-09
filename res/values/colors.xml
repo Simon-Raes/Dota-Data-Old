@@ -107,6 +107,9 @@
     <color name="RadiantGreen">#668042</color>
     <color name="DireOrange">#B0311E</color>
 
+    <color name="RadiantGreenTransparent">#AA668042</color>
+    <color name="DireOrangeTransparent">#AAB0311E</color>
+
     <color name="Chartreuse">#7FFF00</color>
     <color name="LawnGreen">#7CFC00</color>
     <color name="MediumSlateBlue">#7B68EE</color>
