@@ -28,6 +28,9 @@ public class Conversions {
         return android.text.format.DateUtils.getRelativeTimeSpanString(Long.parseLong(start) * 1000, System.currentTimeMillis(), 0, 0).toString();
     }
 
+    /**
+     * Converts a number of seconds to a formatted duration string.
+     */
     public static String secondsToTime(String matchDuration) {
         long iSeconds = Long.parseLong(matchDuration);
         long millis = iSeconds * 1000;

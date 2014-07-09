@@ -67,14 +67,11 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: be.simonraes.dotadata" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Updated Radiant/Dire logos&#10;&#10;Larger, more detailed, no blurry edges.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/player_details_layout.xml" />
+    <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Advanced stats pop-up from scoreboard&#10;&#10;Clicking a player on the scoreboard now opens a pop-up with more detailed statistics (damage done, etc). Also looks pretty fancy.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/colors.xml" afterPath="$PROJECT_DIR$/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" afterPath="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-large/matchdetails_player_row.xml" afterPath="$PROJECT_DIR$/res/layout-large/matchdetails_player_row.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-small/matchdetails_player_row.xml" afterPath="$PROJECT_DIR$/res/layout-small/matchdetails_player_row.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/player_details_layout.xml" afterPath="$PROJECT_DIR$/res/layout/player_details_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -147,8 +144,8 @@
       <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.035714" vertical-offset="8535" max-vertical-offset="17646">
-              <caret line="517" column="0" selection-start-line="517" selection-start-column="0" selection-end-line="517" selection-end-column="0" />
+            <state vertical-scroll-proportion="-12.321428" vertical-offset="17063" max-vertical-offset="17646">
+              <caret line="1037" column="133" selection-start-line="1037" selection-start-column="133" selection-end-line="1037" selection-end-column="133" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -156,14 +153,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerDetailsDialog.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PlayerDetailsDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7790507" vertical-offset="1428" max-vertical-offset="2329">
-              <caret line="112" column="57" selection-start-line="112" selection-start-column="57" selection-end-line="112" selection-end-column="57" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2046" max-vertical-offset="2771">
+              <caret line="123" column="61" selection-start-line="123" selection-start-column="61" selection-end-line="123" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Conversions.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="404" max-vertical-offset="4131">
+              <caret line="30" column="7" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DetailPlayer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="4046">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -181,14 +198,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="player_details_layout.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="player_details_layout.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/layout/player_details_layout.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.037037" vertical-offset="459" max-vertical-offset="1207">
-              <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.24016564" vertical-offset="1040" max-vertical-offset="1904">
+              <caret line="68" column="51" selection-start-line="68" selection-start-column="51" selection-end-line="68" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -217,7 +234,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/HeroStats.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStats.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/ManageUsersFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/HeroesFragment.java" />
@@ -263,11 +279,12 @@
         <option value="$PROJECT_DIR$/res/layout/graph_fragment.xml" />
         <option value="$PROJECT_DIR$/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
         <option value="$PROJECT_DIR$/res/layout-small/matchdetails_player_row.xml" />
         <option value="$PROJECT_DIR$/res/layout-large/matchdetails_player_row.xml" />
-        <option value="$PROJECT_DIR$/res/layout/player_details_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java" />
+        <option value="$PROJECT_DIR$/res/layout/player_details_layout.xml" />
       </list>
     </option>
   </component>
@@ -1765,7 +1782,11 @@
       <created>1404905495493</created>
       <updated>1404905495493</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="Advanced stats pop-up from scoreboard&#10;&#10;Clicking a player on the scoreboard now opens a pop-up with more detailed statistics (damage done, etc). Also looks pretty fancy.">
+      <created>1404935508502</created>
+      <updated>1404935508502</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1806,7 +1827,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25691244" sideWeight="0.519536" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20721272" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3467742" sideWeight="0.4996942" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24884793" sideWeight="0.53178483" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38018432" sideWeight="0.53178483" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40898618" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49367088" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1840,7 +1861,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Stats page state fixes&#10;&#10;Removed most checks to clean up code. Matches will be updated on every rotation, but most bugs are now fixed." />
     <MESSAGE value="PlayedHeroes / GameModes Async loading.&#10;&#10;Played heroes and gamemodes are now calculated in a background thread when the app starts or when a new active user is selected." />
     <MESSAGE value="Stats layout changes&#10;&#10;Changed button pressed color, start of MatchDetailsExtras work." />
     <MESSAGE value="Stats screen fixes, layout changes&#10;&#10;Even more fixes to saving state on stats screen. Diretide, etc,... are no longer included when searching for any mode + a hero.&#10;Multiple layout changes, addition of more smallscreen layouts.&#10;Now checks if a user has a public profile/played some games before." />
@@ -1865,7 +1885,8 @@
     <MESSAGE value="New Picks/Bans layout.&#10;&#10;Now horizontal instead of vertical." />
     <MESSAGE value="Improved layout for team experience graph&#10;&#10;Less height, fixed filling, used standard team colors, added text labels." />
     <MESSAGE value="Updated Radiant/Dire logos&#10;&#10;Larger, more detailed, no blurry edges." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Radiant/Dire logos&#10;&#10;Larger, more detailed, no blurry edges." />
+    <MESSAGE value="Advanced stats pop-up from scoreboard&#10;&#10;Clicking a player on the scoreboard now opens a pop-up with more detailed statistics (damage done, etc). Also looks pretty fancy." />
+    <option name="LAST_COMMIT_MESSAGE" value="Advanced stats pop-up from scoreboard&#10;&#10;Clicking a player on the scoreboard now opens a pop-up with more detailed statistics (damage done, etc). Also looks pretty fancy." />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1883,13 +1904,6 @@
     <option name="showOnlyWarnings" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/AbilityUpgradesDataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1172" max-vertical-offset="2023">
-          <caret line="108" column="16" selection-start-line="108" selection-start-column="16" selection-end-line="108" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/database/MatchesDataSource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3950" max-vertical-offset="12087">
@@ -2263,14 +2277,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.048920862" vertical-offset="102" max-vertical-offset="4046">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/ui/FillWidthImageView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="265" max-vertical-offset="680">
@@ -2278,27 +2284,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.035714" vertical-offset="8535" max-vertical-offset="17646">
-          <caret line="517" column="0" selection-start-line="517" selection-start-column="0" selection-end-line="517" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.9259257" vertical-offset="255" max-vertical-offset="4743">
-          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2324,24 +2309,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/player_details_layout.xml">
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/detailmatch/DetailPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="4046">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="404" max-vertical-offset="4131">
+          <caret line="30" column="7" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.321428" vertical-offset="17063" max-vertical-offset="17646">
+          <caret line="1037" column="133" selection-start-line="1037" selection-start-column="133" selection-end-line="1037" selection-end-column="133" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.037037" vertical-offset="459" max-vertical-offset="1207">
-          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+        <state vertical-scroll-proportion="6.9259257" vertical-offset="255" max-vertical-offset="4743">
+          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7790507" vertical-offset="1428" max-vertical-offset="2329">
-          <caret line="112" column="57" selection-start-line="112" selection-start-column="57" selection-end-line="112" selection-end-column="57" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2097" max-vertical-offset="2771">
+          <caret line="123" column="61" selection-start-line="123" selection-start-column="61" selection-end-line="123" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/player_details_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24016564" vertical-offset="1040" max-vertical-offset="1904">
+          <caret line="68" column="51" selection-start-line="68" selection-start-column="51" selection-end-line="68" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>

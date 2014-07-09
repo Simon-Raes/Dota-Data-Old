@@ -1035,7 +1035,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (!deletedNote) {
             int clickedPlayer = Integer.parseInt(v.getTag().toString());
 
-            DialogFragment detailsDialog = PlayerDetailsDialog.newInstance(match.getPlayers().get(clickedPlayer));
+            DialogFragment detailsDialog = PlayerDetailsDialog.newInstance(match.getPlayers().get(clickedPlayer), match.getDuration());
             detailsDialog.show(getActivity().getSupportFragmentManager(), "d");
         }
 

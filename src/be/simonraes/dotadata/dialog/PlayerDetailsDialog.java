@@ -14,6 +14,7 @@ import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.HeroList;
 import be.simonraes.dotadata.util.MatchUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 public class PlayerDetailsDialog extends DialogFragment implements ASyncResponsePlayerSummary {
 
     private DetailPlayer player;
+    private String duration;
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
     private ImageLoadingListener animateFirstListener;
@@ -39,11 +41,12 @@ public class PlayerDetailsDialog extends DialogFragment implements ASyncResponse
 
     private ArrayList<PlayerSummaryParser> parsers;
 
-    public static PlayerDetailsDialog newInstance(DetailPlayer selectedPlayer) {
+    public static PlayerDetailsDialog newInstance(DetailPlayer selectedPlayer, String matchDuration) {
         PlayerDetailsDialog f = new PlayerDetailsDialog();
 
         Bundle args = new Bundle();
         args.putParcelable("player", selectedPlayer);
+        args.putString("duration", matchDuration);
         f.setArguments(args);
 
         return f;
@@ -54,6 +57,7 @@ public class PlayerDetailsDialog extends DialogFragment implements ASyncResponse
         super.onCreate(savedInstanceState);
 
         player = getArguments().getParcelable("player");
+        duration = getArguments().getString("duration");
 
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_Dialog_NoActionBar_MinWidth);
     }
@@ -111,6 +115,28 @@ public class PlayerDetailsDialog extends DialogFragment implements ASyncResponse
         txtHeroDamage.setText(player.getHero_damage().toString());
         TextView txtHeroHealing = (TextView) view.findViewById(R.id.txtPlayerDetailHeroHealing);
         txtHeroHealing.setText(player.getHero_healing());
+
+        TextView txtGoldEarned = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldEarned);
+        txtGoldEarned.setText(Integer.toString(getGoldEarned()));
+        TextView txtGoldSpent = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldSpent);
+        txtGoldSpent.setText(player.getGold_spent().toString());
+        TextView txtGoldLost = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldLost);
+        txtGoldLost.setText(Integer.toString(getGoldLost()));
+        TextView txtGoldLeft = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldLeft);
+        txtGoldLeft.setText(player.getGold());
+
+    }
+
+    private int getGoldEarned() {
+        int seconds = Integer.parseInt(duration);
+        int minutes = (int) Math.ceil((double) seconds / 60);
+
+        int totalGold = Integer.parseInt(player.getGold_per_min()) * minutes;
+        return totalGold + 625;
+    }
+
+    private int getGoldLost() {
+        return getGoldEarned() - Integer.parseInt(player.getGold_spent()) - Integer.parseInt(player.getGold());
     }
 
     @Override
