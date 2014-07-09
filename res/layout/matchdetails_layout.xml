@@ -100,9 +100,9 @@
                                       style="@style/CardMarginNoBottom"
                                       android:gravity="center"
                                       android:orientation="horizontal">
-                            <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                            <ImageView android:layout_width="30dp" android:layout_height="30dp"
                                        android:adjustViewBounds="true"
-                                       android:src="@drawable/logo_radiant"/>
+                                       android:src="@drawable/logo_radiant_white"/>
                         </LinearLayout>
 
                         <!-- White part of the card -->
@@ -148,9 +148,9 @@
                                       style="@style/CardMarginNoBottom"
                                       android:gravity="center"
                                       android:orientation="horizontal">
-                            <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                            <ImageView android:layout_width="30dp" android:layout_height="30dp"
                                        android:adjustViewBounds="true"
-                                       android:src="@drawable/logo_dire"/>
+                                       android:src="@drawable/logo_dire_white"/>
                         </LinearLayout>
 
                         <!-- White part of the card -->
