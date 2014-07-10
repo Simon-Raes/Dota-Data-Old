@@ -78,6 +78,8 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
 
     public void updateHistory() {
 
+        System.out.println("Historyloader: updateHistory");
+
         //get the most recent match from the database
         UsersDataSource uds = new UsersDataSource(context);
         if (user == null) {
@@ -100,6 +102,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     //finished checking status of webservice
     @Override
     public void processFinish(Boolean result) {
+        System.out.println("Historyloader: Internet OK");
 
         if (result) {
             //start parser
@@ -115,6 +118,9 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     //received next set of 100 history matches
     @Override
     public void processFinish(HistoryContainer result) {
+
+        System.out.println("Historyloader: Received 100 history games");
+
         //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
         // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
 
@@ -249,7 +255,7 @@ public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailL
     /*Finished parsing detailmatches, Save detailmatches to database*/
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
-
+        System.out.println("Historyloader: Finished parsing detail games");
 
         //everything is good, save user account id and user
         UsersDataSource uds = new UsersDataSource(context);

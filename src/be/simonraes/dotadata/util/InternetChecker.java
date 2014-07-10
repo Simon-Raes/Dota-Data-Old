@@ -21,7 +21,7 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... params) {
-
+        System.out.println("checking internet");
         boolean webStatus = false;
 
         HttpURLConnection connection = null;
@@ -34,7 +34,7 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
 
             //todo: can still return true when service is offline, resulting in an app crash
 
-            if (code == 200 || code == 404) {
+            if (code == 200 || code == 404 || code == 405) {
                 webStatus = true;
             } else {
                 webStatus = false;

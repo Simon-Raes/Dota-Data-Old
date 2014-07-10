@@ -35,7 +35,7 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
                 startAtMatchID = params[1];
             }
         }
-
+        System.out.println("HistoryMatchParser start at matchID " + startAtMatchID + " for accountID " + accountID);
 
         String parseURL = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=EB5773FAAF039592D9383FA104EEA55D&account_id=" + accountID;
 
