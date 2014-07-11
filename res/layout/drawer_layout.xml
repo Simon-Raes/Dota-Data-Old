@@ -12,14 +12,40 @@
             android:layout_height="match_parent">
     </FrameLayout>
     <!-- The navigation drawer -->
-    <ListView android:id="@+id/left_drawer"
-              android:layout_width="240dp"
-              android:layout_height="match_parent"
-              android:layout_gravity="start"
+    <LinearLayout android:layout_width="240dp" android:layout_height="match_parent"
+                  android:id="@+id/left_drawer"
+                  android:clickable="true"
+                  android:background="#ffffff"
+                  android:layout_gravity="start"
+                  android:orientation="vertical">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                >
+            <ImageView android:layout_width="match_parent" android:layout_height="wrap_content"
+                       android:src="@drawable/bg_user"
+                       android:adjustViewBounds="true"
+                       android:scaleType="centerCrop"/>
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:id="@+id/imgDrawerSliderAvatar"
+                       android:layout_centerVertical="true"
+                       android:paddingLeft="16dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtDrawerSliderName"
+                      android:layout_toRightOf="@id/imgDrawerSliderAvatar"
+                      android:paddingLeft="10dp"
+                      android:layout_centerVertical="true"
+                      android:textSize="20dp"
+                      android:textColor="@color/White"
 
-              android:choiceMode="singleChoice"
-              android:divider="@android:color/transparent"
-              android:dividerHeight="0dp"
-              android:background="#111"/>
+                      android:text="UserName"/>
+        </RelativeLayout>
+        <ListView android:id="@+id/left_drawer_list"
+                  android:layout_width="240dp"
+                  android:layout_height="match_parent"
+                  android:divider="@android:color/transparent"
+                  android:dividerHeight="0dp"
+                  android:choiceMode="singleChoice"
+                />
+    </LinearLayout>
+
 </android.support.v4.widget.DrawerLayout>
 

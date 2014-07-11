@@ -10,20 +10,29 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
+import be.simonraes.dotadata.database.UsersDataSource;
 import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
+import be.simonraes.dotadata.user.User;
+import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
 import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.OrientationHelper;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import java.util.prefs.Preferences;
 
 public class DrawerController extends FragmentActivity implements ListView.OnItemClickListener {
 
     private String listContent[];
     public DrawerLayout drawerLayout;
+    private LinearLayout drawerSlider;
+    private ImageView imgAvatar;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -41,6 +50,19 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+
+        drawerSlider = (LinearLayout) findViewById(R.id.left_drawer);
+
+        if (!AppPreferences.getAccountID(this).equals("")) {
+
+
+            setActiveUser(AppPreferences.getAccountID(this));
+
+
+        }
+
+
+
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */
@@ -64,7 +86,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
             getActionBar().setHomeButtonEnabled(true);
         }
 
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList = (ListView) findViewById(R.id.left_drawer_list);
         drawerList.setAdapter(new DrawerAdapter(this, listContent));
         drawerList.setOnItemClickListener(this);
         drawerList.setBackgroundColor(getResources().getColor(android.R.color.background_light));
@@ -103,7 +125,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        drawerLayout.closeDrawer(drawerList);
+        drawerLayout.closeDrawer(drawerSlider);
         drawerList.setItemChecked(position, true);
 
         switch (position) {
@@ -135,6 +157,26 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         drawerList.setItemChecked(position, true);
     }
 
+    public void setActiveUser(String accountId) {
+        UsersDataSource uds = new UsersDataSource(this);
+        User user = uds.getUserByID(accountId);
+        imgAvatar = (ImageView) findViewById(R.id.imgDrawerSliderAvatar);
+        //user avatar
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .showImageOnLoading(R.drawable.item_lg_unknown)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+        imageLoader.displayImage(user.getAvatar(), imgAvatar, options, animateFirstListener);
+
+
+        TextView txtName = (TextView) findViewById(R.id.txtDrawerSliderName);
+        txtName.setText(user.getName());
+    }
 
     @Override
     public void onBackPressed() {
@@ -151,7 +193,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (drawerLayout.isDrawerOpen(drawerList)) {
+        if (drawerLayout.isDrawerOpen(drawerSlider)) {
 
 
             MenuItem btnRefresh = menu.findItem(R.id.btnRefresh);

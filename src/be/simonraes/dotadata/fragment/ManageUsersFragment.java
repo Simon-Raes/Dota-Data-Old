@@ -67,6 +67,9 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
         //update active drawer item
         ((DrawerController) getActivity()).setActiveDrawerItem(1);
+        //update active user in drawer slider
+        ((DrawerController) getActivity()).setActiveUser(users.get(position).getAccount_id());
+
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 //        }
     }

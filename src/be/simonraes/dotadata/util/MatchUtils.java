@@ -57,25 +57,12 @@ public class MatchUtils {
 
         for (DetailPlayer player : players) {
             for (AbilityUpgrades upgrade : player.getAbilityupgrades()) {
-//                int expAtTime = 0;
                 if (isRadiant(player)) {
-//                    System.out.println("adding radiant stats to hashmap");
                     addToHashMap(upgrade, expRadiant);
-//                    if (expRadiant.containsKey(Integer.parseInt(upgrade.getTime()))) {
-//                        expAtTime = expRadiant.get(Integer.parseInt(upgrade.getTime())) + ExperienceList.getTotalExperienceRequiredForLevel(Integer.parseInt(upgrade.getLevel()));
-//                    } else {
-//                        expAtTime = ExperienceList.getTotalExperienceRequiredForLevel(Integer.parseInt(upgrade.getLevel()));
-//                    }
-//                    expRadiant.put(Integer.parseInt(upgrade.getTime()), expAtTime);
+
                 } else {
-//                    System.out.println("adding dire stats to hashmap");
                     addToHashMap(upgrade, expDire);
-//                    if (expDire.containsKey(Integer.parseInt(upgrade.getTime()))) {
-//                        expAtTime = expDire.get(Integer.parseInt(upgrade.getTime())) + ExperienceList.getTotalExperienceRequiredForLevel(Integer.parseInt(upgrade.getLevel()));
-//                    } else {
-//                        expAtTime = ExperienceList.getTotalExperienceRequiredForLevel(Integer.parseInt(upgrade.getLevel()));
-//                    }
-//                    expDire.put(Integer.parseInt(upgrade.getTime()), expAtTime);
+
                 }
             }
         }
@@ -93,8 +80,6 @@ public class MatchUtils {
             teamStats.getExpDire().put(entry.getKey(), previoustotal + entry.getValue());
             previoustotal = previoustotal + entry.getValue();
         }
-        System.out.println(expRadiant);
-        System.out.println(expDire);
 
         //calculate difference
 

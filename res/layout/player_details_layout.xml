@@ -66,7 +66,7 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_below="@id/txtPlayerDetailHeroHealing"
                   android:paddingTop="10dp"
-                  android:text="Gold earned (wrong)"/>
+                  android:text="Gold earned"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/txtPlayerDetailHeroGoldEarned"
                   android:layout_below="@id/txtPlayerDetailHeroHealing"
@@ -82,22 +82,22 @@
                   android:layout_below="@id/txtPlayerDetailHeroGoldEarned"
                   android:layout_alignParentRight="true"
                   android:text="180"/>
-        <!-- Gold lost-->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_below="@id/txtPlayerDetailHeroGoldSpent"
-                  android:text="Gold lost (wrong)"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/txtPlayerDetailHeroGoldLost"
-                  android:layout_below="@id/txtPlayerDetailHeroGoldSpent"
-                  android:layout_alignParentRight="true"
-                  android:text="180"/>
+        <!--&lt;!&ndash; Gold lost&ndash;&gt;-->
+        <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/txtPlayerDetailHeroGoldSpent"-->
+        <!--android:text="Gold lost (wrong)"/>-->
+        <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:id="@+id/txtPlayerDetailHeroGoldLost"-->
+        <!--android:layout_below="@id/txtPlayerDetailHeroGoldSpent"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:text="180"/>-->
         <!-- Gold left-->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_below="@id/txtPlayerDetailHeroGoldLost"
+                  android:layout_below="@id/txtPlayerDetailHeroGoldSpent"
                   android:text="Gold left"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/txtPlayerDetailHeroGoldLeft"
-                  android:layout_below="@id/txtPlayerDetailHeroGoldLost"
+                  android:layout_below="@id/txtPlayerDetailHeroGoldSpent"
                   android:layout_alignParentRight="true"
                   android:text="180"/>
 

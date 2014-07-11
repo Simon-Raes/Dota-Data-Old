@@ -181,7 +181,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     //Detect click on match in list
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        System.out.println("starting onItemclick");
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
         MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
@@ -190,6 +190,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         Intent intent = new Intent(getActivity(), MatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.putExtra("match", match);
+        System.out.println("starting activity");
         startActivity(intent);
     }
 

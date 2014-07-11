@@ -120,24 +120,28 @@ public class PlayerDetailsDialog extends DialogFragment implements ASyncResponse
         txtGoldEarned.setText(Integer.toString(getGoldEarned()));
         TextView txtGoldSpent = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldSpent);
         txtGoldSpent.setText(player.getGold_spent().toString());
-        TextView txtGoldLost = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldLost);
-        txtGoldLost.setText(Integer.toString(getGoldLost()));
+//        TextView txtGoldLost = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldLost);
+//        txtGoldLost.setText(Integer.toString(getGoldLost()));
         TextView txtGoldLeft = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldLeft);
         txtGoldLeft.setText(player.getGold());
 
     }
 
+    /**
+     * Returns the total gold earned by the player for this match.
+     */
     private int getGoldEarned() {
-        int seconds = Integer.parseInt(duration);
-        int minutes = (int) Math.ceil((double) seconds / 60);
+        double seconds = Double.parseDouble(duration);
+        double minutes = seconds / 60;
 
-        int totalGold = Integer.parseInt(player.getGold_per_min()) * minutes;
-        return totalGold + 625;
+        double totalGold = Double.parseDouble(player.getGold_per_min()) * minutes;
+        return (int) totalGold;
     }
 
-    private int getGoldLost() {
-        return getGoldEarned() - Integer.parseInt(player.getGold_spent()) - Integer.parseInt(player.getGold());
-    }
+//    /**Returns the amount of gold the player lost (deaths, consumables,...)*/
+//    private int getGoldLost() {
+//        return getGoldEarned() - Integer.parseInt(player.getGold_spent()) - Integer.parseInt(player.getGold());
+//    }
 
     @Override
     public void onDestroy() {

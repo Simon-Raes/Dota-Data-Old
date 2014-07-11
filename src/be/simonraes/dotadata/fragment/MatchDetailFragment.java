@@ -33,6 +33,7 @@ import be.simonraes.dotadata.holograph.LineGraph;
 import be.simonraes.dotadata.holograph.LinePoint;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
+import be.simonraes.dotadata.statistics.TeamExperienceGraphLoader;
 import be.simonraes.dotadata.statistics.TeamExperienceStats;
 import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -51,7 +52,7 @@ import java.util.Map;
  * Created by Simon on 30/01/14.
  * Sets layout to show details of a match
  */
-public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary {
+public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary, TeamExperienceGraphLoader.ASyncResponseTeamExperience {
 
     private LayoutInflater inflater;
     private View view;
@@ -76,6 +77,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("starting oncreateview");
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         this.inflater = inflater;
         match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
@@ -103,13 +105,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         setScoreboard();
         setPicksBans();
         setGraph();
-
-        //add team headers
-//        View radiantHeader = inflater.inflate(R.layout.match_details_players_header, null);
-//        radiantHeader.setBackgroundColor(getResources().getColor(R.color.RadiantGreen));
-//        LinearLayout layPlayersRadiantWrapper = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayersWrapper);
-//        layPlayersRadiantWrapper.addView(radiantHeader, 0);
-
 
         //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
         layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
@@ -141,12 +136,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         LinearLayout layHeader = (LinearLayout) view.findViewById(R.id.layDetailHeader);
         TextView txtWinner = (TextView) view.findViewById(R.id.txtDetailWinner);
         if (match.getRadiant_win()) {
-            //todo: remove unused background files (bg_radiant...
-            imgBackground.setImageResource(R.drawable.bg_radiant_2);
+            //todo: reduce filesize of backgrounds
+            imgBackground.setImageResource(R.drawable.bg_radiant);
             layHeader.setGravity(Gravity.END);
             txtWinner.setText("Radiant Victory");
         } else {
-            imgBackground.setImageResource(R.drawable.bg_dire_2);
+            imgBackground.setImageResource(R.drawable.bg_dire);
             layHeader.setGravity(Gravity.START);
             txtWinner.setText("Dire Victory");
         }
@@ -325,7 +320,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
 
-        //only show team card if it contains players
+        //only show team card if it contains players - this is useful for special events/gamemodes that only use one team
         if (numRadiantPlayers == 0) {
             layPlayersRadiant.setVisibility(View.GONE);
         }
@@ -362,10 +357,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private void setPicksBans() {
         boolean hasPicksBans = false;
 
-        if (match != null) {
-            if (match.getPicks_bans().size() > 0) {
-                hasPicksBans = true;
-            }
+        if (match != null && match.getPicks_bans().size() > 0) {
+            hasPicksBans = true;
         }
 
         //Picks & bans - only shown if match has picks/bans
@@ -382,15 +375,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                         .imageScaleType(ImageScaleType.EXACTLY)
                         .build();
 
-//                RelativeLayout layPBLeft = (RelativeLayout) inflater.inflate(R.layout.pickban_left, null);
                 LinearLayout layPicksBansEntry = (LinearLayout) inflater.inflate(R.layout.pickban_entry, null);
-//                LinearLayout layPicksBans = view.findViewById(R.id.layDetailPicksBans);
-//                ImageView imgPBHeroLeft = (ImageView) layPBLeft.findViewById(R.id.imgPickBanLeft);
-//                TextView txtPBLeft = (TextView) layPBLeft.findViewById(R.id.txtPickBanLeft);
                 ImageView imgPBHero = (ImageView) layPicksBansEntry.findViewById(R.id.imgPickBanRight);
                 TextView txtPBTop = (TextView) layPicksBansEntry.findViewById(R.id.txtPickBanTop);
                 TextView txtPBBottom = (TextView) layPicksBansEntry.findViewById(R.id.txtPickBanBottom);
-
 
                 if (pb.getTeam().equals("0")) {
                     if (pb.isIs_pick()) {
@@ -419,13 +407,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Builds the experience graphs.*/
     private void setGraph() {
+        System.out.println("starting get graph");
+//        TeamExperienceGraphLoader loader = new TeamExperienceGraphLoader(getActivity(), this);
+//        loader.execute(match.getMatch_id());
+
         //experience graph
         TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match.getPlayers());
         if (teamExpStats != null && teamExpStats.getExpRadiant() != null && teamExpStats.getExpRadiant().size() > 0 && teamExpStats.getExpDire() != null && teamExpStats.getExpDire().size() > 0) {
 
-
-            System.out.println(teamExpStats.getExpRadiant());
-            System.out.println(teamExpStats.getExpDire());
 
             lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
             //lineGraphExperienceTeams.setOnPointClickedListener(this);
@@ -492,7 +481,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             txtExpMiddle.setText(Integer.toString(rangeY / 2));
 
             lineGraphExperienceTeams.setRangeY(0, rangeY);
+            System.out.println("graph done");
         }
+    }
+
+    @Override
+    public void processComplete(TeamExperienceStats graphStats) {
+
     }
 
     private void setItemImage(ImageView imgItem, String item_id) {
@@ -1041,5 +1036,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
 
     }
+
 
 }

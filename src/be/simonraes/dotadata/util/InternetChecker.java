@@ -21,7 +21,6 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... params) {
-        System.out.println("checking internet");
         boolean webStatus = false;
 
         HttpURLConnection connection = null;
@@ -40,13 +39,13 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
                 webStatus = false;
             }
 
-            System.out.println("correct code" + code);
+//            System.out.println("correct code" + code);
             // You can determine on HTTP return code received. 200 is success.
         } catch (MalformedURLException e) {
-            System.out.println("malformed code");
+//            System.out.println("malformed code");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("io exc code");
+//            System.out.println("io exc code");
 
             e.printStackTrace();
         } finally {
