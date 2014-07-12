@@ -1,16 +1,20 @@
 package be.simonraes.dotadata.fragment;
 
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import be.simonraes.dotadata.R;
+import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.UsersDataSource;
 import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
@@ -193,6 +197,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         mgr.hideSoftInputFromWindow(etxtIDName.getWindowToken(), 0);
     }
 
+    /**
+     * Finished getting user details.
+     */
     @Override
     public void processFinish(VanityContainer result) {
         //got player steamID ID
@@ -254,7 +261,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 //                txtDialog.setText("Start download for this account?");
                     new AlertDialog.Builder(getActivity())
                             .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
-                                    //todo: add user image (url is already in result object)
+                                    //todo: add user avatar image (url is already in result object)
                             .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
 //                        .setView(layDialog)
                             .setCancelable(false)
@@ -294,6 +301,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
 
     //start historyloader
     private void startDownload(User user) {
+        this.userAccountID = user.getAccount_id();
+
         HistoryLoader loader = new HistoryLoader(getActivity(), this, user);
         loader.firstDownload();
     }
@@ -309,6 +318,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, A
         if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
             phm.execute();
         }
+
+        //set user as active in the app drawer
+        ((DrawerController) getActivity()).setActiveUser(userAccountID);
 
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
         OrientationHelper.unlockOrientation(getActivity());

@@ -34,9 +34,7 @@
                       android:paddingLeft="10dp"
                       android:layout_centerVertical="true"
                       android:textSize="20dp"
-                      android:textColor="@color/White"
-
-                      android:text="UserName"/>
+                      android:textColor="@color/White"/>
         </RelativeLayout>
         <ListView android:id="@+id/left_drawer_list"
                   android:layout_width="240dp"
