@@ -7,7 +7,6 @@ import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.statistics.TeamExperienceStats;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -59,10 +58,8 @@ public class MatchUtils {
             for (AbilityUpgrades upgrade : player.getAbilityupgrades()) {
                 if (isRadiant(player)) {
                     addToHashMap(upgrade, expRadiant);
-
                 } else {
                     addToHashMap(upgrade, expDire);
-
                 }
             }
         }
@@ -82,10 +79,43 @@ public class MatchUtils {
         }
 
         //calculate difference
+        TreeMap<Integer, Integer> joinedMap = new TreeMap<Integer, Integer>();
 
-        TreeMap<Integer, Integer> totalValues = new TreeMap<Integer, Integer>();
-        int previousTotal = 0;
+        //find the latest entry
+        int latestEntry;
 
+        if (teamStats.getExpRadiant().lastEntry().getKey() > teamStats.getExpDire().lastEntry().getKey()) {
+            latestEntry = teamStats.getExpRadiant().lastEntry().getKey();
+        } else {
+            latestEntry = teamStats.getExpDire().lastEntry().getKey();
+        }
+
+
+        //draw a point ever 60 seconds
+        for (int i = 0; i < latestEntry + 60; i += 60) {
+            int radiantExperience = 0;
+            for (Map.Entry<Integer, Integer> entry : teamStats.getExpRadiant().entrySet()) {
+                if (entry.getKey() <= i) {
+                    radiantExperience = entry.getValue();
+                } else {
+                    break;
+                }
+            }
+            int direExperience = 0;
+            for (Map.Entry<Integer, Integer> entry : teamStats.getExpDire().entrySet()) {
+                if (entry.getKey() <= i) {
+                    direExperience = entry.getValue();
+                } else {
+                    break;
+                }
+            }
+            System.out.println("exp at " + i + " is radiant: " + radiantExperience + ", dire: " + direExperience);
+            joinedMap.put(i, radiantExperience - direExperience);
+        }
+        System.out.println("radiant xp: " + expRadiant);
+        System.out.println("joined Stats: " + joinedMap);
+
+        teamStats.setExpJoined(joinedMap);
 
         return teamStats;
     }

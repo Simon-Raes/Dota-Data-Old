@@ -33,7 +33,6 @@ import be.simonraes.dotadata.holograph.LineGraph;
 import be.simonraes.dotadata.holograph.LinePoint;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
-import be.simonraes.dotadata.statistics.TeamExperienceGraphLoader;
 import be.simonraes.dotadata.statistics.TeamExperienceStats;
 import be.simonraes.dotadata.util.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -52,7 +51,7 @@ import java.util.Map;
  * Created by Simon on 30/01/14.
  * Sets layout to show details of a match
  */
-public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary, TeamExperienceGraphLoader.ASyncResponseTeamExperience {
+public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary {
 
     private LayoutInflater inflater;
     private View view;
@@ -408,8 +407,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     /*Builds the experience graphs.*/
     private void setGraph() {
         System.out.println("starting get graph");
-//        TeamExperienceGraphLoader loader = new TeamExperienceGraphLoader(getActivity(), this);
-//        loader.execute(match.getMatch_id());
+
 
         //experience graph
         TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match.getPlayers());
@@ -459,36 +457,63 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 //direPoints.add(p);
             }
 
+
+            Line lineJoined = new Line();
+            lineJoined.setColor(getResources().getColor(R.color.Yellow));
+            lineJoined.setShowingPoints(false);
+            //ArrayList<LinePoint> direPoints = new ArrayList<LinePoint>();
+            //add 1 startpoint so the graph starts at X 0
+//            LinePoint p;
+            p = new LinePoint();
+            p.setX(0);
+            p.setY(0);
+            lineJoined.addPoint(p);
+            for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
+//                LinePoint p;
+                p = new LinePoint();
+                p.setX(entry.getKey());
+                p.setY(entry.getValue());
+                lineJoined.addPoint(p);
+                //direPoints.add(p);
+            }
+
             //todo: fix nullpointer error for matches without experience values
 
             lineGraphExperienceTeams.addLine(lineRadiant);
             lineGraphExperienceTeams.addLine(lineDire);
 
+            lineGraphExperienceTeams.addLine(lineJoined);
+
             TextView txtExpTop = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextTop);
             TextView txtExpMiddle = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextMiddle);
 
-            int rangeY;
+            int biggestY;
 
+            //fill the graph line with the latest point
             if (teamExpStats.getExpRadiant().lastEntry().getKey() > teamExpStats.getExpDire().lastEntry().getKey()) {
-                rangeY = teamExpStats.getExpRadiant().lastEntry().getValue();
+
                 lineGraphExperienceTeams.setLineToFill(0);
             } else {
-                rangeY = teamExpStats.getExpDire().lastEntry().getValue();
                 lineGraphExperienceTeams.setLineToFill(1);
             }
 
-            txtExpTop.setText(Integer.toString(rangeY));
-            txtExpMiddle.setText(Integer.toString(rangeY / 2));
+            //set graph height to highest xp point
+            if (teamExpStats.getExpRadiant().lastEntry().getValue() > teamExpStats.getExpDire().lastEntry().getValue()) {
+                //radiant had latest xp entry
+                biggestY = teamExpStats.getExpRadiant().lastEntry().getValue();
+            } else {
+                biggestY = teamExpStats.getExpDire().lastEntry().getValue();
+            }
 
-            lineGraphExperienceTeams.setRangeY(0, rangeY);
+            txtExpTop.setText(Integer.toString(biggestY));
+            txtExpMiddle.setText(Integer.toString(biggestY / 2));
+
+            lineGraphExperienceTeams.setRangeY(0, biggestY);
             System.out.println("graph done");
         }
     }
 
-    @Override
-    public void processComplete(TeamExperienceStats graphStats) {
 
-    }
 
     private void setItemImage(ImageView imgItem, String item_id) {
         if (imgItem != null) {
