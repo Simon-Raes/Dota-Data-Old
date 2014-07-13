@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class ExperienceList {
 
     private static ArrayList<Integer> experienceList;
+    private static ArrayList<Integer> experienceListLevelUp;
 
     public static ArrayList<Integer> getExperienceList() {
         if (experienceList == null) {
@@ -21,6 +22,13 @@ public class ExperienceList {
             initExperienceList();
         }
         return experienceList.get(level);
+    }
+
+    public static int getExperienceRequiredForLevelUp(int level) {
+        if (experienceListLevelUp == null) {
+            initExperienceListLevelUp();
+        }
+        return experienceListLevelUp.get(level);
     }
 
     private static void initExperienceList() {
@@ -51,5 +59,35 @@ public class ExperienceList {
         experienceList.add(23, 27500);
         experienceList.add(24, 29900);
         experienceList.add(25, 32400);
+    }
+
+    private static void initExperienceListLevelUp() {
+        experienceListLevelUp = new ArrayList<Integer>();
+        experienceListLevelUp.add(0, 0);
+        experienceListLevelUp.add(1, 0);
+        experienceListLevelUp.add(2, 200);
+        experienceListLevelUp.add(3, 300);
+        experienceListLevelUp.add(4, 400);
+        experienceListLevelUp.add(5, 500);
+        experienceListLevelUp.add(6, 600);
+        experienceListLevelUp.add(7, 600);
+        experienceListLevelUp.add(8, 600);
+        experienceListLevelUp.add(9, 1200);
+        experienceListLevelUp.add(10, 1000);
+        experienceListLevelUp.add(11, 600);
+        experienceListLevelUp.add(12, 2200);
+        experienceListLevelUp.add(13, 800);
+        experienceListLevelUp.add(14, 1400);
+        experienceListLevelUp.add(15, 1500);
+        experienceListLevelUp.add(16, 1500);
+        experienceListLevelUp.add(17, 1700);
+        experienceListLevelUp.add(18, 1800);
+        experienceListLevelUp.add(19, 1900);
+        experienceListLevelUp.add(20, 2000);
+        experienceListLevelUp.add(21, 2100);
+        experienceListLevelUp.add(22, 2200);
+        experienceListLevelUp.add(23, 2300);
+        experienceListLevelUp.add(24, 2400);
+        experienceListLevelUp.add(25, 2500);
     }
 }

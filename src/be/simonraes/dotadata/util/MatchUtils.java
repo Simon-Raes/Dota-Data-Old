@@ -50,9 +50,11 @@ public class MatchUtils {
         }
     }
 
-    public static TeamExperienceStats getExperienceTeamGraphData(ArrayList<DetailPlayer> players) {
+    public static TeamExperienceStats getExperienceTeamGraphData(DetailMatch match) {
         TreeMap<Integer, Integer> expRadiant = new TreeMap<Integer, Integer>();
         TreeMap<Integer, Integer> expDire = new TreeMap<Integer, Integer>();
+
+        ArrayList<DetailPlayer> players = match.getPlayers();
 
         for (DetailPlayer player : players) {
             for (AbilityUpgrades upgrade : player.getAbilityupgrades()) {
@@ -92,7 +94,7 @@ public class MatchUtils {
 
 
         //draw a point ever 60 seconds
-        for (int i = 0; i < latestEntry + 60; i += 60) {
+        for (int i = 0; i < latestEntry; i += 60) {
             int radiantExperience = 0;
             for (Map.Entry<Integer, Integer> entry : teamStats.getExpRadiant().entrySet()) {
                 if (entry.getKey() <= i) {
@@ -109,11 +111,9 @@ public class MatchUtils {
                     break;
                 }
             }
-            System.out.println("exp at " + i + " is radiant: " + radiantExperience + ", dire: " + direExperience);
+            System.out.println("putting exp at " + i + " = " + radiantExperience + "-" + direExperience + "=" + (radiantExperience - direExperience));
             joinedMap.put(i, radiantExperience - direExperience);
         }
-        System.out.println("radiant xp: " + expRadiant);
-        System.out.println("joined Stats: " + joinedMap);
 
         teamStats.setExpJoined(joinedMap);
 
@@ -123,9 +123,9 @@ public class MatchUtils {
     private static void addToHashMap(AbilityUpgrades upgrade, TreeMap<Integer, Integer> map) {
         int expAtTime = 0;
         if (map.containsKey(Integer.parseInt(upgrade.getTime()))) {
-            expAtTime = map.get(Integer.parseInt(upgrade.getTime())) + ExperienceList.getTotalExperienceRequiredForLevel(Integer.parseInt(upgrade.getLevel()));
+            expAtTime = map.get(Integer.parseInt(upgrade.getTime())) + ExperienceList.getExperienceRequiredForLevelUp(Integer.parseInt(upgrade.getLevel()));
         } else {
-            expAtTime = ExperienceList.getTotalExperienceRequiredForLevel(Integer.parseInt(upgrade.getLevel()));
+            expAtTime = ExperienceList.getExperienceRequiredForLevelUp(Integer.parseInt(upgrade.getLevel()));
         }
         map.put(Integer.parseInt(upgrade.getTime()), expAtTime);
     }

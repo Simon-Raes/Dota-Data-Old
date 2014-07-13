@@ -404,115 +404,71 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    /*Builds the experience graphs.*/
+    /*Builds the experience graph.*/
     private void setGraph() {
-        System.out.println("starting get graph");
 
-
-        //experience graph
-        TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match.getPlayers());
+        TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match);
         if (teamExpStats != null && teamExpStats.getExpRadiant() != null && teamExpStats.getExpRadiant().size() > 0 && teamExpStats.getExpDire() != null && teamExpStats.getExpDire().size() > 0) {
 
 
             lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
-            //lineGraphExperienceTeams.setOnPointClickedListener(this);
-            lineGraphExperienceTeams.setUsingDips(true);
-
-            Line lineRadiant = new Line();
-            lineRadiant.setColor(getResources().getColor(R.color.RadiantGreen));
-            lineRadiant.setShowingPoints(false);
-
-            //ArrayList<LinePoint> radiantPoints = new ArrayList<LinePoint>();
-            //add 1 startpoint so the graph starts at X 0
-            LinePoint p;
-            p = new LinePoint();
-            p.setX(0);
-            p.setY(0);
-            lineRadiant.addPoint(p);
-            for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpRadiant().entrySet()) {
-//                LinePoint p;
-                p = new LinePoint();
-                p.setX(entry.getKey());
-                p.setY(entry.getValue());
-                lineRadiant.addPoint(p);
-                //radiantPoints.add(p);
-            }
-
-            Line lineDire = new Line();
-            lineDire.setColor(getResources().getColor(R.color.DireOrange));
-            lineDire.setShowingPoints(false);
-            //ArrayList<LinePoint> direPoints = new ArrayList<LinePoint>();
-            //add 1 startpoint so the graph starts at X 0
-//            LinePoint p;
-            p = new LinePoint();
-            p.setX(0);
-            p.setY(0);
-            lineDire.addPoint(p);
-            for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpDire().entrySet()) {
-//                LinePoint p;
-                p = new LinePoint();
-                p.setX(entry.getKey());
-                p.setY(entry.getValue());
-                lineDire.addPoint(p);
-                //direPoints.add(p);
-            }
 
 
             Line lineJoined = new Line();
-            lineJoined.setColor(getResources().getColor(R.color.Yellow));
+
+            lineJoined.setColor(match.isRadiant_win() ? getResources().getColor(R.color.RadiantGreen) : getResources().getColor(R.color.DireOrange));
             lineJoined.setShowingPoints(false);
-            //ArrayList<LinePoint> direPoints = new ArrayList<LinePoint>();
-            //add 1 startpoint so the graph starts at X 0
-//            LinePoint p;
-            p = new LinePoint();
+            LinePoint p = new LinePoint();
             p.setX(0);
             p.setY(0);
             lineJoined.addPoint(p);
             for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
-//                LinePoint p;
                 p = new LinePoint();
                 p.setX(entry.getKey());
                 p.setY(entry.getValue());
                 lineJoined.addPoint(p);
-                //direPoints.add(p);
             }
+            lineGraphExperienceTeams.addLine(lineJoined);
+
+            Line lineZero = new Line();
+            lineZero.setColor(getResources().getColor(R.color.Gray));
+            lineZero.setStrokeWidth(1);
+            lineZero.setShowingPoints(false);
+            p = new LinePoint();
+            p.setX(0);
+            p.setY(0);
+            lineZero.addPoint(p);
+            p = new LinePoint();
+            p.setX(teamExpStats.getExpJoined().lastKey());
+            p.setY(0);
+            lineZero.addPoint(p);
+            lineGraphExperienceTeams.addLine(lineZero);
 
             //todo: fix nullpointer error for matches without experience values
 
-            lineGraphExperienceTeams.addLine(lineRadiant);
-            lineGraphExperienceTeams.addLine(lineDire);
 
-            lineGraphExperienceTeams.addLine(lineJoined);
-
+            //set labels and graph Y-range
             TextView txtExpTop = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextTop);
             TextView txtExpMiddle = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextMiddle);
+            TextView txtExpBottom = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextBottom);
 
-            int biggestY;
+            int topY = 0, bottomY = 0;
 
-            //fill the graph line with the latest point
-            if (teamExpStats.getExpRadiant().lastEntry().getKey() > teamExpStats.getExpDire().lastEntry().getKey()) {
-
-                lineGraphExperienceTeams.setLineToFill(0);
-            } else {
-                lineGraphExperienceTeams.setLineToFill(1);
+            for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
+                if (entry.getValue() < bottomY) {
+                    bottomY = entry.getValue();
+                } else if (entry.getValue() > topY) {
+                    topY = entry.getValue();
+                }
             }
 
-            //set graph height to highest xp point
-            if (teamExpStats.getExpRadiant().lastEntry().getValue() > teamExpStats.getExpDire().lastEntry().getValue()) {
-                //radiant had latest xp entry
-                biggestY = teamExpStats.getExpRadiant().lastEntry().getValue();
-            } else {
-                biggestY = teamExpStats.getExpDire().lastEntry().getValue();
-            }
+            txtExpTop.setText(Integer.toString(topY));
+            txtExpMiddle.setText(Integer.toString((topY + bottomY) / 2));
+            txtExpBottom.setText(Integer.toString(bottomY));
 
-            txtExpTop.setText(Integer.toString(biggestY));
-            txtExpMiddle.setText(Integer.toString(biggestY / 2));
-
-            lineGraphExperienceTeams.setRangeY(0, biggestY);
-            System.out.println("graph done");
+            lineGraphExperienceTeams.setRangeY(bottomY, topY);
         }
     }
-
 
 
     private void setItemImage(ImageView imgItem, String item_id) {
