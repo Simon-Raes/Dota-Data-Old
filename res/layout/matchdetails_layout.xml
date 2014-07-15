@@ -8,14 +8,14 @@
                                                  android:src="@drawable/bg_radiant"
                                                  android:scaleType="matrix"/>
     <ScrollView
-            android:layout_width="match_parent" android:layout_height="match_parent"
-
+            android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             android:scrollbars="none"
             android:id="@+id/svMatchDetails">
 
 
         <!-- Scrollview content (must be 1 layout) -->
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
 
                       android:orientation="vertical"
                       android:gravity="center">

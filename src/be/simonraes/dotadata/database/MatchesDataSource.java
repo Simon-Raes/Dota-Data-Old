@@ -259,14 +259,6 @@ public class MatchesDataSource {
         while (!cursorPlayers.isAfterLast()) {
             DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
 
-            //todo: re-enable this when the ability_upgrades visuals have been implemented
-            //disabled for now to speed up loading
-
-//            //get the player's upgrades
-//            AbilityUpgradesDataSource auds = new AbilityUpgradesDataSource(context);
-//            detailPlayer.setAbilityupgrades(auds.getAbilityUpgradesForPlayerInMatch(matchID, detailPlayer.getPlayer_slot()));
-
-
             //assign the ability upgrades to the player
             ArrayList<AbilityUpgrades> upgradesForPlayer = new ArrayList<AbilityUpgrades>();
             for (AbilityUpgrades abilityUpgrades : upgradesForMatch) {
