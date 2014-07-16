@@ -8,267 +8,274 @@
                                                  android:src="@drawable/bg_radiant"
                                                  android:scaleType="matrix"/>
     <ScrollView
-            android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:layout_width="match_parent" android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:scrollbars="none"
             android:id="@+id/svMatchDetails">
 
 
         <!-- Scrollview content (must be 1 layout) -->
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical"
                       android:gravity="center">
 
-            <!-- Match info (duration, winner,...) -->
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:id="@+id/layDetailHeader"
-                          android:gravity="end"
-                          android:orientation="vertical"
-                          style="@style/CardMargin">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailWinner"
-                          android:textColor="@color/White"
-                          android:textSize="25dp"
-                          android:text="winner"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailMatchID"
-                          android:textColor="@color/White"
-                          android:layout_marginBottom="10dp"
-                          android:text="match id"/>
-                <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-                <!--android:id="@+id/txtDetailVictoryDefeat"-->
-                <!--android:layout_below="@id/txtDetailWinner"-->
-                <!--android:textColor="@color/White"-->
-                <!--android:text=" "/>-->
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailDate"
-                          android:textColor="@color/White"
-                          android:text="date"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailDuration"
-                          android:layout_marginBottom="10dp"
-                          android:textColor="@color/White"
-                          android:text="duration"/>
-
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailGameMode"
-                          android:textColor="@color/White"
-                          android:textSize="25dp"
-                          android:text="game mode"/>
+            <!-- Extra linearLayout that is the same width as the scoreboard, this makes all other elements
+                take this max width in landscape mode.-->
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:orientation="vertical">
 
 
-            </LinearLayout>
-
-            <!-- Note -->
-            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                            android:id="@+id/layDetailNote"
-                            style="@style/CardMargin"
-                            android:orientation="vertical"
-                            android:background="@drawable/bg_card"
-                            android:visibility="gone">
-                <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                             android:id="@+id/btnDetailDeleteNote"
-                             android:layout_alignParentRight="true"
-                             android:background="@null"
-                             android:src="@drawable/ic_action_remove"/>
-                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:layout_toLeftOf="@id/btnDetailDeleteNote"
-                          android:layout_centerVertical="true"
-                          android:id="@+id/txtDetailNote"/>
-
-            </RelativeLayout>
-
-            <!-- Scrollview containing radiant and dire player cards-->
-            <HorizontalScrollView android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:id="@+id/svMatchDetailsPlayers"
-                                  android:scrollbars="none">
-
-                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:orientation="horizontal">
-
-
-                    <!-- Radiant players card-->
-                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:orientation="vertical">
-
-                        <!-- Team color/logo header-->
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                                      android:background="@drawable/bg_card_radiant_header"
-                                      style="@style/CardMarginNoBottom"
-                                      android:gravity="center"
-                                      android:orientation="horizontal">
-                            <ImageView android:layout_width="30dp" android:layout_height="30dp"
-                                       android:adjustViewBounds="true"
-                                       android:src="@drawable/logo_radiant_white"/>
-                        </LinearLayout>
-
-                        <!-- White part of the card -->
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                      android:id="@+id/layDetailRadiantPlayers"
-                                      style="@style/CardMarginNoTop"
-                                      android:orientation="vertical"
-                                      android:background="@drawable/bg_card_no_top_effect">
-                            <!-- Header -->
-                            <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
-
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentLeft="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12dp"
-
-                                          android:text="K/D/A"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_centerHorizontal="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12dp"
-
-                                          android:text="LH/D"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentRight="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12dp"
-
-                                          android:text="GPM/XPM"/>
-                            </RelativeLayout>
-                            <View style="@style/Divider"/>
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Dire players card-->
-                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:orientation="vertical">
-
-                        <!-- Team color/logo header-->
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                                      android:background="@drawable/bg_card_dire_header"
-                                      style="@style/CardMarginNoBottom"
-                                      android:gravity="center"
-                                      android:orientation="horizontal">
-                            <ImageView android:layout_width="30dp" android:layout_height="30dp"
-                                       android:adjustViewBounds="true"
-                                       android:src="@drawable/logo_dire_white"/>
-                        </LinearLayout>
-
-                        <!-- White part of the card -->
-                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                      android:id="@+id/layDetailDirePlayers"
-                                      style="@style/CardMarginNoTop"
-                                      android:orientation="vertical"
-                                      android:background="@drawable/bg_card_no_top_effect">
-                            <!-- Header -->
-                            <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
-
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentLeft="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12dp"
-                                          android:text="K/D/A"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_centerHorizontal="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12dp"
-                                          android:text="LH/D"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentRight="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12dp"
-                                          android:text="GPM/XPM"/>
-                            </RelativeLayout>
-                            <View style="@style/Divider"/>
-
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-            <HorizontalScrollView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:scrollbars="none">
-                <!-- Extra linearlayout required so full card gets shows, right side gets clipped without this LinLayout-->
-                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                    <!-- Picks and bans, only shown when needed -->
-                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                  android:visibility="gone"
-                                  android:id="@+id/layDetailPicksBans"
-                                  style="@style/CardMargin"
-                                  android:orientation="horizontal"
-                                  android:background="@drawable/bg_card">
-                    </LinearLayout>
-                </LinearLayout>
-            </HorizontalScrollView>
-
-
-            <!-- Experience graph (teams)-->
-            <RelativeLayout android:layout_width="fill_parent" android:layout_height="200dp"
-                            style="@style/CardMargin"
-                            android:orientation="vertical"
-                            android:background="@drawable/bg_card">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailExperience"
-                          android:text="Team experience"/>
-
-
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailExperiencetxtDetailExperienceTextTop"
-                          android:layout_below="@id/txtDetailExperience"
-                          android:layout_alignParentRight="true"
-                          android:text="hey"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:id="@+id/txtDetailExperiencetxtDetailExperienceTextBottom"
-                          android:layout_alignParentRight="true"
-                          android:layout_alignParentBottom="true"
-                          android:text="0"/>
-                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:id="@+id/layDetailExperienceText"
-                              android:layout_alignParentRight="true"
-                              android:layout_below="@+id/txtDetailExperiencetxtDetailExperienceTextTop"
-                              android:layout_above="@+id/txtDetailExperiencetxtDetailExperienceTextBottom">
+                <!-- Match info (duration, winner,...) -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:id="@+id/layDetailHeader"
+                              android:gravity="end"
+                              android:orientation="vertical"
+                              style="@style/CardMargin">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailWinner"
+                              android:textColor="@color/White"
+                              android:textSize="25dp"
+                              android:text="winner"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailMatchID"
+                              android:textColor="@color/White"
+                              android:layout_marginBottom="10dp"
+                              android:text="match id"/>
+                    <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/txtDetailVictoryDefeat"-->
+                    <!--android:layout_below="@id/txtDetailWinner"-->
+                    <!--android:textColor="@color/White"-->
+                    <!--android:text=" "/>-->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailDate"
+                              android:textColor="@color/White"
+                              android:text="date"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailDuration"
+                              android:layout_marginBottom="10dp"
+                              android:textColor="@color/White"
+                              android:text="duration"/>
 
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:layout_gravity="center"
-                              android:id="@+id/txtDetailExperiencetxtDetailExperienceTextMiddle"
-                              android:text="ho"/>
+                              android:id="@+id/txtDetailGameMode"
+                              android:textColor="@color/White"
+                              android:textSize="25dp"
+                              android:text="game mode"/>
+
+
                 </LinearLayout>
 
-                <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
-                                                           android:layout_height="fill_parent"
-                                                           android:id="@+id/lineGraphExperienceTeam"
-                                                           android:layout_marginRight="5dp"
-                                                           android:layout_below="@+id/txtDetailExperience"
-                                                           android:layout_toLeftOf="@+id/layDetailExperienceText"/>
+                <!-- Note -->
+                <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                android:id="@+id/layDetailNote"
+                                style="@style/CardMargin"
+                                android:orientation="vertical"
+                                android:background="@drawable/bg_card"
+                                android:visibility="gone">
+                    <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                 android:id="@+id/btnDetailDeleteNote"
+                                 android:layout_alignParentRight="true"
+                                 android:background="@null"
+                                 android:src="@drawable/ic_action_remove"/>
+                    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                              android:layout_toLeftOf="@id/btnDetailDeleteNote"
+                              android:layout_centerVertical="true"
+                              android:id="@+id/txtDetailNote"/>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-            <!-- Player skillbuilds, hidden until implemented -->
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          style="@style/CardMargin"
-                          android:orientation="vertical"
-                          android:visibility="gone"
-                          android:background="@drawable/bg_card">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="Skill builds (NYI)"/>
+                <!-- Scrollview containing radiant and dire player cards-->
+                <HorizontalScrollView android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:id="@+id/svMatchDetailsPlayers"
+                                      android:scrollbars="none">
+
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+
+
+                        <!-- Radiant players card-->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:orientation="vertical">
+
+                            <!-- Team color/logo header-->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
+                                          android:background="@drawable/bg_card_radiant_header"
+                                          style="@style/CardMarginNoBottom"
+                                          android:gravity="center"
+                                          android:orientation="horizontal">
+                                <ImageView android:layout_width="30dp" android:layout_height="30dp"
+                                           android:adjustViewBounds="true"
+                                           android:src="@drawable/logo_radiant_white"/>
+                            </LinearLayout>
+
+                            <!-- White part of the card -->
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/layDetailRadiantPlayers"
+                                          style="@style/CardMarginNoTop"
+                                          android:orientation="vertical"
+                                          android:background="@drawable/bg_card_no_top_effect">
+                                <!-- Header -->
+                                <RelativeLayout android:layout_width="match_parent"
+                                                android:layout_height="match_parent">
+
+                                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:layout_alignParentLeft="true"
+                                              android:textColor="@color/DimGray"
+                                              android:textSize="12dp"
+
+                                              android:text="K/D/A"/>
+                                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:layout_centerHorizontal="true"
+                                              android:textColor="@color/DimGray"
+                                              android:textSize="12dp"
+
+                                              android:text="LH/D"/>
+                                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:layout_alignParentRight="true"
+                                              android:textColor="@color/DimGray"
+                                              android:textSize="12dp"
+
+                                              android:text="GPM/XPM"/>
+                                </RelativeLayout>
+                                <View style="@style/Divider"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Dire players card-->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:orientation="vertical">
+
+                            <!-- Team color/logo header-->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
+                                          android:background="@drawable/bg_card_dire_header"
+                                          style="@style/CardMarginNoBottom"
+                                          android:gravity="center"
+                                          android:orientation="horizontal">
+                                <ImageView android:layout_width="30dp" android:layout_height="30dp"
+                                           android:adjustViewBounds="true"
+                                           android:src="@drawable/logo_dire_white"/>
+                            </LinearLayout>
+
+                            <!-- White part of the card -->
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/layDetailDirePlayers"
+                                          style="@style/CardMarginNoTop"
+                                          android:orientation="vertical"
+                                          android:background="@drawable/bg_card_no_top_effect">
+                                <!-- Header -->
+                                <RelativeLayout android:layout_width="match_parent"
+                                                android:layout_height="match_parent">
+
+                                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:layout_alignParentLeft="true"
+                                              android:textColor="@color/DimGray"
+                                              android:textSize="12dp"
+                                              android:text="K/D/A"/>
+                                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:layout_centerHorizontal="true"
+                                              android:textColor="@color/DimGray"
+                                              android:textSize="12dp"
+                                              android:text="LH/D"/>
+                                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                              android:layout_alignParentRight="true"
+                                              android:textColor="@color/DimGray"
+                                              android:textSize="12dp"
+                                              android:text="GPM/XPM"/>
+                                </RelativeLayout>
+                                <View style="@style/Divider"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <HorizontalScrollView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:scrollbars="none">
+                    <!-- Extra linearlayout required so full card gets shows, right side gets clipped without this LinLayout-->
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                        <!-- Picks and bans, only shown when needed -->
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                      android:visibility="gone"
+                                      android:id="@+id/layDetailPicksBans"
+                                      style="@style/CardMargin"
+                                      android:orientation="horizontal"
+                                      android:background="@drawable/bg_card">
+                        </LinearLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
+                <!-- Experience graph (teams)-->
+                <RelativeLayout android:layout_width="fill_parent" android:layout_height="200dp"
+                                style="@style/CardMargin"
+                                android:orientation="vertical"
+                                android:background="@drawable/bg_card">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailExperience"
+                              android:text="Team experience"/>
+
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailExperiencetxtDetailExperienceTextTop"
+                              android:layout_below="@id/txtDetailExperience"
+                              android:layout_alignParentRight="true"
+                              android:text="hey"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtDetailExperiencetxtDetailExperienceTextBottom"
+                              android:layout_alignParentRight="true"
+                              android:layout_alignParentBottom="true"
+                              android:text="0"/>
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:id="@+id/layDetailExperienceText"
+                                  android:layout_alignParentRight="true"
+                                  android:layout_below="@+id/txtDetailExperiencetxtDetailExperienceTextTop"
+                                  android:layout_above="@+id/txtDetailExperiencetxtDetailExperienceTextBottom">
+
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:layout_gravity="center"
+                                  android:id="@+id/txtDetailExperiencetxtDetailExperienceTextMiddle"
+                                  android:text="ho"/>
+                    </LinearLayout>
+
+                    <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
+                                                               android:layout_height="fill_parent"
+                                                               android:id="@+id/lineGraphExperienceTeam"
+                                                               android:layout_marginRight="5dp"
+                                                               android:layout_below="@+id/txtDetailExperience"
+                                                               android:layout_toLeftOf="@+id/layDetailExperienceText"/>
+
+                </RelativeLayout>
+
+                <!-- Player skillbuilds, hidden until implemented -->
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                              style="@style/CardMargin"
+                              android:orientation="vertical"
+                              android:visibility="gone"
+                              android:background="@drawable/bg_card">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:text="Skill builds (NYI)"/>
+                </LinearLayout>
+
+                <!-- Map: tower and barracks status -->
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                              android:id="@+id/layDetailMapCard"
+                              style="@style/CardMargin"
+                              android:background="@drawable/bg_card"
+                              android:paddingTop="20dp"
+                              android:gravity="center"
+                              android:paddingBottom="20dp">
+                    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                 android:id="@+id/layDetailsMinimap">
+                        <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                   android:id="@+id/imgDetailMinimap"
+                                   android:adjustViewBounds="true"
+                                   android:src="@drawable/dota_minimap_sd"/>
+                    </FrameLayout>
+                </LinearLayout>
             </LinearLayout>
-
-            <!-- Map: tower and barracks status -->
-            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:id="@+id/layDetailMapCard"
-                          style="@style/CardMargin"
-                          android:background="@drawable/bg_card"
-                          android:paddingTop="20dp"
-                          android:gravity="center"
-                          android:paddingBottom="20dp">
-                <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                             android:id="@+id/layDetailsMinimap">
-                    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                               android:id="@+id/imgDetailMinimap"
-                               android:adjustViewBounds="true"
-                               android:src="@drawable/dota_minimap_sd"/>
-                </FrameLayout>
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
