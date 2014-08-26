@@ -6,10 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.Toast;
 import be.simonraes.dotadata.database.*;
-import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
-import be.simonraes.dotadata.delegates.ASyncResponseHistory;
-import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
-import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 import be.simonraes.dotadata.detailmatch.*;
 import be.simonraes.dotadata.historymatch.HistoryContainer;
 import be.simonraes.dotadata.historymatch.HistoryMatch;
@@ -25,12 +21,17 @@ import java.util.ArrayList;
  * Created by Simon on 13/02/14.
  * Controller for the download of the complete Dota 2 matchhistory
  */
-public class HistoryLoader implements ASyncResponseHistory, ASyncResponseDetailList, ASyncResponseInternet {
+public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, DetailMatchesParser.ASyncResponseDetailList, InternetChecker.ASyncResponseInternet {
 
     private String accountID;
     private ArrayList<HistoryMatch> matches;
     private HistoryMatchParser parser;
+
     private ASyncResponseHistoryLoader delegate;
+    public interface ASyncResponseHistoryLoader {
+        public void processFinish(boolean foundGames);
+    }
+
     private Context context;
 
     private String latestSavedMatchID;

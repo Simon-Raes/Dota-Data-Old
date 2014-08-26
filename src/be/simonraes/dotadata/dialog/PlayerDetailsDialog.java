@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Simon Raes on 9/07/2014.
  */
-public class PlayerDetailsDialog extends DialogFragment implements ASyncResponsePlayerSummary {
+public class PlayerDetailsDialog extends DialogFragment implements PlayerSummaryParser.ASyncResponsePlayerSummary {
 
     private DetailPlayer player;
     private String duration;

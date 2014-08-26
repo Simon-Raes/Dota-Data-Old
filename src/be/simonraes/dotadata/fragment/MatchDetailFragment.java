@@ -23,7 +23,6 @@ import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.MatchesExtrasDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.detailmatch.PicksBans;
@@ -51,7 +50,7 @@ import java.util.Map;
  * Created by Simon on 30/01/14.
  * Sets layout to show details of a match
  */
-public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, ASyncResponsePlayerSummary {
+public class MatchDetailFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener, PlayerSummaryParser.ASyncResponsePlayerSummary {
 
     private LayoutInflater inflater;
     private View view;

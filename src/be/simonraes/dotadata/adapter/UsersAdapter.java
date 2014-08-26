@@ -11,7 +11,6 @@ import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.UsersDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.*;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by Simon on 23/02/14.
  */
-public class UsersAdapter extends ArrayAdapter<User> implements ASyncResponseHistoryLoader {
+public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.ASyncResponseHistoryLoader {
 
     private ArrayList<User> users;
     private Context context;

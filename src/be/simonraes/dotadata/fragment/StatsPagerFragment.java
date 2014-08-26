@@ -18,7 +18,6 @@ import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
 import be.simonraes.dotadata.adapter.ScreenSlidePagerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.*;
@@ -31,7 +30,7 @@ import java.util.List;
  * Created by Simon Raes on 16/04/2014.
  * Disastrous code ahead.
  */
-public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSelectedListener, ASyncResponseStatsLoader {
+public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSelectedListener, StatsMatchesLoader.ASyncResponseStatsLoader {
 
     private Spinner spinnerHeroes;
     private Spinner spinnerGameModes;

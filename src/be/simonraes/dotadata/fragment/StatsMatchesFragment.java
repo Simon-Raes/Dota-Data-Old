@@ -14,15 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
-import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
@@ -34,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by Simon Raes on 15/04/2014.
  */
-public class StatsMatchesFragment extends Fragment implements AdapterView.OnItemClickListener, ASyncResponseDatabase, ASyncResponseStatsLoader {
+public class StatsMatchesFragment extends Fragment implements AdapterView.OnItemClickListener, DatabaseMatchLoader.ASyncResponseDatabase, StatsMatchesLoader.ASyncResponseStatsLoader {
 
     private ListView lvRecentGames;
     private RecentGamesAdapter listAdapter;

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
-import be.simonraes.dotadata.delegates.ASyncResponseDetail;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,6 +16,9 @@ import java.net.URL;
 public class DetailMatchParser extends AsyncTask<String, Void, DetailContainer> {
 
     private ASyncResponseDetail delegate;
+    public interface ASyncResponseDetail {
+        void processFinish(DetailContainer result);
+    }
 
     public DetailMatchParser(ASyncResponseDetail delegate) {
         this.delegate = delegate;

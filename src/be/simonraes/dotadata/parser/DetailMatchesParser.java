@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.database.MatchesService;
-import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -23,6 +22,10 @@ import java.util.ArrayList;
 public class DetailMatchesParser extends AsyncTask<String, Integer, ArrayList<DetailMatch>> {
 
     private ASyncResponseDetailList delegate;
+    public interface ASyncResponseDetailList {
+        void processFinish(ArrayList<DetailMatch> result);
+        void processUpdate(Integer[] progress);
+    }
     private MatchesService matchesService;
     private MatchesDataSource matchesDataSource;
 

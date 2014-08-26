@@ -3,7 +3,6 @@ package be.simonraes.dotadata.historyloading;
 import android.content.Context;
 import android.os.AsyncTask;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.AppPreferences;
 
@@ -17,6 +16,9 @@ public class DatabaseMatchLoader extends AsyncTask<String, Integer, ArrayList<De
 
     private Context context;
     private ASyncResponseDatabase delegate;
+    public interface ASyncResponseDatabase {
+        public void processFinish(ArrayList<DetailMatchLite> detailMatches);
+    }
 
     public DatabaseMatchLoader(ASyncResponseDatabase delegate, Context context) {
         this.delegate = delegate;

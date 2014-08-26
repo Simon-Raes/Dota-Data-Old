@@ -16,8 +16,6 @@ import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseDatabase;
-import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
@@ -34,7 +32,7 @@ import java.util.ArrayList;
  * Created by Simon on 18/02/14.
  * Displays list of played games for the active user.
  */
-public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, ASyncResponseDatabase, ASyncResponseHistoryLoader {
+public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, DatabaseMatchLoader.ASyncResponseDatabase, HistoryLoader.ASyncResponseHistoryLoader {
 
     private ListView lvRecentGames;
     private ProgressBar pbRecentGames;

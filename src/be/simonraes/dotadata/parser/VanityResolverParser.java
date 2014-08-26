@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.parser;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.delegates.ASyncResponseVanity;
 import be.simonraes.dotadata.vanity.VanityContainer;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -17,6 +16,9 @@ import java.net.URL;
 public class VanityResolverParser extends AsyncTask<String, Void, VanityContainer> {
 
     private ASyncResponseVanity delegate;
+    public interface ASyncResponseVanity {
+        public void processFinish(VanityContainer result);
+    }
 
     public VanityResolverParser(ASyncResponseVanity delegate) {
         this.delegate = delegate;

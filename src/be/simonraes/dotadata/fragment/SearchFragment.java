@@ -18,8 +18,6 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseDetail;
-import be.simonraes.dotadata.delegates.ASyncResponseDetailList;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.parser.DetailMatchParser;
@@ -33,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by Simon Raes on 19/04/2014.
  */
-public class SearchFragment extends Fragment implements View.OnClickListener, ASyncResponseDetail {
+public class SearchFragment extends Fragment implements View.OnClickListener, DetailMatchParser.ASyncResponseDetail {
 
     private Button btnSearch;
     private EditText txtMatch;

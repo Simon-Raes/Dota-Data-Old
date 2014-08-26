@@ -21,7 +21,6 @@ import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
 import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.holograph.Bar;
@@ -37,7 +36,7 @@ import java.util.*;
  * Created by Simon on 14/02/14.
  * Creates the layout for stats and calculates stats
  */
-public class StatsNumbersFragment extends Fragment implements View.OnClickListener, ASyncResponseStatsLoader {
+public class StatsNumbersFragment extends Fragment implements View.OnClickListener, StatsMatchesLoader.ASyncResponseStatsLoader {
 
     private ScrollView scrollStats;
     private ProgressBar progressStats;

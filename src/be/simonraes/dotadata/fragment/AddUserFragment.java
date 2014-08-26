@@ -16,9 +16,6 @@ import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.UsersDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseHistoryLoader;
-import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
-import be.simonraes.dotadata.delegates.ASyncResponseVanity;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.parser.VanityResolverParser;
@@ -34,7 +31,7 @@ import be.simonraes.dotadata.vanity.VanityContainer;
 /**
  * Created by Simon on 13/02/14.
  */
-public class AddUserFragment extends Fragment implements View.OnClickListener, ASyncResponseVanity, ASyncResponseHistoryLoader, ASyncResponsePlayerSummary {
+public class AddUserFragment extends Fragment implements View.OnClickListener, VanityResolverParser.ASyncResponseVanity, HistoryLoader.ASyncResponseHistoryLoader, PlayerSummaryParser.ASyncResponsePlayerSummary {
 
     private EditText etxtDotabuff, etxtProfileNumber, etxtIDName;
     private Button btnHelpDotabuff, btnHelpProfileNumber, btnHelpIDName;

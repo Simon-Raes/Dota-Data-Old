@@ -1,7 +1,6 @@
 package be.simonraes.dotadata.util;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.delegates.ASyncResponseInternet;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -14,6 +13,9 @@ import java.net.URL;
 public class InternetChecker extends AsyncTask<String, Void, Boolean> {
 
     private ASyncResponseInternet delegate;
+    public interface ASyncResponseInternet {
+        public void processFinish(Boolean result);
+    }
 
     public InternetChecker(ASyncResponseInternet delegate) {
         this.delegate = delegate;

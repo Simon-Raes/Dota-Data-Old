@@ -3,7 +3,6 @@ package be.simonraes.dotadata.async;
 import android.content.Context;
 import android.os.AsyncTask;
 import be.simonraes.dotadata.database.MatchesDataSource;
-import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.AppPreferences;
 
@@ -17,7 +16,9 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
 
     private Context context;
     private ASyncResponseStatsLoader delegate;
-
+    public interface ASyncResponseStatsLoader {
+        public void processFinish(ArrayList<DetailMatchLite> result);
+    }
 
     public StatsMatchesLoader(ASyncResponseStatsLoader delegate, Context context) {
         this.delegate = delegate;

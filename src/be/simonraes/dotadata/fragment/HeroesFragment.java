@@ -13,7 +13,6 @@ import be.simonraes.dotadata.adapter.HeroStatsGamesPlayedAdapter;
 import be.simonraes.dotadata.adapter.HeroStatsWinrateAdapter;
 import be.simonraes.dotadata.adapter.RankingSpinnerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
-import be.simonraes.dotadata.delegates.ASyncResponseStatsLoader;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.HeroStats;
 import be.simonraes.dotadata.util.HeroStatsGamesPlayedComparator;
@@ -27,7 +26,7 @@ import java.util.HashMap;
 /**
  * Created by Simon Raes on 18/04/2014.
  */
-public class HeroesFragment extends Fragment implements ASyncResponseStatsLoader, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
+public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASyncResponseStatsLoader, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private ArrayList<HeroStats> heroes = new ArrayList<HeroStats>();
     private HashMap<String, HeroStats> heroesMap;

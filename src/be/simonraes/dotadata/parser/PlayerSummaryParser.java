@@ -1,10 +1,8 @@
 package be.simonraes.dotadata.parser;
 
 import android.os.AsyncTask;
-import be.simonraes.dotadata.delegates.ASyncResponsePlayerSummary;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.InternetCheck;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +17,9 @@ import java.net.URL;
 public class PlayerSummaryParser extends AsyncTask<String, Void, PlayerSummaryContainer> {
 
     private ASyncResponsePlayerSummary delegate;
+    public interface ASyncResponsePlayerSummary {
+        public void processFinish(PlayerSummaryContainer result);
+    }
 
     public PlayerSummaryParser(ASyncResponsePlayerSummary delegate) {
         this.delegate = delegate;
