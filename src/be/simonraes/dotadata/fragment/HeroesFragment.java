@@ -41,7 +41,6 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
 
     long lastUpdate = 0;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

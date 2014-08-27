@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Simon on 13/02/14.
- * Controller for the download of the complete Dota 2 matchhistory
+ * Controller for the download of the complete Dota 2 matchhistory.
  */
 public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, DetailMatchesParser.ASyncResponseDetailList, InternetChecker.ASyncResponseInternet {
 
@@ -115,11 +115,7 @@ public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, D
     @Override
     public void processFinish(HistoryContainer result) {
 
-
-        //todo: needs to use date_max instead of start_at_matchid (which is capped at latest 500 matches),
-        // date_max is currently broken (http://dev.dota2.com/showthread.php?t=125875&highlight=date_max)
-
-        //todo: other workaround for getting more than 500 games: hero_id parameter
+        //todo: other possible workaround for getting more than 500 games: hero_id parameter
         //can return 500 games per account per hero
 
         if (result.getRecentGames() != null) {

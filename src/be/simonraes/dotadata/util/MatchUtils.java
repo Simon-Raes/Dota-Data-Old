@@ -111,7 +111,7 @@ public class MatchUtils {
                     break;
                 }
             }
-            System.out.println("putting exp at " + i + " = " + radiantExperience + "-" + direExperience + "=" + (radiantExperience - direExperience));
+//            System.out.println("putting exp at " + i + " = " + radiantExperience + "-" + direExperience + "=" + (radiantExperience - direExperience));
             joinedMap.put(i, radiantExperience - direExperience);
         }
 

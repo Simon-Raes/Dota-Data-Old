@@ -75,7 +75,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("starting oncreateview");
+        System.out.println("MatchDetailFragment oncreateview");
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         this.inflater = inflater;
         match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
@@ -110,11 +110,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
 
+        System.out.println("MatchDetailFragment oncreateview finished");
         return view;
     }
 
     /*Sets the textviews containing match info.*/
     private void setHeader() {
+        System.out.println("MatchdetailFragment setheader");
         TextView txtMatchID = (TextView) view.findViewById(R.id.txtDetailMatchID);
         txtMatchID.setText("ID " + match.getMatch_id());
 
@@ -147,6 +149,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Shows note if there is one.*/
     private void setNote() {
+        System.out.println("MatchdetailFragment setnote");
+
         if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
             RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
             layNote.setVisibility(View.VISIBLE);
@@ -159,6 +163,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Sets the info of all players (items, stats,...).*/
     private void setScoreboard() {
+        System.out.println("MatchdetailFragment setscoreboard");
+
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
@@ -353,6 +359,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Builds picks/bans view if required.*/
     private void setPicksBans() {
+        System.out.println("MatchdetailFragment setpicksbans");
+
         boolean hasPicksBans = false;
 
         if (match != null && match.getPicks_bans().size() > 0) {
@@ -405,16 +413,15 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Builds the experience graph.*/
     private void setGraph() {
+        System.out.println("MatchdetailFragment setgraph");
+
 
         TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match);
         if (teamExpStats != null && teamExpStats.getExpRadiant() != null && teamExpStats.getExpRadiant().size() > 0 && teamExpStats.getExpDire() != null && teamExpStats.getExpDire().size() > 0) {
 
-
             lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
 
-
             Line lineJoined = new Line();
-
             lineJoined.setColor(match.isRadiant_win() ? getResources().getColor(R.color.RadiantGreen) : getResources().getColor(R.color.DireOrange));
             lineJoined.setShowingPoints(false);
             LinePoint p = new LinePoint();
@@ -442,9 +449,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             p.setY(0);
             lineZero.addPoint(p);
             lineGraphExperienceTeams.addLine(lineZero);
-
-            //todo: fix nullpointer error for matches without experience values
-
 
             //set labels and graph Y-range
             TextView txtExpTop = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextTop);
@@ -490,13 +494,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             for (PlayerSummaryParser parser : parsers) {
                 parser.cancel(true);
             }
-
         }
     }
 
     /*Adds towers and barracks to minimap.*/
     @Override
     public void onGlobalLayout() {
+
+        System.out.println("MatchdetailFragment set map");
 
         //remove listener so this method only gets called once
         //different versions depending on android version (before or after API 16)
@@ -802,7 +807,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 }
             }
         } else {
-            //this means the connection timed out, do nothing
+            //this means the connection timed out
         }
 
     }
@@ -1006,7 +1011,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 break;
         }
 
-        //todo: needs a better check to see if the button is one of the 10 player buttons
+        //todo: needs a better check to see if the click event came from one of the 10 player buttons
         if (!deletedNote) {
             int clickedPlayer = Integer.parseInt(v.getTag().toString());
 

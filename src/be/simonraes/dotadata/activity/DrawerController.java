@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.adapter.DrawerAdapter;
@@ -24,8 +21,6 @@ import be.simonraes.dotadata.util.OrientationHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-
-import java.util.prefs.Preferences;
 
 public class DrawerController extends FragmentActivity implements ListView.OnItemClickListener {
 
@@ -42,6 +37,8 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.drawer_layout);
 
         mTitle = mDrawerTitle = getTitle();
@@ -62,20 +59,18 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         }
 
 
-
-
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle(mTitle);
+                if (getActionBar() != null) getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getActionBar().setTitle(mDrawerTitle);
+                if (getActionBar() != null) getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -94,7 +89,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         //start loading the content of the statistics spinners here so it's already ready when the user opens the stats screen
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
         if (!AppPreferences.getAccountID(this).equals("0") && !AppPreferences.getAccountID(this).equals("") && AppPreferences.getAccountID(this) != null) {
-            if (phm.getMaps().getPlayedHeroes().size() < 1) {
+            if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
                 if (phm.getStatus() != AsyncTask.Status.RUNNING) {
                     phm.execute();
                 }
@@ -231,7 +226,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        if (getActionBar() != null) getActionBar().setTitle(mTitle);
     }
 
 
@@ -249,11 +244,11 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ManageUsersFragment(), "ManageUsersFragment").addToBackStack(null).commit();
                 return true;
 
-            //let aboutFragment handle this button if it is visible
+            // let aboutFragment handle this button if it is visible
             case R.id.btnAbout:
-                AboutFragment myFragment = (AboutFragment) getSupportFragmentManager().findFragmentByTag("AboutFragment");
-                if (myFragment != null) {
-                    if (myFragment.isVisible()) {
+                AboutFragment aboutFragment = (AboutFragment) getSupportFragmentManager().findFragmentByTag("AboutFragment");
+                if (aboutFragment != null) {
+                    if (aboutFragment.isVisible()) {
                         return false;
                     } else {
                         drawerToggle.setDrawerIndicatorEnabled(true);
@@ -265,7 +260,6 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
                     getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new AboutFragment(), "AboutFragment").addToBackStack(null).commit();
                     return true;
                 }
-
 
             default:
                 return super.onOptionsItemSelected(item);

@@ -240,7 +240,7 @@ public class MatchesDataSource {
 
 
     public DetailMatch getMatchByID(String matchID) {
-        DetailMatch dmb = new DetailMatch();
+        DetailMatch dmb;
         open();
         Cursor cs = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id = " + matchID, null, null, null, null); // + " AND user = " + user_accountID
         cs.moveToFirst();

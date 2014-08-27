@@ -15,6 +15,7 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
+import be.simonraes.dotadata.async.DetailMatchLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  * Created by Simon on 18/02/14.
  * Displays list of played games for the active user.
  */
-public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, DatabaseMatchLoader.ASyncResponseDatabase, HistoryLoader.ASyncResponseHistoryLoader {
+public class RecentGamesFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, DatabaseMatchLoader.ASyncResponseDatabase, HistoryLoader.ASyncResponseHistoryLoader, DetailMatchLoader.DetailMatchLoaderDelegate {
 
     private ListView lvRecentGames;
     private ProgressBar pbRecentGames;
@@ -182,14 +183,13 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         System.out.println("starting onItemclick");
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
-        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
+//        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
+//        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
 
-        Intent intent = new Intent(getActivity(), MatchActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra("match", match);
-        System.out.println("starting activity");
-        startActivity(intent);
+        getActivity().setProgressBarIndeterminateVisibility(true);
+
+        DetailMatchLoader loader = new DetailMatchLoader(getActivity(), this);
+        loader.execute(matchLite.getMatch_id());
     }
 
     @Override
@@ -241,4 +241,15 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
 
+    /**Receiving full match details from the database.*/
+    @Override
+    public void loadDone(DetailMatch match) {
+        getActivity().setProgressBarIndeterminateVisibility(false);
+
+        Intent intent = new Intent(getActivity(), MatchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.putExtra("match", match);
+        System.out.println("starting activity");
+        startActivity(intent);
+    }
 }
