@@ -33,7 +33,7 @@ public class HeroStatsWinrateAdapter extends ArrayAdapter<HeroStats> {
         this.heroes = objects;
 
         imageLoader = ImageLoader.getInstance();
-        animateFirstListener = new AnimateFirstDisplayListenerToo();
+        animateFirstListener = new ImageLoadListener();
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

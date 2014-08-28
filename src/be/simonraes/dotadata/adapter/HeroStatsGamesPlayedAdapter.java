@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.statistics.HeroStats;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import be.simonraes.dotadata.util.ImageLoadListener;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.HeroList;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -46,7 +46,7 @@ public class HeroStatsGamesPlayedAdapter extends ArrayAdapter<HeroStats> {
         }
 
         imageLoader = ImageLoader.getInstance();
-        animateFirstListener = new AnimateFirstDisplayListenerToo();
+        animateFirstListener = new ImageLoadListener();
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

@@ -3,6 +3,7 @@ package be.simonraes.dotadata.util;
 import java.util.ArrayList;
 
 /**
+ * Contains the required experience per level.
  * Created by Simon Raes on 21/06/2014.
  */
 public class ExperienceList {

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
@@ -11,6 +13,26 @@ import android.view.WindowManager;
  * Created by Simon on 25/02/14.
  */
 public class OrientationHelper {
+
+    public static int getScreenOrientation(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        int orientation = Configuration.ORIENTATION_UNDEFINED;
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        if (width == height) {
+            orientation = Configuration.ORIENTATION_SQUARE;
+        } else {
+            if (width < height) {
+                orientation = Configuration.ORIENTATION_PORTRAIT;
+            } else {
+                orientation = Configuration.ORIENTATION_LANDSCAPE;
+            }
+        }
+        return orientation;
+    }
 
     public static void lockOrientation(Activity activity) {
         System.out.println("locking orientation");

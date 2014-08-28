@@ -15,7 +15,7 @@ import be.simonraes.dotadata.fragment.*;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import be.simonraes.dotadata.util.ImageLoadListener;
 import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.OrientationHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -40,6 +40,12 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.drawer_layout);
+
+//        if (getActionBar() != null) {
+//            getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.AppIconRed));
+//            getActionBar().setDisplayShowTitleEnabled(false);
+//            getActionBar().setDisplayShowTitleEnabled(true);
+//        }
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -159,7 +165,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         imgAvatar = (ImageView) findViewById(R.id.imgDrawerSliderAvatar);
         //user avatar
         ImageLoader imageLoader = ImageLoader.getInstance();
-        AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
+        ImageLoadListener animateFirstListener = new ImageLoadListener();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

@@ -71,7 +71,7 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
 
         //user avatar
         ImageLoader imageLoader = ImageLoader.getInstance();
-        AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
+        ImageLoadListener animateFirstListener = new ImageLoadListener();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/White">
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                    android:id="@+id/layCardAbout"
+                    style="@style/CardMargin">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/txtGraphTopX"
+                  android:text="x"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/txtGraphLeftY"
+                  android:layout_alignParentBottom="true"
+                  android:layout_toRightOf="@id/txtGraphTopX"
+                  android:text="x"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/txtGraphBottomX"
+                  android:layout_above="@id/txtGraphLeftY"
+                  android:text="x"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_below="@id/txtGraphTopX"
+                      android:layout_above="@id/txtGraphBottomX">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/txtGraphMidX"
+                      android:layout_gravity="center"
+                      android:text="x"/>
+        </LinearLayout>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/txtGraphRightY"
+                  android:layout_alignParentBottom="true"
+                  android:layout_alignParentRight="true"
+                  android:text="x"/>
+        <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
+                                                   android:layout_height="fill_parent"
+                                                   android:id="@+id/lineGraph"
+                                                   android:layout_toRightOf="@id/txtGraphTopX"
+                                                   android:layout_above="@id/txtGraphLeftY"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -170,7 +170,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         LinearLayout layPlayersDire = (LinearLayout) view.findViewById(R.id.layDetailDirePlayers);
 
         imageLoader = ImageLoader.getInstance();
-        animateFirstListener = new AnimateFirstDisplayListenerToo();
+        animateFirstListener = new ImageLoadListener();
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

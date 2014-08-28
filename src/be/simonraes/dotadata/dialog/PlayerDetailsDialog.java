@@ -12,8 +12,7 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
-import be.simonraes.dotadata.util.Conversions;
+import be.simonraes.dotadata.util.ImageLoadListener;
 import be.simonraes.dotadata.util.HeroList;
 import be.simonraes.dotadata.util.MatchUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -96,7 +95,7 @@ public class PlayerDetailsDialog extends DialogFragment implements PlayerSummary
         }
 
         imageLoader = ImageLoader.getInstance();
-        animateFirstListener = new AnimateFirstDisplayListenerToo();
+        animateFirstListener = new ImageLoadListener();
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

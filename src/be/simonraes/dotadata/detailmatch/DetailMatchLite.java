@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Combination of matchdetails and playerinfo, used for getting stats and creating the listview items
+ * Combination of history matchdetails and playerinfo (of the active user), used for getting stats and creating the listviews.
  * Created by Simon on 23/03/14.
  */
 public class DetailMatchLite implements Parcelable {
@@ -16,7 +16,6 @@ public class DetailMatchLite implements Parcelable {
     private String match_id;
     private String lobby_type;
     private String game_mode;
-    private boolean user_win; //extra database field
     private boolean favourite; //option to add a match to your favourites
     private String note; //custom note you can attach to a match
 
@@ -98,13 +97,6 @@ public class DetailMatchLite implements Parcelable {
         this.game_mode = game_mode;
     }
 
-    public boolean isUser_win() {
-        return user_win;
-    }
-
-    public void setUser_win(boolean user_win) {
-        this.user_win = user_win;
-    }
 
     public boolean isFavourite() {
         return favourite;
@@ -321,7 +313,6 @@ public class DetailMatchLite implements Parcelable {
         dest.writeString(match_id);
         dest.writeString(lobby_type);
         dest.writeString(game_mode);
-        dest.writeInt(user_win ? 1 : 0);
         dest.writeInt(favourite ? 1 : 0);
         dest.writeString(note);
 
@@ -357,7 +348,6 @@ public class DetailMatchLite implements Parcelable {
         match_id = pc.readString();
         lobby_type = pc.readString();
         game_mode = pc.readString();
-        user_win = (pc.readInt() == 1);
         favourite = (pc.readInt() == 1);
         note = pc.readString();
 

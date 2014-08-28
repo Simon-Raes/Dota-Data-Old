@@ -100,10 +100,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             }
 
             footerView = inflater.inflate(R.layout.historygames_footer, null);
-
-//            if (matches.size() > 0) {
             lvRecentGames.addFooterView(footerView, null, false);
-//            }
 
             listAdapter = new RecentGamesAdapter(getActivity(), matches);
             lvRecentGames.setAdapter(listAdapter);
@@ -182,9 +179,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         System.out.println("starting onItemclick");
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
-
-//        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
-//        DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
 
         getActivity().setProgressBarIndeterminateVisibility(true);
 

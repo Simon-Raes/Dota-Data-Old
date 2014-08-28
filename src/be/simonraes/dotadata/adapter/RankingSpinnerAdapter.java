@@ -5,18 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
-import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.HeroList;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Simon Raes on 19/04/2014.

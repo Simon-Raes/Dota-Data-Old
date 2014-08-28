@@ -10,17 +10,16 @@ import be.simonraes.dotadata.util.AppPreferences;
  * Loads the requests match details from the database.
  * Created by Simon Raes on 27/08/2014.
  */
-public class DetailMatchLoader  extends AsyncTask<String, Void, DetailMatch>{
+public class DetailMatchLoader extends AsyncTask<String, Void, DetailMatch> {
 
     private Context context;
 
     private DetailMatchLoaderDelegate delegate;
-    public interface DetailMatchLoaderDelegate{
+    public interface DetailMatchLoaderDelegate {
         void loadDone(DetailMatch match);
     }
 
-
-    public DetailMatchLoader(Context context, DetailMatchLoaderDelegate delegate){
+    public DetailMatchLoader(Context context, DetailMatchLoaderDelegate delegate) {
         this.context = context;
         this.delegate = delegate;
     }
@@ -31,9 +30,10 @@ public class DetailMatchLoader  extends AsyncTask<String, Void, DetailMatch>{
         String matchId = strings[0];
         DetailMatch match = null;
 
-        if(matchId!=null && !matchId.equals("")){
+        if (matchId != null && !matchId.equals("")) {
             MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
-             match = mds.getMatchByID(matchId);
+            match = mds.getMatchByID(matchId);
+//            match = mds.getMatchByIdWithoutExperience(matchId);
         }
 
         return match;

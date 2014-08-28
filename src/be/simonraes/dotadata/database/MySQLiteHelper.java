@@ -118,12 +118,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_ADDITIONAL_UNITS = "create table IF NOT EXISTS additional_units(key text primary key, match_id text, player_slot text, unit_name text, item_0 text, item_1 text, item_2 text, item_3 text, item_4 text, item_5 text);";
 
-//    private static final String CREATE_TABLE_PLAYERS = "create table IF NOT EXISTS players(steam_id32 integer primary key, steam_id64 text, personaname text, avatar text);";
-
-//    private static final String CREATE_TABLE_FRIENDS = "create table IF NOT EXISTS friends(steam_id64 integer primary key, accountid integer);";
-
     private Context context;
-
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.util.AnimateFirstDisplayListenerToo;
+import be.simonraes.dotadata.util.ImageLoadListener;
 import be.simonraes.dotadata.util.Conversions;
 import be.simonraes.dotadata.util.HeroList;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -77,7 +77,7 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
             convertView = mInflater.inflate(R.layout.hero_picker_row_selected, null);
 
             imageLoader = ImageLoader.getInstance();
-            animateFirstListener = new AnimateFirstDisplayListenerToo();
+            animateFirstListener = new ImageLoadListener();
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)
@@ -101,7 +101,7 @@ public class HeroSpinnerAdapter extends BaseAdapter implements android.widget.Sp
             convertView = mInflater.inflate(R.layout.hero_picker_row, null);
 
             imageLoader = ImageLoader.getInstance();
-            animateFirstListener = new AnimateFirstDisplayListenerToo();
+            animateFirstListener = new ImageLoadListener();
             options = new DisplayImageOptions.Builder()
                     .resetViewBeforeLoading(true)
                     .cacheInMemory(true)

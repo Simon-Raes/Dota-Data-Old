@@ -238,6 +238,59 @@ public class MatchesDataSource {
         return matches;
     }
 
+    public DetailMatch getMatchByIdWithoutExperience(String matchID){
+        DetailMatch dmb;
+        open();
+        Cursor cs = database.query(MySQLiteHelper.TABLE_MATCHES, matchesColumns, "match_id = " + matchID, null, null, null, null); // + " AND user = " + user_accountID
+        cs.moveToFirst();
+        dmb = cursorToDetailMatch(cs);
+
+        //get players for the match
+        Cursor cursorPlayers = database.query(MySQLiteHelper.TABLE_PLAYERS_IN_MATCHES, playersColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
+        ArrayList<DetailPlayer> players = new ArrayList<DetailPlayer>();
+        cursorPlayers.moveToFirst();
+
+        while (!cursorPlayers.isAfterLast()) {
+            DetailPlayer detailPlayer = cursorToDetailHeroBag(cursorPlayers);
+
+            //get the additional units
+            AdditionalUnitsDataSource addds = new AdditionalUnitsDataSource(context);
+            detailPlayer.setAdditional_units(addds.getAdditionalUnitsForPlayerInMatch(database, detailPlayer.getPlayer_slot(), matchID));
+
+            //store the player
+            players.add(detailPlayer);
+            cursorPlayers.moveToNext();
+        }
+        cursorPlayers.close();
+        dmb.setPlayers(players);
+
+        //get picks/bans for the match
+        Cursor cursorPicksBans = database.query(MySQLiteHelper.TABLE_PICKS_BANS, picksBansColumns, "match_id = ?", new String[]{dmb.getMatch_id()}, null, null, null, null);
+        ArrayList<PicksBans> picksBansList = new ArrayList<PicksBans>();
+        PicksBansDataSource pbds = new PicksBansDataSource(context);
+        cursorPicksBans.moveToFirst();
+        while (!cursorPicksBans.isAfterLast()) {
+            PicksBans picksBans = pbds.cursorToPicksBans(cursorPicksBans);
+            picksBansList.add(picksBans);
+            cursorPicksBans.moveToNext();
+        }
+        cursorPicksBans.close();
+        dmb.setPicks_bans(picksBansList);
+
+        //get extras for match
+        MatchesExtrasDataSource meds = new MatchesExtrasDataSource(context);
+        DetailMatchExtras extras = meds.getDetailMatchExtrasForMatch(dmb.getMatch_id());
+        if (extras != null) {
+            dmb.setExtras(extras);
+        } else {
+            dmb.setExtras(new DetailMatchExtras());
+        }
+
+        cs.close();
+        close();
+        return dmb;
+    }
+
 
     public DetailMatch getMatchByID(String matchID) {
         DetailMatch dmb;

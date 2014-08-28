@@ -36,7 +36,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
         this.matches = objects;
 
         imageLoader = ImageLoader.getInstance();
-        animateFirstListener = new AnimateFirstDisplayListenerToo();
+        animateFirstListener = new ImageLoadListener();
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)

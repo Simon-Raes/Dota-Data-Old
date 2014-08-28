@@ -34,7 +34,7 @@ import java.util.*;
 
 /**
  * Created by Simon on 14/02/14.
- * Creates the layout for stats and calculates stats
+ * Creates the layout for stats and calculates those stats.
  */
 public class StatsNumbersFragment extends Fragment implements View.OnClickListener, StatsMatchesLoader.ASyncResponseStatsLoader {
 

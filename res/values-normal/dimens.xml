@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- matches_list_row.xml -->
+    <dimen name="matches_list_row_hero_image_width">80dp</dimen>
+    <dimen name="matches_list_row_hero_image_height">-2dp</dimen>
+    <dimen name="matches_list_row_gamemode_text_size">14sp</dimen>
+    <dimen name="matches_list_row_date_text_size">12sp</dimen>
+    <dimen name="matches_list_row_victoryloss_text_size">14sp</dimen>
+
+</resources>
