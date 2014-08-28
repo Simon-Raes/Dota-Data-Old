@@ -62,6 +62,8 @@ public class LineGraph extends View {
     private int pixelPadding = DEFAULT_PADDING;
     private int dipPadding = DEFAULT_PADDING;
 
+    private String tag;
+
     public LineGraph(Context context) {
         super(context);
         dipPadding = getPixelForDip(DEFAULT_PADDING);
@@ -321,6 +323,13 @@ public class LineGraph extends View {
         return minX;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public void onDraw(Canvas ca) {
         if (fullImage == null || shouldUpdate) {
@@ -537,7 +546,7 @@ public class LineGraph extends View {
                         indexSelected = count;
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         if (r.contains((int) point.x, (int) point.y) && listener != null) {
-                            listener.onClick(lineCount, pointCount);
+                            listener.onClick(tag, lineCount, pointCount);
                         }
                         indexSelected = -1;
                     }
@@ -564,6 +573,6 @@ public class LineGraph extends View {
     }
 
     public interface OnPointClickedListener {
-        abstract void onClick(int lineIndex, int pointIndex);
+        abstract void onClick(String tag, int lineIndex, int pointIndex);
     }
 }

@@ -7,7 +7,6 @@
               android:background="@color/Gainsboro"
               android:gravity="center_vertical">
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                    android:id="@+id/layCardAbout"
                     android:orientation="vertical"
                     android:background="@drawable/bg_card"
                     style="@style/CardMargin">

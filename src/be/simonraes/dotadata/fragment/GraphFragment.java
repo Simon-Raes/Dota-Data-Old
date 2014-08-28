@@ -2,15 +2,15 @@ package be.simonraes.dotadata.fragment;
 
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.*;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
-import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.holograph.Line;
 import be.simonraes.dotadata.holograph.LineGraph;
 import be.simonraes.dotadata.holograph.LinePoint;
@@ -24,18 +24,27 @@ import java.util.ArrayList;
 /**
  * Created by Simon Raes on 18/04/2014.
  */
-public class GraphFragment extends Fragment implements LineGraph.OnPointClickedListener {
+public class GraphFragment extends Fragment implements LineGraph.OnPointClickedListener, GraphStatsCalculator.GraphStatsDelegate {
+
+    private int GPM_GRAPH_OFFSET = 10;
 
     private LineGraph li;
     private TextView txtTopX, txtMidX, txtBottomX, txtLeftY, txtRightY;
-    private ArrayList<DetailMatchLite> matches;
-    private ArrayList<GraphStats> statsList, gpmStatsList;
+    private ArrayList<GraphStats> statsList;
+    private LinearLayout layGraphs;
+    private ProgressBar progressBarGraphs;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.graph_fragment, null);
+        view = inflater.inflate(R.layout.graph_fragment, null);
 
+        if (savedInstanceState != null) {
+            statsList = savedInstanceState.getParcelableArrayList("statsList");
+        }
 
+        layGraphs = (LinearLayout) view.findViewById(R.id.layMainGraph);
+        progressBarGraphs = (ProgressBar) view.findViewById(R.id.pbGraphs);
 
         li = (LineGraph) view.findViewById(R.id.lineGraph);
         txtTopX = (TextView) view.findViewById(R.id.txtGraphTopX);
@@ -44,27 +53,42 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftY);
         txtRightY = (TextView) view.findViewById(R.id.txtGraphRightY);
 
-        getActivity().setTitle("Winrate (WIP)");
+        getActivity().setTitle("Graphs");
         setHasOptionsMenu(true);
 
         // Update active drawer item.
         ((DrawerController) getActivity()).setActiveDrawerItem(5);
 
-        GraphStatsCalculator calculator = new GraphStatsCalculator(getActivity());
-        statsList = calculator.getGraphStats();
+        // Get the data for the graphs.
         if (statsList != null && statsList.size() > 0) {
-            if (OrientationHelper.getScreenOrientation(getActivity()) == Configuration.ORIENTATION_LANDSCAPE) {
-                System.out.println("landscape");
-            } else {
-                System.out.println("portrait");
-            }
-            createGraph();
-        }
+            setLayout();
+        } else {
+            layGraphs.setVisibility(View.GONE);
+            progressBarGraphs.setVisibility(View.VISIBLE);
 
+            GraphStatsCalculator calculator = new GraphStatsCalculator(this, getActivity());
+            calculator.execute();
+        }
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("statsList", statsList);
+    }
 
+    private void setLayout() {
+        layGraphs.setVisibility(View.VISIBLE);
+        progressBarGraphs.setVisibility(View.GONE);
+
+        if (OrientationHelper.getScreenOrientation(getActivity()) == Configuration.ORIENTATION_LANDSCAPE) {
+            createWinrateGraph();
+        } else {
+            createWinrateGraph();
+            createGPMGraph(view);
+        }
+    }
 
     private void createPortraitLayout() {
 
@@ -74,20 +98,30 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
 
     }
 
-    /**Creates a Toast message with info about the clicked graph node.*/
+    /**
+     * Creates a Toast message with info about the clicked graph node.
+     */
     @Override
-    public void onClick(int lineIndex, int pointIndex) {
+    public void onClick(String tag, int lineIndex, int pointIndex) {
+
+        // The values list has more points than the graph (it also contains the null values that aren't drawn), account for that here.
         int numberOfNulls = 0;
 
         if (pointIndex > 0) {
-            for (int i = 1; i < pointIndex+numberOfNulls; i++) {
+            for (int i = 1; i < pointIndex + numberOfNulls; i++) {
                 if (statsList.get(i) == null) {
                     numberOfNulls++;
                 }
             }
+        }
 
-            Toast.makeText(getActivity(), Conversions.roundDouble(statsList.get(pointIndex + numberOfNulls-1).getWinrateCumulative(), 2) + "% "
-                    + "(" + statsList.get(pointIndex + numberOfNulls-1).getDateString() + ")", Toast.LENGTH_SHORT).show();
+        // Display message for the clicked graph.
+        if (tag.equals("Winrate")) {
+            Toast.makeText(getActivity(), Conversions.roundDouble(statsList.get(pointIndex + numberOfNulls - 1).getWinrateCumulative(), 2) + "% "
+                    + "(" + statsList.get(pointIndex + numberOfNulls - 1).getDateString() + ")", Toast.LENGTH_SHORT).show();
+        } else if (tag.equals("GPM")) {
+            Toast.makeText(getActivity(), Conversions.roundDouble(statsList.get(pointIndex + numberOfNulls - 1).getGpmAveragedCumulative(), 0)
+                    + "GPM (" + statsList.get(pointIndex + numberOfNulls - 1).getDateString() + ")", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -118,8 +152,9 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         }
     }
 
-    private void createGraph() {
+    private void createWinrateGraph() {
         li.setOnPointClickedListener(this);
+        li.setTag("Winrate");
         li.setUsingDips(true);
 
         Line l = new Line();
@@ -132,9 +167,8 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         l.addPoint(p);
 
         for (int i = 0; i < statsList.size(); i++) {
-            // Only create a graph node if their is info for that period, leave an empty space if not.
+            // Only create a graph node if there is info for that period, leave an empty space if not.
             if (statsList.get(i) != null) {
-                System.out.println(i + ": " + statsList.get(i).getWeek() + "/" + statsList.get(i).getYear());
                 p = new LinePoint();
                 p.setX(i);
                 p.setY(statsList.get(i).getWinrateCumulative());
@@ -144,7 +178,6 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         }
 
         li.addLine(l);
-
         li.setLineToFill(0);
 
         double maxWinrate = 0;
@@ -183,5 +216,79 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
 
         txtLeftY.setText(statsList.get(0).getDateString());
         txtRightY.setText(statsList.get(statsList.size() - 1).getDateString());
+    }
+
+
+    private void createGPMGraph(View view) {
+
+        li = (LineGraph) view.findViewById(R.id.lineGraphGPM);
+        txtTopX = (TextView) view.findViewById(R.id.txtGraphTopXGPM);
+        txtMidX = (TextView) view.findViewById(R.id.txtGraphMidXGPM);
+        txtBottomX = (TextView) view.findViewById(R.id.txtGraphBottomXGPM);
+        txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftYGPM);
+        txtRightY = (TextView) view.findViewById(R.id.txtGraphRightYGPM);
+
+        li.setOnPointClickedListener(this);
+        li.setTag("GPM");
+        li.setUsingDips(true);
+
+        Line l = new Line();
+        LinePoint p;
+
+        for (int i = 0; i < statsList.size(); i++) {
+            // Only create a graph node if there is info for that period, leave an empty space if not.
+            if (statsList.get(i) != null) {
+                p = new LinePoint();
+                p.setX(i);
+                p.setY(statsList.get(i).getGpmAveragedCumulative());
+                p.setColor("#FFBE00");
+                l.addPoint(p);
+                l.setColor(Color.parseColor("#FFD700"));
+            }
+        }
+
+        li.addLine(l);
+        li.setLineToFill(0);
+
+        double maxGpm = 0;
+        double minGpm = 100000;
+
+        // Determine graph Y-min and Y-max
+        for (int i = 0; i < statsList.size(); i++) {
+            if (statsList.get(i) != null) {
+                if (statsList.get(i).getGpmAveragedCumulative() > maxGpm) {
+                    maxGpm = statsList.get(i).getGpmAveragedCumulative();
+                }
+                if (statsList.get(i).getGpmAveragedCumulative() < minGpm) {
+                    minGpm = statsList.get(i).getGpmAveragedCumulative();
+                }
+            }
+        }
+
+        maxGpm += GPM_GRAPH_OFFSET;
+        minGpm -= GPM_GRAPH_OFFSET;
+
+        li.setRangeY((float) Math.floor(minGpm), (float) Math.ceil(maxGpm));
+
+        // Set labels
+        txtTopX.setText(Double.toString(Math.ceil(maxGpm)));
+        txtBottomX.setText(Double.toString(Math.floor(minGpm)));
+
+        Double midRate = (Math.ceil(maxGpm) + Math.floor(minGpm)) / 2;
+        txtMidX.setText(Double.toString(Conversions.roundDouble(midRate, 2)));
+
+        txtLeftY.setText(statsList.get(0).getDateString());
+        txtRightY.setText(statsList.get(statsList.size() - 1).getDateString());
+    }
+
+    /**
+     * Receives graph data.
+     */
+    @Override
+    public void matchesLoaded(ArrayList<GraphStats> list) {
+        statsList = list;
+        if (statsList != null && statsList.size() > 0) {
+            setLayout();
+        }
     }
 }

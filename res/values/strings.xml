@@ -7,4 +7,6 @@
     <string name="imgRadiantLogo">Radiant</string>
     <string name="txtTeamExperience">Team experience</string>
     <string name="imgMinimap">Minimap</string>
+    <string name="txtGraphsHeaderWinrate">Winrate</string>
+    <string name="txtGraphsHeaderGPM">Gold per minute</string>
 </resources>

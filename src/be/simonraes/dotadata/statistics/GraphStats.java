@@ -1,10 +1,14 @@
 package be.simonraes.dotadata.statistics;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Values used in the graphs.
  * Created by Simon Raes on 22/04/2014.
  */
-public class GraphStats {
+public class GraphStats implements Parcelable {
+
     private int numberOfGamesPeriod; // Number of games played in this period (week)
     private int numberOfGamesCumulative; // Number of games played up to this period (this week + all previous weeks)
     private int gpmTotalPeriod;
@@ -108,4 +112,64 @@ public class GraphStats {
     public void setWeek(int week) {
         this.week = week;
     }
+
+
+    // parcelable
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    /*private int numberOfGamesPeriod; // Number of games played in this period (week)
+    private int numberOfGamesCumulative; // Number of games played up to this period (this week + all previous weeks)
+    private int gpmTotalPeriod;
+    private int gpmTotalCumulative;
+    private double gpmAveragedCumulative;
+    private int winsPeriod, lossesPeriod;
+    private double winrateCumulative;
+    private int year, week;
+    private String dateString;*/
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(numberOfGamesPeriod);
+        dest.writeInt(numberOfGamesCumulative);
+        dest.writeInt(gpmTotalPeriod);
+        dest.writeInt(gpmTotalCumulative);
+        dest.writeDouble(gpmAveragedCumulative);
+        dest.writeInt(winsPeriod);
+        dest.writeInt(lossesPeriod);
+        dest.writeDouble(winrateCumulative);
+        dest.writeInt(year);
+        dest.writeInt(week);
+        dest.writeString(dateString);
+    }
+
+    public GraphStats(Parcel pc) {
+        numberOfGamesPeriod = pc.readInt();
+        numberOfGamesCumulative = pc.readInt();
+        gpmTotalPeriod = pc.readInt();
+        gpmTotalCumulative = pc.readInt();
+        gpmAveragedCumulative = pc.readDouble();
+        winsPeriod = pc.readInt();
+        lossesPeriod = pc.readInt();
+        winrateCumulative = pc.readDouble();
+        year = pc.readInt();
+        week = pc.readInt();
+        dateString = pc.readString();
+    }
+
+    public static final Parcelable.Creator<GraphStats> CREATOR = new
+            Parcelable.Creator<GraphStats>() {
+                public GraphStats createFromParcel(Parcel pc) {
+                    return new GraphStats(pc);
+                }
+
+                public GraphStats[] newArray(int size) {
+                    return new GraphStats[size];
+                }
+            };
 }

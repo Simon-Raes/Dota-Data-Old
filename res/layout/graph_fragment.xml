@@ -1,42 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/White">
-<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                    android:id="@+id/layCardAbout"
-                    style="@style/CardMargin">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/txtGraphTopX"
-                  android:text="x"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/txtGraphLeftY"
-                  android:layout_alignParentBottom="true"
-                  android:layout_toRightOf="@id/txtGraphTopX"
-                  android:text="x"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/txtGraphBottomX"
-                  android:layout_above="@id/txtGraphLeftY"
-                  android:text="x"/>
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_below="@id/txtGraphTopX"
-                      android:layout_above="@id/txtGraphBottomX">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/txtGraphMidX"
-                      android:layout_gravity="center"
-                      android:text="x"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/Gainsboro"
+                >
+
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="fill_parent"
+                >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:id="@+id/layMainGraph"
+                      android:visibility="gone"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="300dp"
+                            android:background="@drawable/bg_card"
+                            style="@style/CardMargin">
+
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphHeaderWinrate"
+                          android:text="@string/txtGraphsHeaderWinrate"/>
+                <View style="@style/DrawerDivider"
+                      android:id="@+id/txtGraphHeaderWinrateDivider"
+                      android:layout_below="@id/txtGraphHeaderWinrate"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="5dp"/>
+
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_below="@id/txtGraphHeaderWinrateDivider"
+                          android:id="@+id/txtGraphTopX"
+                          android:text="x"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphLeftY"
+                          android:layout_alignParentBottom="true"
+                          android:layout_toRightOf="@id/txtGraphTopX"
+                          android:text="x"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphBottomX"
+                          android:layout_above="@id/txtGraphLeftY"
+                          android:text="x"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_below="@id/txtGraphTopX"
+                              android:layout_above="@id/txtGraphBottomX">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtGraphMidX"
+                              android:layout_gravity="center"
+                              android:text="x"/>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphRightY"
+                          android:layout_alignParentBottom="true"
+                          android:layout_alignParentRight="true"
+                          android:text="x"/>
+                <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
+                                                           android:layout_height="fill_parent"
+                                                           android:id="@+id/lineGraph"
+                                                           android:layout_toRightOf="@id/txtGraphTopX"
+                                                           android:layout_above="@id/txtGraphLeftY"
+                                                           android:layout_below="@id/txtGraphHeaderWinrateDivider"/>
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="300dp"
+                            android:background="@drawable/bg_card"
+                            style="@style/CardMargin">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphHeaderGPM"
+                          android:text="@string/txtGraphsHeaderGPM"/>
+                <View style="@style/DrawerDivider"
+                      android:id="@+id/txtGraphHeaderGPMDivider"
+                      android:layout_below="@id/txtGraphHeaderGPM"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginBottom="5dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphTopXGPM"
+                          android:layout_below="@id/txtGraphHeaderGPMDivider"
+                          android:text="x"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphLeftYGPM"
+                          android:layout_alignParentBottom="true"
+                          android:layout_toRightOf="@id/txtGraphTopXGPM"
+                          android:text="x"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphBottomXGPM"
+                          android:layout_above="@id/txtGraphLeftYGPM"
+                          android:text="x"/>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_below="@id/txtGraphTopXGPM"
+                              android:layout_above="@id/txtGraphBottomXGPM">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/txtGraphMidXGPM"
+                              android:layout_gravity="center"
+                              android:text="x"/>
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/txtGraphRightYGPM"
+                          android:layout_alignParentBottom="true"
+                          android:layout_alignParentRight="true"
+                          android:text="x"/>
+                <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
+                                                           android:layout_height="fill_parent"
+                                                           android:id="@+id/lineGraphGPM"
+                                                           android:layout_toRightOf="@id/txtGraphTopXGPM"
+                                                           android:layout_above="@id/txtGraphLeftYGPM"
+                                                           android:layout_below="@id/txtGraphHeaderGPMDivider"
+                        />
+            </RelativeLayout>
         </LinearLayout>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:id="@+id/txtGraphRightY"
-                  android:layout_alignParentBottom="true"
-                  android:layout_alignParentRight="true"
-                  android:text="x"/>
-        <be.simonraes.dotadata.holograph.LineGraph android:layout_width="fill_parent"
-                                                   android:layout_height="fill_parent"
-                                                   android:id="@+id/lineGraph"
-                                                   android:layout_toRightOf="@id/txtGraphTopX"
-                                                   android:layout_above="@id/txtGraphLeftY"/>
-    </RelativeLayout>
-</LinearLayout>
+    </ScrollView>
+
+    <!-- loading indicator -->
+    <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:id="@+id/pbGraphs"
+                 android:indeterminate="true"
+                 style="?android:attr/progressBarStyleLarge"
+                 android:layout_centerInParent="true"/>
+</RelativeLayout>

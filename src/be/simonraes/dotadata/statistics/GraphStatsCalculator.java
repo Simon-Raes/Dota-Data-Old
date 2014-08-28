@@ -1,6 +1,8 @@
 package be.simonraes.dotadata.statistics;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.AppPreferences;
@@ -13,14 +15,24 @@ import java.util.TreeMap;
 /**
  * Created by Simon Raes on 28/08/2014.
  */
-public class GraphStatsCalculator {
+public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphStats>>{
+
+    private GraphStatsDelegate delegate;
+    public interface GraphStatsDelegate{
+        void matchesLoaded(ArrayList<GraphStats> list);
+    }
 
     private Context context;
 
-    public GraphStatsCalculator(Context context) {
+    public GraphStatsCalculator(GraphStatsDelegate delegate, Context context) {
+        this.delegate = delegate;
         this.context = context;
     }
 
+    @Override
+    protected ArrayList<GraphStats> doInBackground(Void... voids) {
+        return getGraphStats();
+    }
 
     public ArrayList<GraphStats> getGraphStats() {
         TreeMap<String, GraphStats> mapStats = new TreeMap<String, GraphStats>();
@@ -36,22 +48,7 @@ public class GraphStatsCalculator {
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(Long.parseLong(match.getStart_time()) * 1000);
 
-                //using individual days
-//            String date = Integer.toString(cal.get(Calendar.YEAR));
-//            date += "-";
-//            if (cal.get(Calendar.MONTH) < 10) {
-//                date += "0" + cal.get(Calendar.MONTH);
-//            } else {
-//                date += cal.get(Calendar.MONTH);
-//            }
-//            date += "-";
-//            if (cal.get(Calendar.DAY_OF_MONTH) < 10) { //more precise info with DAY_OF_MONTH
-//                date += "0" + cal.get(Calendar.DAY_OF_MONTH);
-//            } else {
-//                date += cal.get(Calendar.DAY_OF_MONTH);
-//            }
-
-                //using weeks of year
+                // Group games by week
                 String date = Integer.toString(cal.get(Calendar.YEAR));
                 date += " - week ";
                 if (cal.get(Calendar.WEEK_OF_YEAR) < 10) {
@@ -159,5 +156,11 @@ public class GraphStatsCalculator {
             }
         }
         return finalStatsList;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<GraphStats> graphStatses) {
+        super.onPostExecute(graphStatses);
+        delegate.matchesLoaded(graphStatses);
     }
 }
