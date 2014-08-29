@@ -175,14 +175,11 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         for (int i = 0; i < statsList.size(); i++) {
             // Only create a graph node if there is info for that period, leave an empty space if not.
             if (statsList.get(i) != null) {
-                System.out.println("point x: " + i);
                 p = new LinePoint();
                 p.setX(i);
                 p.setY(statsList.get(i).getWinrateCumulative());
                 l.addPoint(p);
                 l.setColor(Color.parseColor("#B8DC70"));
-            } else {
-                System.out.println("null node at i " + i);
             }
         }
 

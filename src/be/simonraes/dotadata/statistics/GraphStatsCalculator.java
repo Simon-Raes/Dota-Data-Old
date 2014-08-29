@@ -46,8 +46,6 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
         if (matches != null && matches.size() > 0) {
 
             for (DetailMatchLite match : matches) {
-                System.out.println(match.getGame_mode());
-                System.out.println(match.getStart_time());
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(Long.parseLong(match.getStart_time()) * 1000);
 
@@ -112,7 +110,7 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
                 graphStatsForWeek.setAssistsTotalPeriod(cumulativeAssists + Integer.parseInt(match.getAssists()));
                 // Date
                 graphStatsForWeek.setYear(cal.get(Calendar.YEAR));
-                graphStatsForWeek.setWeek(cal.get(Calendar.WEEK_OF_YEAR));
+                graphStatsForWeek.setWeek(weekOfYear);
             }
 
             statsList = new ArrayList<GraphStats>(mapStats.values());
@@ -202,7 +200,15 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
                     weekDifference = (statsList.get(i).getWeek() - statsList.get(i - 1).getWeek()) - 1;
                 } else {
                     for (int j = 0; j < yearDifference; j++) {
-                        int weeksInFirstYear = 52 - statsList.get(i - 1).getWeek();
+                        int weeksInFirstYear=0;
+                        if(statsList.get(i-1).getWeek() == 53){
+                             weeksInFirstYear = 53 - statsList.get(i - 1).getWeek();
+
+                        } else {
+                             weeksInFirstYear = 52 - statsList.get(i - 1).getWeek();
+
+                        }
+//                        int weeksInFirstYear = 52 - statsList.get(i - 1).getWeek();
                         int weeksInSecondYear = statsList.get(i).getWeek() - 1;
                         weekDifference += weeksInFirstYear + weeksInSecondYear;
                     }

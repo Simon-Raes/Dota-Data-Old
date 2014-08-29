@@ -234,18 +234,6 @@ public class GraphStats implements Parcelable {
         return 0;
     }
 
-
-    /*private int numberOfGamesPeriod; // Number of games played in this period (week)
-    private int numberOfGamesCumulative; // Number of games played up to this period (this week + all previous weeks)
-    private int gpmTotalPeriod;
-    private int gpmTotalCumulative;
-    private double gpmAveragedCumulative;
-    private int winsPeriod, lossesPeriod;
-    private double winrateCumulative;
-    private int year, week;
-    private String dateString;*/
-
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(numberOfGamesPeriod);
