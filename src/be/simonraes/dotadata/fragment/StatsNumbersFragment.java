@@ -524,8 +524,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     }
 
     private void setGameModesGraph() {
-        System.out.println("setGameModesGraph");
-
 
         LinearLayout layLegend = (LinearLayout) view.findViewById(R.id.layPieLegend);
         layLegend.removeAllViews();
@@ -568,9 +566,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     }
 
     private void setHeroesGraph() {
-        System.out.println("setHeroesGraph");
-        //System.out.println("matches size: "+matches.size());
-
 
         barGraph = (BarGraph) view.findViewById(R.id.barHeroes);
         barGraph.setOnBarClickedListener(barHandler);

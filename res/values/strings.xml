@@ -9,4 +9,6 @@
     <string name="imgMinimap">Minimap</string>
     <string name="txtGraphsHeaderWinrate">Winrate</string>
     <string name="txtGraphsHeaderGPM">Gold per minute</string>
+    <string name="txtGraphsHeaderLastHits">Last Hits</string>
+    <string name="txtGraphsHeaderKillsDeathsAssists">Kills, Deaths and Assists</string>
 </resources>

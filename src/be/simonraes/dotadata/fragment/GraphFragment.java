@@ -26,9 +26,11 @@ import java.util.ArrayList;
  */
 public class GraphFragment extends Fragment implements LineGraph.OnPointClickedListener, GraphStatsCalculator.GraphStatsDelegate {
 
-    private int GPM_GRAPH_OFFSET = 10;
+    private int GPM_GRAPH_OFFSET = 5;
+    private int LH_GRAPH_OFFSET = 5;
+    private int KDA_GRAPH_OFFSET = 1;
 
-    private LineGraph li;
+    private LineGraph graphKDA;
     private TextView txtTopX, txtMidX, txtBottomX, txtLeftY, txtRightY;
     private ArrayList<GraphStats> statsList;
     private LinearLayout layGraphs;
@@ -46,14 +48,14 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         layGraphs = (LinearLayout) view.findViewById(R.id.layMainGraph);
         progressBarGraphs = (ProgressBar) view.findViewById(R.id.pbGraphs);
 
-        li = (LineGraph) view.findViewById(R.id.lineGraph);
+        graphKDA = (LineGraph) view.findViewById(R.id.lineGraph);
         txtTopX = (TextView) view.findViewById(R.id.txtGraphTopX);
         txtMidX = (TextView) view.findViewById(R.id.txtGraphMidX);
         txtBottomX = (TextView) view.findViewById(R.id.txtGraphBottomX);
         txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftY);
         txtRightY = (TextView) view.findViewById(R.id.txtGraphRightY);
 
-        getActivity().setTitle("Graphs");
+        getActivity().setTitle("Graphs (WIP)");
         setHasOptionsMenu(true);
 
         // Update active drawer item.
@@ -87,6 +89,8 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         } else {
             createWinrateGraph();
             createGPMGraph(view);
+            createLHGraph(view);
+            createKDAGraph(view);
         }
     }
 
@@ -103,6 +107,8 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
      */
     @Override
     public void onClick(String tag, int lineIndex, int pointIndex) {
+
+        // Todo: these toasts display incorrect info.
 
         // The values list has more points than the graph (it also contains the null values that aren't drawn), account for that here.
         int numberOfNulls = 0;
@@ -153,32 +159,35 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
     }
 
     private void createWinrateGraph() {
-        li.setOnPointClickedListener(this);
-        li.setTag("Winrate");
-        li.setUsingDips(true);
+        graphKDA.setOnPointClickedListener(this);
+        graphKDA.setTag("Winrate");
+        graphKDA.setUsingDips(true);
 
         Line l = new Line();
 
         //add 1 startpoint so the graph starts at X 0
         LinePoint p;
-        p = new LinePoint();
-        p.setX(0);
-        p.setY(50);
-        l.addPoint(p);
+//        p = new LinePoint();
+//        p.setX(0);
+//        p.setY(50);
+//        l.addPoint(p);
 
         for (int i = 0; i < statsList.size(); i++) {
             // Only create a graph node if there is info for that period, leave an empty space if not.
             if (statsList.get(i) != null) {
+                System.out.println("point x: " + i);
                 p = new LinePoint();
                 p.setX(i);
                 p.setY(statsList.get(i).getWinrateCumulative());
                 l.addPoint(p);
                 l.setColor(Color.parseColor("#B8DC70"));
+            } else {
+                System.out.println("null node at i " + i);
             }
         }
 
-        li.addLine(l);
-        li.setLineToFill(0);
+        graphKDA.addLine(l);
+        graphKDA.setLineToFill(0);
 
         double maxWinrate = 0;
         double minWinrate = 100;
@@ -205,7 +214,7 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         maxWinrate = 50 + offset;
         minWinrate = 50 - offset;
 
-        li.setRangeY((float) Math.floor(minWinrate), (float) Math.ceil(maxWinrate));
+        graphKDA.setRangeY((float) Math.floor(minWinrate), (float) Math.ceil(maxWinrate));
 
         // Set labels
         txtTopX.setText(Double.toString(Math.ceil(maxWinrate)));
@@ -221,16 +230,16 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
 
     private void createGPMGraph(View view) {
 
-        li = (LineGraph) view.findViewById(R.id.lineGraphGPM);
+        graphKDA = (LineGraph) view.findViewById(R.id.lineGraphGPM);
         txtTopX = (TextView) view.findViewById(R.id.txtGraphTopXGPM);
         txtMidX = (TextView) view.findViewById(R.id.txtGraphMidXGPM);
         txtBottomX = (TextView) view.findViewById(R.id.txtGraphBottomXGPM);
         txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftYGPM);
         txtRightY = (TextView) view.findViewById(R.id.txtGraphRightYGPM);
 
-        li.setOnPointClickedListener(this);
-        li.setTag("GPM");
-        li.setUsingDips(true);
+        graphKDA.setOnPointClickedListener(this);
+        graphKDA.setTag("GPM");
+        graphKDA.setUsingDips(true);
 
         Line l = new Line();
         LinePoint p;
@@ -247,8 +256,8 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
             }
         }
 
-        li.addLine(l);
-        li.setLineToFill(0);
+        graphKDA.addLine(l);
+        graphKDA.setLineToFill(0);
 
         double maxGpm = 0;
         double minGpm = 100000;
@@ -268,13 +277,184 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         maxGpm += GPM_GRAPH_OFFSET;
         minGpm -= GPM_GRAPH_OFFSET;
 
-        li.setRangeY((float) Math.floor(minGpm), (float) Math.ceil(maxGpm));
+        graphKDA.setRangeY((float) Math.floor(minGpm), (float) Math.ceil(maxGpm));
 
         // Set labels
         txtTopX.setText(Double.toString(Math.ceil(maxGpm)));
         txtBottomX.setText(Double.toString(Math.floor(minGpm)));
 
         Double midRate = (Math.ceil(maxGpm) + Math.floor(minGpm)) / 2;
+        txtMidX.setText(Double.toString(Conversions.roundDouble(midRate, 2)));
+
+        txtLeftY.setText(statsList.get(0).getDateString());
+        txtRightY.setText(statsList.get(statsList.size() - 1).getDateString());
+    }
+
+
+    private void createLHGraph(View view) {
+
+        graphKDA = (LineGraph) view.findViewById(R.id.lineGraphLH);
+        txtTopX = (TextView) view.findViewById(R.id.txtGraphTopXLH);
+        txtMidX = (TextView) view.findViewById(R.id.txtGraphMidXLH);
+        txtBottomX = (TextView) view.findViewById(R.id.txtGraphBottomXLH);
+        txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftYLH);
+        txtRightY = (TextView) view.findViewById(R.id.txtGraphRightYLH);
+
+        graphKDA.setOnPointClickedListener(this);
+        graphKDA.setTag("LH");
+        graphKDA.setUsingDips(true);
+
+        Line l = new Line();
+        LinePoint p;
+
+        for (int i = 0; i < statsList.size(); i++) {
+            // Only create a graph node if there is info for that period, leave an empty space if not.
+            if (statsList.get(i) != null) {
+                p = new LinePoint();
+                p.setX(i);
+                p.setY(statsList.get(i).getLastHitsAveragedCumulative());
+                p.setColor("#FFBE00");
+                l.addPoint(p);
+                l.setColor(Color.parseColor("#FFD700"));
+            }
+        }
+
+        graphKDA.addLine(l);
+        graphKDA.setLineToFill(0);
+
+        double maxLH = 0;
+        double minLH = 100000;
+
+        // Determine graph Y-min and Y-max
+        for (int i = 0; i < statsList.size(); i++) {
+            if (statsList.get(i) != null) {
+                if (statsList.get(i).getLastHitsAveragedCumulative() > maxLH) {
+                    maxLH = statsList.get(i).getLastHitsAveragedCumulative();
+                }
+                if (statsList.get(i).getLastHitsAveragedCumulative() < minLH) {
+                    minLH = statsList.get(i).getLastHitsAveragedCumulative();
+                }
+            }
+        }
+
+        maxLH += LH_GRAPH_OFFSET;
+        minLH -= LH_GRAPH_OFFSET;
+
+        graphKDA.setRangeY((float) Math.floor(minLH), (float) Math.ceil(maxLH));
+
+        // Set labels
+        txtTopX.setText(Double.toString(Math.ceil(maxLH)));
+        txtBottomX.setText(Double.toString(Math.floor(minLH)));
+
+        Double midRate = (Math.ceil(maxLH) + Math.floor(minLH)) / 2;
+        txtMidX.setText(Double.toString(Conversions.roundDouble(midRate, 2)));
+
+        txtLeftY.setText(statsList.get(0).getDateString());
+        txtRightY.setText(statsList.get(statsList.size() - 1).getDateString());
+    }
+
+    private void createKDAGraph(View view) {
+        graphKDA = (LineGraph) view.findViewById(R.id.lineGraphKDA);
+        txtTopX = (TextView) view.findViewById(R.id.txtGraphTopXKDA);
+        txtMidX = (TextView) view.findViewById(R.id.txtGraphMidXKDA);
+        txtBottomX = (TextView) view.findViewById(R.id.txtGraphBottomXKDA);
+        txtLeftY = (TextView) view.findViewById(R.id.txtGraphLeftYKDA);
+        txtRightY = (TextView) view.findViewById(R.id.txtGraphRightYKDA);
+
+        graphKDA.setOnPointClickedListener(this);
+        graphKDA.setTag("KDA");
+        graphKDA.setUsingDips(true);
+
+        Line lineAssists = new Line();
+        LinePoint p;
+
+        for (int i = 0; i < statsList.size(); i++) {
+            // Only create a graph node if there is info for that period, leave an empty space if not.
+            if (statsList.get(i) != null) {
+                p = new LinePoint();
+                p.setX(i);
+                p.setY(statsList.get(i).getAssistsAveragedCumulative());
+                p.setColor("#FFBE00");
+                lineAssists.addPoint(p);
+                lineAssists.setColor(Color.parseColor("#FFD700"));
+            }
+        }
+
+        Line lineDeaths = new Line();
+
+        for (int i = 0; i < statsList.size(); i++) {
+            // Only create a graph node if there is info for that period, leave an empty space if not.
+            if (statsList.get(i) != null) {
+                p = new LinePoint();
+                p.setX(i);
+                p.setY(statsList.get(i).getDeathsAveragedCumulative());
+                p.setColor("#B0311E");
+                lineDeaths.addPoint(p);
+                lineDeaths.setColor(Color.parseColor("#B0311E"));
+            }
+        }
+
+        Line lineKills = new Line();
+
+        for (int i = 0; i < statsList.size(); i++) {
+            // Only create a graph node if there is info for that period, leave an empty space if not.
+            if (statsList.get(i) != null) {
+                p = new LinePoint();
+                p.setX(i);
+                p.setY(statsList.get(i).getKillsAveragedCumulative());
+                p.setColor("#668042");
+                lineKills.addPoint(p);
+                lineKills.setColor(Color.parseColor("#668042"));
+            }
+        }
+
+        graphKDA.addLine(lineAssists);
+        graphKDA.addLine(lineDeaths);
+        graphKDA.addLine(lineKills);
+        graphKDA.setLineToFill(0);
+
+
+        double maxKDA = 0;
+        double minKDA = 100000;
+
+        // Determine graph Y-min and Y-max
+        for (int i = 0; i < statsList.size(); i++) {
+            if (statsList.get(i) != null) {
+                if (statsList.get(i).getKillsAveragedCumulative() > maxKDA) {
+                    maxKDA = statsList.get(i).getKillsAveragedCumulative();
+                }
+                if (statsList.get(i).getDeathsAveragedCumulative() > maxKDA) {
+                    maxKDA = statsList.get(i).getDeathsAveragedCumulative();
+                }
+                if (statsList.get(i).getAssistsAveragedCumulative() > maxKDA) {
+                    maxKDA = statsList.get(i).getAssistsAveragedCumulative();
+                }
+
+                if (statsList.get(i).getKillsAveragedCumulative() < minKDA) {
+                    minKDA = statsList.get(i).getKillsAveragedCumulative();
+                }
+                if (statsList.get(i).getDeathsAveragedCumulative() < minKDA) {
+                    minKDA = statsList.get(i).getDeathsAveragedCumulative();
+                }
+                if (statsList.get(i).getAssistsAveragedCumulative() < minKDA) {
+                    minKDA = statsList.get(i).getAssistsAveragedCumulative();
+                }
+            }
+        }
+
+        maxKDA += KDA_GRAPH_OFFSET;
+        minKDA -= KDA_GRAPH_OFFSET;
+        if (minKDA < 0) {
+            minKDA = 0;
+        }
+
+        graphKDA.setRangeY((float) Math.floor(minKDA), (float) Math.ceil(maxKDA));
+
+        // Set labels
+        txtTopX.setText(Double.toString(Math.ceil(maxKDA)));
+        txtBottomX.setText(Double.toString(Math.floor(minKDA)));
+
+        Double midRate = (Math.ceil(maxKDA) + Math.floor(minKDA)) / 2;
         txtMidX.setText(Double.toString(Conversions.roundDouble(midRate, 2)));
 
         txtLeftY.setText(statsList.get(0).getDateString());

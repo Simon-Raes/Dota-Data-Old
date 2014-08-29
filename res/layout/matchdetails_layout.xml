@@ -196,6 +196,7 @@
 
             <!-- Experience graph (teams)-->
             <RelativeLayout android:layout_width="fill_parent" android:layout_height="200dp"
+                            android:id="@+id/layTeamExperience"
                             style="@style/CardMargin"
                             android:orientation="vertical"
                             android:background="@drawable/bg_card">

@@ -72,7 +72,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     private LineGraph lineGraphExperienceTeams;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("MatchDetailFragment oncreateview");
@@ -102,7 +101,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         scrollScoreboard();
         setScoreboard();
         setPicksBans();
-        setGraph();
+        setExperienceGraph();
 
         //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
         layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
@@ -412,7 +411,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     }
 
     /*Builds the experience graph.*/
-    private void setGraph() {
+    private void setExperienceGraph() {
         System.out.println("MatchdetailFragment setgraph");
 
 
@@ -470,6 +469,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             txtExpBottom.setText(Integer.toString(bottomY));
 
             lineGraphExperienceTeams.setRangeY(bottomY, topY);
+        } else {
+            RelativeLayout layExperience = (RelativeLayout) view.findViewById(R.id.layTeamExperience);
+            layExperience.setVisibility(View.GONE);
         }
     }
 

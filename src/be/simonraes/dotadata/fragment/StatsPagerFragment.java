@@ -59,7 +59,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            System.out.println("come from state");
             gameModeSelection = savedInstanceState.getInt("gameModeSelection");
             heroSelection = savedInstanceState.getInt("heroSelection");
             matches = savedInstanceState.getParcelableArrayList("matches");
@@ -68,8 +67,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
             gameModeID = savedInstanceState.getString("gameModeID");
             heroID = savedInstanceState.getString("heroID");
         } else {
-            System.out.println("come not from state");
-
             gameModeSelection = -1;
             heroSelection = -1;
             //ID of the active item in the spinners
@@ -108,7 +105,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         if (extras != null) {
             if (extras.containsKey("hero_id")) {
                 //set active hero
-                System.out.println("pages extras not null");
                 heroID = extras.getString("hero_id");
                 //only do this once so the screen doesn't reset back to the passed in value when rotating
                 extras.remove("hero_id");
@@ -123,7 +119,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        System.out.println("onSaveInstanceState");
         super.onSaveInstanceState(outState);
         outState.putInt("gameModeSelection", gameModeSelection);
         outState.putInt("heroSelection", heroSelection);
@@ -137,7 +132,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        System.out.println("onCreateOptionsMenu");
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.actionbar_menu, menu);
 
@@ -216,7 +210,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("onItemSelected");
 
         switch (parent.getId()) {
             case R.id.spinGameModes:
@@ -304,7 +297,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
     /*Gets new data for the selected filters*/
     private void updateMatches() {
-        System.out.println("updating matches");
         //lock orientation during loading
         OrientationHelper.lockOrientation(getActivity());
 
@@ -313,7 +305,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void getPlayedHeroesAndGameModes() {
-        System.out.println("getPlayedHeroesAndGameModes");
 
         mapHeroIDName = PlayedHeroesMapper.getMaps().getPlayedHeroes();
         mapGameModeIDName = PlayedHeroesMapper.getMaps().getPlayedGameModes();
@@ -344,6 +335,4 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
             }
         }
     }
-
-
 }
