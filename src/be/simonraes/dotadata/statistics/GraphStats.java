@@ -9,6 +9,8 @@ import android.os.Parcelable;
  */
 public class GraphStats implements Parcelable {
 
+    private int sequenceNumber;
+
     private int numberOfGamesPeriod; // Number of games played in this period (week)
     private int numberOfGamesCumulative; // Number of games played up to this period (this week + all previous weeks)
 
@@ -42,6 +44,14 @@ public class GraphStats implements Parcelable {
         numberOfGamesPeriod = winsPeriod = lossesPeriod = 0;
         winrateCumulative = 0.0;
         numberOfGamesCumulative = 0;
+    }
+
+    public int getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
     }
 
     public int getNumberOfGamesPeriod() {
@@ -236,6 +246,8 @@ public class GraphStats implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(sequenceNumber);
+
         dest.writeInt(numberOfGamesPeriod);
         dest.writeInt(numberOfGamesCumulative);
 
@@ -269,6 +281,8 @@ public class GraphStats implements Parcelable {
     }
 
     public GraphStats(Parcel pc) {
+        sequenceNumber = pc.readInt();
+
         numberOfGamesPeriod = pc.readInt();
         numberOfGamesCumulative = pc.readInt();
 

@@ -39,7 +39,7 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
     private Spinner spinnerRanking;
     private int spinnerRankingSelectedIndex = -1;
 
-    long lastUpdate = 0;
+    long lastUpdate = 0; // Prevent the spinner from firing during view creation.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,6 +135,29 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
         lastUpdate = System.currentTimeMillis();
     }
 
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if (System.currentTimeMillis() - lastUpdate > 100) {
+            listView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+
+            switch (adapterView.getId()) {
+                case R.id.spinRanking:
+                    spinnerRankingSelectedIndex = spinnerRanking.getSelectedItemPosition();
+                    StatsMatchesLoader statsMatchesLoader = new StatsMatchesLoader(this, getActivity());
+                    statsMatchesLoader.execute("-1", "-1");
+
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
     //received list of matches, now generate HeroStats objects
     @Override
     public void processFinish(ArrayList<DetailMatchLite> result) {
@@ -180,27 +203,7 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (System.currentTimeMillis() - lastUpdate > 100) {
-            listView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
 
-            switch (adapterView.getId()) {
-                case R.id.spinRanking:
-                    spinnerRankingSelectedIndex = spinnerRanking.getSelectedItemPosition();
-                    StatsMatchesLoader statsMatchesLoader = new StatsMatchesLoader(this, getActivity());
-                    statsMatchesLoader.execute("-1", "-1");
-
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

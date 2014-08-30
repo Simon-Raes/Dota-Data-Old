@@ -175,8 +175,6 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
                 .build();
         imageLoader.displayImage(user.getAvatar(), imgAvatar, options, animateFirstListener);
 
-        System.out.println("setting active user " + user.getName());
-
         TextView txtName = (TextView) findViewById(R.id.txtDrawerSliderName);
         txtName.setText(user.getName());
     }

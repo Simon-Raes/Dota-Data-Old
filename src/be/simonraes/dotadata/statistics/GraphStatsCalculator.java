@@ -9,10 +9,10 @@ import be.simonraes.dotadata.util.MatchUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TreeMap;
 
 /**
+ * Gets the required matches from the database and generates the stats for the graphs.
  * Created by Simon Raes on 28/08/2014.
  */
 public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphStats>> {
@@ -116,69 +116,76 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
             statsList = new ArrayList<GraphStats>(mapStats.values());
 
             //set the first element
-
+            statsList.get(0).setSequenceNumber(0);
             // Winrate
             statsList.get(0).setWinrateCumulative(((double) statsList.get(0).getWinsPeriod() / (double) statsList.get(0).getNumberOfGamesPeriod()) * 100);
             statsList.get(0).setNumberOfGamesCumulative(statsList.get(0).getNumberOfGamesPeriod());
             // GPM
             statsList.get(0).setGpmTotalCumulative(statsList.get(0).getGpmTotalPeriod());
+            statsList.get(0).setGpmAveragedCumulative(statsList.get(0).getGpmTotalPeriod() / statsList.get(0).getNumberOfGamesCumulative());
             // Last hits
             statsList.get(0).setLastHitsTotalCumulative(statsList.get(0).getLastHitsTotalPeriod());
+            statsList.get(0).setLastHitsAveragedCumulative(statsList.get(0).getLastHitsTotalPeriod() / statsList.get(0).getNumberOfGamesCumulative());
             // Kills
             statsList.get(0).setKillsTotalCumulative(statsList.get(0).getKillsTotalPeriod());
+            statsList.get(0).setKillsAveragedCumulative(statsList.get(0).getKillsTotalPeriod() / statsList.get(0).getNumberOfGamesCumulative());
             // Deaths
             statsList.get(0).setDeathsTotalCumulative(statsList.get(0).getDeathsTotalPeriod());
+            statsList.get(0).setDeathsAveragedCumulative(statsList.get(0).getDeathsTotalPeriod() / statsList.get(0).getNumberOfGamesCumulative());
             // Assists
             statsList.get(0).setAssistsTotalCumulative(statsList.get(0).getAssistsTotalPeriod());
+            statsList.get(0).setAssistsAveragedCumulative(statsList.get(0).getAssistsTotalPeriod() / statsList.get(0).getNumberOfGamesCumulative());
 
             //calculate the others
             for (int i = 1; i < statsList.size(); i++) {
 
-                // Number of games
-                int numberOfGamesCumulative = statsList.get(i - 1).getNumberOfGamesCumulative() + statsList.get(i).getNumberOfGamesPeriod();
-                statsList.get(i).setNumberOfGamesCumulative(numberOfGamesCumulative);
 
-                // Winrate
-                double winratePeriod = ((double) statsList.get(i).getWinsPeriod() / (double) statsList.get(i).getNumberOfGamesPeriod()) * 100;
+                    statsList.get(i).setSequenceNumber(i);
+                    // Number of games
+                    int numberOfGamesCumulative = statsList.get(i - 1).getNumberOfGamesCumulative() + statsList.get(i).getNumberOfGamesPeriod();
+                    statsList.get(i).setNumberOfGamesCumulative(numberOfGamesCumulative);
 
-                double winrateCumulative = ((statsList.get(i - 1).getWinrateCumulative() * statsList.get(i - 1).getNumberOfGamesCumulative())
-                        + (winratePeriod * statsList.get(i).getNumberOfGamesPeriod())) / numberOfGamesCumulative;
-                statsList.get(i).setWinrateCumulative(winrateCumulative);
+                    // Winrate
+                    double winratePeriod = ((double) statsList.get(i).getWinsPeriod() / (double) statsList.get(i).getNumberOfGamesPeriod()) * 100;
 
-                // GPM
-                int gpmTotalCumulative = statsList.get(i - 1).getGpmTotalCumulative() + statsList.get(i).getGpmTotalPeriod();
-                statsList.get(i).setGpmTotalCumulative(gpmTotalCumulative);
+                    double winrateCumulative = ((statsList.get(i - 1).getWinrateCumulative() * statsList.get(i - 1).getNumberOfGamesCumulative())
+                            + (winratePeriod * statsList.get(i).getNumberOfGamesPeriod())) / numberOfGamesCumulative;
+                    statsList.get(i).setWinrateCumulative(winrateCumulative);
 
-                double gpmCumulativeAveraged = gpmTotalCumulative / statsList.get(i).getNumberOfGamesCumulative();
-                statsList.get(i).setGpmAveragedCumulative(gpmCumulativeAveraged);
+                    // GPM
+                    int gpmTotalCumulative = statsList.get(i - 1).getGpmTotalCumulative() + statsList.get(i).getGpmTotalPeriod();
+                    statsList.get(i).setGpmTotalCumulative(gpmTotalCumulative);
 
-                // Last hits
-                int lastHitsTotalCumulative = statsList.get(i - 1).getLastHitsTotalCumulative() + statsList.get(i).getLastHitsTotalPeriod();
-                statsList.get(i).setLastHitsTotalCumulative(lastHitsTotalCumulative);
+                    double gpmCumulativeAveraged = (double)gpmTotalCumulative / (double)statsList.get(i).getNumberOfGamesCumulative();
+                    statsList.get(i).setGpmAveragedCumulative(gpmCumulativeAveraged);
 
-                double lastHitsCumulativeAveraged = lastHitsTotalCumulative / statsList.get(i).getNumberOfGamesCumulative();
-                statsList.get(i).setLastHitsAveragedCumulative(lastHitsCumulativeAveraged);
+                    // Last hits
+                    int lastHitsTotalCumulative = statsList.get(i - 1).getLastHitsTotalCumulative() + statsList.get(i).getLastHitsTotalPeriod();
+                    statsList.get(i).setLastHitsTotalCumulative(lastHitsTotalCumulative);
 
-                // Kills
-                int killsTotalCumulative = statsList.get(i - 1).getKillsTotalCumulative() + statsList.get(i).getKillsTotalPeriod();
-                statsList.get(i).setKillsTotalCumulative(killsTotalCumulative);
+                    double lastHitsCumulativeAveraged = (double)lastHitsTotalCumulative / (double)statsList.get(i).getNumberOfGamesCumulative();
+                    statsList.get(i).setLastHitsAveragedCumulative(lastHitsCumulativeAveraged);
 
-                double killsCumulativeAveraged = killsTotalCumulative / statsList.get(i).getNumberOfGamesCumulative();
-                statsList.get(i).setKillsAveragedCumulative(killsCumulativeAveraged);
+                    // Kills
+                    int killsTotalCumulative = statsList.get(i - 1).getKillsTotalCumulative() + statsList.get(i).getKillsTotalPeriod();
+                    statsList.get(i).setKillsTotalCumulative(killsTotalCumulative);
 
-                // Deaths
-                int deathsTotalCumulative = statsList.get(i - 1).getDeathsTotalCumulative() + statsList.get(i).getDeathsTotalPeriod();
-                statsList.get(i).setDeathsTotalCumulative(deathsTotalCumulative);
+                    double killsCumulativeAveraged = (double)killsTotalCumulative / (double)statsList.get(i).getNumberOfGamesCumulative();
+                    statsList.get(i).setKillsAveragedCumulative(killsCumulativeAveraged);
 
-                double deathsCumulativeAveraged = deathsTotalCumulative / statsList.get(i).getNumberOfGamesCumulative();
-                statsList.get(i).setDeathsAveragedCumulative(deathsCumulativeAveraged);
+                    // Deaths
+                    int deathsTotalCumulative = statsList.get(i - 1).getDeathsTotalCumulative() + statsList.get(i).getDeathsTotalPeriod();
+                    statsList.get(i).setDeathsTotalCumulative(deathsTotalCumulative);
 
-                // Assists
-                int assistsTotalCumulative = statsList.get(i - 1).getAssistsTotalCumulative() + statsList.get(i).getAssistsTotalPeriod();
-                statsList.get(i).setAssistsTotalCumulative(assistsTotalCumulative);
+                    double deathsCumulativeAveraged = (double)deathsTotalCumulative / (double)statsList.get(i).getNumberOfGamesCumulative();
+                    statsList.get(i).setDeathsAveragedCumulative(deathsCumulativeAveraged);
 
-                double assistsCumulativeAveraged = assistsTotalCumulative / statsList.get(i).getNumberOfGamesCumulative();
-                statsList.get(i).setAssistsAveragedCumulative(assistsCumulativeAveraged);
+                    // Assists
+                    int assistsTotalCumulative = statsList.get(i - 1).getAssistsTotalCumulative() + statsList.get(i).getAssistsTotalPeriod();
+                    statsList.get(i).setAssistsTotalCumulative(assistsTotalCumulative);
+
+                    double assistsCumulativeAveraged = (double)assistsTotalCumulative / (double)statsList.get(i).getNumberOfGamesCumulative();
+                    statsList.get(i).setAssistsAveragedCumulative(assistsCumulativeAveraged);
 
 
 //                System.out.println("total gpm this week= " + statsList.get(i).getGpmTotalPeriod() + "(" + statsList.get(i).getNumberOfGamesPeriod() + " games)");
@@ -191,6 +198,7 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
 
 
             finalStatsList = new ArrayList<GraphStats>();
+            finalStatsList.add(statsList.get(0));
 
             for (int i = 1; i < statsList.size(); i++) {
                 int weekDifference = 0;
@@ -200,12 +208,12 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
                     weekDifference = (statsList.get(i).getWeek() - statsList.get(i - 1).getWeek()) - 1;
                 } else {
                     for (int j = 0; j < yearDifference; j++) {
-                        int weeksInFirstYear=0;
-                        if(statsList.get(i-1).getWeek() == 53){
-                             weeksInFirstYear = 53 - statsList.get(i - 1).getWeek();
+                        int weeksInFirstYear = 0;
+                        if (statsList.get(i - 1).getWeek() == 53) {
+                            weeksInFirstYear = 53 - statsList.get(i - 1).getWeek();
 
                         } else {
-                             weeksInFirstYear = 52 - statsList.get(i - 1).getWeek();
+                            weeksInFirstYear = 52 - statsList.get(i - 1).getWeek();
 
                         }
 //                        int weeksInFirstYear = 52 - statsList.get(i - 1).getWeek();
