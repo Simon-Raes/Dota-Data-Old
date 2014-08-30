@@ -35,27 +35,27 @@ public class Conversions {
         long iSeconds = Long.parseLong(matchDuration);
         long millis = iSeconds * 1000;
 
-        long lhours = TimeUnit.MILLISECONDS.toHours(millis);
-        long lminutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(lhours);
-        long lseconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.HOURS.toSeconds(lhours) - TimeUnit.MINUTES.toSeconds(lminutes);
+        long lHours = TimeUnit.MILLISECONDS.toHours(millis);
+        long lMinutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(lHours);
+        long lSeconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.HOURS.toSeconds(lHours) - TimeUnit.MINUTES.toSeconds(lMinutes);
 
-        String hours = Long.toString(lhours);
+        String hours = Long.toString(lHours);
         String minutes = "", seconds = "";
 
-        if (lminutes < 10) {
-            minutes = "0" + lminutes;
-        } else if (lminutes < 1) {
+        if (lMinutes < 10) {
+            minutes = "0" + lMinutes;
+        } else if (lMinutes < 1) {
             minutes = "00";
         } else {
-            minutes = Long.toString(lminutes);
+            minutes = Long.toString(lMinutes);
         }
 
-        if (lseconds < 10) {
-            seconds = "0" + lseconds;
-        } else if (lseconds < 1) {
+        if (lSeconds < 10) {
+            seconds = "0" + lSeconds;
+        } else if (lSeconds < 1) {
             seconds = "00";
         } else {
-            seconds = Long.toString(lseconds);
+            seconds = Long.toString(lSeconds);
         }
 
         return hours + ":" + minutes + ":" + seconds;

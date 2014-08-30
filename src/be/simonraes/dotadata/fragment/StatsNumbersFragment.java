@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.MatchActivity;
+import be.simonraes.dotadata.async.DetailMatchLoader;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
@@ -23,7 +24,12 @@ import be.simonraes.dotadata.holograph.Bar;
 import be.simonraes.dotadata.holograph.BarGraph;
 import be.simonraes.dotadata.holograph.PieGraph;
 import be.simonraes.dotadata.holograph.PieSlice;
+import be.simonraes.dotadata.statistics.RecordStats;
 import be.simonraes.dotadata.util.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.*;
 
@@ -31,7 +37,9 @@ import java.util.*;
  * Created by Simon on 14/02/14.
  * Creates the layout for stats and calculates those stats.
  */
-public class StatsNumbersFragment extends Fragment implements View.OnClickListener, StatsMatchesLoader.ASyncResponseStatsLoader {
+public class StatsNumbersFragment extends Fragment implements View.OnClickListener, StatsMatchesLoader.ASyncResponseStatsLoader, DetailMatchLoader.DetailMatchLoaderDelegate {
+
+    private LayoutInflater inflater;
 
     private ScrollView scrollStats;
     private ProgressBar progressStats;
@@ -69,18 +77,20 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             txtStatsAverageLastHits,
             txtStatsAverageDenies;
 
-    private Button
-            btnStatsLongestGame,
-            btnStatsMostKills,
-            btnStatsMostDeaths,
-            btnStatsMostAssists,
-            btnStatsMostLastHits,
-            btnStatsMostDenies,
-            btnStatsMostHeroDamage,
-            btnStatsMostHeroHealing,
-            btnStatsMostTowerDamage,
-            btnStatsMostGPM,
-            btnStatsMostXPM;
+//    private Button
+//            btnStatsLongestGame,
+//            btnStatsMostKills,
+//            btnStatsMostDeaths,
+//            btnStatsMostAssists,
+//            btnStatsMostLastHits,
+//            btnStatsMostDenies,
+//            btnStatsMostHeroDamage,
+//            btnStatsMostHeroHealing,
+//            btnStatsMostTowerDamage,
+//            btnStatsMostGPM,
+//            btnStatsMostXPM;
+
+
     private ImageButton btnStatsHelp;
 
     //numbers
@@ -98,35 +108,45 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private double averageLastHits = 0, averageDenies = 0;
 
     //records
-    private Long longestGame = 0L;
-    private String longestGameID;
-    private int mostKills = 0;
-    private String mostKillsID;
-    private int mostDeaths = 0;
-    private String mostDeathsID;
-    private int mostAssists = 0;
-    private String mostAssistsID;
-    private int mostLastHits = 0;
-    private String mostLastHitsID;
-    private int mostDenies = 0;
-    private String mostDeniesID;
-    private int mostHeroDamage = 0;
-    private String mostHeroDamageID;
-    private int mostHeroHealing = 0;
-    private String mostHeroHealingID;
-    private int mostTowerDamage = 0;
-    private String mostTowerDamageID;
-    private int mostGPM = 0;
-    private String mostGPMID;
-    private int mostXPM = 0;
-    private String mostXPMID;
+//    private Long longestGame = 0L;
+//    private String longestGameID;
+//    private int mostKills = 0;
+//    private String mostKillsID;
+//    private int mostDeaths = 0;
+//    private String mostDeathsID;
+//    private int mostAssists = 0;
+//    private String mostAssistsID;
+//    private int mostLastHits = 0;
+//    private String mostLastHitsID;
+//    private int mostDenies = 0;
+//    private String mostDeniesID;
+//    private int mostHeroDamage = 0;
+//    private String mostHeroDamageID;
+//    private int mostHeroHealing = 0;
+//    private String mostHeroHealingID;
+//    private int mostTowerDamage = 0;
+//    private String mostTowerDamageID;
+//    private int mostGPM = 0;
+//    private String mostGPMID;
+//    private int mostXPM = 0;
+//    private String mostXPMID;
 
     private String gameModeID, heroID; //ID of the selected item in the spinner
 
 
+    //test
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
+    private ImageLoadingListener animateFirstListener;
+
+    private RecordStats statsLongestGame, statsMostKills, statsMostDeaths, statsMostAssists, statsMostLastHits, statsMostDenies, statsMostHeroDamage, statsMostHeroHealing,
+            statsMostTowerDamage, statsMostGpm, statsMostXpm;
+    private ArrayList<RecordStats> recordStatsList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.stats_layout, null);
+        this.inflater = inflater;
 
         scrollStats = (ScrollView) view.findViewById(R.id.svStats);
         progressStats = (ProgressBar) view.findViewById(R.id.pbStats);
@@ -154,30 +174,31 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         txtStatsAverageDenies = (TextView) view.findViewById(R.id.txtStatsAverageDenies);
 
         //records
-        btnStatsLongestGame = (Button) view.findViewById(R.id.txtStatsLongestGame);
-        btnStatsLongestGame.setOnClickListener(this);
-        btnStatsMostKills = (Button) view.findViewById(R.id.txtStatsMostKills);
-        btnStatsMostKills.setOnClickListener(this);
-        btnStatsMostDeaths = (Button) view.findViewById(R.id.txtStatsMostDeaths);
-        btnStatsMostDeaths.setOnClickListener(this);
-        btnStatsMostAssists = (Button) view.findViewById(R.id.txtStatsMostAssists);
-        btnStatsMostAssists.setOnClickListener(this);
-        btnStatsMostLastHits = (Button) view.findViewById(R.id.txtStatsMostLastHits);
-        btnStatsMostLastHits.setOnClickListener(this);
-        btnStatsMostDenies = (Button) view.findViewById(R.id.txtStatsMostDenies);
-        btnStatsMostDenies.setOnClickListener(this);
-        btnStatsMostHeroDamage = (Button) view.findViewById(R.id.txtStatsMostHeroDamage);
-        btnStatsMostHeroDamage.setOnClickListener(this);
-        btnStatsMostHeroHealing = (Button) view.findViewById(R.id.btnStatsMostHeroHealing);
-        btnStatsMostHeroHealing.setOnClickListener(this);
-        btnStatsMostTowerDamage = (Button) view.findViewById(R.id.btnStatsMostTowerDamage);
-        btnStatsMostTowerDamage.setOnClickListener(this);
-        btnStatsMostGPM = (Button) view.findViewById(R.id.txtStatsMostGPM);
-        btnStatsMostGPM.setOnClickListener(this);
-        btnStatsMostXPM = (Button) view.findViewById(R.id.txtStatsMostXPM);
-        btnStatsMostXPM.setOnClickListener(this);
+//        btnStatsLongestGame = (Button) view.findViewById(R.id.txtStatsLongestGame);
+//        btnStatsLongestGame.setOnClickListener(this);
+//        btnStatsMostKills = (Button) view.findViewById(R.id.txtStatsMostKills);
+//        btnStatsMostKills.setOnClickListener(this);
+//        btnStatsMostDeaths = (Button) view.findViewById(R.id.txtStatsMostDeaths);
+//        btnStatsMostDeaths.setOnClickListener(this);
+//        btnStatsMostAssists = (Button) view.findViewById(R.id.txtStatsMostAssists);
+//        btnStatsMostAssists.setOnClickListener(this);
+//        btnStatsMostLastHits = (Button) view.findViewById(R.id.txtStatsMostLastHits);
+//        btnStatsMostLastHits.setOnClickListener(this);
+//        btnStatsMostDenies = (Button) view.findViewById(R.id.txtStatsMostDenies);
+//        btnStatsMostDenies.setOnClickListener(this);
+//        btnStatsMostHeroDamage = (Button) view.findViewById(R.id.txtStatsMostHeroDamage);
+//        btnStatsMostHeroDamage.setOnClickListener(this);
+//        btnStatsMostHeroHealing = (Button) view.findViewById(R.id.btnStatsMostHeroHealing);
+//        btnStatsMostHeroHealing.setOnClickListener(this);
+//        btnStatsMostTowerDamage = (Button) view.findViewById(R.id.btnStatsMostTowerDamage);
+//        btnStatsMostTowerDamage.setOnClickListener(this);
+//        btnStatsMostGPM = (Button) view.findViewById(R.id.txtStatsMostGPM);
+//        btnStatsMostGPM.setOnClickListener(this);
+//        btnStatsMostXPM = (Button) view.findViewById(R.id.txtStatsMostXPM);
+//        btnStatsMostXPM.setOnClickListener(this);
         btnStatsHelp = (ImageButton) view.findViewById(R.id.btnStatsHelp);
         btnStatsHelp.setOnClickListener(this);
+
 
         layStatsGameModes = (LinearLayout) view.findViewById(R.id.layStatsGameModes);
         layStatsHeroes = (LinearLayout) view.findViewById(R.id.layStatsHeroes);
@@ -259,81 +280,38 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-
-        DetailMatch match = null;
+        boolean wasDialog = false;
         MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
-        System.out.println("went to details TRUE");
         switch (v.getId()) {
-            case R.id.txtStatsLongestGame:
-                if (Integer.parseInt(longestGameID) > 0) {
-                    match = mds.getMatchByID(longestGameID);
-                }
-                break;
-            case R.id.txtStatsMostKills:
-                if (Integer.parseInt(mostKillsID) > 0) {
-                    match = mds.getMatchByID(mostKillsID);
-                }
-                break;
-            case R.id.txtStatsMostDeaths:
-                if (Integer.parseInt(mostDeathsID) > 0) {
-                    match = mds.getMatchByID(mostDeathsID);
-                }
-                break;
-            case R.id.txtStatsMostAssists:
-                if (Integer.parseInt(mostAssistsID) > 0) {
-                    match = mds.getMatchByID(mostAssistsID);
-                }
-                break;
-            case R.id.txtStatsMostLastHits:
-                if (Integer.parseInt(mostLastHitsID) > 0) {
-                    match = mds.getMatchByID(mostLastHitsID);
-                }
-                break;
-            case R.id.txtStatsMostDenies:
-                if (Integer.parseInt(mostDeniesID) > 0) {
-                    match = mds.getMatchByID(mostDeniesID);
-                }
-                break;
-            case R.id.txtStatsMostHeroDamage:
-                if (Integer.parseInt(mostHeroDamageID) > 0) {
-                    match = mds.getMatchByID(mostHeroDamageID);
-                }
-                break;
-            case R.id.btnStatsMostHeroHealing:
-                if (Integer.parseInt(mostHeroHealingID) > 0) {
-                    match = mds.getMatchByID(mostHeroHealingID);
-                }
-                break;
-            case R.id.btnStatsMostTowerDamage:
-                if (Integer.parseInt(mostTowerDamageID) > 0) {
-                    match = mds.getMatchByID(mostTowerDamageID);
-                }
-                break;
-            case R.id.txtStatsMostGPM:
-                if (Integer.parseInt(mostGPMID) > 0) {
-                    match = mds.getMatchByID(mostGPMID);
-                }
-                break;
-            case R.id.txtStatsMostXPM:
-                if (Integer.parseInt(mostXPMID) > 0) {
-                    match = mds.getMatchByID(mostXPMID);
-                }
-                break;
             case R.id.btnStatsHelp:
+                wasDialog = true;
                 showInfoDialog();
                 break;
             default:
                 break;
         }
 
+        // Open the match details screen if a user clicks one of the records.
+        if (!wasDialog) {
+            if (v.getTag() != null) {
+                getActivity().setProgressBarIndeterminateVisibility(true);
+                DetailMatchLoader dml = new DetailMatchLoader(getActivity(), this);
+                dml.execute(v.getTag().toString());
+            }
+        }
+    }
+
+    /**
+     * Received match object from the database
+     */
+    @Override
+    public void loadDone(DetailMatch match) {
         if (match != null) {
-
-            //launch this as a new activity so the state in the stats screen is easier to preserve
-
             Intent intent = new Intent(getActivity(), MatchActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtra("match", match);
             startActivity(intent);
+            getActivity().setProgressBarIndeterminateVisibility(false);
         }
     }
 
@@ -358,28 +336,67 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         averageXPM = 0;
 
         //reset records
-        longestGame = -1L;
-        mostKills = -1;
-        mostDeaths = -1;
-        mostAssists = -1;
-        mostLastHits = -1;
-        mostDenies = -1;
-        mostHeroDamage = -1;
-        mostTowerDamage = -1;
-        mostHeroHealing = -1;
-        mostGPM = -1;
-        mostXPM = -1;
-        longestGameID = "-1";
-        mostKillsID = "-1";
-        mostDeathsID = "-1";
-        mostAssistsID = "-1";
-        mostLastHitsID = "-1";
-        mostDeniesID = "-1";
-        mostHeroDamageID = "-1";
-        mostHeroHealingID = "-1";
-        mostTowerDamageID = "-1";
-        mostGPMID = "-1";
-        mostXPMID = "-1";
+//        longestGame = -1L;
+//        mostKills = -1;
+//        mostDeaths = -1;
+//        mostAssists = -1;
+//        mostLastHits = -1;
+//        mostDenies = -1;
+//        mostHeroDamage = -1;
+//        mostTowerDamage = -1;
+//        mostHeroHealing = -1;
+//        mostGPM = -1;
+//        mostXPM = -1;
+//        longestGameID = "-1";
+//        mostKillsID = "-1";
+//        mostDeathsID = "-1";
+//        mostAssistsID = "-1";
+//        mostLastHitsID = "-1";
+//        mostDeniesID = "-1";
+//        mostHeroDamageID = "-1";
+//        mostHeroHealingID = "-1";
+//        mostTowerDamageID = "-1";
+//        mostGPMID = "-1";
+//        mostXPMID = "-1";
+
+        statsLongestGame = new RecordStats("Longest game: ");
+        statsMostKills = new RecordStats("Most kills: ");
+        statsMostDeaths = new RecordStats("Most deaths: ");
+        statsMostAssists = new RecordStats("Most assists: ");
+        statsMostLastHits = new RecordStats("Most last hits: ");
+        statsMostDenies = new RecordStats("Most denies; ");
+        statsMostHeroDamage = new RecordStats("Most hero damage: ");
+        statsMostHeroHealing = new RecordStats("Most hero healing: ");
+        statsMostTowerDamage = new RecordStats("Most tower damage: ");
+        statsMostGpm = new RecordStats("Most GPM: ");
+        statsMostXpm = new RecordStats("Most XPM: ");
+
+        recordStatsList = new ArrayList<RecordStats>();
+        recordStatsList.add(statsLongestGame);
+        recordStatsList.add(statsMostKills);
+        recordStatsList.add(statsMostDeaths);
+        recordStatsList.add(statsMostAssists);
+        recordStatsList.add(statsMostLastHits);
+        recordStatsList.add(statsMostDenies);
+        recordStatsList.add(statsMostHeroDamage);
+        recordStatsList.add(statsMostHeroHealing);
+        recordStatsList.add(statsMostTowerDamage);
+        recordStatsList.add(statsMostGpm);
+        recordStatsList.add(statsMostXpm);
+
+//        recordStatsList = new ArrayList<RecordStats>();
+//        recordStatsList.add(new RecordStats("Longest game: "));
+//        recordStatsList.add(new RecordStats("Most kills: "));
+//        recordStatsList.add(new RecordStats("Most deaths: "));
+//        recordStatsList.add(new RecordStats("Most assists: "));
+//        recordStatsList.add(new RecordStats("Most last hits: "));
+//        recordStatsList.add(new RecordStats("Most denies; "));
+//        recordStatsList.add(new RecordStats("Most hero damage: "));
+//        recordStatsList.add(new RecordStats("Most hero healing: "));
+//        recordStatsList.add(new RecordStats("Most tower damage: "));
+//        recordStatsList.add(new RecordStats("Most GPM: "));
+//        recordStatsList.add(new RecordStats("Most XPM: "));
+
 
         //calculated number of games played per gamemode
         gameModesMap = new HashMap<String, Integer>();
@@ -412,51 +429,53 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             totalLastHits += Double.parseDouble(matchLite.getLast_hits());
             totalDenies += Double.parseDouble(matchLite.getDenies());
 
-            //records
-            if (Long.parseLong(matchLite.getDuration()) > longestGame) {
-                longestGame = Long.parseLong(matchLite.getDuration());
-                longestGameID = matchLite.getMatch_id();
+            // Records
+
+            if (Long.parseLong(matchLite.getDuration()) > Long.parseLong(statsLongestGame.getRecordValue())) {
+                statsLongestGame.setRecordValue(matchLite.getDuration());
+                setBetterRecord(statsLongestGame, matchLite);
             }
-            if (Integer.parseInt(matchLite.getKills()) > mostKills) {
-                mostKills = Integer.parseInt(matchLite.getKills());
-                mostKillsID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getKills()) > Integer.parseInt(statsMostKills.getRecordValue())) {
+                statsMostKills.setRecordValue(matchLite.getKills());
+                setBetterRecord(statsMostKills, matchLite);
             }
-            if (Integer.parseInt(matchLite.getDeaths()) > mostDeaths) {
-                mostDeaths = Integer.parseInt(matchLite.getDeaths());
-                mostDeathsID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getDeaths()) > Integer.parseInt(statsMostDeaths.getRecordValue())) {
+                statsMostDeaths.setRecordValue(matchLite.getDeaths());
+                setBetterRecord(statsMostDeaths, matchLite);
             }
-            if (Integer.parseInt(matchLite.getAssists()) > mostAssists) {
-                mostAssists = Integer.parseInt(matchLite.getAssists());
-                mostAssistsID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getAssists()) > Integer.parseInt(statsMostAssists.getRecordValue())) {
+                statsMostAssists.setRecordValue(matchLite.getAssists());
+                setBetterRecord(statsMostAssists, matchLite);
             }
-            if (Integer.parseInt(matchLite.getLast_hits()) > mostLastHits) {
-                mostLastHits = Integer.parseInt(matchLite.getLast_hits());
-                mostLastHitsID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getLast_hits()) > Integer.parseInt(statsMostLastHits.getRecordValue())) {
+                statsMostLastHits.setRecordValue(matchLite.getLast_hits());
+                setBetterRecord(statsMostLastHits, matchLite);
             }
-            if (Integer.parseInt(matchLite.getDenies()) > mostDenies) {
-                mostDenies = Integer.parseInt(matchLite.getDenies());
-                mostDeniesID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getDenies()) > Integer.parseInt(statsMostDenies.getRecordValue())) {
+                statsMostDenies.setRecordValue(matchLite.getDenies());
+                setBetterRecord(statsMostDenies, matchLite);
             }
-            if (Integer.parseInt(matchLite.getHero_damage()) > mostHeroDamage) {
-                mostHeroDamage = Integer.parseInt(matchLite.getHero_damage());
-                mostHeroDamageID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getHero_damage()) > Integer.parseInt(statsMostHeroDamage.getRecordValue())) {
+                statsMostHeroDamage.setRecordValue(matchLite.getHero_damage());
+                setBetterRecord(statsMostHeroDamage, matchLite);
             }
-            if (Integer.parseInt(matchLite.getHero_healing()) > mostHeroHealing) {
-                mostHeroHealing = Integer.parseInt(matchLite.getHero_healing());
-                mostHeroHealingID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getHero_healing()) > Integer.parseInt(statsMostHeroHealing.getRecordValue())) {
+                statsMostHeroHealing.setRecordValue(matchLite.getHero_healing());
+                setBetterRecord(statsMostHeroHealing, matchLite);
             }
-            if (Integer.parseInt(matchLite.getTower_damage()) > mostTowerDamage) {
-                mostTowerDamage = Integer.parseInt(matchLite.getTower_damage());
-                mostTowerDamageID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getTower_damage()) > Integer.parseInt(statsMostTowerDamage.getRecordValue())) {
+                statsMostTowerDamage.setRecordValue(matchLite.getTower_damage());
+                setBetterRecord(statsMostTowerDamage, matchLite);
             }
-            if (Integer.parseInt(matchLite.getGold_per_min()) > mostGPM) {
-                mostGPM = Integer.parseInt(matchLite.getGold_per_min());
-                mostGPMID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getGold_per_min()) > Integer.parseInt(statsMostGpm.getRecordValue())) {
+                statsMostGpm.setRecordValue(matchLite.getGold_per_min());
+                setBetterRecord(statsMostGpm, matchLite);
             }
-            if (Integer.parseInt(matchLite.getXp_per_min()) > mostXPM) {
-                mostXPM = Integer.parseInt(matchLite.getXp_per_min());
-                mostXPMID = matchLite.getMatch_id();
+            if (Integer.parseInt(matchLite.getXp_per_min()) > Integer.parseInt(statsMostXpm.getRecordValue())) {
+                statsMostXpm.setRecordValue(matchLite.getXp_per_min());
+                setBetterRecord(statsMostXpm, matchLite);
             }
+
 
             if (gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode())) != null) {
                 int prevValue = gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode()));
@@ -503,18 +522,52 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         txtStatsAverageLastHits.setText(Html.fromHtml("Average last hits<br>" + Conversions.roundDouble(averageLastHits, 1)));
         txtStatsAverageDenies.setText(Html.fromHtml("Average denies<br>" + Conversions.roundDouble(averageDenies, 1)));
 
-        //records
-        btnStatsLongestGame.setText("Longest game: " + Conversions.secondsToTime(longestGame.toString()));
-        btnStatsMostKills.setText("Most kills: " + mostKills);
-        btnStatsMostDeaths.setText("Most deaths: " + mostDeaths);
-        btnStatsMostAssists.setText("Most assists: " + mostAssists);
-        btnStatsMostLastHits.setText("Most last hits: " + mostLastHits);
-        btnStatsMostDenies.setText("Most denies: " + mostDenies);
-        btnStatsMostHeroDamage.setText("Most hero damage: " + mostHeroDamage);
-        btnStatsMostHeroHealing.setText("Most hero healing: " + mostHeroHealing);
-        btnStatsMostTowerDamage.setText("Most tower damage: " + mostTowerDamage);
-        btnStatsMostGPM.setText("Highest GPM: " + mostGPM);
-        btnStatsMostXPM.setText("Highest XPM: " + mostXPM);
+        LinearLayout layRecords = (LinearLayout) view.findViewById(R.id.layStatsRecords);
+        layRecords.removeAllViews();
+        TextView header = new TextView(getActivity());
+        header.setText("Records");
+        layRecords.addView(header);
+        layRecords.addView(inflater.inflate(R.layout.divider, null));
+        imageLoader = ImageLoader.getInstance();
+        animateFirstListener = new ImageLoadListener();
+        options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .showImageOnLoading(R.drawable.hero_sb_loading)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
+
+        for (RecordStats s : recordStatsList) {
+            View recordRow = inflater.inflate(R.layout.stats_record_row, null);
+            recordRow.setOnClickListener(this);
+            recordRow.setTag(s.getMatchId());
+
+            ImageView imgHero = (ImageView) recordRow.findViewById(R.id.imgTestHero);
+            TextView txtRecord = (TextView) recordRow.findViewById(R.id.txtTestRecord);
+            TextView txtInfo = (TextView) recordRow.findViewById(R.id.txtTestGameMode);
+
+            imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(s.getHeroId()) + "_lg.png", imgHero, options, animateFirstListener);
+
+            // Special case: duration record has to be converted from seconds to HH:MM:SS
+            if (s.getRecord().contains("Longest")) {
+                txtRecord.setText(s.getRecord() + Conversions.secondsToTime(s.getRecordValue()));
+            } else {
+                txtRecord.setText(s.getRecord() + s.getRecordValue());
+
+            }
+            txtInfo.setText(GameModes.getGameMode(s.getGameMode()) + " (" + Conversions.millisToDate(s.getMatchStart()) + ")");
+
+            layRecords.addView(recordRow);
+            layRecords.addView(inflater.inflate(R.layout.divider, null));
+        }
+    }
+
+    private void setBetterRecord(RecordStats stats, DetailMatchLite match) {
+        stats.setMatchId(match.getMatch_id());
+        stats.setMatchStart(match.getStart_time());
+        stats.setGameMode(match.getGame_mode());
+        stats.setHeroId(match.getHero_id());
     }
 
     private void setGameModesGraph() {
@@ -571,7 +624,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                 rnd = new Random(entry.getKey().hashCode());
                 d.setColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
                 d.setName(entry.getKey());
-                d.setValue( entry.getValue());
+                d.setValue(entry.getValue());
                 d.setValueString(Integer.toString(entry.getValue()));
 
                 points.add(d);
@@ -592,7 +645,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private void showInfoDialog() {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Any gamemode statistics")
-                .setMessage("'Any gamemode' will show statistics based on all matches, except Diretide, Greeviling and Custom gamemodes.")
+                .setMessage(Html.fromHtml("'Any gamemode' will show statistics based on all matches that had a first blood. <br>Diretide, Greeviling and custom gamemodes will not be included."))
                 .setCancelable(true)
                 .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -686,4 +739,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                 });
 
     }
+
+
 }

@@ -409,6 +409,7 @@ public class MatchesDataSource {
                 "AND game_mode != 9 " +
                 "AND game_mode != 10 " +
                 "AND game_mode != 15 " +
+                "AND first_blood_time !=0 "+
                 "ORDER BY matches.match_id DESC "
                 , new String[]{user_accountID}); //user_accountID
         cursor.moveToFirst();
@@ -527,6 +528,7 @@ public class MatchesDataSource {
                 "AND game_mode != 9 " +
                 "AND game_mode != 10 " +
                 "AND game_mode != 15 " +
+                "AND first_blood_time != 0 "+
                 "AND hero_id = ?" +
                 "ORDER BY matches.match_id DESC "
                 , new String[]{user_accountID, heroID});

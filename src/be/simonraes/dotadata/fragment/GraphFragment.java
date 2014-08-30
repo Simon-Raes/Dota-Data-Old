@@ -452,12 +452,14 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
 
         lineGraph.setTag("KDA");
 
-        TextView txtKdaHeader = (TextView) view.findViewById(R.id.txtGraphHeaderKDA);
-        String headerText = "<font color=\""+COLOR_KILLS+"\">Kills</font>" + ", " +
-                "<font color=\""+COLOR_DEATHS+"\">Deaths</font>" + " and " +
-                "<font color=\""+COLOR_ASSISTS+"\">Assists</font>";
-        txtKdaHeader.setText(Html.fromHtml(headerText));
-
+        if(OrientationHelper.getScreenOrientation(getActivity()) == Configuration.ORIENTATION_PORTRAIT){
+            // Also set the header for the KDA graph
+            TextView txtKdaHeader = (TextView) view.findViewById(R.id.txtGraphHeaderKDA);
+            String headerText = "<font color=\""+COLOR_KILLS+"\">Kills</font>" + ", " +
+                    "<font color=\""+COLOR_DEATHS+"\">Deaths</font>" + " and " +
+                    "<font color=\""+COLOR_ASSISTS+"\">Assists</font>";
+            txtKdaHeader.setText(Html.fromHtml(headerText));
+        }
 
         Line lineAssists = new Line();
         LinePoint p;
@@ -559,6 +561,8 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
 
         txtLeftY.setText(leftY);
         txtRightY.setText(rightY);
+
+
     }
 
     /**

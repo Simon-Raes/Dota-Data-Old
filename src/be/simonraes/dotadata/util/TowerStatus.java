@@ -6,6 +6,7 @@ package be.simonraes.dotadata.util;
  */
 public class TowerStatus {
     boolean topT1, topT2, topT3, midT1, midT2, midT3, botT1, botT2, botT3, topT4, botT4;
+    boolean barracksTop, barracksMiddle, barracksBottom;
 
     public TowerStatus() {
         topT1 = false;
@@ -107,5 +108,29 @@ public class TowerStatus {
 
     public void setBotT4(boolean botT4) {
         this.botT4 = botT4;
+    }
+
+    public boolean isBarracksTop() {
+        return barracksTop;
+    }
+
+    public void setBarracksTop(boolean barracksTop) {
+        this.barracksTop = barracksTop;
+    }
+
+    public boolean isBarracksMiddle() {
+        return barracksMiddle;
+    }
+
+    public void setBarracksMiddle(boolean barracksMiddle) {
+        this.barracksMiddle = barracksMiddle;
+    }
+
+    public boolean isBarracksBottom() {
+        return barracksBottom;
+    }
+
+    public void setBarracksBottom(boolean barracksBottom) {
+        this.barracksBottom = barracksBottom;
     }
 }

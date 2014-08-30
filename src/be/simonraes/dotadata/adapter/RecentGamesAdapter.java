@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 
 /**
+ * Adapter for the listview showing a list of matches.
  * Created by Simon on 18/02/14.
  */
 public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
@@ -44,7 +45,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
                 .showImageOnLoading(R.drawable.hero_loading_lg)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
-
     }
 
     @Override
@@ -98,7 +98,6 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
 
         return view;
     }
-
 
     private class ViewHolder {
         public ImageView imgHero;

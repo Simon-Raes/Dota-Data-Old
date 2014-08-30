@@ -80,6 +80,9 @@ public class GameModes {
 
     }
 
+    /**
+     * Accepts a gamemode number and returns the full name String.
+     */
     public static String getGameMode(String number) {
 
         String gameMode = "Unknown gamemode";

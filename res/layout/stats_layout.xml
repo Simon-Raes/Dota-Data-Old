@@ -216,80 +216,12 @@
                 </LinearLayout>
             </LinearLayout>
 
-
+            <!-- Records (content added through code)-->
             <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                           style="@style/CardMargin"
                           android:orientation="vertical"
                           android:id="@+id/layStatsRecords"
                           android:background="@drawable/bg_card">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="Records"/>
-                <View style="@style/Divider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsLongestGame"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Longest game"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostKills"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most kills"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostDeaths"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most deaths"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostAssists"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most assists"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostLastHits"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most last hits"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostDenies"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most denies"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostHeroDamage"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most hero damage"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/btnStatsMostHeroHealing"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most hero healing"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/btnStatsMostTowerDamage"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Most tower damage"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostGPM"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Highest GPM"/>
-                <View style="@style/DrawerDivider"/>
-                <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                        android:id="@+id/txtStatsMostXPM"
-                        android:background="@drawable/draw_button_record"
-                        android:drawableRight="@drawable/ic_action_next_item"
-                        android:text="Highest XPM"/>
             </LinearLayout>
 
             <!-- Gamemodes PieChart card -->
