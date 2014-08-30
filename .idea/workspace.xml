@@ -61,13 +61,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Fixed scrollLayout not stretching to the sides.&#10;&#10;MatchDetails screen.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/GraphFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/GraphFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStats.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStats.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStatsCalculator.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStatsCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/HeroesFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/HeroesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/actionbar_menu.xml" afterPath="$PROJECT_DIR$/res/menu/actionbar_menu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/colors.xml" afterPath="$PROJECT_DIR$/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsNumbersFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsNumbersFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/stats_layout.xml" afterPath="$PROJECT_DIR$/res/layout/stats_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
@@ -136,57 +132,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GraphFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/GraphFragment.java">
+      <file leaf-file-name="MatchDetailFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2829912" vertical-offset="4057" max-vertical-offset="9860">
-              <caret line="250" column="19" selection-start-line="250" selection-start-column="19" selection-end-line="250" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#971#1007#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="colors.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2788">
-              <caret line="46" column="36" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.67264575" vertical-offset="7676" max-vertical-offset="16626">
+              <caret line="527" column="50" selection-start-line="527" selection-start-column="50" selection-end-line="527" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphStatsCalculator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStatsCalculator.java">
+      <file leaf-file-name="matchdetails_layout.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="4029">
-              <caret line="186" column="88" selection-start-line="186" selection-start-column="88" selection-end-line="186" selection-end-column="88" />
+            <state vertical-scroll-proportion="-16.074074" vertical-offset="3765" max-vertical-offset="4420">
+              <caret line="247" column="61" selection-start-line="247" selection-start-column="61" selection-end-line="247" selection-end-column="61" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="340">
-              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="graph_fragment.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/graph_fragment.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.222222" vertical-offset="2668" max-vertical-offset="3876">
-              <caret line="170" column="60" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="60" />
-              <folding>
-                <element signature="e#10732#10775#0" expanded="true" />
-              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-designer">
@@ -249,16 +210,13 @@
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/ImageLoadListener.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/util/OrientationHelper.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/LineGraph.java" />
-        <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java" />
         <option value="$PROJECT_DIR$/res/layout-land/graph_fragment.xml" />
         <option value="$PROJECT_DIR$/res/layout/search_fragment_layout.xml" />
         <option value="$PROJECT_DIR$/res/layout/about_layout.xml" />
         <option value="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/dialog/PlayerDetailsDialog.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsNumbersFragment.java" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsPagerFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/graph_fragment.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/activity/DrawerController.java" />
@@ -268,6 +226,9 @@
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStatsCalculator.java" />
         <option value="$PROJECT_DIR$/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/GraphFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/stats_layout.xml" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsNumbersFragment.java" />
+        <option value="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
       </list>
     </option>
   </component>
@@ -953,7 +914,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="015d46d94933f807" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="MyAvd0" />
-    <property name="SearchEverywhereHistoryKey" value="rec&#9;FILE&#9;file://C:/Users/Simon Raes/Documents/GitHub/Dota-Data/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java&#10;recent&#9;FILE&#9;file://C:/Users/Simon Raes/Documents/GitHub/Dota-Data/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java&#10;datasou&#9;PSI&#9;JAVA://be.simonraes.dotadata.database.AbilityUpgradesDataSource" />
+    <property name="SearchEverywhereHistoryKey" value="ogre&#9;FILE&#9;file://C:/Users/Simon Raes/Documents/GitHub/Dota-Data/res/drawable-hdpi/ogre_easter.png&#10;rec&#9;FILE&#9;file://C:/Users/Simon Raes/Documents/GitHub/Dota-Data/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java&#10;recent&#9;FILE&#9;file://C:/Users/Simon Raes/Documents/GitHub/Dota-Data/src/be/simonraes/dotadata/fragment/RecentGamesFragment.java&#10;datasou&#9;PSI&#9;JAVA://be.simonraes.dotadata.database.AbilityUpgradesDataSource" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -1596,7 +1557,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1690,11 +1651,6 @@
     <option name="showOnlyWarnings" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/app_logo.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable-mdpi/app_logo.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1866,17 +1822,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.08985" vertical-offset="0" max-vertical-offset="5321">
-          <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/async/StatsMatchesLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1241">
@@ -1927,17 +1872,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.222222" vertical-offset="3009" max-vertical-offset="4420">
-          <caret line="198" column="62" selection-start-line="198" selection-start-column="62" selection-end-line="198" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/android/support/v4/app/DialogFragment.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13198757" vertical-offset="0" max-vertical-offset="1377">
@@ -1952,13 +1886,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65769804" vertical-offset="15914" max-vertical-offset="16609">
-          <caret line="1019" column="53" selection-start-line="1019" selection-start-column="53" selection-end-line="1019" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsPagerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.79941005" vertical-offset="4762" max-vertical-offset="5440">
@@ -1966,25 +1893,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsNumbersFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.39085546" vertical-offset="9411" max-vertical-offset="11271">
-          <caret line="568" column="0" selection-start-line="568" selection-start-column="0" selection-end-line="568" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/holograph/LineGraph.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6443" max-vertical-offset="8619">
           <caret line="468" column="48" selection-start-line="468" selection-start-column="48" selection-end-line="468" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -2049,21 +1961,13 @@
         <state vertical-scroll-proportion="0.33239037" vertical-offset="1822" max-vertical-offset="4335">
           <caret line="172" column="16" selection-start-line="172" selection-start-column="16" selection-end-line="172" selection-end-column="16" />
           <folding>
-            <element signature="e#1401#1402#0" expanded="true" />
-            <element signature="e#1438#1439#0" expanded="true" />
-            <element signature="e#1495#1496#0" expanded="true" />
-            <element signature="e#1547#1548#0" expanded="true" />
-            <element signature="e#4431#4432#0" expanded="true" />
-            <element signature="e#4487#4488#0" expanded="true" />
+            <element signature="e#1401#1402#0" expanded="false" />
+            <element signature="e#1438#1439#0" expanded="false" />
+            <element signature="e#1495#1496#0" expanded="false" />
+            <element signature="e#1547#1548#0" expanded="false" />
+            <element signature="e#4431#4432#0" expanded="false" />
+            <element signature="e#4487#4488#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStatsCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2635" max-vertical-offset="4029">
-          <caret line="186" column="88" selection-start-line="186" selection-start-column="88" selection-end-line="186" selection-end-column="88" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2078,17 +1982,44 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/GraphFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2800586" vertical-offset="3241" max-vertical-offset="9860">
+          <caret line="242" column="49" selection-start-line="242" selection-start-column="49" selection-end-line="242" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#971#1007#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2788">
+        <state vertical-scroll-proportion="0.5894428" vertical-offset="380" max-vertical-offset="2788">
           <caret line="46" column="36" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/statistics/GraphStatsCalculator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49853373" vertical-offset="2635" max-vertical-offset="4029">
+          <caret line="186" column="88" selection-start-line="186" selection-start-column="88" selection-end-line="186" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29912025" vertical-offset="0" max-vertical-offset="682">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/graph_fragment.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.222222" vertical-offset="2668" max-vertical-offset="3876">
+        <state vertical-scroll-proportion="0.3389313" vertical-offset="2668" max-vertical-offset="3876">
           <caret line="170" column="60" selection-start-line="170" selection-start-column="43" selection-end-line="170" selection-end-column="60" />
           <folding>
             <element signature="e#10732#10775#0" expanded="true" />
@@ -2099,14 +2030,46 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/GraphFragment.java">
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/ogre_easter.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/StatsNumbersFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2829912" vertical-offset="4057" max-vertical-offset="9860">
-          <caret line="250" column="19" selection-start-line="250" selection-start-column="19" selection-end-line="250" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#971#1007#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="7.85044" vertical-offset="1" max-vertical-offset="11220">
+          <caret line="340" column="0" selection-start-line="340" selection-start-column="0" selection-end-line="340" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/stats_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.074074" vertical-offset="4372" max-vertical-offset="6205">
+          <caret line="270" column="36" selection-start-line="270" selection-start-column="36" selection-end-line="270" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/matchdetails_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.074074" vertical-offset="3765" max-vertical-offset="4420">
+          <caret line="247" column="61" selection-start-line="247" selection-start-column="61" selection-end-line="247" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.67264575" vertical-offset="7676" max-vertical-offset="16626">
+          <caret line="527" column="50" selection-start-line="527" selection-start-column="50" selection-end-line="527" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>

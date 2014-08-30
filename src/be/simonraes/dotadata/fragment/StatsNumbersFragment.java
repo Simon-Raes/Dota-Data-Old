@@ -6,19 +6,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.activity.MatchActivity;
-import be.simonraes.dotadata.adapter.GameModeSpinnerAdapter;
-import be.simonraes.dotadata.adapter.HeroSpinnerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
 import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
@@ -27,7 +23,6 @@ import be.simonraes.dotadata.holograph.Bar;
 import be.simonraes.dotadata.holograph.BarGraph;
 import be.simonraes.dotadata.holograph.PieGraph;
 import be.simonraes.dotadata.holograph.PieSlice;
-import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.util.*;
 
 import java.util.*;
@@ -43,9 +38,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
 
     private int mShortAnimationDuration;
 
-    private Spinner spinnerHeroes;
-    private Spinner spinnerGameModes;
-
     private View view;
     private LinearLayout layStatsGameModes, layStatsHeroes, layStatsRecords, layStatsNumbers, layStatsNoGames;
 
@@ -55,9 +47,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
 
     private ArrayList<DetailMatchLite> matches;
     private HashMap<String, Integer> gameModesMap; //contains played gamemodes, count
-    private HashMap<String, String> mapGameModeIDName; //contains played gamemodesIDs, gamemodenames
     private HashMap<String, Integer> heroesMap; //contains played heroes, count
-    private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
 
     private TextView
             txtStatsGamesPlayed,
@@ -73,7 +63,11 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             txtStatsAverageDeaths,
             txtStatsAverageAssists,
             txtStatsAverageGPM,
-            txtStatsAverageXPM;
+            txtStatsAverageXPM,
+            txtStatsTotalLastHits,
+            txtStatsTotalDenies,
+            txtStatsAverageLastHits,
+            txtStatsAverageDenies;
 
     private Button
             btnStatsLongestGame,
@@ -83,15 +77,11 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             btnStatsMostLastHits,
             btnStatsMostDenies,
             btnStatsMostHeroDamage,
+            btnStatsMostHeroHealing,
             btnStatsMostTowerDamage,
             btnStatsMostGPM,
             btnStatsMostXPM;
     private ImageButton btnStatsHelp;
-
-    private StatsMatchesLoader sml;
-    //    private boolean wentToDetailsHeroes, wentToDetailsGameModes;
-    //public boolean wentToDetails;
-    long lastUpdate = 0;
 
     //numbers
     private double gamesPlayed = 0;
@@ -104,6 +94,8 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private double averageKills = 0, averageDeaths = 0, averageAssists = 0;
     private double totalGPM = 0, totalXPM = 0;
     private double averageGPM = 0, averageXPM;
+    private double totalLastHits = 0, totalDenies = 0;
+    private double averageLastHits = 0, averageDenies = 0;
 
     //records
     private Long longestGame = 0L;
@@ -120,6 +112,8 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private String mostDeniesID;
     private int mostHeroDamage = 0;
     private String mostHeroDamageID;
+    private int mostHeroHealing = 0;
+    private String mostHeroHealingID;
     private int mostTowerDamage = 0;
     private String mostTowerDamageID;
     private int mostGPM = 0;
@@ -127,28 +121,17 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private int mostXPM = 0;
     private String mostXPMID;
 
-    //    //ID of the selected item in the spinner
-    private String gameModeID, heroID;
+    private String gameModeID, heroID; //ID of the selected item in the spinner
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("oncreateview statsnumbersfragment");
         this.view = inflater.inflate(R.layout.stats_layout, null);
-
-
-        //optionsmenu only gets created on second call for some reason, so call it both here and in the containing view pager fragment
-        //fixes problem where spinners only show up after rotating the screen
-        //super.setHasOptionsMenu(true);
-
 
         scrollStats = (ScrollView) view.findViewById(R.id.svStats);
         progressStats = (ProgressBar) view.findViewById(R.id.pbStats);
 
         crossFadeToLoading();
-
-//        scrollStats.setVisibility(View.GONE);
-//        progressStats.setVisibility(View.VISIBLE);
 
         //numbers
         txtStatsGamesPlayed = (TextView) view.findViewById(R.id.txtStatsGamesPlayed);
@@ -165,6 +148,10 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         txtStatsAverageAssists = (TextView) view.findViewById(R.id.txtStatsAverageAssists);
         txtStatsAverageGPM = (TextView) view.findViewById(R.id.txtStatsAverageGPM);
         txtStatsAverageXPM = (TextView) view.findViewById(R.id.txtStatsAverageXPM);
+        txtStatsTotalLastHits = (TextView) view.findViewById(R.id.txtStatsTotalLastHits);
+        txtStatsTotalDenies = (TextView) view.findViewById(R.id.txtStatsTotalDenies);
+        txtStatsAverageLastHits = (TextView) view.findViewById(R.id.txtStatsAverageLastHits);
+        txtStatsAverageDenies = (TextView) view.findViewById(R.id.txtStatsAverageDenies);
 
         //records
         btnStatsLongestGame = (Button) view.findViewById(R.id.txtStatsLongestGame);
@@ -181,6 +168,8 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         btnStatsMostDenies.setOnClickListener(this);
         btnStatsMostHeroDamage = (Button) view.findViewById(R.id.txtStatsMostHeroDamage);
         btnStatsMostHeroDamage.setOnClickListener(this);
+        btnStatsMostHeroHealing = (Button) view.findViewById(R.id.btnStatsMostHeroHealing);
+        btnStatsMostHeroHealing.setOnClickListener(this);
         btnStatsMostTowerDamage = (Button) view.findViewById(R.id.btnStatsMostTowerDamage);
         btnStatsMostTowerDamage.setOnClickListener(this);
         btnStatsMostGPM = (Button) view.findViewById(R.id.txtStatsMostGPM);
@@ -196,9 +185,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         layStatsRecords = (LinearLayout) view.findViewById(R.id.layStatsRecords);
         layStatsNoGames = (LinearLayout) view.findViewById(R.id.layStatsNoGames);
 
-
         mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
 
         return view;
     }
@@ -272,7 +259,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        System.out.println("onClick");
 
         DetailMatch match = null;
         MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
@@ -313,6 +299,11 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                     match = mds.getMatchByID(mostHeroDamageID);
                 }
                 break;
+            case R.id.btnStatsMostHeroHealing:
+                if (Integer.parseInt(mostHeroHealingID) > 0) {
+                    match = mds.getMatchByID(mostHeroHealingID);
+                }
+                break;
             case R.id.btnStatsMostTowerDamage:
                 if (Integer.parseInt(mostTowerDamageID) > 0) {
                     match = mds.getMatchByID(mostTowerDamageID);
@@ -347,8 +338,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     }
 
     private void setNumbers() {
-        System.out.println("setNumbers");
-
 
         //reset numbers
         gamesPlayed = 0; //
@@ -368,8 +357,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         averageGPM = 0;
         averageXPM = 0;
 
-        //todo: hero healing
-
         //reset records
         longestGame = -1L;
         mostKills = -1;
@@ -379,6 +366,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         mostDenies = -1;
         mostHeroDamage = -1;
         mostTowerDamage = -1;
+        mostHeroHealing = -1;
         mostGPM = -1;
         mostXPM = -1;
         longestGameID = "-1";
@@ -388,6 +376,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         mostLastHitsID = "-1";
         mostDeniesID = "-1";
         mostHeroDamageID = "-1";
+        mostHeroHealingID = "-1";
         mostTowerDamageID = "-1";
         mostGPMID = "-1";
         mostXPMID = "-1";
@@ -407,15 +396,9 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         for (DetailMatchLite matchLite : matches) {
             //numbers
             gamesPlayed++;
-//            if (matchLite.isUser_win()) {
-//                gamesWon++;
-//            } else {
-//                gamesLost++;
-//            }
 
             if (MatchUtils.isUser_win(matchLite)) {
                 gamesWon++;
-
             } else {
                 gamesLost++;
             }
@@ -426,7 +409,8 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             totalAssists += Double.parseDouble(matchLite.getAssists());
             totalGPM += Double.parseDouble(matchLite.getGold_per_min());
             totalXPM += Double.parseDouble(matchLite.getXp_per_min());
-
+            totalLastHits += Double.parseDouble(matchLite.getLast_hits());
+            totalDenies += Double.parseDouble(matchLite.getDenies());
 
             //records
             if (Long.parseLong(matchLite.getDuration()) > longestGame) {
@@ -456,6 +440,10 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             if (Integer.parseInt(matchLite.getHero_damage()) > mostHeroDamage) {
                 mostHeroDamage = Integer.parseInt(matchLite.getHero_damage());
                 mostHeroDamageID = matchLite.getMatch_id();
+            }
+            if (Integer.parseInt(matchLite.getHero_healing()) > mostHeroHealing) {
+                mostHeroHealing = Integer.parseInt(matchLite.getHero_healing());
+                mostHeroHealingID = matchLite.getMatch_id();
             }
             if (Integer.parseInt(matchLite.getTower_damage()) > mostTowerDamage) {
                 mostTowerDamage = Integer.parseInt(matchLite.getTower_damage());
@@ -492,6 +480,8 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         averageAssists = totalAssists / gamesPlayed;
         averageGPM = totalGPM / gamesPlayed;
         averageXPM = totalXPM / gamesPlayed;
+        averageLastHits = totalLastHits / gamesPlayed;
+        averageDenies = totalDenies / gamesPlayed;
 
         //numbers
         txtStatsGamesPlayed.setText(Html.fromHtml("Games played<br>" + (int) gamesPlayed));
@@ -508,6 +498,10 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         txtStatsAverageAssists.setText(Html.fromHtml("Average assists<br>" + Conversions.roundDouble(averageAssists, 1)));
         txtStatsAverageGPM.setText(Html.fromHtml("Average GPM<br>" + (int) averageGPM));
         txtStatsAverageXPM.setText(Html.fromHtml("Average XPM<br>" + (int) averageXPM));
+        txtStatsTotalLastHits.setText(Html.fromHtml("Total last hits<br>" + (int) totalLastHits));
+        txtStatsTotalDenies.setText(Html.fromHtml("Total denies<br>" + (int) totalDenies));
+        txtStatsAverageLastHits.setText(Html.fromHtml("Average last hits<br>" + Conversions.roundDouble(averageLastHits, 1)));
+        txtStatsAverageDenies.setText(Html.fromHtml("Average denies<br>" + Conversions.roundDouble(averageDenies, 1)));
 
         //records
         btnStatsLongestGame.setText("Longest game: " + Conversions.secondsToTime(longestGame.toString()));
@@ -517,10 +511,10 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         btnStatsMostLastHits.setText("Most last hits: " + mostLastHits);
         btnStatsMostDenies.setText("Most denies: " + mostDenies);
         btnStatsMostHeroDamage.setText("Most hero damage: " + mostHeroDamage);
+        btnStatsMostHeroHealing.setText("Most hero healing: " + mostHeroHealing);
         btnStatsMostTowerDamage.setText("Most tower damage: " + mostTowerDamage);
         btnStatsMostGPM.setText("Highest GPM: " + mostGPM);
         btnStatsMostXPM.setText("Highest XPM: " + mostXPM);
-
     }
 
     private void setGameModesGraph() {
@@ -535,7 +529,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         Random rnd;
         for (Map.Entry<String, Integer> entry : gameModesMap.entrySet()) {
             if (entry.getValue() > 0) {
-                if (entry.getKey() != null && entry.getValue() != null) {
+                if (entry.getKey() != null) {
 
                     //seed the random so a gamemode will always have the same color
                     rnd = new Random(entry.getKey().hashCode() + 43438); // +1 for better colors, tested 2-10 (not good)
@@ -550,14 +544,12 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
 
                     //set legend
                     TextView txtLegend = new TextView(getActivity());
-                    if (txtLegend != null) {
-                        txtLegend.setLayoutParams(new ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-                        txtLegend.setText(entry.getKey() + ": " + entry.getValue());
-                        txtLegend.setTextColor(sliceColor);
-                        layLegend.addView(txtLegend);
-                    }
+                    txtLegend.setLayoutParams(new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    txtLegend.setText(entry.getKey() + ": " + entry.getValue());
+                    txtLegend.setTextColor(sliceColor);
+                    layLegend.addView(txtLegend);
                 }
             }
         }
@@ -579,8 +571,8 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                 rnd = new Random(entry.getKey().hashCode());
                 d.setColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
                 d.setName(entry.getKey());
-                d.setValue((int) entry.getValue());
-                d.setValueString(Integer.toString((int) entry.getValue()));
+                d.setValue( entry.getValue());
+                d.setValueString(Integer.toString(entry.getValue()));
 
                 points.add(d);
             }

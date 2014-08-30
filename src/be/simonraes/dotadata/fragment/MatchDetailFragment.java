@@ -69,6 +69,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private ImageButton btnDeleteNote;
 
     private FrameLayout layDetailsMinimap;
+    private ImageView imgMinimap;
 
     private LineGraph lineGraphExperienceTeams;
 
@@ -77,7 +78,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         System.out.println("MatchDetailFragment oncreateview");
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         this.inflater = inflater;
-        match = (DetailMatch) getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
+        match = getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
 
         setHasOptionsMenu(true);
         getActivity().setTitle("Match Details");
@@ -103,10 +104,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         setPicksBans();
         setExperienceGraph();
 
-        //add listener to retrieve height and width of minimap layout, will call onGlobalLayout()
+        //add listener to retrieve height and width of minimap, this will call onGlobalLayout() after the layout has been created
         layDetailsMinimap = (FrameLayout) view.findViewById(R.id.layDetailsMinimap);
-        if (layDetailsMinimap != null && layDetailsMinimap.getViewTreeObserver() != null) {
-            layDetailsMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
+        imgMinimap = (ImageView) view.findViewById(R.id.imgDetailMinimap);
+        if (imgMinimap != null && imgMinimap.getViewTreeObserver() != null) {
+            imgMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
 
         System.out.println("MatchDetailFragment oncreateview finished");
@@ -506,25 +509,23 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         System.out.println("MatchdetailFragment set map");
 
         //remove listener so this method only gets called once
-        //different versions depending on android version (before or after API 16)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            if (layDetailsMinimap.getViewTreeObserver() != null) {
+            if (imgMinimap.getViewTreeObserver() != null) {
                 //noinspection deprecation
-                layDetailsMinimap.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                imgMinimap.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         } else {
-            if (layDetailsMinimap.getViewTreeObserver() != null) {
-                layDetailsMinimap.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            if (imgMinimap.getViewTreeObserver() != null) {
+                imgMinimap.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         }
 
         //get minimap size
-        int x = layDetailsMinimap.getWidth();
-        int y = layDetailsMinimap.getHeight();
+        int x = imgMinimap.getWidth();
+        int y = imgMinimap.getHeight();
 
         //add towers to minimap
         //todo: barracks (and fix this awful code)
-
 
         TowerStatus twrRadiant = Conversions.towerStatusFromString(match.getTower_status_radiant());
         TowerStatus twrDire = Conversions.towerStatusFromString(match.getTower_status_dire());
