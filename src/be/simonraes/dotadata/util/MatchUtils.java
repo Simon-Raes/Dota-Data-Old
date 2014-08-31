@@ -7,6 +7,7 @@ import be.simonraes.dotadata.detailmatch.DetailPlayer;
 import be.simonraes.dotadata.statistics.TeamExperienceStats;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -130,7 +131,6 @@ public class MatchUtils {
                 // Save the difference to the difference-map
                 joinedMap.put((double)i, radiantExperience - direExperience);
             }
-
 
             // Find all points where the graph goes from negative to positive or positive to negative.
             // Add a new point on that zero-point so the graph has a place to switch color.

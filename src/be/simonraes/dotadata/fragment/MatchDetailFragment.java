@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -75,7 +76,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("MatchDetailFragment oncreateview");
+//        System.out.println("MatchDetailFragment oncreateview");
         view = inflater.inflate(R.layout.matchdetails_layout, container, false);
         this.inflater = inflater;
         match = getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
@@ -112,13 +113,13 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             imgMinimap.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
 
-        System.out.println("MatchDetailFragment oncreateview finished");
+//        System.out.println("MatchDetailFragment oncreateview finished");
         return view;
     }
 
     /*Sets the textviews containing match info.*/
     private void setHeader() {
-        System.out.println("MatchdetailFragment setheader");
+//        System.out.println("MatchdetailFragment setheader");
         TextView txtMatchID = (TextView) view.findViewById(R.id.txtDetailMatchID);
         txtMatchID.setText("ID " + match.getMatch_id());
 
@@ -151,7 +152,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Shows note if there is one.*/
     private void setNote() {
-        System.out.println("MatchdetailFragment setnote");
+//        System.out.println("MatchdetailFragment setnote");
 
         if (match.getExtras().getNote() != null && !match.getExtras().getNote().equals("") && !match.getExtras().getNote().equals("null")) {
             RelativeLayout layNote = (RelativeLayout) view.findViewById(R.id.layDetailNote);
@@ -163,9 +164,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    /*Sets the info of all players (items, stats,...).*/
+    /**Sets the info of all players (items, stats,...).*/
     private void setScoreboard() {
-        System.out.println("MatchdetailFragment setscoreboard");
+//        System.out.println("MatchdetailFragment setscoreboard");
 
         //Players info
         LinearLayout layPlayersRadiant = (LinearLayout) view.findViewById(R.id.layDetailRadiantPlayers);
@@ -326,7 +327,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             }
         }
 
-        //only show team card if it contains players - this is useful for special events/gamemodes that only use one team
+        //only show team card if it contains players - this is useful for special events/gamemodes that only use one team.
         if (numRadiantPlayers == 0) {
             layPlayersRadiant.setVisibility(View.GONE);
         }
@@ -336,7 +337,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    /*Scrolls the scoreboard to the right if the player was on the Dire team.*/
+    /**Scrolls the scoreboard to the right if the player was on the Dire team.*/
     private void scrollScoreboard() {
         //Check if the active user participated in the match
         activePlayer = null;
@@ -421,22 +422,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
 
-            Line lineJoined = new Line();
-            lineJoined.setColor(match.isRadiant_win() ? getResources().getColor(R.color.RadiantGreen) : getResources().getColor(R.color.DireOrange));
-            lineJoined.setShowingPoints(false);
-            LinePoint p = new LinePoint();
-            p.setX(0);
-            p.setY(0);
-            lineJoined.addPoint(p);
+            LinePoint p;
 
-            for (Map.Entry<Double, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
-                p = new LinePoint();
-                p.setX(entry.getKey());
-                p.setY(entry.getValue());
-                lineJoined.addPoint(p);
-            }
-            lineGraphExperienceTeams.addLine(lineJoined);
-
+            // Vertical line along Y=0
             Line lineZero = new Line();
             lineZero.setColor(getResources().getColor(R.color.Gray));
             lineZero.setStrokeWidth(1);
@@ -451,20 +439,52 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             lineZero.addPoint(p);
             lineGraphExperienceTeams.addLine(lineZero);
 
-            //set labels and graph Y-range
-            TextView txtExpTop = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextTop);
-            TextView txtExpMiddle = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextMiddle);
-            TextView txtExpBottom = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextBottom);
+            // Team experience line(s)
+            Line lineJoined = new Line();
 
+            String activeColor = "#A9A9A9";
             int topY = 0, bottomY = 0;
 
             for (Map.Entry<Double, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
+                // Save the highest and lowest values (to be placed in labels later)
                 if (entry.getValue() < bottomY) {
                     bottomY = entry.getValue();
                 } else if (entry.getValue() > topY) {
                     topY = entry.getValue();
                 }
+
+                // Start a new line every time the graph hits Y=0
+                if (entry.getValue() == 0) {
+                    // Finish previous line
+                    p = new LinePoint();
+                    p.setX(entry.getKey());
+                    p.setY(entry.getValue());
+                    p.setColor(activeColor);
+                    lineJoined.addPoint(p);
+
+                    // Start a new line
+                    lineJoined = new Line();
+                    lineJoined.setShowingPoints(false);
+                    lineGraphExperienceTeams.addLine(lineJoined);
+                } else if (entry.getValue() < 0) {
+                    // Dire is ahead
+                    activeColor = "#B0311E";
+                } else {
+                    // Radiant is ahead
+                    activeColor = "#668042";
+                }
+                p = new LinePoint();
+                p.setX(entry.getKey());
+                p.setY(entry.getValue());
+                p.setColor(activeColor);
+                lineJoined.setColor(Color.parseColor(activeColor));
+                lineJoined.addPoint(p);
             }
+
+            //set labels and graph Y-range
+            TextView txtExpTop = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextTop);
+            TextView txtExpMiddle = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextMiddle);
+            TextView txtExpBottom = (TextView) view.findViewById(R.id.txtDetailExperiencetxtDetailExperienceTextBottom);
 
             txtExpTop.setText(Integer.toString(topY));
             txtExpMiddle.setText(Integer.toString((topY + bottomY) / 2));
@@ -472,11 +492,11 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             lineGraphExperienceTeams.setRangeY(bottomY, topY);
         } else {
+            // Hide the graph card if the match had no experience data.
             RelativeLayout layExperience = (RelativeLayout) view.findViewById(R.id.layTeamExperience);
             layExperience.setVisibility(View.GONE);
         }
     }
-
 
     private void setItemImage(ImageView imgItem, String item_id) {
         if (imgItem != null) {
@@ -492,7 +512,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //cancel any active asynctask
+        //cancel any active asynctasks
         //this way other asynctasks in the app don't have to wait until these finish (or time out)
         if (parsers != null && parsers.size() > 0) {
             for (PlayerSummaryParser parser : parsers) {
@@ -501,7 +521,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    /*Adds towers and barracks to minimap.*/
+    /**Adds towers and barracks to minimap.*/
     @Override
     public void onGlobalLayout() {
 
@@ -719,7 +739,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    /*Sets action bar buttons.*/
+    /**Sets action bar buttons.*/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -742,7 +762,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    /*Handles action bar buttons.*/
+    /**Handles action bar buttons click events.*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -778,7 +798,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         }
     }
 
-    //received names of players
+    /** Received names of players*/
     @Override
     public void processFinish(PlayerSummaryContainer result) {
         if (result != null) {
@@ -808,12 +828,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                     }
                 }
             }
-        } else {
-            //this means the connection timed out
         }
-
     }
 
+    /**Opens a dialog to add or edit a note for the current match.*/
     private void noteDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add note");
@@ -827,7 +845,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         } else {
             input.setText("");
         }
-
 
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         builder.setView(input);
@@ -851,6 +868,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         builder.show();
     }
 
+    /**Saves the note to the database.*/
     private void saveNote(String text) {
 
         match.getExtras().setNote(text);
@@ -879,7 +897,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     }
 
-    /*Takes screenshot of the important views so scoreboard can be shared - WIP*/
+    /**Takes a screenshot of the important views so scoreboard can be shared - WIP*/
     private void setShareIntentImage() {
         //match info
 
@@ -997,9 +1015,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 //        Uri uri = Uri.fromFile(myPath);
 //        intent.putExtra(Intent.EXTRA_STREAM, uri.toString());
 //        mShareActionProvider.setShareIntent(intent);
-
     }
-
 
     @Override
     public void onClick(View v) {
@@ -1013,16 +1029,12 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 break;
         }
 
-        //todo: needs a better check to see if the click event came from one of the 10 player buttons
+        // If the click event was not for the note it must be for one of the players.
         if (!deletedNote) {
             int clickedPlayer = Integer.parseInt(v.getTag().toString());
 
             DialogFragment detailsDialog = PlayerDetailsDialog.newInstance(match.getPlayers().get(clickedPlayer), match.getDuration());
             detailsDialog.show(getActivity().getSupportFragmentManager(), "d");
         }
-
-
     }
-
-
 }
