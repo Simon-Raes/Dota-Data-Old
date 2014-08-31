@@ -415,8 +415,6 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
     /*Builds the experience graph.*/
     private void setExperienceGraph() {
-        System.out.println("MatchdetailFragment setgraph");
-
 
         TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match);
         if (teamExpStats != null && teamExpStats.getExpRadiant() != null && teamExpStats.getExpRadiant().size() > 0 && teamExpStats.getExpDire() != null && teamExpStats.getExpDire().size() > 0) {
@@ -430,7 +428,8 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             p.setX(0);
             p.setY(0);
             lineJoined.addPoint(p);
-            for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
+
+            for (Map.Entry<Double, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
                 p = new LinePoint();
                 p.setX(entry.getKey());
                 p.setY(entry.getValue());
@@ -459,7 +458,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             int topY = 0, bottomY = 0;
 
-            for (Map.Entry<Integer, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
+            for (Map.Entry<Double, Integer> entry : teamExpStats.getExpJoined().entrySet()) {
                 if (entry.getValue() < bottomY) {
                     bottomY = entry.getValue();
                 } else if (entry.getValue() > topY) {

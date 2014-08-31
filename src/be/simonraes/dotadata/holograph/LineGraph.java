@@ -499,7 +499,7 @@ public class LineGraph extends View {
                         int outerRadius = line.getStrokeWidth() / 2;
 
 
-                        paint.setColor(line.getColor());
+                        paint.setColor(Color.parseColor(p.getColor()));
                         canvas.drawCircle(xPixels, yPixels, outerRadius, paint);
 
                         Path path2 = new Path();

@@ -15,6 +15,9 @@ import java.util.TreeMap;
  */
 public class MatchUtils {
 
+    // Determines how many points will be created in the team experience graph
+    private static final int TEAM_EXPERIENCE_GRAPH_INTERVAL = 60; // Create a point every 60 seconds
+
     public static boolean isUser_win(DetailMatch match, String accountID) {
         boolean userwin = false;
         for (DetailPlayer player : match.getPlayers()) {
@@ -93,9 +96,9 @@ public class MatchUtils {
             }
 
             //calculate difference
-            TreeMap<Integer, Integer> joinedMap = new TreeMap<Integer, Integer>();
+            TreeMap<Double, Integer> joinedMap = new TreeMap<Double, Integer>();
 
-            //find the latest entry
+            //find the latest entry to make both experience graphs end at the same timestamp
             int latestEntry;
 
             if (teamStats.getExpRadiant().lastEntry().getKey() > teamStats.getExpDire().lastEntry().getKey()) {
@@ -106,7 +109,7 @@ public class MatchUtils {
 
 
             //draw a point ever 60 seconds
-            for (int i = 0; i < latestEntry; i += 60) {
+            for (int i = 0; i < latestEntry; i += TEAM_EXPERIENCE_GRAPH_INTERVAL) {
                 int radiantExperience = 0;
                 for (Map.Entry<Integer, Integer> entry : teamStats.getExpRadiant().entrySet()) {
                     if (entry.getKey() <= i) {
@@ -123,10 +126,44 @@ public class MatchUtils {
                         break;
                     }
                 }
-//            System.out.println("putting exp at " + i + " = " + radiantExperience + "-" + direExperience + "=" + (radiantExperience - direExperience));
-                joinedMap.put(i, radiantExperience - direExperience);
+
+                // Save the difference to the difference-map
+                joinedMap.put((double)i, radiantExperience - direExperience);
             }
 
+
+            // Find all points where the graph goes from negative to positive or positive to negative.
+            // Add a new point on that zero-point so the graph has a place to switch color.
+            TreeMap<Double, Integer> newValues = new TreeMap<Double, Integer>();
+
+            for (Map.Entry<Double, Integer> entry : joinedMap.entrySet()) {
+
+                // to find next entry
+                if (joinedMap.containsKey(entry.getKey() + TEAM_EXPERIENCE_GRAPH_INTERVAL)) {
+                    int expDifferenceAtCurrentPoint = entry.getValue();
+                    int expDifferenceAtNextPoint = joinedMap.get(entry.getKey() + TEAM_EXPERIENCE_GRAPH_INTERVAL);
+
+                    int currentFromZeroY, nextFromZeroY;
+
+                    // Only check if the graph goes from negative to positive or positive to negative
+                    if ((expDifferenceAtCurrentPoint < 0 && expDifferenceAtNextPoint > 0) ||
+                            (expDifferenceAtCurrentPoint > 0 && expDifferenceAtNextPoint < 0)) {
+                        if (expDifferenceAtCurrentPoint < 0) {
+                            currentFromZeroY = 0 - expDifferenceAtCurrentPoint;
+                            nextFromZeroY = expDifferenceAtNextPoint;
+                        } else {
+                            currentFromZeroY = expDifferenceAtCurrentPoint;
+                            nextFromZeroY = 0 - expDifferenceAtNextPoint;
+                        }
+
+                        int totalYDifference = currentFromZeroY + nextFromZeroY;
+                        double pointZeroIsXDistanceFromCurrentPoint = (double)TEAM_EXPERIENCE_GRAPH_INTERVAL * ((double)currentFromZeroY/ (double)totalYDifference);
+                        newValues.put(entry.getKey() + pointZeroIsXDistanceFromCurrentPoint, 0);
+                    }
+                }
+            }
+
+            joinedMap.putAll(newValues);
             teamStats.setExpJoined(joinedMap);
 
             return teamStats;

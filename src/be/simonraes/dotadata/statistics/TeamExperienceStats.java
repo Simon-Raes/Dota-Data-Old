@@ -8,7 +8,7 @@ import java.util.TreeMap;
 public class TeamExperienceStats {
     TreeMap<Integer, Integer> expRadiant;
     TreeMap<Integer, Integer> expDire;
-    TreeMap<Integer, Integer> expJoined;
+    TreeMap<Double, Integer> expJoined;
 
     public TeamExperienceStats() {
         expRadiant = new TreeMap<Integer, Integer>();
@@ -31,11 +31,11 @@ public class TeamExperienceStats {
         this.expDire = expDire;
     }
 
-    public TreeMap<Integer, Integer> getExpJoined() {
+    public TreeMap<Double, Integer> getExpJoined() {
         return expJoined;
     }
 
-    public void setExpJoined(TreeMap<Integer, Integer> expJoined) {
+    public void setExpJoined(TreeMap<Double, Integer> expJoined) {
         this.expJoined = expJoined;
     }
 }
