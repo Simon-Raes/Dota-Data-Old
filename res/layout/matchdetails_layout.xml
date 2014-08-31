@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent" android:layout_height="match_parent">
+             android:layout_width="match_parent" android:layout_height="match_parent">
     <be.simonraes.dotadata.ui.FillWidthImageView android:layout_width="match_parent"
                                                  android:layout_height="wrap_content"
                                                  android:id="@+id/imgDetailBackground"
@@ -238,17 +238,20 @@
 
             <!-- Map: tower and barracks status -->
             <FrameLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                         android:id="@+id/layDetailsMinimap"
                          style="@style/CardMargin"
                          android:background="@drawable/bg_card"
                          android:paddingTop="20dp"
                          android:gravity="center"
                          android:paddingBottom="20dp">
-                <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                           android:id="@+id/imgDetailMinimap"
-                           android:adjustViewBounds="true"
-                           android:src="@drawable/dota_minimap_sd"
-                           android:contentDescription="@string/imgMinimap"/>
+                <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/layDetailsMinimap">
+                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                               android:id="@+id/imgDetailMinimap"
+                               android:adjustViewBounds="true"
+                               android:layout_gravity="center"
+                               android:src="@drawable/dota_minimap_sd"
+                               android:contentDescription="@string/imgMinimap"/>
+                </FrameLayout>
             </FrameLayout>
         </LinearLayout>
     </ScrollView>
