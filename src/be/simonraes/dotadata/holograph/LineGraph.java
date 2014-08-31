@@ -23,23 +23,16 @@
 
 package be.simonraes.dotadata.holograph;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.*;
 import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Path.Direction;
-import android.graphics.Point;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Region;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
 
 public class LineGraph extends View {
 
@@ -481,6 +474,33 @@ public class LineGraph extends View {
                         canvas.drawCircle(xPixels, yPixels, outerRadius, paint);
                         paint.setColor(Color.WHITE);
                         canvas.drawCircle(xPixels, yPixels, innerRadius, paint);
+
+                        Path path2 = new Path();
+                        path2.addCircle(xPixels, yPixels, 30, Direction.CW);
+                        p.setPath(path2);
+                        p.setRegion(new Region((int) (xPixels - 30), (int) (yPixels - 30), (int) (xPixels + 30), (int) (yPixels + 30)));
+
+                        if (indexSelected == pointCount && listener != null) {
+                            paint.setColor(Color.parseColor(p.getColor()));
+                            paint.setAlpha(100);
+                            canvas.drawPath(p.getPath(), paint);
+                            paint.setAlpha(255);
+                        }
+
+                        pointCount++;
+                    }
+                } else {
+                    for (LinePoint p : line.getPoints()) {
+                        float yPercent = (p.getY() - minY) / (maxY - minY);
+                        float xPercent = (p.getX() - minX) / (maxX - minX);
+                        float xPixels = sidePadding + (xPercent * usableWidth);
+                        float yPixels = getHeight() - bottomPadding - (usableHeight * yPercent);
+
+                        int outerRadius = line.getStrokeWidth() / 2;
+
+
+                        paint.setColor(line.getColor());
+                        canvas.drawCircle(xPixels, yPixels, outerRadius, paint);
 
                         Path path2 = new Path();
                         path2.addCircle(xPixels, yPixels, 30, Direction.CW);

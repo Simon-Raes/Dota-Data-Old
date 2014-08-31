@@ -77,6 +77,8 @@ public class GameModes {
         gameModes.put("16", "Captain's Draft");
         gameModes.put("17", "Balanced Draft");
         gameModes.put("18", "Ability Draft");
+        gameModes.put("20", "All Random Deathmatch");
+        gameModes.put("21", "1v1 Solo Mid");
 
     }
 
@@ -144,6 +146,12 @@ public class GameModes {
         if (number.equals("18")) {
             gameMode = "Ability Draft";
         }
+        if (number.equals("20")) {
+            gameMode = "All Random Deathmatch";
+        }
+        if (number.equals("21")) {
+            gameMode = "1v1 Solo Mid";
+        }
 
         return gameMode;
     }
@@ -209,6 +217,12 @@ public class GameModes {
         }
         if (number.equals("18")) {
             gameModeAbbreviation = "AD";
+        }
+        if (number.equals("20")) {
+            gameModeAbbreviation = "ARDM";
+        }
+        if (number.equals("21")) {
+            gameModeAbbreviation = "1v1";
         }
 
         return gameModeAbbreviation;
