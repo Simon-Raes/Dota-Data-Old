@@ -61,20 +61,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e427a41a-4424-4a76-a587-a813a9d8dbdd" name="Default" comment="Fixed scrollLayout not stretching to the sides.&#10;&#10;MatchDetails screen.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tower_dire_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tower_radiant_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/BuildingStatus.java" />
       <change type="DELETED" beforePath="C:\Users\Simon Raes\Documents\GitHub\Dota-Data\src\be\simonraes\dotadata\util\TowerStatus.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Simon Raes\Documents\GitHub\Dota-Data\res\drawable-hdpi\tower_dire_small.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tower_dire.png" />
-      <change type="MOVED" beforePath="C:\Users\Simon Raes\Documents\GitHub\Dota-Data\res\drawable-hdpi\tower_radiant_small.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tower_radiant.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tower_dire_small.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tower_dire_small.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tower_radiant_small.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tower_radiant_small.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" afterPath="$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" afterPath="$PROJECT_DIR$/res/layout/matchdetails_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-small/minimap_tower_dire.xml" afterPath="$PROJECT_DIR$/res/layout-small/minimap_tower_dire.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout-small/minimap_tower_radiant.xml" afterPath="$PROJECT_DIR$/res/layout-small/minimap_tower_radiant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="drawer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -152,33 +144,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuildingStatus.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="BuildingStatus.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/BuildingStatus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="816">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-              <folding>
-                <element signature="e#600#601#0" expanded="true" />
-                <element signature="e#631#632#0" expanded="true" />
-                <element signature="e#668#669#0" expanded="true" />
-                <element signature="e#695#696#0" expanded="true" />
-                <element signature="e#723#724#0" expanded="true" />
-                <element signature="e#747#748#0" expanded="true" />
-                <element signature="e#775#776#0" expanded="true" />
-                <element signature="e#799#800#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.5889764" vertical-offset="0" max-vertical-offset="680">
+              <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Conversions.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Conversions.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49133858" vertical-offset="2663" max-vertical-offset="6222">
-              <caret line="175" column="9" selection-start-line="175" selection-start-column="9" selection-end-line="175" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6137">
+              <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4056#4072#0" expanded="true" />
+                <element signature="e#4058#4074#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1676,7 +1659,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21140939" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1698,7 +1681,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294621" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19926651" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19926651" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37442395" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2869353" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
@@ -2183,6 +2166,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Android SDK/sdk/platforms/android-19/android.jar!/java/lang/Integer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33228347" vertical-offset="588" max-vertical-offset="1530">
+          <caret line="48" column="35" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6137">
+          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4058#4074#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/fragment/MatchDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="8246" max-vertical-offset="14416">
@@ -2193,29 +2195,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/BuildingStatus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="816">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#600#601#0" expanded="true" />
-            <element signature="e#631#632#0" expanded="true" />
-            <element signature="e#668#669#0" expanded="true" />
-            <element signature="e#695#696#0" expanded="true" />
-            <element signature="e#723#724#0" expanded="true" />
-            <element signature="e#747#748#0" expanded="true" />
-            <element signature="e#775#776#0" expanded="true" />
-            <element signature="e#799#800#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/simonraes/dotadata/util/Conversions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49133858" vertical-offset="2663" max-vertical-offset="6222">
-          <caret line="175" column="9" selection-start-line="175" selection-start-column="9" selection-end-line="175" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4056#4072#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.5889764" vertical-offset="0" max-vertical-offset="680">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

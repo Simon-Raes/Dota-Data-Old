@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Converts values from the API data to objects.
  * Created by Simon on 2/02/14.
  */
 public class Conversions {
@@ -61,19 +62,19 @@ public class Conversions {
         return hours + ":" + minutes + ":" + seconds;
     }
 
-    public static String leagueTitleToString(String rawLeague) {
-        if (rawLeague.startsWith("#DOTA_")) {
-            rawLeague = rawLeague.replace("#DOTA_", "");
-        }
-        if (rawLeague.startsWith("Item_")) {
-            rawLeague = rawLeague.replace("Item_", "");
-        }
-        if (rawLeague.startsWith("League_")) {
-            rawLeague = rawLeague.replace("League_", "");
-        }
-        rawLeague = rawLeague.replace("_", " ");
-        return rawLeague;
-    }
+//    public static String leagueTitleToString(String rawLeague) {
+//        if (rawLeague.startsWith("#DOTA_")) {
+//            rawLeague = rawLeague.replace("#DOTA_", "");
+//        }
+//        if (rawLeague.startsWith("Item_")) {
+//            rawLeague = rawLeague.replace("Item_", "");
+//        }
+//        if (rawLeague.startsWith("League_")) {
+//            rawLeague = rawLeague.replace("League_", "");
+//        }
+//        rawLeague = rawLeague.replace("_", " ");
+//        return rawLeague;
+//    }
 
 
     public static String dotaIDToCommunityID(String accountID) {
@@ -112,88 +113,200 @@ public class Conversions {
     }
 
     /**
-     * Convert tower_status_radiant/dire to a TowerStatus object that contains the status of all towers for that team.
+     * Converts tower/barracks_status_radiant/dire to a TowerStatusGroup object that contains the status of all towers and barracks.
      */
-    public static TowerStatus towerStatusFromString(String status) {
-        String bin = binaryTo16String(status);
-        return generateTowerStatus(bin);
+    public static ArrayList<BuildingStatus> towerStatusFromString(String radiantTowers, String direTowers, String radiantBarracks, String direBarracks) {
+        String radiantTowerBits = binaryToString(radiantTowers, 16);
+        String direTowerBits = binaryToString(direTowers, 16);
+        String radiantBarracksBits = binaryToString(radiantBarracks, 8);
+        String direBarracksBits = binaryToString(direBarracks, 8);
+
+        ArrayList<BuildingStatus> buildings = new ArrayList<BuildingStatus>();
+
+        // Add barracks first so the towers will be rendered over them.
+        generateRadiantBarracksStatus(buildings, radiantBarracksBits);
+        generateDireBarracksStatus(buildings, direBarracksBits);
+        generateRadiantTowerStatus(buildings, radiantTowerBits);
+        generateDireTowerStatus(buildings, direTowerBits);
+
+        return buildings;
     }
 
+    private static String binaryToString(String status, int numberOfBits) {
 
-    private static String binaryTo32String(String status) {
-        int iStatus = Integer.parseInt(status);
+        String binaryBits = Integer.toBinaryString(Integer.parseInt(status));
 
-        String bin = Integer.toBinaryString(iStatus);
-
-        if (bin.length() < 32) {
+        if (binaryBits.length() < numberOfBits) {
             StringBuilder builder;
-            while (bin.length() < 32) {
-                builder = new StringBuilder(bin);
-                bin = builder.insert(0, "0").toString();
+            while (binaryBits.length() < numberOfBits) {
+                builder = new StringBuilder(binaryBits);
+                binaryBits = builder.insert(0, "0").toString();
             }
         }
-        return bin;
+        return binaryBits;
+    }
+
+    private static void generateRadiantTowerStatus(ArrayList<BuildingStatus> towerStatusGroup, String bits) {
+
+        if (Character.toString(bits.charAt(5)).equals("1")) {
+            // Top T4
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .145, .825));
+        }
+        if (Character.toString(bits.charAt(6)).equals("1")) {
+            // Bot t4
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .165, .845));
+        }
+
+        if (Character.toString(bits.charAt(7)).equals("1")) {
+            // Bot t3
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .26, .90));
+        }
+        if (Character.toString(bits.charAt(8)).equals("1")) {
+            // Bot t2
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .47, .90));
+        }
+        if (Character.toString(bits.charAt(9)).equals("1")) {
+            // Bot t1
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .8, .89));
+        }
+
+        if (Character.toString(bits.charAt(10)).equals("1")) {
+            // Mid t3
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .22, .77));
+        }
+        if (Character.toString(bits.charAt(11)).equals("1")) {
+            // Mid t2
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .29, .68));
+        }
+        if (Character.toString(bits.charAt(12)).equals("1")) {
+            // Mid t1
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .41, .59));
+        }
+
+        if (Character.toString(bits.charAt(13)).equals("1")) {
+            // Top t3
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .1, .72));
+        }
+        if (Character.toString(bits.charAt(14)).equals("1")) {
+            // Top t2
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .12, .56));
+        }
+        if (Character.toString(bits.charAt(15)).equals("1")) {
+            // Top t1
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.TOWER, .12, .39));
+        }
+    }
+
+    private static void generateRadiantBarracksStatus(ArrayList<BuildingStatus> towerStatusGroup, String bits) {
+        if (Character.toString(bits.charAt(2)).equals("1")) {
+            // Bottom ranged
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .24, .88));
+        }
+        if (Character.toString(bits.charAt(3)).equals("1")) {
+            // Bottom melee
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .24, .92));
+        }
+
+        if (Character.toString(bits.charAt(4)).equals("1")) {
+            // Mid ranged
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .20, .77));
+        }
+        if (Character.toString(bits.charAt(5)).equals("1")) {
+            // Mid melee
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .22, .79));
+        }
+
+        if (Character.toString(bits.charAt(6)).equals("1")) {
+            // Top ranged
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .08, .74));
+        }
+        if (Character.toString(bits.charAt(7)).equals("1")) {
+            // Top melee
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .12, .74));
+        }
+    }
+
+    private static void generateDireTowerStatus(ArrayList<BuildingStatus> towerStatusGroup, String bits) {
+
+        if (Character.toString(bits.charAt(5)).equals("1")) {
+            // Top t4
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .82, .19));
+        }
+        if (Character.toString(bits.charAt(6)).equals("1")) {
+            // Bot t4
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .84, .21));
+        }
+
+        if (Character.toString(bits.charAt(7)).equals("1")) {
+            // Bot t3
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .89, .33));
+        }
+        if (Character.toString(bits.charAt(8)).equals("1")) {
+            // Bot t2
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .88, .50));
+        }
+        if (Character.toString(bits.charAt(9)).equals("1")) {
+            // Bot t1
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .87, .62));
+        }
+
+        if (Character.toString(bits.charAt(10)).equals("1")) {
+            // Mid t3
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .76, .28));
+        }
+        if (Character.toString(bits.charAt(11)).equals("1")) {
+            // Mid t2
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .65, .37));
+        }
+        if (Character.toString(bits.charAt(12)).equals("1")) {
+            // Mid t1
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .57, .49));
+        }
+
+        if (Character.toString(bits.charAt(13)).equals("1")) {
+            // Top t3
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .72, .15));
+        }
+        if (Character.toString(bits.charAt(14)).equals("1")) {
+            // Top t2
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .49, .13));
+        }
+        if (Character.toString(bits.charAt(15)).equals("1")) {
+            // Top t1
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.TOWER, .2, .12));
+        }
+
     }
 
 
-    private static String binaryTo16String(String status) {
 
-        int iStatus = Integer.parseInt(status);
-
-        String bin = Integer.toBinaryString(iStatus);
-
-        if (bin.length() < 16) {
-            StringBuilder builder;
-            while (bin.length() < 16) {
-                builder = new StringBuilder(bin);
-                bin = builder.insert(0, "0").toString();
-            }
+    private static void generateDireBarracksStatus(ArrayList<BuildingStatus> towerStatusGroup, String bits) {
+        if (Character.toString(bits.charAt(2)).equals("1")) {
+            // Bottom ranged
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.BARRACKS, .87, .31));
+        }
+        if (Character.toString(bits.charAt(3)).equals("1")) {
+            // Bottom melee
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.BARRACKS, .91, .31));
         }
 
-        return bin;
-    }
-
-    private static TowerStatus generateTowerStatus(String bin) {
-        TowerStatus ts = new TowerStatus();
-
-        if (Character.toString(bin.charAt(5)).equals("1")) {
-            ts.setTopT4(true);
+        if (Character.toString(bits.charAt(4)).equals("1")) {
+            // Mid ranged
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.BARRACKS, .755, .26));
         }
-        if (Character.toString(bin.charAt(6)).equals("1")) {
-            ts.setBotT4(true);
+        if (Character.toString(bits.charAt(5)).equals("1")) {
+            // Top melee
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.BARRACKS, .785, .28));
         }
 
-        if (Character.toString(bin.charAt(7)).equals("1")) {
-            ts.setBotT3(true);
+        if (Character.toString(bits.charAt(6)).equals("1")) {
+            // Top ranged
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.BARRACKS, .74, .135));
         }
-        if (Character.toString(bin.charAt(8)).equals("1")) {
-            ts.setBotT2(true);
+        if (Character.toString(bits.charAt(7)).equals("1")) {
+            // Top melee
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.DIRE, BuildingStatus.BuildingType.BARRACKS, .74, .17));
         }
-        if (Character.toString(bin.charAt(9)).equals("1")) {
-            ts.setBotT1(true);
-        }
-
-        if (Character.toString(bin.charAt(10)).equals("1")) {
-            ts.setMidT3(true);
-        }
-        if (Character.toString(bin.charAt(11)).equals("1")) {
-            ts.setMidT2(true);
-        }
-        if (Character.toString(bin.charAt(12)).equals("1")) {
-            ts.setMidT1(true);
-        }
-
-        if (Character.toString(bin.charAt(13)).equals("1")) {
-            ts.setTopT3(true);
-        }
-        if (Character.toString(bin.charAt(14)).equals("1")) {
-            ts.setTopT2(true);
-        }
-        if (Character.toString(bin.charAt(15)).equals("1")) {
-            ts.setTopT1(true);
-        }
-
-        return ts;
     }
 
     public static LinkedHashMap sortHashMapByValues(HashMap passedMap) {
@@ -217,7 +330,7 @@ public class Conversions {
                 if (comp1.equals(comp2)) {
                     passedMap.remove(key);
                     mapKeys.remove(key);
-                    sortedMap.put((String) key, (String) val);
+                    sortedMap.put(key, val);
                     break;
                 }
 
