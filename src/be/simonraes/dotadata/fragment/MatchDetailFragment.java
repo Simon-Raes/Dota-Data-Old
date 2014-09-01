@@ -65,14 +65,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
     private ArrayList<ImageView> playerAvatars;
 
     private DetailMatch match;
-    private DetailPlayer activePlayer;
-
-    private ImageButton btnDeleteNote;
 
     private FrameLayout layDetailsMinimap;
 //    private ImageView imgMinimap;
-
-    private LineGraph lineGraphExperienceTeams;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -160,7 +155,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
             layNote.setVisibility(View.VISIBLE);
             TextView txtNote = (TextView) view.findViewById(R.id.txtDetailNote);
             txtNote.setText(match.getExtras().getNote());
-            btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
+            ImageButton btnDeleteNote = (ImageButton) view.findViewById(R.id.btnDetailDeleteNote);
             btnDeleteNote.setOnClickListener(this);
         }
     }
@@ -345,7 +340,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
      */
     private void scrollScoreboard() {
         //Check if the active user participated in the match
-        activePlayer = null;
+        DetailPlayer activePlayer = null;
         for (DetailPlayer p : match.getPlayers()) {
             if (p.getAccount_id().equals(AppPreferences.getAccountID(getActivity()))) {
                 activePlayer = p;
@@ -425,7 +420,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         TeamExperienceStats teamExpStats = MatchUtils.getExperienceTeamGraphData(match);
         if (teamExpStats != null && teamExpStats.getExpRadiant() != null && teamExpStats.getExpRadiant().size() > 0 && teamExpStats.getExpDire() != null && teamExpStats.getExpDire().size() > 0) {
 
-            lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
+            LineGraph lineGraphExperienceTeams = (LineGraph) view.findViewById(R.id.lineGraphExperienceTeam);
 
             LinePoint p;
 

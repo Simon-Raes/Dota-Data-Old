@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 public class HeroStats implements Parcelable {
     private String hero_id;
-    private int numberOfGames, wins, losses, longestMatch;
+    private int numberOfGames, wins, losses;
     private double winrate;
 
     public HeroStats() {
@@ -16,7 +16,6 @@ public class HeroStats implements Parcelable {
         numberOfGames = 0;
         wins = 0;
         losses = 0;
-        longestMatch = 0; //eeh, pointless
         winrate = 0;
 
         //can contain more stats! highest gpm, xpm, ...
@@ -54,14 +53,6 @@ public class HeroStats implements Parcelable {
         this.losses = losses;
     }
 
-    public int getLongestMatch() {
-        return longestMatch;
-    }
-
-    public void setLongestMatch(int longestMatch) {
-        this.longestMatch = longestMatch;
-    }
-
     public double getWinrate() {
         if (numberOfGames == 0) {
             return 0;
@@ -88,7 +79,6 @@ public class HeroStats implements Parcelable {
         dest.writeInt(numberOfGames);
         dest.writeInt(wins);
         dest.writeInt(losses);
-        dest.writeInt(longestMatch);
         dest.writeDouble(winrate);
     }
 
@@ -97,7 +87,6 @@ public class HeroStats implements Parcelable {
         numberOfGames = pc.readInt();
         wins = pc.readInt();
         losses = pc.readInt();
-        longestMatch = pc.readInt();
         winrate = pc.readDouble();
     }
 

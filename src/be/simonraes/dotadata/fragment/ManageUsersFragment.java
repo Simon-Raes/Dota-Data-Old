@@ -17,6 +17,7 @@ import be.simonraes.dotadata.util.AppPreferences;
 import java.util.ArrayList;
 
 /**
+ * List with all users that can be used to switch to a different active user. Has button to add new user.
  * Created by Simon on 23/02/14.
  */
 public class ManageUsersFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
@@ -32,7 +33,7 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         getActivity().setTitle("Manage users");
         setHasOptionsMenu(true);
 
-        //update active drawer item
+        // Update active drawer item
         ((DrawerController) getActivity()).setActiveDrawerItem(0);
 
         Button btnNewUser = (Button) view.findViewById(R.id.btnSelectUserNew);
@@ -40,7 +41,6 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
 
         UsersDataSource uds = new UsersDataSource(getActivity());
         users = uds.getAllUsers();
-        System.out.println("got " + users.size() + "users");
         lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
         lvUsers.setOnItemClickListener(this);
 
@@ -50,14 +50,11 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //removed check to fix a bug where it wouldn't let you switch to the user you just updated using the list-button (user's ID would already be set as active)
-//        if (!users.get(position).getAccount_id().equals(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("be.simonraes.dotadata.accountid", ""))) {
-
-        //set app-wide account ID to this user
+        // Set app-wide account ID to this user
         AppPreferences.putAccountID(getActivity(), users.get(position).getAccount_id());
 
         //todo: this shouldn't be here
-        //update the playedheroes/gamemodes maps for this user
+        // Uupdate the playedheroes/gamemodes maps for this user
         PlayedHeroesMapper.clearInstance();
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
         if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
@@ -71,7 +68,6 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
         ((DrawerController) getActivity()).setActiveUser(users.get(position).getAccount_id());
 
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
-//        }
     }
 
     @Override

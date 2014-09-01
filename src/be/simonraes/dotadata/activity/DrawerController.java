@@ -41,12 +41,6 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
 
         setContentView(R.layout.drawer_layout);
 
-//        if (getActionBar() != null) {
-//            getActionBar().setBackgroundDrawable(new ColorDrawable(R.color.AppIconRed));
-//            getActionBar().setDisplayShowTitleEnabled(false);
-//            getActionBar().setDisplayShowTitleEnabled(true);
-//        }
-
         mTitle = mDrawerTitle = getTitle();
 
         listContent = new String[]{"divider GAMES", "Recent Games", "divider STATISTICS", "Statistics", "Heroes", "Graphs", "divider SEARCH", "Find match"}; //"graphs"
@@ -57,13 +51,8 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         drawerSlider = (LinearLayout) findViewById(R.id.left_drawer);
 
         if (!AppPreferences.getAccountID(this).equals("")) {
-
-
             setActiveUser(AppPreferences.getAccountID(this));
-
-
         }
-
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */
@@ -80,6 +69,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
+
         drawerLayout.setDrawerListener(drawerToggle);
 
         if (getActionBar() != null) {
@@ -102,11 +92,8 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
             }
         }
 
-
         if (savedInstanceState == null || savedInstanceState.getBoolean("appLaunch", true)) {
-
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commit();
-
         }
     }
 

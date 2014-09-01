@@ -1,14 +1,11 @@
 package be.simonraes.dotadata.fragment;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.*;
 import be.simonraes.dotadata.R;
@@ -16,16 +13,13 @@ import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.adapter.RecentGamesAdapter;
 import be.simonraes.dotadata.async.DetailMatchLoader;
-import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
+import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.historyloading.DatabaseMatchLoader;
 import be.simonraes.dotadata.historyloading.HistoryLoader;
-import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.InternetCheck;
 import be.simonraes.dotadata.util.OrientationHelper;
-import android.support.v4.app.Fragment;
-
 
 import java.util.ArrayList;
 
@@ -37,8 +31,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
     private ListView lvRecentGames;
     private ProgressBar pbRecentGames;
-
-    private int mShortAnimationDuration;
 
     private RecentGamesAdapter listAdapter;
 
@@ -71,7 +63,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             //make actionbar show drawer icon
             ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
             //update the actionbar to show the up carat
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            if (getActivity() != null && getActivity().getActionBar() != null) {
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
 
 
@@ -95,7 +89,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                     loadMatchesFromDatabase();
                 }
             } else {
-                //load previous list from savedState
+                // Load previous list from savedState
                 matches = savedInstanceState.getParcelableArrayList("matches");
             }
 
@@ -109,9 +103,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
             lvRecentGames.setOnScrollListener(this);
         }
 
-        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-
         return view;
     }
 
@@ -121,7 +112,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         outState.putParcelableArrayList("matches", matches);
     }
 
-    //Setup actionbar
+    /**
+     * Setup actionbar
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -142,7 +135,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnRefresh:
-                //only start download if it isn't already downloading
+                // Only start download if it isn't already downloading
                 if (InternetCheck.isOnline(getActivity())) {
                     OrientationHelper.lockOrientation(getActivity());
                     HistoryLoader loader = new HistoryLoader(getActivity(), this, AppPreferences.getAccountID(getActivity()));
@@ -162,14 +155,13 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         DatabaseMatchLoader loader = new DatabaseMatchLoader(this, getActivity());
 
         if (matches.size() < 1) {
-            //list doesn't contain any matches yet, get 50 most recent
+            // List doesn't contain any matches yet, get 50 most recent
             pbRecentGames.setVisibility(View.VISIBLE);
             lvRecentGames.setVisibility(View.GONE);
 
-//            crossFadeToLoading();
             loader.execute();
         } else {
-            //list already contains matches, get the next 50
+            // List already contains matches, get the next 50
             loader.execute(matches.get(matches.size() - 1).getMatch_id());
         }
     }
@@ -177,7 +169,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     //Detect click on match in list
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("starting onItemclick");
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
         getActivity().setProgressBarIndeterminateVisibility(true);
@@ -202,7 +193,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
     }
 
-    //received matches from database
+    /**
+     * Received matches from database
+     */
     @Override
     public void processFinish(ArrayList<DetailMatchLite> detailMatches) {
 
@@ -235,7 +228,9 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
     }
 
 
-    /**Receiving full match details from the database.*/
+    /**
+     * Receiving full match details from the database.
+     */
     @Override
     public void loadDone(DetailMatch match) {
         getActivity().setProgressBarIndeterminateVisibility(false);
@@ -243,7 +238,6 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         Intent intent = new Intent(getActivity(), MatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.putExtra("match", match);
-        System.out.println("starting activity");
         startActivity(intent);
     }
 }

@@ -126,7 +126,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        System.out.println("database CREATION");
         database.execSQL(CREATE_TABLE_MATCHES);
         database.execSQL(CREATE_TABLE_PLAYERS_IN_MATCHES);
         database.execSQL(CREATE_TABLE_PICKS_BANS);
@@ -139,7 +138,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-        System.out.println("upgrading from version " + oldVersion + " to version " + newVersion);
         switch (oldVersion) {
             case 1:
                 //wasn't ready to use on upgrade, drop and rebuild database for users upgrading from version 1
@@ -153,9 +151,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             case 2:
                 if (newVersion == 3) {
                     //version 3 added the Additional_units table (lone druid bear items)
-                    System.out.println("CREATING TABLE ADDITIONAL UNITS");
                     database.execSQL(CREATE_TABLE_ADDITIONAL_UNITS);
-                    System.out.println("CREATED TABLE ADDITIONAL UNITS");
                 }
 
             default:

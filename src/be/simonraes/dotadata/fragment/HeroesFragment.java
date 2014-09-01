@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.*;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.HeroStatsGamesPlayedAdapter;
@@ -24,16 +27,14 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
+ * Listview showing all played heroes for the active user, sortable by Winrate or Games played.
  * Created by Simon Raes on 18/04/2014.
  */
 public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASyncResponseStatsLoader, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private ArrayList<HeroStats> heroes = new ArrayList<HeroStats>();
-    private HashMap<String, HeroStats> heroesMap;
     private ListView lvHeroes;
-    private HeroStatsWinrateAdapter listAdapter;
 
-    private ListView listView;
     private ProgressBar progressBar;
 
     private Spinner spinnerRanking;
@@ -54,26 +55,22 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matches_list_layout, null);
 
-        listView = (ListView) view.findViewById(R.id.lvRecentGames);
-        progressBar = (ProgressBar) view.findViewById(R.id.pbRecentGames);
-
-        listView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-
         getActivity().setTitle("Heroes");
+        setHasOptionsMenu(true);
 
-        //update active drawer item
+        // Update active drawer item
         if (getActivity() instanceof DrawerController) {
             ((DrawerController) getActivity()).setActiveDrawerItem(4);
 
-            //make actionbar show drawer icon
+            // Make actionbar show drawer icon
             ((DrawerController) getActivity()).getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
-            //update the actionbar to show the up carat
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            // Update the actionbar to show the up carat
+            if (getActivity() != null && getActivity().getActionBar() != null) {
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
 
-        setHasOptionsMenu(true);
-
+        progressBar = (ProgressBar) view.findViewById(R.id.pbRecentGames);
         lvHeroes = (ListView) view.findViewById(R.id.lvRecentGames);
         lvHeroes.setSelector(new StateListDrawable());
         lvHeroes.setAdapter(new HeroStatsWinrateAdapter(getActivity(), heroes));
@@ -82,6 +79,8 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
         StatsMatchesLoader statsMatchesLoader = new StatsMatchesLoader(this, getActivity());
         statsMatchesLoader.execute("-1", "-1");
 
+        lvHeroes.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         return view;
     }
@@ -139,7 +138,7 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (System.currentTimeMillis() - lastUpdate > 100) {
-            listView.setVisibility(View.GONE);
+            lvHeroes.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
 
             switch (adapterView.getId()) {
@@ -147,7 +146,6 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
                     spinnerRankingSelectedIndex = spinnerRanking.getSelectedItemPosition();
                     StatsMatchesLoader statsMatchesLoader = new StatsMatchesLoader(this, getActivity());
                     statsMatchesLoader.execute("-1", "-1");
-
                     break;
             }
         }
@@ -161,7 +159,7 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
     //received list of matches, now generate HeroStats objects
     @Override
     public void processFinish(ArrayList<DetailMatchLite> result) {
-        heroesMap = new HashMap<String, HeroStats>();
+        HashMap<String, HeroStats> heroesMap = new HashMap<String, HeroStats>();
         for (DetailMatchLite match : result) {
 
             if (heroesMap.containsKey(match.getHero_id())) {
@@ -198,12 +196,9 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
             Collections.sort(heroes, new HeroStatsWinrateComparator());
             lvHeroes.setAdapter(new HeroStatsWinrateAdapter(getActivity(), heroes));
         }
-        listView.setVisibility(View.VISIBLE);
+        lvHeroes.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-
     }
-
-
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -215,7 +210,7 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
 
-        //send object to fragment
+        // Send object to fragment
         Bundle bundle = new Bundle();
         bundle.putString("hero_id", stats.getHero_id());
         fragment.setArguments(bundle);

@@ -7,10 +7,10 @@ import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import be.simonraes.dotadata.R;
-import android.support.v4.app.Fragment;
 
 
 /**
+ * Currently unused.
  * Created by Simon on 7/02/14.
  */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {

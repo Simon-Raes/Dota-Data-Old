@@ -5,7 +5,6 @@ package be.simonraes.dotadata.statistics;
  */
 public class GameModeStats {
 
-    private String gameMode;
     private int numberOfGames, wins, losses, longestMatch;
     private double winrate;
 

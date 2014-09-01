@@ -34,12 +34,10 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
         String gameModeID = params[0];
         String heroID = params[1];
 
-        System.out.println("starting db load");
-
-        if (gameModeID == null || gameModeID == "") {
+        if (gameModeID == null || gameModeID.equals("")) {
             gameModeID = "-1";
         }
-        if (heroID == null || heroID == "") {
+        if (heroID == null || heroID.equals("")) {
             heroID = "-1";
         }
 
@@ -59,8 +57,6 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
         else {
             matches = mds.getAllRealDetailMatchesLiteForHeroAndGameMode(heroID, gameModeID);
         }
-
-        System.out.println("async found x matches " + matches.size());
 
         return matches;
     }

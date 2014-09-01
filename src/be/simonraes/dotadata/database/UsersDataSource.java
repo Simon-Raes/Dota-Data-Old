@@ -18,7 +18,6 @@ public class UsersDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private Context context;
 
 
     private String[] usersColumns = {
@@ -30,7 +29,6 @@ public class UsersDataSource {
     };
 
     public UsersDataSource(Context context) {
-        this.context = context;
         dbHelper = new MySQLiteHelper(context);
     }
 
@@ -45,7 +43,6 @@ public class UsersDataSource {
     }
 
     public void saveUser(User user) {
-        System.out.println("saved user " + user.getName() + "with last game " + user.getLast_saved_match());
         ContentValues values = new ContentValues();
 
         values.put(MySQLiteHelper.TABLE_USERS_COLUMN_ACCOUNT_ID, user.getAccount_id());

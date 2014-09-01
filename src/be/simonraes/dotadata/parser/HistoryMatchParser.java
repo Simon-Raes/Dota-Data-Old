@@ -36,7 +36,6 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
                 startAtMatchID = params[1];
             }
         }
-        System.out.println("HistoryMatchParser start at matchID " + startAtMatchID + " for accountID " + accountID);
 
         String parseURL = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=EB5773FAAF039592D9383FA104EEA55D&account_id=" + accountID;
 
@@ -44,9 +43,7 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
             parseURL = parseURL + "&start_at_match_id=" + startAtMatchID;
         }
 
-
         try {
-
             container = mapper.readValue(new URL(parseURL), HistoryContainer.class);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -66,7 +63,6 @@ public class HistoryMatchParser extends AsyncTask<String, Void, HistoryContainer
     @Override
     protected void onPostExecute(HistoryContainer container) {
         super.onPostExecute(container);
-        System.out.println("done history parsing");
         delegate.processFinish(container);
     }
 }

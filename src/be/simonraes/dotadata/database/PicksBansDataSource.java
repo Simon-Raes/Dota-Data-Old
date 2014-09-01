@@ -16,7 +16,6 @@ public class PicksBansDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private Context context;
 
     private String[] picksBansColumns = {
             MySQLiteHelper.TABLE_PICKS_BANS_COLUMN_KEY,
@@ -28,7 +27,6 @@ public class PicksBansDataSource {
     };
 
     public PicksBansDataSource(Context context) {
-        this.context = context;
         dbHelper = new MySQLiteHelper(context);
     }
 

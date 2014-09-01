@@ -143,6 +143,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
     }
 
     private void dotaBuffEntered() {
+        getActivity().setProgressBarIndeterminateVisibility(true);
         OrientationHelper.lockOrientation(getActivity());
 
         if (InternetCheck.isOnline(getActivity())) {
@@ -159,6 +160,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
     }
 
     private void profileNumberEntered() {
+        getActivity().setProgressBarIndeterminateVisibility(true);
         OrientationHelper.lockOrientation(getActivity());
 
         if (InternetCheck.isOnline(getActivity())) {
@@ -175,6 +177,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
     }
 
     private void profileVanityEntered() {
+        getActivity().setProgressBarIndeterminateVisibility(true);
         OrientationHelper.lockOrientation(getActivity());
 
         if (InternetCheck.isOnline(getActivity())) {
@@ -221,6 +224,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
     // Got player summary based on accountID
     @Override
     public void processFinish(PlayerSummaryContainer result) {
+        getActivity().setProgressBarIndeterminateVisibility(false);
+
         if (result.getPlayers() != null) {
 
             if (result.getPlayers().getPlayers().size() > 0) {

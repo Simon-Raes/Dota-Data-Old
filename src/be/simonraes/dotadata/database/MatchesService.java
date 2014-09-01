@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class MatchesService {
 
 
-    private Context context;
 
     // Database fields
     private SQLiteDatabase database;
@@ -81,7 +80,6 @@ public class MatchesService {
     private String accountID;
 
     public MatchesService(Context context, String user_accountID) {
-        this.context = context;
         this.accountID = user_accountID;
         dbHelper = new MySQLiteHelper(context);
     }

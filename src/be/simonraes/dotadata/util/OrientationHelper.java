@@ -35,7 +35,6 @@ public class OrientationHelper {
     }
 
     public static void lockOrientation(Activity activity) {
-        System.out.println("locking orientation");
         int orientation = activity.getRequestedOrientation();
         int rotation = ((WindowManager) activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
 

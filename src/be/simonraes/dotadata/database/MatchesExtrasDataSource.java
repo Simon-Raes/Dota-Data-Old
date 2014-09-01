@@ -48,8 +48,6 @@ public class MatchesExtrasDataSource {
 
         database.insertWithOnConflict(MySQLiteHelper.TABLE_MATCHES_EXTRAS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
-        System.out.println("saved extra with values " + extras.getMatch_id() + " " + extras.getNote() + " " + extras.isFavourite());
-
         close();
     }
 

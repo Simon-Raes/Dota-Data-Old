@@ -29,11 +29,11 @@ import be.simonraes.dotadata.util.OrientationHelper;
 import java.util.ArrayList;
 
 /**
+ * Screen to search a game by MatchId.
  * Created by Simon Raes on 19/04/2014.
  */
 public class SearchFragment extends Fragment implements View.OnClickListener, DetailMatchParser.ASyncResponseDetail {
 
-    private Button btnSearch;
     private EditText txtMatch;
     public static ProgressDialog introDialog;
 
@@ -43,6 +43,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, De
         View fragView = inflater.inflate(R.layout.search_fragment_layout, container, false);
 
         getActivity().setTitle("Search");
+        setHasOptionsMenu(true);
 
         //update active drawer item (0 = this screen has no drawer item)
         ((DrawerController) getActivity()).setActiveDrawerItem(6);
@@ -74,10 +75,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, De
                 return false;
             }
         });
-        btnSearch = (Button) fragView.findViewById(R.id.btnSearch);
+        Button btnSearch = (Button) fragView.findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(this);
-
-        setHasOptionsMenu(true);
 
         return fragView;
     }
@@ -114,14 +113,12 @@ public class SearchFragment extends Fragment implements View.OnClickListener, De
                 intent.putExtra("match", match);
                 startActivity(intent);
             } else {
-                //not saved yet, download it
-                //this parser does NOT store the match in the database
-                //(users could download only their wins and skew the stats)
+                // Not saved yet, download it. This parser does NOT store the match in the database
+                // (users could download only their wins and skew the stats if it did)
                 DetailMatchParser parser = new DetailMatchParser(this);
                 parser.execute(matchID);
                 OrientationHelper.lockOrientation(getActivity());
                 introDialog = ProgressDialog.show(getActivity(), "", "Searching.", true);
-
             }
         }
     }

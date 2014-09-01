@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.ArrayList;
 
 /**
+ * Small dialog containing extra information about a player. Can be opened from the MatchDetailsFragment scoreboard.
  * Created by Simon Raes on 9/07/2014.
  */
 public class PlayerDetailsDialog extends DialogFragment implements PlayerSummaryParser.ASyncResponsePlayerSummary {
@@ -112,16 +113,16 @@ public class PlayerDetailsDialog extends DialogFragment implements PlayerSummary
 
     private void setupStats() {
         TextView txtTowerDamage = (TextView) view.findViewById(R.id.txtPlayerDetailTowerDamage);
-        txtTowerDamage.setText(player.getTower_damage().toString());
+        txtTowerDamage.setText(player.getTower_damage());
         TextView txtHeroDamage = (TextView) view.findViewById(R.id.txtPlayerDetailHeroDamage);
-        txtHeroDamage.setText(player.getHero_damage().toString());
+        txtHeroDamage.setText(player.getHero_damage());
         TextView txtHeroHealing = (TextView) view.findViewById(R.id.txtPlayerDetailHeroHealing);
         txtHeroHealing.setText(player.getHero_healing());
 
         TextView txtGoldEarned = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldEarned);
         txtGoldEarned.setText(Integer.toString(getGoldEarned()));
         TextView txtGoldSpent = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldSpent);
-        txtGoldSpent.setText(player.getGold_spent().toString());
+        txtGoldSpent.setText(player.getGold_spent());
         TextView txtGoldLeft = (TextView) view.findViewById(R.id.txtPlayerDetailHeroGoldLeft);
         txtGoldLeft.setText(player.getGold());
 

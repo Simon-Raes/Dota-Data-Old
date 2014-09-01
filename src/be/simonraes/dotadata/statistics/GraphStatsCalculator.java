@@ -186,14 +186,6 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
 
                     double assistsCumulativeAveraged = (double)assistsTotalCumulative / (double)statsList.get(i).getNumberOfGamesCumulative();
                     statsList.get(i).setAssistsAveragedCumulative(assistsCumulativeAveraged);
-
-
-//                System.out.println("total gpm this week= " + statsList.get(i).getGpmTotalPeriod() + "(" + statsList.get(i).getNumberOfGamesPeriod() + " games)");
-//                System.out.println("average gpm this week= " + statsList.get(i).getGpmTotalPeriod() / statsList.get(i).getNumberOfGamesPeriod());
-//                System.out.println("total gpm cumulative= " + statsList.get(i).getGpmTotalCumulative() + "(" + statsList.get(i).getNumberOfGamesCumulative() + " games)");
-//                System.out.println("average gpm cumulative= " + statsList.get(i).getGpmAveragedCumulative());
-//                System.out.println("year: " + statsList.get(i).getYear() + ", week: " + statsList.get(i).getWeek());
-//                System.out.println("--------");
             }
 
 

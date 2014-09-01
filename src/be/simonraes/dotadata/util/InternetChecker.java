@@ -33,22 +33,16 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             connection.setRequestProperty("Connection", "Close");
             int code = connection.getResponseCode();
 
-            //todo: can still return true when service is offline, resulting in an app crash
-
             if (code == 200 || code == 404 || code == 405) {
                 webStatus = true;
             } else {
                 webStatus = false;
             }
 
-//            System.out.println("correct code" + code);
             // You can determine on HTTP return code received. 200 is success.
         } catch (MalformedURLException e) {
-//            System.out.println("malformed code");
             e.printStackTrace();
         } catch (IOException e) {
-//            System.out.println("io exc code");
-
             e.printStackTrace();
         } finally {
             if (connection != null) {

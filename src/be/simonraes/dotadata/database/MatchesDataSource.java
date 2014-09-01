@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import be.simonraes.dotadata.detailmatch.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

@@ -1,24 +1,16 @@
 package be.simonraes.dotadata.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import be.simonraes.dotadata.R;
-import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
-import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.fragment.MatchDetailFragment;
-import be.simonraes.dotadata.fragment.RecentGamesFragment;
-import be.simonraes.dotadata.util.AppPreferences;
-
-import java.util.zip.Inflater;
 
 /**
  * Created by Simon Raes on 16/04/2014.
@@ -30,17 +22,14 @@ public class MatchActivity extends DrawerController {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("MatchActivity onCreate");
-
-        LayoutInflater inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View contentView = inflater.inflate(R.layout.drawer_layout, null, false);
 
         drawerLayout.addView(contentView, 0);
 
         Intent intent = getIntent();
-        DetailMatch match = (DetailMatch) intent.getParcelableExtra("match");
+        DetailMatch match = intent.getParcelableExtra("match");
 
         Fragment fragment = new MatchDetailFragment();
         FragmentManager fm = this.getSupportFragmentManager();
@@ -55,7 +44,6 @@ public class MatchActivity extends DrawerController {
         if (savedInstanceState == null || savedInstanceState.getBoolean("pageLaunch", true)) {
             transaction.commit();
         }
-
     }
 
     @Override
@@ -64,7 +52,7 @@ public class MatchActivity extends DrawerController {
         outState.putBoolean("pageLaunch", false);
     }
 
-    //disable activity switch animation
+    /**disable activity switch animation*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -75,10 +63,10 @@ public class MatchActivity extends DrawerController {
     public void onBackPressed() {
 
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            //there are more fragments in the backstack, go back one fragment
+            // There are more fragments in the backstack, go back one fragment
             getSupportFragmentManager().popBackStack();
         } else {
-            //user pressed back in the last fragment in the stack, finish this activity
+            // User pressed back in the last fragment in the stack, finish this activity
             finish();
         }
     }
