@@ -38,8 +38,6 @@ public class StatsMatchesFragment extends Fragment implements AdapterView.OnItem
     private ProgressBar pbRecentGames;
     private View footerView;
 
-    // public boolean wentToDetails = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

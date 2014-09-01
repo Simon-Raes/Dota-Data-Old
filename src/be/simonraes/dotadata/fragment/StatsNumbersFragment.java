@@ -17,7 +17,6 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.MatchActivity;
 import be.simonraes.dotadata.async.DetailMatchLoader;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
-import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.holograph.Bar;
@@ -79,32 +78,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
 
 
     private ImageButton btnStatsHelp;
-
-    //numbers
-    private double gamesPlayed = 0;
-    private double gamesWon = 0;
-    private double gamesLost = 0;
-    private double winrate = 0;
-    private double totalDuration;
-    private double averageDuration;
-    private double totalKills = 0, totalDeaths = 0, totalAssists = 0;
-    private double averageKills = 0, averageDeaths = 0, averageAssists = 0;
-    private double totalGPM = 0, totalXPM = 0;
-    private double averageGPM = 0, averageXPM;
-    private double totalLastHits = 0, totalDenies = 0;
-    private double averageLastHits = 0, averageDenies = 0;
-
     private String gameModeID, heroID; //ID of the selected item in the spinner
-
-
-    //test
-    private ImageLoader imageLoader;
-    private DisplayImageOptions options;
-    private ImageLoadingListener animateFirstListener;
-
-    private RecordStats statsLongestGame, statsMostKills, statsMostDeaths, statsMostAssists, statsMostLastHits, statsMostDenies, statsMostHeroDamage, statsMostHeroHealing,
-            statsMostTowerDamage, statsMostGpm, statsMostXpm;
-    private ArrayList<RecordStats> recordStatsList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -221,7 +195,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         boolean wasDialog = false;
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
         switch (v.getId()) {
             case R.id.btnStatsHelp:
                 wasDialog = true;
@@ -258,40 +231,33 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     private void setNumbers() {
 
         //reset numbers
-        gamesPlayed = 0;
-        gamesWon = 0;
-        gamesLost = 0;
-        winrate = 0;
-        totalDuration = 0;
-        averageDuration = 0;
-        totalKills = 0;
-        totalDeaths = 0;
-        totalAssists = 0;
-        averageKills = 0;
-        averageDeaths = 0;
-        averageAssists = 0;
-        totalGPM = 0;
-        totalXPM = 0;
-        totalLastHits = 0;
-        averageLastHits = 0;
-        totalDenies = 0;
-        averageDenies = 0;
-        averageGPM = 0;
-        averageXPM = 0;
+        double gamesPlayed = 0;
+        double gamesWon = 0;
+        double gamesLost = 0;
+        double winrate;
+        double totalDuration = 0;
+        double averageDuration;
+        double totalKills = 0, totalDeaths = 0, totalAssists = 0;
+        double averageKills, averageDeaths, averageAssists;
+        double totalGPM = 0, totalXPM = 0;
+        double averageGPM, averageXPM;
+        double totalLastHits = 0, totalDenies = 0;
+        double averageLastHits;
+        double averageDenies;
 
-        statsLongestGame = new RecordStats("Longest game: ");
-        statsMostKills = new RecordStats("Most kills: ");
-        statsMostDeaths = new RecordStats("Most deaths: ");
-        statsMostAssists = new RecordStats("Most assists: ");
-        statsMostLastHits = new RecordStats("Most last hits: ");
-        statsMostDenies = new RecordStats("Most denies; ");
-        statsMostHeroDamage = new RecordStats("Most hero damage: ");
-        statsMostHeroHealing = new RecordStats("Most hero healing: ");
-        statsMostTowerDamage = new RecordStats("Most tower damage: ");
-        statsMostGpm = new RecordStats("Most GPM: ");
-        statsMostXpm = new RecordStats("Most XPM: ");
+        RecordStats statsLongestGame = new RecordStats("Longest game: ");
+        RecordStats statsMostKills = new RecordStats("Most kills: ");
+        RecordStats statsMostDeaths = new RecordStats("Most deaths: ");
+        RecordStats statsMostAssists = new RecordStats("Most assists: ");
+        RecordStats statsMostLastHits = new RecordStats("Most last hits: ");
+        RecordStats statsMostDenies = new RecordStats("Most denies; ");
+        RecordStats statsMostHeroDamage = new RecordStats("Most hero damage: ");
+        RecordStats statsMostHeroHealing = new RecordStats("Most hero healing: ");
+        RecordStats statsMostTowerDamage = new RecordStats("Most tower damage: ");
+        RecordStats statsMostGpm = new RecordStats("Most GPM: ");
+        RecordStats statsMostXpm = new RecordStats("Most XPM: ");
 
-        recordStatsList = new ArrayList<RecordStats>();
+        ArrayList<RecordStats> recordStatsList = new ArrayList<RecordStats>();
         recordStatsList.add(statsLongestGame);
         recordStatsList.add(statsMostKills);
         recordStatsList.add(statsMostDeaths);
@@ -435,9 +401,10 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         header.setText("Records");
         layRecords.addView(header);
         layRecords.addView(inflater.inflate(R.layout.divider, null));
-        imageLoader = ImageLoader.getInstance();
-        animateFirstListener = new ImageLoadListener();
-        options = new DisplayImageOptions.Builder()
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoadingListener animateFirstListener = new ImageLoadListener();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)
                 .showImageOnLoading(R.drawable.hero_sb_loading)
@@ -453,6 +420,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             ImageView imgHero = (ImageView) recordRow.findViewById(R.id.imgTestHero);
             TextView txtRecord = (TextView) recordRow.findViewById(R.id.txtTestRecord);
             TextView txtInfo = (TextView) recordRow.findViewById(R.id.txtTestGameMode);
+
 
             imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(s.getHeroId()) + "_lg.png", imgHero, options, animateFirstListener);
 

@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.ArrayList;
 
 /**
+ * Adapter for the listview showing all app users/accounts. Has buttons to update games or remove the user.
  * Created by Simon on 23/02/14.
  */
 public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.ASyncResponseHistoryLoader {
@@ -31,7 +32,6 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
 
     public UsersAdapter(Context context, ArrayList<User> users, Activity activity) {
         super(context, R.layout.manage_users_row, users);
-
         this.context = context;
         this.users = users;
         this.activity = activity;
@@ -58,18 +58,17 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
         }
 
 
-        //background
+        // Background
         if (user != null) {
             if (user.getAccount_id().equals(AppPreferences.getAccountID(context))) {
                 view.setBackgroundColor(context.getResources().getColor(R.color.Gainsboro));
             }
         }
 
-
-        //username
+        // Username
         viewholder.txtUser.setText(user.getName());
 
-        //user avatar
+        // User avatar
         ImageLoader imageLoader = ImageLoader.getInstance();
         ImageLoadListener animateFirstListener = new ImageLoadListener();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -91,7 +90,7 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
 
                 new AlertDialog.Builder(context)
                         .setTitle("Delete " + finalUser.getName() + "?")
-                        .setMessage("Really delete this user and all their matches?")
+                        .setMessage("Really remove this user?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -122,13 +121,10 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
         viewholder.btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 HistoryLoader loader = new HistoryLoader(context, finalAdapter, finalUser.getAccount_id());
                 loader.updateHistory();
             }
-
         });
-
 
         return view;
     }
@@ -143,16 +139,14 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
         if (users.size() > 0) {
             //put first user as active user
             AppPreferences.putAccountID(context, users.get(0).getAccount_id());
-
         } else {
             //no users left, put empty accountid field so user will be forced to enter new account
             AppPreferences.putAccountID(context, "");
-
         }
         notifyDataSetChanged();
     }
 
-    //finished updating user matches
+    // Finished updating user matches
     @Override
     public void processFinish(boolean foundGames) {
         OrientationHelper.unlockOrientation(activity);

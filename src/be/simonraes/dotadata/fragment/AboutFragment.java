@@ -18,7 +18,6 @@ import be.simonraes.dotadata.activity.DrawerController;
  */
 public class AboutFragment extends Fragment implements View.OnClickListener {
 
-    private Button btnJackson, btnHoloGraph, btnUIL;
     private View fragView;
 
     @Override
@@ -26,18 +25,17 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         fragView = inflater.inflate(R.layout.about_layout, container, false);
 
         getActivity().setTitle("About");
+        setHasOptionsMenu(true);
 
         //update active drawer item (0 = this screen has no drawer item)
         ((DrawerController) getActivity()).setActiveDrawerItem(0);
 
-        btnJackson = (Button) fragView.findViewById(R.id.btnAboutLibraryJackson);
+        Button btnJackson = (Button) fragView.findViewById(R.id.btnAboutLibraryJackson);
         btnJackson.setOnClickListener(this);
-        btnHoloGraph = (Button) fragView.findViewById(R.id.btnAboutLibraryHoloGraph);
+        Button btnHoloGraph = (Button) fragView.findViewById(R.id.btnAboutLibraryHoloGraph);
         btnHoloGraph.setOnClickListener(this);
-        btnUIL = (Button) fragView.findViewById(R.id.btnAboutLibraryUIL);
+        Button btnUIL = (Button) fragView.findViewById(R.id.btnAboutLibraryUIL);
         btnUIL.setOnClickListener(this);
-
-        setHasOptionsMenu(true);
 
         return fragView;
     }
@@ -73,7 +71,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnAbout:
-                //user pressed About button while already on About, SHOW OGRE MAGI!
+                // User pressed About button while already on About, SHOW OGRE MAGI!
                 crossFadeToOgre();
                 return true;
             default:
@@ -100,7 +98,6 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
-
     }
 
     private void crossFadeToOgre() {
@@ -108,7 +105,6 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         // (but fully transparent) during the animation.
 
         int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_longAnimTime);
-
 
         final ImageView ogre = (ImageView) fragView.findViewById(R.id.aboutOgre);
 
@@ -132,9 +128,5 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                         });
             }
         }
-
-
     }
-
-
 }

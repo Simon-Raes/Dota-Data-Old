@@ -3,11 +3,8 @@ package be.simonraes.dotadata.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -24,7 +21,6 @@ import be.simonraes.dotadata.util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Simon Raes on 16/04/2014.
@@ -42,9 +38,7 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
     private int pos;
 
     private ArrayList<DetailMatchLite> matches;
-    private HashMap<String, Integer> gameModesMap; //contains played gamemodes, count
     private HashMap<String, String> mapGameModeIDName; //contains played gamemodesIDs, gamemodenames
-    private HashMap<String, Integer> heroesMap; //contains played heroes, count
     private HashMap<String, String> mapHeroIDName; //contains played heroesID, heronames
 
     private ViewPager mPager;
@@ -161,7 +155,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
                 spinnerGameModes.setAdapter(new GameModeSpinnerAdapter(getActivity(), (HashMap<String, String>) mapGameModeIDName.clone()));
-//                spinnerGameModes.setSelection(0, false); //itemselected won't fire on first load with this
                 spinnerGameModes.setOnItemSelectedListener(this);
 
                 //if there was a savedState, set spinner selection
@@ -190,21 +183,15 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                 //if there was a savedState, set spinner selection
                 if (heroSelection >= 0) {
                     spinnerHeroes.setSelection(heroSelection);
-                    System.out.println("set selection herSelection: " + heroSelection);
                 }
                 if (Integer.parseInt(heroID) > 0) {
                     pos = adapter.getPositionForId(heroID);
-                    System.out.println("hero " + heroID + " is at position " + pos);
                     spinnerHeroes.setSelection(pos, false);
-                    System.out.println("set selection pos: " + pos);
                 }
-
-
             }
         }
 
         lastUpdate = System.currentTimeMillis();
-
     }
 
 
@@ -213,7 +200,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
         switch (parent.getId()) {
             case R.id.spinGameModes:
-                System.out.println("gamemode selected");
 
                 GameModeSpinnerAdapter gAdapter = (GameModeSpinnerAdapter) parent.getAdapter();
                 gameModeID = gAdapter.getIDForPosition(position);
@@ -245,11 +231,9 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                         }
                     }
                 }
-                //lastUpdate = System.currentTimeMillis();
 
                 break;
             case R.id.spinHeroes:
-                System.out.println("hero selected");
 
                 HeroSpinnerAdapter adapter = (HeroSpinnerAdapter) parent.getAdapter();
                 heroID = adapter.getIDForPosition(position);
@@ -257,8 +241,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
 
                 //only update is there was at least .1 second between the 2 spinners (prevents both updating automatically)
                 if (System.currentTimeMillis() - lastUpdate > 100) {
-
-                    System.out.println("didn't go to details, reeeload");
                     if (sml != null) {
                         if (sml.getStatus() != AsyncTask.Status.RUNNING) {
                             updateMatches();
@@ -278,13 +260,8 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
                             }
                         }
                     }
-                } else {
-                    System.out.println("not time yet heroes");
                 }
-
-
                 break;
-
             default:
                 break;
         }
@@ -310,7 +287,6 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         mapGameModeIDName = PlayedHeroesMapper.getMaps().getPlayedGameModes();
 
         if (mapHeroIDName == null || mapGameModeIDName == null) {
-            System.out.println("map empty for some reason");
             MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
             mapHeroIDName = new HashMap<String, String>();
             mapGameModeIDName = new HashMap<String, String>();

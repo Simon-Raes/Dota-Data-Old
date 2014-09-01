@@ -9,10 +9,7 @@ import android.text.Html;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.database.UsersDataSource;
@@ -22,11 +19,11 @@ import be.simonraes.dotadata.parser.VanityResolverParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
 import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
-import be.simonraes.dotadata.util.AppPreferences;
-import be.simonraes.dotadata.util.Conversions;
-import be.simonraes.dotadata.util.InternetCheck;
-import be.simonraes.dotadata.util.OrientationHelper;
+import be.simonraes.dotadata.util.*;
 import be.simonraes.dotadata.vanity.VanityContainer;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 /**
  * Created by Simon on 13/02/14.
@@ -34,31 +31,33 @@ import be.simonraes.dotadata.vanity.VanityContainer;
 public class AddUserFragment extends Fragment implements View.OnClickListener, VanityResolverParser.ASyncResponseVanity, HistoryLoader.ASyncResponseHistoryLoader, PlayerSummaryParser.ASyncResponsePlayerSummary {
 
     private EditText etxtDotabuff, etxtProfileNumber, etxtIDName;
-    private Button btnHelpDotabuff, btnHelpProfileNumber, btnHelpIDName;
-
     private String userAccountID;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_user_layout, container, false);
 
-        getActivity().getActionBar().setTitle("Add new user");
+        if (getActivity() != null) {
+            if (getActivity().getActionBar() != null) {
+                getActivity().getActionBar().setTitle("Add new user");
+            }
+            if (getActivity().getWindow() != null) {
+                // Make sure keyboard doesn't automatically open on page load
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+            }
+        }
 
-        //make sure keyboard doesn't automatically open on page load
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        btnHelpDotabuff = (Button) view.findViewById(R.id.btnHelpDotabuff);
+        Button btnHelpDotabuff = (Button) view.findViewById(R.id.btnHelpDotabuff);
         btnHelpDotabuff.setOnClickListener(this);
 
-        btnHelpProfileNumber = (Button) view.findViewById(R.id.btnHelpProfileNumber);
+        Button btnHelpProfileNumber = (Button) view.findViewById(R.id.btnHelpProfileNumber);
         btnHelpProfileNumber.setOnClickListener(this);
 
-        btnHelpIDName = (Button) view.findViewById(R.id.btnHelpIDName);
+        Button btnHelpIDName = (Button) view.findViewById(R.id.btnHelpIDName);
         btnHelpIDName.setOnClickListener(this);
 
         etxtDotabuff = (EditText) view.findViewById(R.id.txtHelpDotabuff);
-        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        // Lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?))
         etxtDotabuff.setOnFocusChangeListener(new onFocusListener());
         etxtDotabuff.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -74,7 +73,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         });
 
         etxtProfileNumber = (EditText) view.findViewById(R.id.txtHelpProfileNumber);
-        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        // Lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
         etxtProfileNumber.setOnFocusChangeListener(new onFocusListener());
         etxtProfileNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -90,7 +89,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         });
 
         etxtIDName = (EditText) view.findViewById(R.id.txtHelpIDName);
-        //lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
+        // Lock orientation while keyboard is visible (crashes when going from portrait to landscape, but not the other way around (?!))
         etxtIDName.setOnFocusChangeListener(new onFocusListener());
         etxtIDName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -115,16 +114,14 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         TextView txtIDName = (TextView) view.findViewById(R.id.txtHelpIDExample);
         txtIDName.setText(Html.fromHtml("Example: http://steamcommunity.com/id/<b>Voshond</b>/"));
 
-
         return view;
-
     }
 
     @Override
     public void onClick(View v) {
-        //hide keyboard
+        // Hide keyboard
         ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etxtDotabuff.getWindowToken(), 0);
-        //lock orientation during loading/parsing
+        // Lock orientation during loading/parsing
         OrientationHelper.lockOrientation(getActivity());
         switch (v.getId()) {
 
@@ -155,7 +152,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
                 saveDotaID("0");
             }
         } else {
-            Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+            showNoInternetToast();
         }
         InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(etxtDotabuff.getWindowToken(), 0);
@@ -171,7 +168,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
                 saveDotaID("0");
             }
         } else {
-            Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+            showNoInternetToast();
         }
         InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(etxtProfileNumber.getWindowToken(), 0);
@@ -188,10 +185,14 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
                 saveDotaID("0");
             }
         } else {
-            Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
+            showNoInternetToast();
         }
         InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(etxtIDName.getWindowToken(), 0);
+    }
+
+    private void showNoInternetToast() {
+        Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -199,7 +200,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
      */
     @Override
     public void processFinish(VanityContainer result) {
-        //got player steamID ID
         saveDotaID(Conversions.community64IDToDota64ID(result.getResponse().getSteamid()));
     }
 
@@ -208,10 +208,9 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         if (!accountID.equals("0")) {
             userAccountID = accountID;
 
-            //get player information
+            // Get player information
             PlayerSummaryParser parser = new PlayerSummaryParser(this);
             parser.execute(accountID);
-
 
         } else {
             Toast.makeText(getActivity(), "Could not find Dota 2 matches for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
@@ -219,8 +218,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         }
     }
 
-
-    //got player summary based on accountID
+    // Got player summary based on accountID
     @Override
     public void processFinish(PlayerSummaryContainer result) {
         if (result.getPlayers() != null) {
@@ -229,49 +227,32 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
 
                 final PlayerSummaryContainer finalResult = result;
 
-                //check if user is already in the database
+                // Check if user is already in the database
                 UsersDataSource uds = new UsersDataSource(getActivity());
                 User testUser = uds.getUserByID(userAccountID);
                 if (testUser.getAccount_id() != null && !testUser.getAccount_id().equals("")) {
 
-                    //user already saved, just switch user instead of downloading
+                    // User already saved, just switch user instead of downloading
                     AppPreferences.putAccountID(getActivity(), testUser.getAccount_id());
 
                     getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
                 } else {
-//                View layDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_view_found_user, null);
-//                ImageView imgDialog = (ImageView) layDialog.findViewById(R.id.imgDialogFoundUser);
-//
-//                ImageLoader imageLoader = ImageLoader.getInstance();
-//                DisplayImageOptions options = new DisplayImageOptions.Builder()
-//                        .resetViewBeforeLoading(true)
-//                        .cacheInMemory(true)
-//                        .showImageOnLoading(R.drawable.item_lg_unknown)
-//                        .imageScaleType(ImageScaleType.EXACTLY)
-//                        .build();
-//                AnimateFirstDisplayListenerToo animateFirstListener = new AnimateFirstDisplayListenerToo();
-//
-//                imageLoader.displayImage(testUser.getAvatar(), imgDialog, options, animateFirstListener);
 
-//                TextView txtDialog = (TextView) layDialog.findViewById(R.id.txtDialogFoundUser);
-//                txtDialog.setText("Start download for this account?");
+                    View layDialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_view_found_user, null);
+                    ImageView imgDialog = (ImageView) layDialog.findViewById(R.id.imgDialogFoundUser);
+                    TextView txtDialog = (TextView) layDialog.findViewById(R.id.txtDialogFoundUser);
+                    txtDialog.setText("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?");
+
                     new AlertDialog.Builder(getActivity())
                             .setTitle(result.getPlayers().getPlayers().get(0).getPersonaname())
-                                    //todo: add user avatar image (url is already in result object)
-                            .setMessage("Found user " + result.getPlayers().getPlayers().get(0).getPersonaname() + ".\nStart download for this account?")
-//                        .setView(layDialog)
+                            .setView(layDialog)
                             .setCancelable(false)
-                                    //.setIcon(R.drawable.dotadata_sm)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
 
-
-//                                //everything is good, save user account id and user
-                                            UsersDataSource uds = new UsersDataSource(getActivity());
+                                            //everything is good, save user account id and user
                                             User user = new User(userAccountID, finalResult.getPlayers().getPlayers().get(0).getSteamid(), finalResult.getPlayers().getPlayers().get(0).getPersonaname(), finalResult.getPlayers().getPlayers().get(0).getAvatarmedium());
-//                                uds.saveUser(user);
-//                                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("be.simonraes.dotadata.accountid", userAccountID).commit();
 
                                             //start download
                                             startDownload(user);
@@ -280,23 +261,33 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
                             )
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //nothing, just dismiss
+                                    // Not adding this user, dismiss dialog
                                     OrientationHelper.unlockOrientation(getActivity());
                                 }
                             })
                             .show();
 
+                    // Set found player avatar in the dialog.
+                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    DisplayImageOptions options = new DisplayImageOptions.Builder()
+                            .resetViewBeforeLoading(true)
+                            .cacheInMemory(true)
+                            .showImageOnLoading(R.drawable.item_lg_unknown)
+                            .imageScaleType(ImageScaleType.EXACTLY)
+                            .build();
+                    ImageLoadListener animateFirstListener = new ImageLoadListener();
+
+                    imageLoader.displayImage(result.getPlayers().getPlayers().get(0).getAvatarmedium(), imgDialog, options, animateFirstListener);
                 }
             } else {
                 Toast.makeText(getActivity(), "Could not find a Dota 2 account ID for that user. Please try a different username or number.", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getActivity(), "The Dota 2 API is currently unavailable. Please try again later.", Toast.LENGTH_LONG).show();
-
         }
     }
 
-    //start historyloader
+    /** Starts historyloader*/
     private void startDownload(User user) {
         this.userAccountID = user.getAccount_id();
 
@@ -304,7 +295,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         loader.firstDownload();
     }
 
-    //result from historyloader
+    // Result received from historyloader
     @Override
     public void processFinish(boolean foundGames) {
 
@@ -318,7 +309,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
 
         //set user as active in the app drawer
         ((DrawerController) getActivity()).setActiveUser(userAccountID);
-
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
         OrientationHelper.unlockOrientation(getActivity());
     }
