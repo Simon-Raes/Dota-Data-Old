@@ -24,32 +24,18 @@ public class DrawerAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        final ViewHolder viewholder;
-
-        View dividerView;
-        TextView dividerTitle;
-
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        //create viewholder if needed
-        if (convertView == null) {
-            view = inflater.inflate(R.layout.drawer_list_item, parent, false);
-            viewholder = new ViewHolder();
-            viewholder.txtTitle = (TextView) view.findViewById(R.id.txtDrawerItem);
-            view.setTag(viewholder);
-        } else {
-            viewholder = (ViewHolder) view.getTag();
-        }
 
         //return list item or divider
         if (titles[position].startsWith("divider ")) {
-            dividerView = inflater.inflate(R.layout.drawer_list_divider, parent, false);
-            dividerTitle = (TextView) dividerView.findViewById(R.id.txtDividerTitle);
+            View dividerView = inflater.inflate(R.layout.drawer_list_divider, parent, false);
+            TextView dividerTitle = (TextView) dividerView.findViewById(R.id.txtDividerTitle);
             dividerTitle.setText(titles[position].replace("divider ", ""));
             return dividerView;
         } else {
-            viewholder.txtTitle.setText(titles[position]);
+            View view = inflater.inflate(R.layout.drawer_list_item, parent, false);
+            TextView dividerTitle = (TextView) view.findViewById(R.id.txtDrawerItem);
+            dividerTitle.setText(titles[position]);
             return view;
         }
     }
@@ -65,7 +51,5 @@ public class DrawerAdapter extends ArrayAdapter<String> {
         return false;
     }
 
-    private class ViewHolder {
-        public TextView txtTitle;
-    }
+
 }

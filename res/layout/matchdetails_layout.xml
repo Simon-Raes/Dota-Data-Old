@@ -105,25 +105,7 @@
                                       android:orientation="vertical"
                                       android:background="@drawable/bg_card_no_top_effect">
                             <!-- Header -->
-                            <RelativeLayout android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentLeft="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12sp"
-                                          android:text="K/D/A"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_centerHorizontal="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12sp"
-                                          android:text="LH/D"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentRight="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12sp"
-                                          android:text="GPM/XPM"/>
-                            </RelativeLayout>
+                            <include layout="@layout/scoreboard_content_header"/>
                             <View style="@style/Divider"/>
 
                         </LinearLayout>
@@ -151,25 +133,7 @@
                                       android:orientation="vertical"
                                       android:background="@drawable/bg_card_no_top_effect">
                             <!-- Header -->
-                            <RelativeLayout android:layout_width="match_parent"
-                                            android:layout_height="match_parent">
-
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentLeft="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12sp"
-                                          android:text="K/D/A"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_centerHorizontal="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12sp"
-                                          android:text="LH/D"/>
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:layout_alignParentRight="true"
-                                          android:textColor="@color/DimGray"
-                                          android:textSize="12sp"
-                                          android:text="GPM/XPM"/>
-                            </RelativeLayout>
+                            <include layout="@layout/scoreboard_content_header"/>
                             <View style="@style/Divider"/>
 
                         </LinearLayout>
@@ -244,11 +208,12 @@
                          android:gravity="center"
                          android:paddingBottom="20dp">
                 <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                             android:layout_gravity="center"
                               android:id="@+id/layDetailsMinimap">
                     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                                android:id="@+id/imgDetailMinimap"
                                android:adjustViewBounds="true"
-                               android:layout_gravity="center"
+
                                android:src="@drawable/dota_minimap_sd"
                                android:contentDescription="@string/imgMinimap"/>
                 </FrameLayout>

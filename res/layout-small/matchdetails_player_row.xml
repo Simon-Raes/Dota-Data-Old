@@ -81,5 +81,4 @@
                    android:src="@drawable/item_lg_unknown"/>
     </LinearLayout>
 
-    <!--<View style="@style/Divider"/>-->
 </LinearLayout>

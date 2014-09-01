@@ -11,4 +11,6 @@
     <string name="txtGraphsHeaderGPM">Gold per minute</string>
     <string name="txtGraphsHeaderLastHits">Last Hits</string>
     <string name="txtGraphsHeaderKillsDeathsAssists">Kills, Deaths and Assists</string>
+    <string name="txtHeaderChangelog">Changelog</string>
+    <string name="txtHeaderUsedLibraries">Used libraries</string>
 </resources>
