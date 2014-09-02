@@ -62,22 +62,8 @@ public class Conversions {
         return hours + ":" + minutes + ":" + seconds;
     }
 
-//    public static String leagueTitleToString(String rawLeague) {
-//        if (rawLeague.startsWith("#DOTA_")) {
-//            rawLeague = rawLeague.replace("#DOTA_", "");
-//        }
-//        if (rawLeague.startsWith("Item_")) {
-//            rawLeague = rawLeague.replace("Item_", "");
-//        }
-//        if (rawLeague.startsWith("League_")) {
-//            rawLeague = rawLeague.replace("League_", "");
-//        }
-//        rawLeague = rawLeague.replace("_", " ");
-//        return rawLeague;
-//    }
 
-
-    public static String dotaIDToCommunityID(String accountID) {
+    public static String steam32IdToSteam64Id(String accountID) {
         long steamID;
         String accID = accountID;
 
@@ -96,8 +82,7 @@ public class Conversions {
         return Long.toString(steamID);
     }
 
-
-    public static String community64IDToDota64ID(String communityID) {
+    public static String steam64IdToSteam32Id(String communityID) {
         long accountID = 0L;
         try {
             accountID = Long.parseLong(communityID) - 76561197960265728L;
@@ -209,11 +194,11 @@ public class Conversions {
 
         if (Character.toString(bits.charAt(4)).equals("1")) {
             // Mid ranged
-            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .20, .77));
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .19, .77));
         }
         if (Character.toString(bits.charAt(5)).equals("1")) {
             // Mid melee
-            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .22, .79));
+            towerStatusGroup.add(new BuildingStatus(BuildingStatus.Side.RADIANT, BuildingStatus.BuildingType.BARRACKS, .22, .80));
         }
 
         if (Character.toString(bits.charAt(6)).equals("1")) {
@@ -333,9 +318,7 @@ public class Conversions {
                     sortedMap.put(key, val);
                     break;
                 }
-
             }
-
         }
         return sortedMap;
     }

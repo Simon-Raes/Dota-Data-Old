@@ -77,7 +77,10 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         match = getArguments().getParcelable("be.simonraes.dotadata.detailmatch");
 
         setHasOptionsMenu(true);
-        getActivity().setTitle("Match Details");
+        if (getActivity().getActionBar() != null) {
+            getActivity().setTitle("Match Details");
+            getActivity().getActionBar().setSubtitle(null);
+        }
 
         //disable drawer icon (needed for reorientation)
         if (getActivity() instanceof DrawerController) {
@@ -342,7 +345,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         //Check if the active user participated in the match
         DetailPlayer activePlayer = null;
         for (DetailPlayer p : match.getPlayers()) {
-            if (p.getAccount_id().equals(AppPreferences.getAccountID(getActivity()))) {
+            if (p.getAccount_id().equals(AppPreferences.getActiveAccountId(getActivity()))) {
                 activePlayer = p;
             }
         }
@@ -663,14 +666,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 } else {
                     for (TextView textView : playerNames) {
                         if (textView.getText() != null) {
-                            if (textView.getText().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                            if (textView.getText().equals(Conversions.steam64IdToSteam32Id(result.getPlayers().getPlayers().get(0).getSteamid()))) {
                                 textView.setText(result.getPlayers().getPlayers().get(0).getPersonaname());
                             }
                         }
                     }
                     for (ImageView imgView : playerAvatars) {
                         if (imgView.getTag() != null) {
-                            if (imgView.getTag().equals(Conversions.community64IDToDota64ID(result.getPlayers().getPlayers().get(0).getSteamid()))) {
+                            if (imgView.getTag().equals(Conversions.steam64IdToSteam32Id(result.getPlayers().getPlayers().get(0).getSteamid()))) {
                                 imageLoader.displayImage(result.getPlayers().getPlayers().get(0).getAvatar(), imgView, options, animateFirstListener);
                             }
                         }

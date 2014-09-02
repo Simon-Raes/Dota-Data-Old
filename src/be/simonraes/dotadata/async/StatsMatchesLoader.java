@@ -28,7 +28,7 @@ public class StatsMatchesLoader extends AsyncTask<String, Integer, ArrayList<Det
     @Override
     protected ArrayList<DetailMatchLite> doInBackground(String... params) {
 
-        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getActiveAccountId(context));
         ArrayList<DetailMatchLite> matches;
 
         String gameModeID = params[0];

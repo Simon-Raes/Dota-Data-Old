@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent" android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:background="@color/Gainsboro"
-                android:layout_height="match_parent" android:weightSum="1">
+                android:background="@color/Gainsboro">
 
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:id="@+id/laySelectUserFooter"
                   android:gravity="center"
+                  android:orientation="horizontal"
                   android:layout_alignParentBottom="true"
                   style="@style/CardMargin"
                   android:background="@drawable/bg_card">
-
-        <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
-                android:id="@+id/btnSelectUserNew"
+        <Button android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/btnAddUser"
                 android:background="@drawable/draw_button_record"
                 android:text="Add new user"/>
+        <Button android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/btnAddFriend"
+                android:background="@drawable/draw_button_record"
+                android:text="Add Steam friend"/>
     </LinearLayout>
 
 
@@ -25,7 +30,6 @@
               style="@style/CardMargin"
               android:background="@drawable/bg_card"
               android:layout_above="@id/laySelectUserFooter">
-
     </ListView>
 
 

@@ -60,7 +60,7 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
 
         // Background
         if (user != null) {
-            if (user.getAccount_id().equals(AppPreferences.getAccountID(context))) {
+            if (user.getAccount_id().equals(AppPreferences.getActiveAccountId(context))) {
                 view.setBackgroundColor(context.getResources().getColor(R.color.Gainsboro));
             }
         }
@@ -74,8 +74,6 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .showImageOnLoading(R.drawable.item_lg_unknown)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
         imageLoader.displayImage(user.getAvatar(), viewholder.imgUser, options, animateFirstListener);
@@ -138,10 +136,10 @@ public class UsersAdapter extends ArrayAdapter<User> implements HistoryLoader.AS
         }
         if (users.size() > 0) {
             //put first user as active user
-            AppPreferences.putAccountID(context, users.get(0).getAccount_id());
+            AppPreferences.setActiveAccountId(context, users.get(0).getAccount_id());
         } else {
             //no users left, put empty accountid field so user will be forced to enter new account
-            AppPreferences.putAccountID(context, "");
+            AppPreferences.setActiveAccountId(context, "");
         }
         notifyDataSetChanged();
     }

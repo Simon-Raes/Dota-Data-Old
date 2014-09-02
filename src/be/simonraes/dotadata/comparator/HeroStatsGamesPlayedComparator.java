@@ -1,4 +1,4 @@
-package be.simonraes.dotadata.util;
+package be.simonraes.dotadata.comparator;
 
 import be.simonraes.dotadata.statistics.HeroStats;
 

@@ -42,7 +42,7 @@ public class PlayedHeroesMapper extends AsyncTask<String, Integer, PlayedHeroesA
 
     @Override
     protected PlayedHeroesAndGameModes doInBackground(String... params) {
-        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getActiveAccountId(context));
 
         for (DetailMatchLite rec : mds.getAllDetailMatchesLite()) {
             //don't store "unknown hero"

@@ -3,10 +3,8 @@ package be.simonraes.dotadata.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.TextKeyListener;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -21,12 +19,8 @@ import be.simonraes.dotadata.database.MatchesDataSource;
 import be.simonraes.dotadata.detailmatch.DetailContainer;
 import be.simonraes.dotadata.detailmatch.DetailMatch;
 import be.simonraes.dotadata.parser.DetailMatchParser;
-import be.simonraes.dotadata.parser.DetailMatchesParser;
 import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.OrientationHelper;
-
-
-import java.util.ArrayList;
 
 /**
  * Screen to search a game by MatchId.
@@ -42,7 +36,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, De
 
         View fragView = inflater.inflate(R.layout.search_fragment_layout, container, false);
 
-        getActivity().setTitle("Search");
+        if (getActivity().getActionBar() != null) {
+            getActivity().setTitle("Search");
+            getActivity().getActionBar().setSubtitle(null);
+        }
         setHasOptionsMenu(true);
 
         //update active drawer item (0 = this screen has no drawer item)
@@ -105,7 +102,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, De
 
         if (matchID != null && !matchID.equals("")) {
 
-            MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
+            MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getActiveAccountId(getActivity()));
             if (mds.matchExists(matchID)) {
                 DetailMatch match = mds.getMatchByID(matchID);
                 Intent intent = new Intent(getActivity(), MatchActivity.class);

@@ -10,9 +10,8 @@ import be.simonraes.dotadata.R;
 import be.simonraes.dotadata.activity.DrawerController;
 import be.simonraes.dotadata.adapter.UsersAdapter;
 import be.simonraes.dotadata.database.UsersDataSource;
-import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
+import be.simonraes.dotadata.playersummary.PlayerSummary;
 import be.simonraes.dotadata.user.User;
-import be.simonraes.dotadata.util.AppPreferences;
 
 import java.util.ArrayList;
 
@@ -24,20 +23,27 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
 
     private ArrayList<User> users;
     private ListView lvUsers;
+    private ArrayList<PlayerSummary> friends;
+    private int numberOfFriends;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.manage_users_layout, null);
         lvUsers = (ListView) view.findViewById(R.id.lvSelectUser);
 
-        getActivity().setTitle("Manage users");
+        if(getActivity().getActionBar()!=null) {
+            getActivity().setTitle("Manage users");
+            getActivity().getActionBar().setSubtitle(null);
+        }
         setHasOptionsMenu(true);
 
         // Update active drawer item
         ((DrawerController) getActivity()).setActiveDrawerItem(0);
 
-        Button btnNewUser = (Button) view.findViewById(R.id.btnSelectUserNew);
+        Button btnNewUser = (Button) view.findViewById(R.id.btnAddUser);
         btnNewUser.setOnClickListener(this);
+        Button btnAddFriend = (Button) view.findViewById(R.id.btnAddFriend);
+        btnAddFriend.setOnClickListener(this);
 
         UsersDataSource uds = new UsersDataSource(getActivity());
         users = uds.getAllUsers();
@@ -50,24 +56,8 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        // Set app-wide account ID to this user
-        AppPreferences.putAccountID(getActivity(), users.get(position).getAccount_id());
-
-        //todo: this shouldn't be here
-        // Uupdate the playedheroes/gamemodes maps for this user
-        PlayedHeroesMapper.clearInstance();
-        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
-        if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
-            phm.execute();
-        }
-
-        lvUsers.setAdapter(new UsersAdapter(getActivity(), users, getActivity()));
-        //update active drawer item
-        ((DrawerController) getActivity()).setActiveDrawerItem(1);
-        //update active user in drawer slider
-        ((DrawerController) getActivity()).setActiveUser(users.get(position).getAccount_id());
-
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
+        // Alert the main activity that a new user has been added and set as active
+        ((DrawerController) getActivity()).newUserAddedOrSelected(users.get(position).getAccount_id());
     }
 
     @Override
@@ -101,8 +91,12 @@ public class ManageUsersFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSelectUserNew:
+            case R.id.btnAddUser:
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, new AddUserFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.btnAddFriend:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new FriendsListFragment(), "FriendsListFragment").addToBackStack(null).commit();
                 break;
             default:
                 break;

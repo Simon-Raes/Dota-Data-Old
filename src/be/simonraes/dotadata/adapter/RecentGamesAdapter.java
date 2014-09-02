@@ -76,7 +76,7 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
 
         viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
 
-        //viewholder.imgHero.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(match.getHero_id()), "drawable", context.getPackageName()));
+        //viewholder.imgAvatar.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(match.getHero_id()), "drawable", context.getPackageName()));
 
         imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(match.getHero_id()) + "_lg.png", viewholder.imgHero, options, animateFirstListener);
 

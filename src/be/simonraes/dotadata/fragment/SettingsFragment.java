@@ -20,7 +20,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        getActivity().setTitle("Settings");
+        if (getActivity().getActionBar() != null) {
+            getActivity().setTitle("Settings");
+            getActivity().getActionBar().setSubtitle(null);
+        }
 
         addPreferencesFromResource(R.xml.preferences);
 

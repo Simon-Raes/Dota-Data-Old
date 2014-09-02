@@ -20,7 +20,6 @@
                  android:src="@drawable/ic_action_discard"
                  android:paddingRight="25dp"
                  android:layout_centerVertical="true"
-
                  android:layout_toLeftOf="@id/btnSwitchUserUpdate"
                  android:background="@null"
                  android:id="@+id/btnSwitchUserDelete"/>

@@ -1,5 +1,7 @@
 package be.simonraes.dotadata.playersummary;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -7,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PlayerSummary {
+public class PlayerSummary implements Parcelable {
 
     private String steamid;
     private String communityvisibilitystate;
@@ -148,4 +150,59 @@ public class PlayerSummary {
     public void setLoccountrycode(String loccountrycode) {
         this.loccountrycode = loccountrycode;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(steamid);
+        dest.writeString(communityvisibilitystate);
+        dest.writeString(profilestate);
+        dest.writeString(personaname);
+        dest.writeString(lastlogoff);
+        dest.writeString(commentpermission);
+        dest.writeString(profileurl);
+        dest.writeString(avatar);
+        dest.writeString(avatarmedium);
+        dest.writeString(avatarfull);
+        dest.writeString(personastate);
+        dest.writeString(primaryclanid);
+        dest.writeString(timecreated);
+        dest.writeString(personastateflags);
+        dest.writeString(loccountrycode);
+    }
+
+    public PlayerSummary(Parcel pc) {
+
+        steamid = pc.readString();
+        communityvisibilitystate = pc.readString();
+        profilestate = pc.readString();
+        personaname = pc.readString();
+        lastlogoff = pc.readString();
+        commentpermission = pc.readString();
+        profileurl = pc.readString();
+        avatar = pc.readString();
+        avatarmedium = pc.readString();
+        avatarfull = pc.readString();
+        personastate = pc.readString();
+        primaryclanid = pc.readString();
+        timecreated = pc.readString();
+        personastateflags = pc.readString();
+        loccountrycode = pc.readString();
+    }
+
+    public static final Creator<PlayerSummary> CREATOR = new
+            Creator<PlayerSummary>() {
+                public PlayerSummary createFromParcel(Parcel pc) {
+                    return new PlayerSummary(pc);
+                }
+
+                public PlayerSummary[] newArray(int size) {
+                    return new PlayerSummary[size];
+                }
+            };
 }

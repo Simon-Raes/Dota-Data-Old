@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * Turns a Steam vanity URL into a Steam 64 ID.
  * Created by Simon on 20/02/14.
  */
 public class VanityResolverParser extends AsyncTask<String, Void, VanityContainer> {
@@ -28,7 +29,6 @@ public class VanityResolverParser extends AsyncTask<String, Void, VanityContaine
     protected VanityContainer doInBackground(String... params) {
         ObjectMapper mapper = new ObjectMapper();
         String vanity = params[0];
-
 
         VanityContainer container = new VanityContainer();
 

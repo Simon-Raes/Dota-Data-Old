@@ -137,7 +137,7 @@ public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, D
 
             } else if (result.getRecentGames().getMatches().size() > 0) {
 
-                AppPreferences.putAccountID(context, accountID);
+                AppPreferences.setActiveAccountId(context, accountID);
 
                 if (Integer.parseInt(result.getRecentGames().getMatches().get(result.getRecentGames().getMatches().size() - 1).getMatch_id()) < Integer.parseInt(latestSavedMatchID)) {
                     //last match id of received results is older than latest saved match, saved matchID is in this set of results, this is the last needed set
@@ -247,13 +247,11 @@ public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, D
     @Override
     public void processFinish(ArrayList<DetailMatch> result) {
 
-        //everything is good, save user account id and user
         UsersDataSource uds = new UsersDataSource(context);
-        //keep track of the last saved match for this user
-        //User user = uds.getUserByID(accountID);new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar())
-        User usera = new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar());
-        usera.setLast_saved_match(matches.get(0).getMatch_id());
-        uds.saveUser(usera);
+        // Save the user if new / update the user if he is already in the database.
+        User updatedUser = new User(user.getAccount_id(), user.getSteam_id(), user.getName(), user.getAvatar());
+        updatedUser.setLast_saved_match(matches.get(0).getMatch_id());
+        uds.saveUser(updatedUser);
 
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();

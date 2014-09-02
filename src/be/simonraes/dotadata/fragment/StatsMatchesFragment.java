@@ -1,13 +1,9 @@
 package be.simonraes.dotadata.fragment;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +46,9 @@ public class StatsMatchesFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.matches_list_layout, container, false);
-        pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
-        lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
+        View view = inflater.inflate(R.layout.list_layout, container, false);
+        pbRecentGames = (ProgressBar) view.findViewById(R.id.pbListLayout);
+        lvRecentGames = (ListView) view.findViewById(R.id.listView);
 
         //setHasOptionsMenu(true);
 
@@ -120,7 +116,7 @@ public class StatsMatchesFragment extends Fragment implements AdapterView.OnItem
 
         DetailMatchLite matchLite = (DetailMatchLite) lvRecentGames.getAdapter().getItem(position);
 
-        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
+        MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getActiveAccountId(getActivity()));
         DetailMatch match = mds.getMatchByID(matchLite.getMatch_id());
 
         Intent intent = new Intent(getActivity(), MatchActivity.class);

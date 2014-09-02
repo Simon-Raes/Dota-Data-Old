@@ -24,7 +24,10 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         fragView = inflater.inflate(R.layout.about_layout, container, false);
 
-        getActivity().setTitle("About");
+        if(getActivity().getActionBar()!=null){
+            getActivity().getActionBar().setTitle("About");
+            getActivity().getActionBar().setSubtitle(null);
+        }
         setHasOptionsMenu(true);
 
         //update active drawer item (0 = this screen has no drawer item)

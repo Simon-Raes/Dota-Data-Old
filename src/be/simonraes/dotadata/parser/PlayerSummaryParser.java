@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * Takes a Steam64 ID and downloads that player's info.
  * Created by Simon on 19/02/14.
  */
 public class PlayerSummaryParser extends AsyncTask<String, Void, PlayerSummaryContainer> {
@@ -30,8 +31,12 @@ public class PlayerSummaryParser extends AsyncTask<String, Void, PlayerSummaryCo
         ObjectMapper mapper = new ObjectMapper();
 
         String steamID = "";
-        if (params.length > 0) {
-            steamID = Conversions.dotaIDToCommunityID(params[0]);
+        if (params.length > 0 ) {
+            if(params[0].length() < 16) {
+                steamID = Conversions.steam32IdToSteam64Id(params[0]);
+            } else {
+                steamID = params[0];
+            }
         }
 
         PlayerSummaryContainer container = new PlayerSummaryContainer();

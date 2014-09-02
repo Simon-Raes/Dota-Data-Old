@@ -76,7 +76,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             txtStatsAverageLastHits,
             txtStatsAverageDenies;
 
-
     private ImageButton btnStatsHelp;
     private String gameModeID, heroID; //ID of the selected item in the spinner
 
@@ -302,7 +301,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             totalDenies += Double.parseDouble(matchLite.getDenies());
 
             // Records
-
             if (Long.parseLong(matchLite.getDuration()) > Long.parseLong(statsLongestGame.getRecordValue())) {
                 statsLongestGame.setRecordValue(matchLite.getDuration());
                 setBetterRecord(statsLongestGame, matchLite);
@@ -347,7 +345,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                 statsMostXpm.setRecordValue(matchLite.getXp_per_min());
                 setBetterRecord(statsMostXpm, matchLite);
             }
-
 
             if (gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode())) != null) {
                 int prevValue = gameModesMap.get(GameModes.getGameMode(matchLite.getGame_mode()));
@@ -411,7 +408,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
 
-
         for (RecordStats s : recordStatsList) {
             View recordRow = inflater.inflate(R.layout.stats_record_row, null);
             recordRow.setOnClickListener(this);
@@ -455,7 +451,15 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
         pieGraph.setOnSliceClickedListener(pieHandler);
 
         Random rnd;
-        for (Map.Entry<String, Integer> entry : gameModesMap.entrySet()) {
+
+        // Sort map on games-played
+        LinkedHashMap<String, Integer> sortedMap = Conversions.sortHashMapByValues(gameModesMap);
+        // Reverse map (to large->small)
+        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(sortedMap.entrySet());
+
+        for (int i = list.size() - 1; i >= 0; i--) {
+            Map.Entry<String, Integer> entry = list.get(i);
+
             if (entry.getValue() > 0) {
                 if (entry.getKey() != null) {
 
@@ -482,7 +486,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
             }
         }
         layStatsGameModes.setVisibility(View.VISIBLE);
-
     }
 
     private void setHeroesGraph() {
@@ -553,11 +556,7 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
     public void processFinish(ArrayList<DetailMatchLite> result) {
         matches = result;
         updateVisuals();
-
-        //((StatsPagerFragment) getParentFragment()).setMatches(matches);
-
     }
-
 
     private void crossFadeToStats() {
         // Set the content view to 0% opacity but visible, so that it is visible
@@ -584,7 +583,6 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                         progressStats.setVisibility(View.GONE);
                     }
                 });
-
     }
 
     private void crossFadeToLoading() {
@@ -612,8 +610,5 @@ public class StatsNumbersFragment extends Fragment implements View.OnClickListen
                         scrollStats.setVisibility(View.GONE);
                     }
                 });
-
     }
-
-
 }

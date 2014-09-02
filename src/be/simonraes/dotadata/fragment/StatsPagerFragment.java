@@ -92,7 +92,10 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        getActivity().setTitle("Statistics");
+        if (getActivity().getActionBar() != null) {
+            getActivity().setTitle("Statistics");
+            getActivity().getActionBar().setSubtitle(null);
+        }
 
         Bundle extras = getArguments();
 
@@ -287,7 +290,7 @@ public class StatsPagerFragment extends Fragment implements AdapterView.OnItemSe
         mapGameModeIDName = PlayedHeroesMapper.getMaps().getPlayedGameModes();
 
         if (mapHeroIDName == null || mapGameModeIDName == null) {
-            MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getAccountID(getActivity()));
+            MatchesDataSource mds = new MatchesDataSource(getActivity(), AppPreferences.getActiveAccountId(getActivity()));
             mapHeroIDName = new HashMap<String, String>();
             mapGameModeIDName = new HashMap<String, String>();
             for (DetailMatchLite rec : mds.getAllRealDetailMatchesLite()) {

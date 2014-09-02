@@ -16,10 +16,10 @@ import be.simonraes.dotadata.adapter.HeroStatsGamesPlayedAdapter;
 import be.simonraes.dotadata.adapter.HeroStatsWinrateAdapter;
 import be.simonraes.dotadata.adapter.RankingSpinnerAdapter;
 import be.simonraes.dotadata.async.StatsMatchesLoader;
+import be.simonraes.dotadata.comparator.HeroStatsGamesPlayedComparator;
+import be.simonraes.dotadata.comparator.HeroStatsWinrateComparator;
 import be.simonraes.dotadata.detailmatch.DetailMatchLite;
 import be.simonraes.dotadata.statistics.HeroStats;
-import be.simonraes.dotadata.util.HeroStatsGamesPlayedComparator;
-import be.simonraes.dotadata.util.HeroStatsWinrateComparator;
 import be.simonraes.dotadata.util.MatchUtils;
 
 import java.util.ArrayList;
@@ -53,9 +53,13 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.matches_list_layout, null);
+        View view = inflater.inflate(R.layout.list_layout, null);
 
-        getActivity().setTitle("Heroes");
+        if (getActivity().getActionBar() != null) {
+            getActivity().setTitle("Heroes");
+            getActivity().getActionBar().setSubtitle(null);
+        }
+
         setHasOptionsMenu(true);
 
         // Update active drawer item
@@ -70,8 +74,8 @@ public class HeroesFragment extends Fragment implements StatsMatchesLoader.ASync
             }
         }
 
-        progressBar = (ProgressBar) view.findViewById(R.id.pbRecentGames);
-        lvHeroes = (ListView) view.findViewById(R.id.lvRecentGames);
+        progressBar = (ProgressBar) view.findViewById(R.id.pbListLayout);
+        lvHeroes = (ListView) view.findViewById(R.id.listView);
         lvHeroes.setSelector(new StateListDrawable());
         lvHeroes.setAdapter(new HeroStatsWinrateAdapter(getActivity(), heroes));
         lvHeroes.setOnItemClickListener(this);

@@ -31,7 +31,7 @@ public class DetailMatchLoader extends AsyncTask<String, Void, DetailMatch> {
         DetailMatch match = null;
 
         if (matchId != null && !matchId.equals("")) {
-            MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
+            MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getActiveAccountId(context));
             match = mds.getMatchByID(matchId);
 //            match = mds.getMatchByIdWithoutExperience(matchId);
         }

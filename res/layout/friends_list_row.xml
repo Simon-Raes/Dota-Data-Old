@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:padding="5dp"
+               android:id="@+id/imgFriendAvatar"/>
+    <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:src="@drawable/ic_action_add_person"
+                 android:background="@null"
+                 android:contentDescription="@string/btnAddUserContentDescription"
+                 android:layout_alignParentRight="true"
+                 android:padding="5dp"
+                 android:id="@+id/btnAddFriend"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_toRightOf="@id/imgFriendAvatar"
+              android:layout_toLeftOf="@id/btnAddFriend"
+              android:layout_centerVertical="true"
+              android:id="@+id/txtFriendName"/>
+
+</RelativeLayout>

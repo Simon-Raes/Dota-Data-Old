@@ -13,4 +13,6 @@
     <string name="txtGraphsHeaderKillsDeathsAssists">Kills, Deaths and Assists</string>
     <string name="txtHeaderChangelog">Changelog</string>
     <string name="txtHeaderUsedLibraries">Used libraries</string>
+    <string name="btnAddFriend">Add</string>
+    <string name="btnAddUserContentDescription">Add user</string>
 </resources>

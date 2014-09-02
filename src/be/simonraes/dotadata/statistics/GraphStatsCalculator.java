@@ -40,7 +40,7 @@ public class GraphStatsCalculator extends AsyncTask<Void, Void, ArrayList<GraphS
         ArrayList<GraphStats> statsList = null;
         ArrayList<GraphStats> finalStatsList = null;
 
-        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getActiveAccountId(context));
         ArrayList<DetailMatchLite> matches = mds.getAllRealDetailMatchesLite();
 
         if (matches != null && matches.size() > 0) {

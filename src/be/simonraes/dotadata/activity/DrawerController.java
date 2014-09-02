@@ -50,8 +50,8 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
 
         drawerSlider = (LinearLayout) findViewById(R.id.left_drawer);
 
-        if (!AppPreferences.getAccountID(this).equals("")) {
-            setActiveUser(AppPreferences.getAccountID(this));
+        if (!AppPreferences.getActiveAccountId(this).equals("")) {
+            setActiveUserInDrawer(AppPreferences.getActiveAccountId(this));
         }
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
@@ -84,7 +84,7 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
 
         //start loading the content of the statistics spinners here so it's already ready when the user opens the stats screen
         PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
-        if (!AppPreferences.getAccountID(this).equals("0") && !AppPreferences.getAccountID(this).equals("") && AppPreferences.getAccountID(this) != null) {
+        if (!AppPreferences.getActiveAccountId(this).equals("0") && !AppPreferences.getActiveAccountId(this).equals("") && AppPreferences.getActiveAccountId(this) != null) {
             if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
                 if (phm.getStatus() != AsyncTask.Status.RUNNING) {
                     phm.execute();
@@ -145,7 +145,26 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         drawerList.setItemChecked(position, true);
     }
 
-    public void setActiveUser(String accountId) {
+
+    public void newUserAddedOrSelected(String userAccountID){
+
+        // Set app-wide account ID to this user
+        AppPreferences.setActiveAccountId(this, userAccountID);
+
+        //update the playedheroes/gamemodes maps for this new user
+        PlayedHeroesMapper.clearInstance();
+        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(this);
+        if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
+            phm.execute();
+        }
+
+        //set user as active in the app drawer
+        setActiveUserInDrawer(userAccountID);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
+        OrientationHelper.unlockOrientation(this);
+    }
+
+    public void setActiveUserInDrawer(String accountId) {
 
         UsersDataSource uds = new UsersDataSource(this);
         User user = uds.getUserByID(accountId);
@@ -156,8 +175,6 @@ public class DrawerController extends FragmentActivity implements ListView.OnIte
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .showImageOnLoading(R.drawable.item_lg_unknown)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
         imageLoader.displayImage(user.getAvatar(), imgAvatar, options, animateFirstListener);

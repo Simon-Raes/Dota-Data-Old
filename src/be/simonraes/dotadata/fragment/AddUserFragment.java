@@ -17,7 +17,6 @@ import be.simonraes.dotadata.historyloading.HistoryLoader;
 import be.simonraes.dotadata.parser.PlayerSummaryParser;
 import be.simonraes.dotadata.parser.VanityResolverParser;
 import be.simonraes.dotadata.playersummary.PlayerSummaryContainer;
-import be.simonraes.dotadata.statistics.PlayedHeroesMapper;
 import be.simonraes.dotadata.user.User;
 import be.simonraes.dotadata.util.*;
 import be.simonraes.dotadata.vanity.VanityContainer;
@@ -40,6 +39,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         if (getActivity() != null) {
             if (getActivity().getActionBar() != null) {
                 getActivity().getActionBar().setTitle("Add new user");
+                getActivity().getActionBar().setSubtitle(null);
             }
             if (getActivity().getWindow() != null) {
                 // Make sure keyboard doesn't automatically open on page load
@@ -129,12 +129,12 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
                 dotaBuffEntered();
                 break;
 
-            case R.id.btnHelpProfileNumber:
-                profileNumberEntered();
-                break;
-
             case R.id.btnHelpIDName:
                 profileVanityEntered();
+                break;
+
+            case R.id.btnHelpProfileNumber:
+                profileNumberEntered();
                 break;
 
             default:
@@ -159,23 +159,6 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         mgr.hideSoftInputFromWindow(etxtDotabuff.getWindowToken(), 0);
     }
 
-    private void profileNumberEntered() {
-        getActivity().setProgressBarIndeterminateVisibility(true);
-        OrientationHelper.lockOrientation(getActivity());
-
-        if (InternetCheck.isOnline(getActivity())) {
-            if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
-                saveDotaID(Conversions.community64IDToDota64ID(etxtProfileNumber.getText().toString()));
-            } else {
-                saveDotaID("0");
-            }
-        } else {
-            showNoInternetToast();
-        }
-        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        mgr.hideSoftInputFromWindow(etxtProfileNumber.getWindowToken(), 0);
-    }
-
     private void profileVanityEntered() {
         getActivity().setProgressBarIndeterminateVisibility(true);
         OrientationHelper.lockOrientation(getActivity());
@@ -194,16 +177,33 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
         mgr.hideSoftInputFromWindow(etxtIDName.getWindowToken(), 0);
     }
 
+    private void profileNumberEntered() {
+        getActivity().setProgressBarIndeterminateVisibility(true);
+        OrientationHelper.lockOrientation(getActivity());
+
+        if (InternetCheck.isOnline(getActivity())) {
+            if (!etxtProfileNumber.getText().toString().equals("") && etxtProfileNumber.getText().toString() != null) {
+                saveDotaID(Conversions.steam64IdToSteam32Id(etxtProfileNumber.getText().toString()));
+            } else {
+                saveDotaID("0");
+            }
+        } else {
+            showNoInternetToast();
+        }
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(etxtProfileNumber.getWindowToken(), 0);
+    }
+
     private void showNoInternetToast() {
         Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();
     }
 
     /**
-     * Finished getting user details.
+     * Finished converting Vanity URL to Steam64 Id details.
      */
     @Override
     public void processFinish(VanityContainer result) {
-        saveDotaID(Conversions.community64IDToDota64ID(result.getResponse().getSteamid()));
+        saveDotaID(Conversions.steam64IdToSteam32Id(result.getResponse().getSteamid()));
     }
 
     private void saveDotaID(String accountID) {
@@ -238,7 +238,7 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
                 if (testUser.getAccount_id() != null && !testUser.getAccount_id().equals("")) {
 
                     // User already saved, just switch user instead of downloading
-                    AppPreferences.putAccountID(getActivity(), testUser.getAccount_id());
+                    AppPreferences.setActiveAccountId(getActivity(), testUser.getAccount_id());
 
                     getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment()).addToBackStack(null).commit();
 
@@ -303,19 +303,8 @@ public class AddUserFragment extends Fragment implements View.OnClickListener, V
     // Result received from historyloader
     @Override
     public void processFinish(boolean foundGames) {
-
-        //todo: this shouldn't be here
-        //update the playedheroes/gamemodes maps for this new user
-        PlayedHeroesMapper.clearInstance();
-        PlayedHeroesMapper phm = PlayedHeroesMapper.getInstance(getActivity());
-        if (PlayedHeroesMapper.getMaps().getPlayedHeroes().size() < 1) {
-            phm.execute();
-        }
-
-        //set user as active in the app drawer
-        ((DrawerController) getActivity()).setActiveUser(userAccountID);
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new RecentGamesFragment(), "RecentGamesFragment").addToBackStack(null).commitAllowingStateLoss();
-        OrientationHelper.unlockOrientation(getActivity());
+        // Alert the main activity that a new user has been added and set as active
+        ((DrawerController) getActivity()).newUserAddedOrSelected(userAccountID);
     }
 
     private class onFocusListener implements View.OnFocusChangeListener {

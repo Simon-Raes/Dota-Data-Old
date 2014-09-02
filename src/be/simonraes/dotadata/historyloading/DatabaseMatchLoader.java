@@ -27,7 +27,7 @@ public class DatabaseMatchLoader extends AsyncTask<String, Integer, ArrayList<De
 
     @Override
     protected ArrayList<DetailMatchLite> doInBackground(String... params) {
-        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getAccountID(context));
+        MatchesDataSource mds = new MatchesDataSource(context, AppPreferences.getActiveAccountId(context));
         ArrayList<DetailMatchLite> matchesLite = new ArrayList<DetailMatchLite>();
 
         if (params.length < 1) {

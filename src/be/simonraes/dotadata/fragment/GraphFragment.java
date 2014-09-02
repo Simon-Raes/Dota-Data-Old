@@ -67,7 +67,10 @@ public class GraphFragment extends Fragment implements LineGraph.OnPointClickedL
         layGraphs = (LinearLayout) view.findViewById(R.id.layMainGraph);
         progressBarGraphs = (ProgressBar) view.findViewById(R.id.pbGraphs);
 
-        getActivity().setTitle("Graphs");
+        if(getActivity().getActionBar()!=null) {
+            getActivity().getActionBar().setTitle("Graphs");
+            getActivity().getActionBar().setSubtitle(null);
+        }
         setHasOptionsMenu(true);
 
         // Update active drawer item.

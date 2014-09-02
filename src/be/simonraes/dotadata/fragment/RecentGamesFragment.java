@@ -50,11 +50,14 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.matches_list_layout, container, false);
-        pbRecentGames = (ProgressBar) view.findViewById(R.id.pbRecentGames);
-        lvRecentGames = (ListView) view.findViewById(R.id.lvRecentGames);
+        View view = inflater.inflate(R.layout.list_layout, container, false);
+        pbRecentGames = (ProgressBar) view.findViewById(R.id.pbListLayout);
+        lvRecentGames = (ListView) view.findViewById(R.id.listView);
 
-        getActivity().setTitle("Recent games");
+        if (getActivity().getActionBar() != null) {
+            getActivity().setTitle("Recent games");
+            getActivity().getActionBar().setSubtitle(null);
+        }
 
         //update active drawer item
         if (getActivity() instanceof DrawerController) {
@@ -69,7 +72,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
         }
 
 
-        if (AppPreferences.getAccountID(getActivity()).equals("")) {
+        if (AppPreferences.getActiveAccountId(getActivity()).equals("")) {
 
             new AlertDialog.Builder(getActivity())
                     .setTitle("Welcome!")
@@ -138,7 +141,7 @@ public class RecentGamesFragment extends Fragment implements AdapterView.OnItemC
                 // Only start download if it isn't already downloading
                 if (InternetCheck.isOnline(getActivity())) {
                     OrientationHelper.lockOrientation(getActivity());
-                    HistoryLoader loader = new HistoryLoader(getActivity(), this, AppPreferences.getAccountID(getActivity()));
+                    HistoryLoader loader = new HistoryLoader(getActivity(), this, AppPreferences.getActiveAccountId(getActivity()));
                     loader.updateHistory();
                 } else {
                     Toast.makeText(getActivity(), "You are not connected to the internet.", Toast.LENGTH_SHORT).show();

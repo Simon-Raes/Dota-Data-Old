@@ -7,10 +7,10 @@
                 android:background="@color/White"
         >
     <ListView android:layout_width="fill_parent" android:layout_height="fill_parent"
-              android:id="@+id/lvRecentGames"
+              android:id="@+id/listView"
               android:scrollbars="none"/>
     <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
-                 android:id="@+id/pbRecentGames"
+                 android:id="@+id/pbListLayout"
                  android:indeterminate="true"
                  android:visibility="gone"
                  style="?android:attr/progressBarStyleLarge"
