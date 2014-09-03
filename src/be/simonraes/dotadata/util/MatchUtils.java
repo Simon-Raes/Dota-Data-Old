@@ -60,17 +60,21 @@ public class MatchUtils {
 
         ArrayList<DetailPlayer> players = match.getPlayers();
 
-
         // Check if the object contains any experience information
-        boolean hasExperience = false;
+        boolean radiantHasExperience = false;
+        boolean direHasExperience = false;
+
         for (DetailPlayer player : match.getPlayers()) {
             if (player.getAbilityupgrades().size() > 0) {
-                hasExperience = true;
-                break;
+                if(isRadiant(player)){
+                    radiantHasExperience = true;
+                } else {
+                    direHasExperience = true;
+                }
             }
         }
 
-        if (hasExperience) {
+        if (radiantHasExperience && direHasExperience) {
 
             for (DetailPlayer player : players) {
                 for (AbilityUpgrades upgrade : player.getAbilityupgrades()) {

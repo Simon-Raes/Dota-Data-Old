@@ -203,12 +203,14 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
             //hero level
             TextView txtPlayerLevel = (TextView) playerRow.findViewById(R.id.txtDetailPlayerLevel);
-            txtPlayerLevel.setText(player.getLevel());
+            if (txtPlayerLevel != null) {
+                txtPlayerLevel.setText(player.getLevel());
+            }
 
             //player name
             TextView txtPlayerName = (TextView) playerRow.findViewById(R.id.txtDetailPlayerName);
             if (txtPlayerName != null) {
-                if (player.getLeaver_status().equals("2")) {
+                if (player.getLeaver_status() != null && !player.getLeaver_status().equals("") && player.getLeaver_status().equals("2")) {
                     txtPlayerName.setTextColor(getActivity().getResources().getColor(R.color.Crimson));
                 }
                 txtPlayerName.setText(player.getAccount_id());
@@ -217,7 +219,9 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
                 //start parser to get player's name
                 if (InternetCheck.isOnline(getActivity())) {
                     //no need to parse for the anonymous account
-                    if (player.getAccount_id().equals("4294967295")) {
+                    if (player.getAccount_id() == null) {
+                        txtPlayerName.setText("Bot");
+                    } else if (player.getAccount_id().equals("4294967295")) {
                         txtPlayerName.setText("Anonymous");
                     } else {
                         PlayerSummaryParser parser = new PlayerSummaryParser(this);
@@ -345,7 +349,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         //Check if the active user participated in the match
         DetailPlayer activePlayer = null;
         for (DetailPlayer p : match.getPlayers()) {
-            if (p.getAccount_id().equals(AppPreferences.getActiveAccountId(getActivity()))) {
+            if (p.getAccount_id() != null && !p.getAccount_id().equals("") && p.getAccount_id().equals(AppPreferences.getActiveAccountId(getActivity()))) {
                 activePlayer = p;
             }
         }

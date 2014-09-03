@@ -88,8 +88,9 @@ public class PlayerDetailsDialog extends DialogFragment implements PlayerSummary
             layPlayerDetailsTeamBar.setBackgroundColor(getResources().getColor(R.color.DireOrangeTransparent));
         }
 
-
-        if (player.getAccount_id().equals("4294967295")) {
+        if (player.getAccount_id() == null) {
+            txtPlayerName.setText("Bot");
+        } else if (player.getAccount_id().equals("4294967295")) {
             txtPlayerName.setText("Anonymous");
         } else {
             if (InternetCheck.isOnline(getActivity())) {
