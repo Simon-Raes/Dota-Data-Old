@@ -8,9 +8,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * ASyncTask to check the connection to the Dota 2 API.
  * Created by Simon on 20/02/14.
  */
-public class InternetChecker extends AsyncTask<String, Void, Boolean> {
+public class InternetChecker extends AsyncTask<String, Boolean, Boolean> {
+
+    private final int TIME_OUT_MILLIS = 1000;
+
 
     private ASyncResponseInternet delegate;
     public interface ASyncResponseInternet {
@@ -24,6 +28,8 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
     @Override
     protected Boolean doInBackground(String... params) {
         boolean webStatus = false;
+        final long connectionStart = System.currentTimeMillis();
+        final InternetChecker thisTask = this;
 
         HttpURLConnection connection = null;
         try {
@@ -31,6 +37,20 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             connection = (HttpURLConnection) u.openConnection();
             connection.setRequestMethod("HEAD");
             connection.setRequestProperty("Connection", "Close");
+
+            // Create a timeout for the connection.
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while(true){
+                        if(System.currentTimeMillis() > connectionStart + TIME_OUT_MILLIS){
+                            publishProgress(false);
+                            break;
+                        }
+                    }
+                }
+            }).run();
+
             int code = connection.getResponseCode();
 
             if (code == 200 || code == 404 || code == 405) {
@@ -50,8 +70,13 @@ public class InternetChecker extends AsyncTask<String, Void, Boolean> {
             }
         }
 
-
         return webStatus;
+    }
+
+    @Override
+    protected void onProgressUpdate(Boolean... values) {
+        super.onProgressUpdate(values);
+        delegate.processFinish(values[0]);
     }
 
     @Override

@@ -606,7 +606,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
         if (btnFavourite != null) {
             if (match.getExtras() != null) {
                 if (match.getExtras().isFavourite()) {
-                    btnFavourite.setIcon(R.drawable.ic_action_important_color);
+                    btnFavourite.setIcon(R.drawable.ic_action_important);
                 } else {
                     btnFavourite.setIcon(R.drawable.ic_action_not_important);
                 }
@@ -637,7 +637,7 @@ public class MatchDetailFragment extends Fragment implements ViewTreeObserver.On
 
                 if (match.getExtras().isFavourite()) {
                     Toast.makeText(getActivity(), "Added match to favourites", Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_action_important_color);
+                    item.setIcon(R.drawable.ic_action_important);
                 } else {
                     Toast.makeText(getActivity(), "Removed match from favourites", Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_action_not_important);

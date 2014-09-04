@@ -79,7 +79,6 @@ public class GameModes {
         gameModes.put("18", "Ability Draft");
         gameModes.put("20", "All Random Deathmatch");
         gameModes.put("21", "1v1 Solo Mid");
-
     }
 
     /**

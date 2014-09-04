@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.widget.Toast;
 import be.simonraes.dotadata.database.*;
 import be.simonraes.dotadata.detailmatch.*;
@@ -16,6 +17,7 @@ import be.simonraes.dotadata.util.AppPreferences;
 import be.simonraes.dotadata.util.InternetChecker;
 
 import java.util.ArrayList;
+import java.util.logging.Handler;
 
 /**
  * Created by Simon on 13/02/14.
@@ -38,6 +40,8 @@ public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, D
 
     private boolean goToDetailParser;
     private boolean firstTimeSetup;
+
+    private InternetChecker checker;
 
     public static ProgressDialog introDialog;
     private ProgressDialog progressDialog;
@@ -91,22 +95,28 @@ public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, D
         introDialog = ProgressDialog.show(context, "", "Searching for games.", true);
 
         //check if web service is available
-        InternetChecker checker = new InternetChecker(this);
+        checker = new InternetChecker(this);
         checker.execute();
     }
 
 
     //finished checking status of webservice
     @Override
-    public void processFinish(Boolean result) {
+    public void processFinish(Boolean apiAvailable) {
 
-        if (result) {
+        if (apiAvailable) {
             //start parser
             parser = new HistoryMatchParser(this);
             parser.execute(accountID);
         } else {
+
+            Toast.makeText(context, "Could not connect to the Dota 2 API.", Toast.LENGTH_SHORT).show();
             if (introDialog.isShowing()) {
                 introDialog.dismiss();
+            }
+            if(checker!=null && checker.getStatus()== AsyncTask.Status.RUNNING){
+                checker.cancel(true);
+                System.out.println(checker.getStatus());
             }
         }
     }
@@ -115,7 +125,7 @@ public class HistoryLoader implements HistoryMatchParser.ASyncResponseHistory, D
     @Override
     public void processFinish(HistoryContainer result) {
 
-        //todo: other possible workaround for getting more than 500 games: hero_id parameter
+        //todo: possible workaround for getting more than 500 games: hero_id parameter
         //can return 500 games per account per hero
 
         if (result.getRecentGames() != null) {

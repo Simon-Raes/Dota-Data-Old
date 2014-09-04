@@ -13,7 +13,7 @@
     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                android:id="@+id/imgFavourite"
                android:visibility="gone"
-               android:src="@drawable/ic_action_important_color"/>
+               android:src="@drawable/ic_action_important"/>
     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_toRightOf="@id/imgRowHero"
                   android:layout_centerVertical="true"

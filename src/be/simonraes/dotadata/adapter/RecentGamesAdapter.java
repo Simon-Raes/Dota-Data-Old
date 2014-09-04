@@ -67,16 +67,19 @@ public class RecentGamesAdapter extends ArrayAdapter<DetailMatchLite> {
             viewholder = (ViewHolder) view.getTag();
         }
 
+        String gameModeText = GameModes.getGameMode(match.getGame_mode());
+
         if (match.getLobby_type().equals("7")) {
             //is ranked match
-            viewholder.txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()) + " (Ranked)");
-        } else {
-            viewholder.txtGameMode.setText(GameModes.getGameMode(match.getGame_mode()));
+            gameModeText += " (Ranked)";
+        } else if(match.getLobby_type().equals("4")) {
+            gameModeText += " (Co-op vs bots)";
+        } else if(match.getLobby_type().equals("2")){
+            gameModeText+=" (Tournament)";
         }
+        viewholder.txtGameMode.setText(gameModeText);
 
         viewholder.txtDate.setText(Conversions.millisToDate(match.getStart_time()));
-
-        //viewholder.imgAvatar.setImageResource(context.getResources().getIdentifier(HeroList.getHeroImageName(match.getHero_id()), "drawable", context.getPackageName()));
 
         imageLoader.displayImage("http://cdn.dota2.com/apps/dota2/images/heroes/" + HeroList.getHeroImageName(match.getHero_id()) + "_lg.png", viewholder.imgHero, options, animateFirstListener);
 
