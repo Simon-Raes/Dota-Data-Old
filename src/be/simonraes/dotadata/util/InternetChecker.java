@@ -13,7 +13,7 @@ import java.net.URL;
  */
 public class InternetChecker extends AsyncTask<String, Boolean, Boolean> {
 
-    private final int TIME_OUT_MILLIS = 1000;
+    private final int TIME_OUT_MILLIS = 3000;
 
 
     private ASyncResponseInternet delegate;
@@ -39,17 +39,17 @@ public class InternetChecker extends AsyncTask<String, Boolean, Boolean> {
             connection.setRequestProperty("Connection", "Close");
 
             // Create a timeout for the connection.
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while(true){
-                        if(System.currentTimeMillis() > connectionStart + TIME_OUT_MILLIS){
-                            publishProgress(false);
-                            break;
-                        }
-                    }
-                }
-            }).run();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while(true){
+//                        if(System.currentTimeMillis() > connectionStart + TIME_OUT_MILLIS){
+//                            publishProgress(false);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }).run();
 
             int code = connection.getResponseCode();
 
