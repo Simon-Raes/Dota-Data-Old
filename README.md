@@ -6,4 +6,4 @@ A Dota 2 match history and statistics app for Android.
 
 (no longer) Available on Google Play: https://play.google.com/store/apps/details?id=be.simonraes.dotadata
 
-An album of screenshots can be found here: http://imgur.com/t8tDAmA,V1h3P3g,PBC9FXX,UQXU84w,QpFysji,9ptFeOE,nNcGqNw#0
+An album of screenshots can be found here: http://imgur.com/7FXT9NJ,BIhBHtJ,v2LUSky,IYnWE4B,9Y3ldlp,QXi6ZYv,jCj72eA,MJuH3US,cGLGNn3,wAEH0xp,nn5CMOb,WRSYkEI,MeI1jRV,D0aNvMn#0
